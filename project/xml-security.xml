@@ -20,7 +20,7 @@
         value="C1F0E975E8C8E0A0105787B249A50615B485D109"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jce"/>
     <depend project="xml-xalan2" runtime="true"/>

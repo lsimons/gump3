@@ -14,7 +14,7 @@
       <depend property="xerces.jar"  project="xml-xerces" id="parser"/>
       <depend property="junit.jar"   project="junit"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <option project="jakarta-log4j"/>
     <option project="jakarta-avalon-logkit"/>
@@ -35,7 +35,7 @@
       <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
       <depend property="junit.jar"   project="junit"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-cocoon2"/>
     <depend project="jakarta-avalon"/>
     <depend project="dist-avalon-logkit"/>
@@ -50,7 +50,7 @@
   </project>
 
   <project name="jakarta-avalon-exceptionutil">
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <ant target="jar-exceptionutil"/>
     <home nested="target/lib"/>

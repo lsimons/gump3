@@ -17,7 +17,7 @@
       <property name="version.underscore" value="@@DATE@@"/>
     </ant>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <home nested="build"/>
     <jar name="lib/wsdl4j.jar" id="wsdl4j"/>
     <jar name="lib/qname.jar"  id="qname"/>

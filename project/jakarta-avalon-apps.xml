@@ -13,7 +13,7 @@
         <ant basedir="db"/>
 
         <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="ant"/>
         <depend project="xml-xerces" id="parser" runtime="true"/>
         <depend project="xml-xalan2" id="transformer" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
@@ -40,7 +40,7 @@
         <ant basedir="demo"/>
 
         <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="ant"/>
         <depend project="xml-xerces" id="parser" runtime="true"/>
         <depend project="xml-xalan2" id="transformer" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
@@ -65,7 +65,7 @@
         <ant basedir="hsql"/>
 
         <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="ant"/>
         <depend project="xml-xerces" id="parser" runtime="true"/>
         <depend project="xml-xalan2" id="transformer" runtime="true"/>
         <option project="checkstyle" inherit="runtime"/>
@@ -88,7 +88,7 @@
         <ant basedir="ftpserver"/>
 
         <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="ant"/>
         <depend project="xml-xerces" id="parser" runtime="true"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="all"/>
@@ -108,7 +108,7 @@
         <ant basedir="httpproxy"/>
 
         <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="ant"/>
         <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="excalibur-i18n"/>
@@ -131,7 +131,7 @@
         <ant basedir="infomover"/>
 
         <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="ant"/>
         <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="all"/>
@@ -153,7 +153,7 @@
         <ant basedir="overlord"/>
 
         <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="ant"/>
         <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="all"/>
@@ -175,7 +175,7 @@
         <ant basedir="phyre"/>
 
         <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="ant"/>
         <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="all"/>
@@ -199,7 +199,7 @@
         <ant basedir="sevak"/>
 
         <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="ant"/>
         <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="all"/>
@@ -226,7 +226,7 @@
         <ant basedir="simpleserver"/>
 
         <depend project="junit"/>
-        <depend project="jakarta-ant"/>
+        <depend project="ant"/>
         <depend project="xml-xerces"/>
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-avalon-phoenix" inherit="all"/>

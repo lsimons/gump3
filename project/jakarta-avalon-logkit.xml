@@ -14,7 +14,7 @@
       <property name="jakarta-site.dir" project="jakarta-site2"
           reference="srcdir" />
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
 
@@ -37,7 +37,7 @@
       <property name="jakarta-site.dir" project="jakarta-site2"
           reference="srcdir" />
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-avalon-exceptionutil"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-avalon"/>

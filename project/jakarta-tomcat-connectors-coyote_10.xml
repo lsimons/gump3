@@ -20,7 +20,7 @@
       <depend property="commons-modeler.jar" project="commons-modeler"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="ant"/>
     <depend project="xml-xerces"/>
     <depend project="commons-logging"/>
     <depend project="jmx"/>
@@ -42,7 +42,7 @@
       <depend property="commons-modeler.jar" project="commons-modeler"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="ant"/>
     <depend project="xml-xerces"/>
     <depend project="jmx"/>
     <depend project="jakarta-tomcat-util-coyote_10"/>

@@ -17,7 +17,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/application-doc/javadoc"/>
     <jar name="dist/application/taglibs-application.jar"/>
@@ -34,7 +34,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/benchmark-doc/javadoc"/>
     <jar name="dist/benchmark/taglibs-benchmark.jar"/>
@@ -51,7 +51,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/bsf-doc/javadoc"/>
@@ -71,7 +71,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/cache-doc/javadoc"/>
@@ -88,7 +88,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-taglibs-request"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/datetime-doc/javadoc"/>
@@ -106,7 +106,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/dbtags-doc/javadoc"/>
     <jar name="dist/dbtags/taglibs-dbtags.jar"/>
@@ -122,7 +122,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/i18n-doc/javadoc"/>
     <jar name="dist/i18n/taglibs-i18n.jar"/>
@@ -138,7 +138,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/input-doc/javadoc"/>
     <jar name="dist/input/taglibs-input.jar"/>
@@ -154,7 +154,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/io-doc/javadoc"/>
     <jar name="dist/io/taglibs-io.jar"/>
@@ -182,7 +182,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/jmstags-doc/javadoc"/>
     <jar name="dist/jmstags/taglibs-jmstags.jar"/>
@@ -198,7 +198,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/jndi-doc/javadoc"/>
     <jar name="dist/jndi/taglibs-jndi.jar"/>
@@ -216,7 +216,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-logging"/>
     <javadoc nested="dist/doc/doc/log-doc/javadoc"/>
@@ -234,7 +234,7 @@
       <property name="dist.dir" path="dist"/>
     </ant>
     <depend project="jaf"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-taglibs-request"/>
     <depend project="javamail"/>
     <depend project="xml-xerces"/>
@@ -252,7 +252,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/page-doc/javadoc"/>
     <jar name="dist/page/taglibs-page.jar"/>
@@ -268,7 +268,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/random-doc/javadoc"/>
     <jar name="dist/random/taglibs-random.jar"/>
@@ -285,7 +285,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/regexp-doc/javadoc"/>
     <jar name="dist/regexp/taglibs-regexp.jar"/>
@@ -301,7 +301,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/request-doc/javadoc"/>
     <jar name="dist/request/taglibs-request.jar"/>
@@ -317,7 +317,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-taglibs-request"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/response-doc/javadoc"/>
@@ -335,7 +335,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/scrape-doc/javadoc"/>
     <jar name="dist/scrape/taglibs-scrape.jar"/>
@@ -351,7 +351,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/session-doc/javadoc"/>
     <jar name="dist/session/taglibs-session.jar"/>
@@ -377,7 +377,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <work nested="dist/standard/lib/jstl.jar"/>
     <work nested="dist/standard/lib/standard.jar"/>
@@ -400,7 +400,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/string-doc/javadoc"/>
@@ -417,7 +417,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/utility-doc/javadoc"/>
     <jar name="dist/utility/taglibs-utility.jar"/>
@@ -437,7 +437,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/xtags-doc/javadoc"/>
     <jar name="dist/xtags/taglibs-xtags.jar"/>
@@ -456,7 +456,7 @@
       <property name="build.dir" path="build"/>
       <property name="dist.dir" path="dist"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <javadoc nested="dist/doc/doc/ultradev4-doc/javadoc"/>
     <nag to="taglibs-dev@jakarta.apache.org"
@@ -468,7 +468,7 @@
   <project name="jakarta-taglibs-documentation">
     <package>org.apache.taglibs</package>
     <ant target="dist.documentation"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xerces"/>
     <nag to="taglibs-dev@jakarta.apache.org"

@@ -11,10 +11,10 @@
     <package>org.apache.jcheck.servlet</package>
 
     <ant>
-      <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <property name="ant.home" reference="home" project="ant"/>
     </ant>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jakarta-tools"/>
     <home nested="dist"/>

@@ -15,7 +15,7 @@
       <property name="javaccHome2" reference="home" project="javacc"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="javacc"/>
     <option project="jakarta-servletapi"/>

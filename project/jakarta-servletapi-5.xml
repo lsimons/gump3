@@ -17,7 +17,7 @@
     <mkdir dir="jsr154/build/classes"/>
     <ant basedir="jsr154" target="dist"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <work nested="jsr154/build/classes"/>
     <home nested="jsr154/dist"/>
     <jar name="lib/servlet-api.jar"/>
@@ -37,7 +37,7 @@
               project="jakarta-servletapi-5-servlet" />
     </ant>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="javamail" />
     <work nested="jsr152/build/classes"/>
     <home nested="jsr152/dist"/>

@@ -12,7 +12,7 @@
 
     <ant target="jar"/>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     
     <depend project="commons-jxpath"/>

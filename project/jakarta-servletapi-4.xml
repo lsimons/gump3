@@ -15,7 +15,7 @@
       <property name="servletapi.build" value="build"/>
     </ant>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <jar name="lib/servlet.jar" id="servlet"/>
     <license name="LICENSE"/>
     <javadoc nested="build/docs/api" module="jakarta-tomcat-4.0"/>

@@ -13,7 +13,7 @@
     <ant basedir="struts">
       <property name="project.version" value="@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi-4"/>
     <depend project="jakarta-struts"/>
@@ -33,7 +33,7 @@
     <ant basedir="view">
       <property name="project.version" value="@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="dom4j"/>
     <depend project="jdbc"/>

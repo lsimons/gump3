@@ -14,7 +14,7 @@
       <property name="xmlxsl.libdir" value="."/>
       <property name="junit.libdir" value="."/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="junit"/>

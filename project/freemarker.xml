@@ -14,7 +14,7 @@
       <property name="javacc.home" reference="home" project="javacc"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     
     <depend project="jdom"/>

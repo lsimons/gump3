@@ -17,7 +17,7 @@
                       reference="home" />
         </ant>
 
-        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <work nested="lifecycle/build/classes"/>
@@ -41,7 +41,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-configuration" runtime="true"/>
@@ -67,7 +67,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="avalon-sandbox-lifecycle" runtime="true"/>
         <depend project="avalon-sandbox-meta" runtime="true"/>
@@ -100,7 +100,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="avalon-sandbox-lifecycle" runtime="true"/>
         <depend project="avalon-sandbox-meta" runtime="true"/>
@@ -137,7 +137,7 @@
                       reference="home" />
         </ant>
 
-        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="ant" inherit="runtime"/>
         <option project="checkstyle" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="excalibur-qdox" runtime="true" inherit="runtime"/>

@@ -14,14 +14,14 @@
 
     <ant basedir="java" target="all">
       <property name="axis.lib.dir" value="lib"/>
-      <property name="env.ANT_HOME" reference="home" project="jakarta-ant"/>
+      <property name="env.ANT_HOME" reference="home" project="ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j" id="log4j"/>
     </ant>
 
     <depend project="xml-xerces"/>
     <depend project="jakarta-oro"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="commons-discovery"/>
     <depend project="commons-logging"/>
     <depend project="jakarta-servletapi"/>

@@ -17,7 +17,7 @@
       <depend property="qname_jar"  project="wsdl4j" id="qname"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="bsf"/>
     <depend project="ejb"/>

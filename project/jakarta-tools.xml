@@ -10,7 +10,7 @@
     <package>org.apache.tools.moo</package>
     <ant basedir="moo" target="dist"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-servletapi"/>
     <jar name="moo.jar"/>
   </project>

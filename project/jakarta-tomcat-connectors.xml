@@ -20,7 +20,7 @@
       <depend property="commons-modeler.jar" project="commons-modeler"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="ant"/>
     <depend project="xml-xerces"/>
     <depend project="jmx"/>
     <depend project="commons-logging"/>
@@ -42,7 +42,7 @@
       <depend property="commons-modeler.jar" project="commons-modeler"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="ant"/>
     <depend project="xml-xerces"/>
     <depend project="jmx"/>
     <depend project="jakarta-tomcat-util"/>
@@ -67,7 +67,7 @@
       <property name="tomcat33.home" value=""/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="ant"/>
     <depend project="jmx"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-tomcat-util"/>
@@ -93,7 +93,7 @@
       <depend property="commons-modeler.jar" project="commons-modeler"/>
     </ant>
 
-    <depend project="jakarta-ant"/>
+    <depend project="ant"/>
     <depend project="commons-logging"/>
     <depend project="jmx"/>
     <depend project="jakarta-tomcat-util"/>
@@ -113,7 +113,7 @@
     <ant basedir="jk" target="jkant" >
     </ant>
 
-    <depend project="jakarta-ant" />
+    <depend project="ant" />
     <depend project="xml-xerces"/>
 
     <jar name="jk/build/lib/jkant.jar"/>
@@ -125,7 +125,7 @@
     <ant basedir="jk/native2" target="main" >
     </ant>
 
-    <depend project="jakarta-ant" />
+    <depend project="ant" />
     <depend project="xml-xerces"/>
     <depend project="jakarta-tomcat-jk-ant" />
     <depend project="ant-contrib-cpptasks" />
@@ -138,7 +138,7 @@
     <ant basedir="jk/native" target="main" >
     </ant>
 
-    <depend project="jakarta-ant" />
+    <depend project="ant" />
     <depend project="xml-xerces"/>
     <depend project="jakarta-tomcat-jk-ant" />
     <depend project="ant-contrib-cpptasks" />

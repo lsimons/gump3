@@ -14,7 +14,7 @@
       <property name="version" value="@@DATE@@"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jdbc"/>
     <depend project="jakarta-velocity"/>

@@ -12,7 +12,7 @@
     <ant>
       <property name="dist.jar" value="dist/lib/jfor-@@DATE@@.jar"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-avalon-logkit"/>
     <home nested="dist"/>

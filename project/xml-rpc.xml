@@ -15,7 +15,7 @@
     </ant>
 
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <option project="jakarta-servletapi"/>
     <option project="jsse"/>
     <!-- depend project="fesi"/ -->

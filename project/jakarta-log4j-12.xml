@@ -15,7 +15,7 @@
       <property name="version" value="@@DATE@@"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <option project="jms"/>
     <option project="jmx"/>
@@ -37,7 +37,7 @@
 
     <ant basedir="tests" target="regression" />
 
-    <depend project="jakarta-ant" />
+    <depend project="ant" />
     <depend project="xml-xerces" />
     <depend project="junit" />
     <depend project="jakarta-log4j-12" />

@@ -13,7 +13,7 @@
     <package>org.apache.fop.tools</package>
     <ant buildfile="buildtools.xml"/>
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-avalon-logkit"/>
     <depend project="jakarta-avalon"/>
     <option project="xml-xalan2"/>
@@ -29,7 +29,7 @@
     <ant target="dist"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-batik"/>
     <depend project="jakarta-avalon-logkit" runtime="true"/>
     <depend project="jakarta-avalon" runtime="true"/>

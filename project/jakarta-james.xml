@@ -11,7 +11,7 @@
     <package>org.apache.james</package>
 
     <ant/>
-    <depend project="jakarta-ant" />
+    <depend project="ant" />
     <depend project="jakarta-site2" />
     <depend project="xml-xerces" />
     <depend project="javamail" />

@@ -14,7 +14,7 @@
     <mkdir dir="src/bsf-2.3/bsf/build/classes"/>
     <ant basedir="src/bsf-2.3" target="bindist"/>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
     <depend project="jakarta-servletapi-5-jsp"/>

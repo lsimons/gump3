@@ -28,7 +28,7 @@
     </ant>
 
     <depend project="xml-xalan2"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <work nested="target/library/classes"/>
     <work nested="target/tiles/library/classes"/>
 

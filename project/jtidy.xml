@@ -12,7 +12,7 @@
     <package>org.w3c.tidy</package>
 
     <ant/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <jar name="build/Tidy.jar"/>
     <license name="LICENSE"/>

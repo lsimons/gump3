@@ -14,7 +14,7 @@
     <ant target="all">
       <property name="build.compiler" value="modern"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="jms"/>

@@ -13,11 +13,11 @@
     classes</description>
 
     <ant basedir="core" target="compile">
-      <property name="ant.home" project="jakarta-ant" reference="home"/>
+      <property name="ant.home" project="ant" reference="home"/>
       <property name="version" value="@@DATE@@"/>
     </ant>
 
-    <depend project="jakarta-ant" runtime="true"/>
+    <depend project="ant" runtime="true"/>
     <depend project="xml-xerces"/>
 
     <depend project="jrefactory-pretty"/>
@@ -125,11 +125,11 @@
     <mkdir dir="modules/build/jmx/classes"/>
 
     <ant target="docs">
-      <property name="ant.home" project="jakarta-ant" reference="home"/>
+      <property name="ant.home" project="ant" reference="home"/>
       <property name="version" value="@@DATE@@"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="all" />
+    <depend project="ant" inherit="all" />
     <depend project="xdoclet-compile-core" inherit="all" />
     <depend project="xdoclet-apache-module-prepare" />
     <depend project="xdoclet-hibernate-module-prepare" />
@@ -195,7 +195,7 @@
   <project name="xdoclet-examples">
 
     <ant target="samples">
-      <property name="ant.home" project="jakarta-ant" reference="home"/>
+      <property name="ant.home" project="ant" reference="home"/>
     </ant>
     <depend project="xdoclet" inherit="all"/>
     <depend project="ejb"/>

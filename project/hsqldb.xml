@@ -15,7 +15,7 @@
 
     <ant basedir="build" target="jar"/>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi-4"/>
 

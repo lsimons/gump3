@@ -14,7 +14,7 @@
     <ant target="gump">
       <property name="jaxen.src" project="jaxen" path="src/java/main"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="xml-xalan2"/>

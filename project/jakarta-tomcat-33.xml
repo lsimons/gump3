@@ -12,7 +12,7 @@
 
     <ant target="main.lite">
       <property name="jaxp.home" reference="home" project="jaxp"/>
-      <property name="ant.home" reference="home" project="jakarta-ant"/>
+      <property name="ant.home" reference="home" project="ant"/>
       <property name="jsse.home" reference="home" project="jsse"/>
 
       <property name="jakarta-tomcat-connectors" reference="srcdir"
@@ -22,7 +22,7 @@
     </ant>
     <depend project="xml-xerces"/>
     <depend project="commons-logging"/>
-    <depend project="jakarta-ant"/>
+    <depend project="ant"/>
     <depend project="jakarta-servletapi"/>
     <depend project="jakarta-tomcat-util-coyote_10"/>
     <depend project="jsse"/>

@@ -14,7 +14,7 @@
     <ant basedir="beanutils" target="dist">
       <property name="junit.home" reference="home" project="junit"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-collections"/>
     <depend project="commons-logging"/>
@@ -42,7 +42,7 @@
     </ant>
 
     <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
     <depend project="commons-digester"/>
@@ -73,7 +73,7 @@
     </ant>
 
     <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
     <depend project="commons-logging"/>
@@ -93,7 +93,7 @@
     <description>Collections</description>
     <url href="http://jakarta.apache.org/commons/collections.html"/>
     <ant basedir="collections" target="dist"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <work nested="collections/dist/classes"/>
@@ -109,7 +109,7 @@
     <package>org.apache.commons.discovery</package>
     <description>Commons Discovery Package</description>
     <ant basedir="discovery" target="dist"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-logging"/>
     <jar name="discovery/dist/commons-discovery.jar"/>
@@ -123,7 +123,7 @@
     <package>org.apache.commons.dbcp</package>
     <description>Database Connection Pool</description>
     <ant basedir="dbcp" target="dist"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jdbc"/>
     <depend project="junit"/>
@@ -145,7 +145,7 @@
     <description>XML to Java Object Configuration</description>
     <url href="http://jakarta.apache.org/commons/digester.html"/>
     <ant basedir="digester" target="dist"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="commons-beanutils"/>
@@ -164,7 +164,7 @@
     <description>Expression Language</description>
     <!--url href="http://jakarta.apache.org/commons/el/"/-->
     <ant basedir="el" target="dist"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="jakarta-servletapi-5-jsp"/>
     <home nested="el/dist"/>
@@ -180,7 +180,7 @@
     <ant basedir="fileupload" target="jar" buildfile="build-gump.xml">
       <property name="maven.final.name" value="commons-fileupload-@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-beanutils"/>
     <depend project="jakarta-servletapi"/>
@@ -201,7 +201,7 @@
     <description>HTTP Client Library</description>
     <url href="http://jakarta.apache.org/commons/httpclient/"/>
     <ant basedir="httpclient" target="dist"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <option project="jsse"/>
     <depend project="jakarta-log4j"/>
@@ -222,7 +222,7 @@
       <property name="final.name" value="commons-jelly-@@DATE@@"/>
     </ant>
     
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     
     <!-- core jelly build dependencies -->
     <depend project="commons-beanutils" runtime="true"/>
@@ -257,7 +257,7 @@
     <ant basedir="jexl" target="dist">
       <property name="final.name"  value="commons-jexl-@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="commons-logging"/>
@@ -280,7 +280,7 @@
       <depend property="jaxp.jaxp.jar" project="xml-xerces" id="apis"/>
       <depend property="jaxp.xslt.jar" project="xml-xalan2"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-site2" inherit="all"/>
     <depend project="commons-beanutils" runtime="true"/>
     <home nested="jxpath/dist"/>
@@ -297,7 +297,7 @@
     <ant basedir="lang" target="dist">
       <property name="component.version" value="@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <jar name="lang/dist/commons-lang-@@DATE@@.jar"/>
     <javadoc nested="lang/dist/docs/api"/>
@@ -314,7 +314,7 @@
     <ant basedir="latka" target="dist">
       <property name="jaxen.jar" reference="jar" project="jaxen"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="commons-httpclient" inherit="runtime"/>
@@ -342,7 +342,7 @@
     <description>Logging Library Package</description>
     <url href="http://jakarta.apache.org/commons/"/>
     <ant basedir="logging" target="dist"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-avalon-logkit"/>
@@ -361,7 +361,7 @@
     <ant basedir="modeler" target="dist">
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="commons-digester"/>
     <depend project="commons-logging"/>
@@ -382,7 +382,7 @@
     <ant basedir="net" target="dist">
       <property name="final.name" value="commons-net-@@DATE@@" />
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-oro"/>
     <depend project="junit"/>
@@ -398,7 +398,7 @@
     <package>org.apache.commons.pool</package>
     <description>Object Pooling</description>
     <ant basedir="pool" target="dist"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="commons-collections"/>
@@ -414,7 +414,7 @@
     <package>org.apache.commons.validator</package>
     <description>Validation Framework</description>
     <ant basedir="validator" target="dist"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="junit"/>
     <depend project="commons-beanutils"/>

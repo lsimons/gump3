@@ -37,7 +37,7 @@
     <depend project="excalibur-policy" runtime="true"/>
     <depend project="excalibur-monitor" runtime="true"/>
     <depend project="excalibur-util" runtime="true"/>
-    <depend project="jakarta-ant"/>
+    <depend project="ant"/>
     <depend project="mx4j" runtime="true"/>
     <depend project="xml-stylebook2"/>
     <depend project="xml-xalan2"/>

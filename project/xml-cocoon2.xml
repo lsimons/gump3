@@ -24,7 +24,7 @@
       <depend property="avalonapi.jar" project="jakarta-avalon"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime" version="supplied"/>
+    <depend project="ant" inherit="runtime" version="supplied"/>
     <depend project="ant-contrib" inherit="runtime" version="supplied"/>
     
     <depend project="xml-xerces" version="supplied"/>

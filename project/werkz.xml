@@ -16,7 +16,7 @@
     <package>com.werken.werkz</package>
     <depend project="commons-logging">
     </depend>
-    <depend project="jakarta-ant">
+    <depend project="ant">
     </depend>
     <depend project="junit">
     </depend>

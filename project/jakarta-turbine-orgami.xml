@@ -13,7 +13,7 @@
     <ant basedir="build">
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-turbine-2"/>
     <depend project="jakarta-velocity"/>

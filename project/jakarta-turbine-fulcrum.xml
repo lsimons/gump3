@@ -48,7 +48,7 @@
     </depend>
     <depend project="jaf">
     </depend>
-    <depend project="jakarta-ant">
+    <depend project="ant">
     </depend>
     <depend project="javamail">
     </depend>

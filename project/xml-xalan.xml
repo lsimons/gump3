@@ -30,7 +30,7 @@
       <property name="version" value="@@DATE@@"/>
     </ant>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="jakarta-servletapi"/>
     <depend project="xml-xalan2"/>
@@ -57,7 +57,7 @@
     </description>
     <ant basedir="test" buildfile="qetest.xml" target="jar"/>
 
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
 
@@ -74,7 +74,7 @@
     </description>
     <ant basedir="test" target="smoketest.gump"/>
  
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-xalan2-smoketest-tools"/> <!-- Only needed to get taskdef name="xalantest" working in GUMP Jun-02 -sc -->

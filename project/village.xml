@@ -13,7 +13,7 @@
     <ant target="package">
       <property name="version" value="@@DATE@@"/>
     </ant>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
     <home nested="bin"/>
     <jar name="village-@@DATE@@.jar" id="village"/>

@@ -27,7 +27,7 @@
     <depend project="commons-lang"/>
     <depend project="commons-pool"/>
     <depend project="dom4j"/>
-    <depend project="jakarta-ant"/>
+    <depend project="ant"/>
 
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-turbine-jcs"/>

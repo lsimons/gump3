@@ -22,7 +22,7 @@
       <depend property="xml-apis.jar" project="xml-apis"/>
     </ant>
 
-    <depend project="jakarta-ant" />
+    <depend project="ant" />
     <depend project="jakarta-velocity" />
     <depend project="pngencoder" />
     <depend project="jaf" />

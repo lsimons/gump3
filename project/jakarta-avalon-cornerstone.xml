@@ -22,7 +22,7 @@
     <depend project="excalibur-thread"/>
     <depend project="excalibur-threadcontext"/>
     <depend project="jakarta-avalon-phoenix" inherit="runtime"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="jakarta-velocity" inherit="runtime"/>
 
     <option project="excalibur-event"/>

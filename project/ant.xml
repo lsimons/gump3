@@ -96,10 +96,6 @@
          to="dev@ant.apache.org"/-->
   </project>
 
-  <project name="jakarta-ant-testutil">
-    <depend project="ant-testutil" inherit="jars"/>
-  </project>
-
   <project name="ant-testutil">
     <ant target="test-jar"/>
 
@@ -160,10 +156,6 @@
       <regexp pattern="/Failed/"/>
       <regexp />
     </nag-->
-  </project>
-
-  <project name="jakarta-ant-embed">
-    <depend project="ant-embed" inherit="jars"/>
   </project>
 
   <project name="ant-embed">

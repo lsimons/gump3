@@ -14,7 +14,7 @@
     <ant target="samples"/>
 
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <work nested="build/classes"/>
 
     <home nested="build"/>
@@ -30,7 +30,7 @@
     <ant target="dist"/>
 
     <depend project="xml-xerces"/>
-    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="ant" inherit="runtime"/>
     <depend project="bsf"/>
     <option project="rhino"/>
     <option project="jython"/>
