@@ -107,6 +107,7 @@
     <ant basedir="discovery" target="dist"/>
     <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
+    <depend project="commons-logging"/>
     <jar name="discovery/dist/commons-discovery.jar"/>
     <javadoc nested="discovery/dist/docs/api"/>
 
