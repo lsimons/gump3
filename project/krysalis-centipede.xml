@@ -32,6 +32,8 @@
     
     <javadoc parent="build/krysalis-centipede/javadocs"/>    
 
+    <nag from="Nicola Ken Barozzi &lt;nicolaken@apache.org&gt;"
+         to="krysalis-developers@lists.sourceforge.net"/>
   </project>
 
 </module>

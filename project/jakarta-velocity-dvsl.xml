@@ -18,6 +18,8 @@
     <depend project="jakarta-velocity"/>
     <depend project="dom4j" runtime="true"/>
     <jar name="velocity-dvsl-@@DATE@@.jar"/>
+    <nag to="velocity-dev@jakarta.apache.org"
+         from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"/>
   </project>
   
 </module>

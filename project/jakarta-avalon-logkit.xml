@@ -19,6 +19,8 @@
     <depend project="junit"/>
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="avalon-dev@jakarta.apache.org"/>
   </project>
 
   <project name="dist-avalon-logkit">
@@ -34,6 +36,9 @@
     <depend project="jms"/>
     <home nested="build/lib"/>
     <jar name="logkit.jar"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="avalon-dev@jakarta.apache.org"/>
   </project>
 
 </module>

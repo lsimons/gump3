@@ -28,6 +28,8 @@
     <depend project="jakarta-oro"/>
     <depend project="jakarta-turbine-stratum"/>
     <jar name="bin/tdk.jar"/>
+    <nag to="turbine-dev@jakarta.apache.org"
+         from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
   </project>    
 
 </module>

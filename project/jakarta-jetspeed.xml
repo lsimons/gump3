@@ -35,6 +35,9 @@
       <description dir="persistence/javadoc">PersistenceService</description>
       <description dir="portletAPI/javadoc/api">Portlet</description>
     </javadoc>
+
+    <nag to="jetspeed-dev@jakarta.apache.org"
+         from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
   </project>
 
 </module>

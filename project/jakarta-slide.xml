@@ -49,6 +49,9 @@
       <description dir="clientjavadoc">WebDAV Client </description>
       <description dir="javadoc">Slide API</description>
     </javadoc>
+
+    <nag to="slide-dev@jakarta.apache.org"
+         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
   </project>
 
   <project name="antlr">

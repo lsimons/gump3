@@ -17,6 +17,9 @@
     <depend project="jakarta-regexp"/>
 
     <jar name="bin/bcel.jar"/>
+
+    <nag from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"
+         to="bcel-dev@jakarta.apache.org"/>
   </project>
 
 </module>

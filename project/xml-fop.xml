@@ -36,6 +36,11 @@
     <depend project="fop-buildtools"/>
     <home nested="build"/>
     <jar  name="fop.jar"/>
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;">
+      <regexp  to="fop-dev@xml.apache.org"/>
+      <regexp pattern="/\[style\] .* java.lang.NullPointerException/" 
+              to="xalan-dev@xml.apache.org"/>
+    </nag>
   </project>
 
 </module>

@@ -17,6 +17,8 @@
     <home nested="ecs-1.4.1"/>
     <jar name="ecs-1.4.1.jar"/>
     <javadoc nested="ecs-1.4.1/docs/apidocs"/>
+    <nag from="Jon Stevens &lt;jon@latchkey.com&gt;"
+         to="ecs-dev@jakarta.apache.org"/>
   </project>
 
 </module>

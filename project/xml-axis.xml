@@ -35,6 +35,11 @@
     <jar name="lib/axis.jar"/>
     <jar name="lib/jaxrpc.jar"/>
     <javadoc nested="java/build/javadocs"/>
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="axis-dev@xml.apache.org">
+      <regexp  subject="[GUMP] Build Failure - Axis"/>
+      <regexp pattern="/timed out/" subject="[GUMP] Build timed out - Axis"/>
+    </nag>
   </project>
 
   <project name="tt-bytecode">

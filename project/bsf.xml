@@ -18,6 +18,9 @@
 
     <home nested="build"/>
     <jar  name="lib/bsf.jar"/>
+
+    <nag to="bsf-discussion@dwoss.lotus.com"
+         from="Sam Ruby &lt;rubys@us.ibm.com&gt;"/>
   </project>
 
   <project name="dist-bsf">

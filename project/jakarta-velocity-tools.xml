@@ -22,6 +22,8 @@
     <depend project="jdbc"/>
     <home nested="struts"/>
     <jar name="velocity-tools-struts-@@DATE@@.jar"/>
+    <nag to="velocity-dev@jakarta.apache.org"
+         from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"/>
   </project>
 
   <project name="velocity-tools-view">
@@ -39,6 +41,8 @@
     <depend project="xml-xalan2"/>
     <home nested="view"/>
     <jar name="velocity-tools-view-@@DATE@@.jar"/>
+    <nag to="velocity-dev@jakarta.apache.org"
+         from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"/>
   </project>
 
 </module>

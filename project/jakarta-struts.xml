@@ -37,6 +37,9 @@
       <description dir="documentation/api">Struts Framework</description>
       <description dir="tiles/documentation/api">Tiles Framework</description>
     </javadoc>
+
+    <nag to="struts-dev@jakarta.apache.org"
+         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
   </project>
 
 </module>

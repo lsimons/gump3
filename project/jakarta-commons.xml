@@ -22,6 +22,9 @@
     <home nested="beanutils/dist"/>
     <jar name="commons-beanutils.jar"/>
     <javadoc nested="beanutils/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
   <project name="commons-collections">
@@ -36,6 +39,9 @@
     <home nested="collections/dist"/>
     <jar name="commons-collections.jar"/>
     <javadoc nested="collections/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
   <project name="commons-dbcp">
@@ -53,6 +59,9 @@
     <home nested="dbcp/dist"/>
     <jar name="commons-dbcp.jar"/>
     <javadoc nested="dbcp/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
   <project name="commons-digester">
@@ -69,6 +78,9 @@
     <home nested="digester/dist"/>
     <jar name="commons-digester.jar"/>
     <javadoc nested="digester/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
   <project name="commons-httpclient">
@@ -99,6 +111,9 @@
     <home nested="jxpath/dist"/>
     <jar name="commons-JXPath-@@DATE@@.jar"/>
     <javadoc nested="jxpath/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
   <project name="commons-latka">
@@ -119,6 +134,9 @@
     <home nested="latka/dist"/>
     <jar name="commons-latka.jar"/>
     <javadoc nested="latka/build/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
   <project name="commons-logging">
@@ -133,6 +151,9 @@
     <home nested="logging/dist"/>
     <jar name="commons-logging.jar"/>
     <javadoc nested="logging/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
   <project name="commons-pool">
@@ -146,6 +167,9 @@
     <home nested="pool/dist"/>
     <jar name="commons-pool.jar"/>
     <javadoc nested="pool/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
   <project name="commons-validator">
@@ -163,6 +187,9 @@
     <home nested="validator/dist"/>
     <jar name="commons-validator.jar"/>
     <javadoc nested="validator/dist/docs/api"/>
+
+    <nag to="commons-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
 </module>

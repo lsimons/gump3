@@ -18,6 +18,9 @@
     <home nested="java/build"/>
     <jar  name="xercesImpl.jar" id="parser"/>
     <jar  name="xmlParserAPIs.jar" id="apis"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="xerces-j-dev@xml.apache.org"/>
   </project>
 
   <!-- package up the distribution -->
@@ -36,6 +39,9 @@
       <description dir="xerces">Xerces2 Implementation</description>
       <description dir="other">Other Classes</description>
     </javadoc>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="xerces-j-dev@xml.apache.org"/>
   </project>
 
 </module>

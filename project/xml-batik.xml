@@ -33,6 +33,9 @@
     <jar name="lib/batik-transcoder.jar"/>
     <jar name="lib/batik-util.jar"/>
     <jar name="lib/batik-xml.jar"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="batik-dev@xml.apache.org"/>
   </project>
 
   <project name="xml-batik-rasterizer">

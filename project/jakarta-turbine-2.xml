@@ -35,6 +35,9 @@
     <home nested="bin"/>
     <jar name="turbine-@@DATE@@.jar"/>
     <javadoc nested="docs/apidocs"/>
+
+    <nag to="turbine-dev@jakarta.apache.org"
+         from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
   </project>
   
   <project name="webmacro">

@@ -19,6 +19,8 @@
 
     <jar  name="jakarta-oro-@@DATE@@.jar" id="oro"/>
     <!-- javadoc nested="jakarta-oro-@@DATE@@/docs/api"/ -->
+    <nag to="oro-dev@jakarta.apache.org"
+         from="Daniel Savarese &lt;dfs@apache.org&gt;"/>
   </project>
 
 </module>

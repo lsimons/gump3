@@ -29,6 +29,8 @@
     <home nested="bin"/>
     <jar id="torque" name="torque-@@DATE@@.jar"/>
     <javadoc nested="bin/docs/api"/>
+    <nag to="turbine-dev@jakarta.apache.org"
+         from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
   </project>    
 
 </module>

@@ -22,7 +22,9 @@
     <depend project="xjavadoc" inherit="jars"/>
     <work nested="core/build/classes"/>
     <jar id="xdoclet" name="core/dist/lib/xdoclet.jar"/>
-  </project>
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="xdoclet-devel@lists.sourceforge.net"/>
+   </project>
 
   <project name="xdoclet-examples">
     <ant basedir="core/samples/script" />
@@ -32,6 +34,8 @@
     <work nested="core/build/jmx"/>
     <work nested="core/build/ejb/classes"/>
     <work nested="core/build/web/WEB-INF/classes"/>
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="xdoclet-devel@lists.sourceforge.net"/>
   </project>
 
   <project name="ejb2">

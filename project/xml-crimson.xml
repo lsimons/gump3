@@ -18,6 +18,8 @@
     <home parent="build/crimson"/>
     <javadoc nested="build/docs/api"/>
     <jar nested="crimson.jar"/>
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="crimson-cvs@xml.apache.org"/>
   </project>
 
 </module>

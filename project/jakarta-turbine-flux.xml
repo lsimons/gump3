@@ -27,6 +27,9 @@
 
     <home nested="bin"/>
     <jar name="flux-@@DATE@@.jar"/>
+
+    <nag to="turbine-dev@jakarta.apache.org"
+         from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
   </project>      
 
 </module>

@@ -44,6 +44,9 @@
 
     <home nested="build/lib"/>
     <jar name="cornerstone.jar"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="avalon-apps-dev@jakarta.apache.org"/>
   </project>
 
 </module>

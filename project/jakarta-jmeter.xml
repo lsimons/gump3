@@ -23,6 +23,9 @@
     <depend project="junit" />
     <home nested="bin" />
     <jar name="ApacheJMeter.jar" />
+
+    <nag from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"
+         to="jmeter-dev@jakarta.apache.org"/>
   </project>
 
   <project name="pngencoder">

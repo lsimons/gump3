@@ -137,6 +137,11 @@ test -n "$FAIL" || \
 java org.apache.xalan.xslt.Process -text -in work/merge.xml -xsl stylesheet/deliver-local.xsl -out work/deliver-local.sh || \
 export FAIL=1
 
+echo Generate naglist
+test -n "$FAIL" || \
+java org.apache.xalan.xslt.Process -text -in work/merge.xml -xsl stylesheet/nag.xsl -out work/naglist || \
+export FAIL=1
+
 # **** publish ***
 if test -z "$FAIL"; then
   echo

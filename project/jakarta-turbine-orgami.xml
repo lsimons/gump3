@@ -21,6 +21,8 @@
     <depend project="jakarta-servletapi"/>
     <depend project="village"/>
     <depend project="jdbc"/>
+    <nag to="turbine-dev@jakarta.apache.org"
+         from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
   </project>    
 
 </module>

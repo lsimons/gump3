@@ -704,16 +704,47 @@ public class Project {
     /**
      * Add default values for subjects and regexp if none have been
      * specified.
+     *
+     * Push attributes to nested regexp elements
      */
     private void expandNag(Element nag) {
-        if (nag.getAttribute("subject").equals("")) {
-            nag.setAttribute("subject", "[GUMP] Build Failure - "+name);
+        String subject = "[GUMP] Build Failure - "+name;
+        String to = nag.getAttribute("to");
+        String from = nag.getAttribute("from");
+
+        if (!nag.getAttribute("subject").equals("")) {
+            subject = nag.getAttribute("subject");
         }
         
         if (!nag.hasChildNodes()) {
             Element regexp = nag.getOwnerDocument().createElement("regexp");
             regexp.setAttribute("pattern", "/BUILD FAILED/");
+            regexp.setAttribute("subject", subject);
+            regexp.setAttribute("to", to);
+            regexp.setAttribute("from", from);
             nag.appendChild(regexp);
+
+        } else {
+
+            Node child = nag.getFirstChild();
+            for (; child != null; child = child.getNextSibling()) {
+                if (child.getNodeName().equals("regexp")) {
+                    Element regexp = (Element)child;
+                    if (regexp.getAttribute("pattern").equals("")) {
+                        regexp.setAttribute("pattern", "/BUILD FAILED/");
+                    }
+                    if (regexp.getAttribute("subject").equals("")) {
+                        regexp.setAttribute("subject", subject);
+                    }
+                    if (regexp.getAttribute("to").equals("")) {
+                        regexp.setAttribute("to", to);
+                    }
+                    if (regexp.getAttribute("from").equals("")) {
+                        regexp.setAttribute("from", from);
+                    }
+                }
+            }
+
         }
     }
 }

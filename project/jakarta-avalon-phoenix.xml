@@ -36,6 +36,9 @@
     <home nested="build/lib"/>
     <jar name="phoenix-client.jar"/>
     <javadoc nested="build/javadocs" module="jakarta-avalon"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="avalon-phoenix-dev@jakarta.apache.org"/>
   </project>
 
 </module>

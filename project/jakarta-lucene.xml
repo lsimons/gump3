@@ -23,6 +23,9 @@
     <home nested="bin"/>
     <jar name="lucene-@@DATE@@.jar"/>
     <javadoc nested="bin/docs/api"/>
+
+    <nag to="lucene-dev@jakarta.apache.org"
+         from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
   </project>
 
 </module>

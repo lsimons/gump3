@@ -27,6 +27,8 @@
     <home nested="bin"/>
     <jar name="velocity-@@DATE@@.jar"/>
     <javadoc nested="docs/api"/>
+    <nag to="velocity-dev@jakarta.apache.org"
+         from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"/>
   </project>
   
   <project name="jakarta-velocity-test">
@@ -37,6 +39,9 @@
     <work nested="test/cpload/test2.jar"/>
     <work nested="test/multiloader/test1.jar"/>
     <work nested="test/texen-classpath/test.jar"/>
+    <nag to="velocity-dev@jakarta.apache.org"
+         from="Geir Magnusson Jr. &lt;geirm@apache.org&gt;"
+         subject="[GUMP] Test Failure - Velocity"/>
   </project>
 
   <project name="antlr.runtime">

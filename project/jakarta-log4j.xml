@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <module name="jakarta-log4j">
 
   <url href="http://jakarta.apache.org/log4j/index.html"/>
@@ -24,6 +25,9 @@
     <home nested="dist"/>
     <jar  name="lib/log4j-@@DATE@@.jar"/>
     <javadoc nested="docs/api"/>
+    
+    <nag to="log4j-dev@jakarta.apache.org"
+         from="Ceki Gülcü &lt;ceki@apache.org&gt;"/>
   </project>
 
 </module>

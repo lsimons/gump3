@@ -16,6 +16,9 @@
     <home nested="dist"/>
     <jar name="lib/antidote.jar"/>
     <javadoc nested="dist/docs/api" module="jakarta-ant"/>
+
+    <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="ant-dev@jakarta.apache.org"/>
   </project>
 
 </module>

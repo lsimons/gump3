@@ -35,6 +35,9 @@
     <javadoc nested="scarab-@@DATE@@/webapps/scarab/api"/>
     <home nested="scarab-@@DATE@@/webapps/scarab/WEB-INF"/>
     <jar nested="lib/scarab-@@DATE@@/jar"/>
+
+    <nag to="dev@scarab.tigris.org"
+         from="Jon Stevens &lt;jon@latchkey.com&gt;"/>
   </project>
 
   <project name="mm.mysql">

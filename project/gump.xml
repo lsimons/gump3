@@ -19,5 +19,8 @@
     <option project="xml-batik-rasterizer"/>
     <work nested="classes"/>
     <javadoc nested="javadocs"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="alexandria-dev@jakarta.apache.org"/>
   </project>
 </module>

@@ -27,6 +27,9 @@
     <home nested="java/build"/>
     <jar name="lib/soap.jar"/>
     <javadoc nested="java/build/javadocs"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="soap-dev@xml.apache.org"/>
   </project>
 
 </module>

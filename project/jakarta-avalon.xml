@@ -20,6 +20,9 @@
 
     <home nested="build/lib"/>
     <jar name="avalon-framework.jar"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="avalon-dev@jakarta.apache.org"/>
   </project>
 
   <project name="jakarta-avalon-dist">
@@ -48,6 +51,8 @@
     <ant target="jar-exceptionutil"/>
     <home nested="build/lib"/>
     <jar name="exceptionutil.jar"/>
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="avalon-dev@jakarta.apache.org"/>
   </project>
 
   <project name="junitperf">

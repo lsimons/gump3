@@ -106,6 +106,9 @@
       <description dir="catalina/docs/api">Catalina API</description>
       <description dir="jasper/docs/api">Jasper API</description>
     </javadoc>
+
+    <nag to="tomcat-dev@jakarta.apache.org"
+         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
   </project>
 
 </module>

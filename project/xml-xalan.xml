@@ -18,6 +18,9 @@
 
     <home nested="java/build"/>
     <jar  name="xalan.jar" type="boot"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="xalan-dev@xml.apache.org"/>
   </project>
 
   <project name="dist-xalan2">
@@ -43,6 +46,9 @@
     <jar  name="bin/xalan.jar" type="boot"/>
     <javadoc nested="java/build/xalan-j_@@DATE@@/docs/apidocs" 
       project="xml-xalan2"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="xalan-dev@xml.apache.org"/>
   </project>
 
   <project name="xml-xalan2-smoketest-tools">
@@ -54,6 +60,8 @@
 
     <home nested="test/java/build"/>
     <jar name="qetest.jar"/>
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="xalan-dev@xml.apache.org"/>
   </project>
 
   <project name="xml-xalan2-smoketest">
@@ -69,6 +77,8 @@
     <depend project="xml-xalan2-smoketest-tools"/>
     <work nested="test/java/build"/>
     <work nested="test/tests/extensions/java/build"/>
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="xalan-dev@xml.apache.org"/>
   </project>
 
   <project name="xalan2jdoc">

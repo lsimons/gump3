@@ -59,6 +59,8 @@
     <!-- for possible future site tag
       <javadoc parent="build/cocoon/docs"/>-->
 
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="cocoon-dev@xml.apache.org"/>
   </project>
 
   <project name="jisp">

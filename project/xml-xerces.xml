@@ -29,6 +29,9 @@
     <depend project="xml-site"/>
 
     <javadoc nested="java/build/docs/html/apiDocs" project="xml-xerces"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="xerces-j-dev@xml.apache.org"/>
   </project>
 
 </module>

@@ -36,6 +36,9 @@
 
     <home nested="coyote"/>
     <jar name="build/lib/tomcat-coyote.jar"/>
+
+    <nag to="tomcat-dev@jakarta.apache.org"
+         from="Craig McClanahan &lt;craigmcc@apache.org&gt;"/>
   </project>
   
 </module>

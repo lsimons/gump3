@@ -68,6 +68,9 @@
       <description dir="string-doc/javadoc">string</description>
       <description dir="xtags-doc/javadoc">xtags</description>
     </javadoc>
+
+    <nag to="taglibs-dev@jakarta.apache.org"
+         from="Ted Husted &lt;ted@husted.com&gt;"/>
   </project>
 
 </module>

@@ -45,5 +45,8 @@
     <home nested="bin"/>
     <jar name="fulcrum-@@DATE@@.jar"/>
     <javadoc nested="bin/docs/api"/>
+
+    <nag to="turbine-dev@jakarta.apache.org"
+         from="Jason van Zyl &lt;jvanzyl@apache.org&gt;"/>
   </project>    
 </module>

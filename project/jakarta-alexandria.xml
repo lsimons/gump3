@@ -16,6 +16,9 @@
     <depend project="jakarta-ant"/>
     <depend project="jakarta-site2"/>
     <depend project="castor"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="alexandria-dev@jakarta.apache.org"/>
   </project>
   
   <project name="vindico">
@@ -37,6 +40,9 @@
     <home nested="proposal/vindico/dist"/>
     <jar name="vindico-@@DATE@@.jar"/>
     <javadoc nested="proposal/vindico/dist/docs/api"/>
+
+    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
+         to="alexandria-dev@jakarta.apache.org"/>
   </project>
 
 </module>

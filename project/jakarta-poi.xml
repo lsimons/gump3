@@ -54,6 +54,8 @@
              todir="poi/" />    
     -->         
             
+    <nag to="poi-dev@jakarta.apache.org"
+         from="Sam Ruby &lt;rubys@us.ibm.com&gt;"/>
   </project>
 
 </module>

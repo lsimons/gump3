@@ -31,6 +31,9 @@
     <home nested="build" />
     <jar name="james.bar" />
     <javadoc nested="www/mailet"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="james-dev@jakarta.apache.org"/>
   </project>
 
   <project name="dnsjava">

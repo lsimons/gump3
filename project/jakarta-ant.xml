@@ -59,6 +59,9 @@
              todir="builds/jakarta-ant/nightly/@@DATE@@/" />
     <deliver fromdir="distribution/rpms" tosite="jakarta.apache.org"
              todir="builds/jakarta-ant/nightly/@@DATE@@/" />
+
+    <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="ant-dev@jakarta.apache.org"/>
   </project>
 
   <project name="test-ant">
@@ -89,9 +92,9 @@
     <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
          to="ant-dev@jakarta.apache.org"
          subject="[GUMP] Bootstrap Failure - Ant">
-      <regex pattern="/error/"/>
-      <regex pattern="/Failed/"/>
-      <regex pattern="/BUILD FAILED/"/>      
+      <regexp pattern="/error/"/>
+      <regexp pattern="/Failed/"/>
+      <regexp />      
     </nag>
   </project>
 
@@ -114,6 +117,9 @@
     <depend project="jakarta-oro"/>
     <work nested="proposal/myrmidon/build/tasks"/>
     <option project="xml-xalan2"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="ant-dev@jakarta.apache.org"/>
   </project>
 
   <project name="jakarta-ant-myrmidon-test">
@@ -122,6 +128,9 @@
     <depend project="jakarta-ant-myrmidon" inherit="all"/>
     <work nested="proposal/myrmidon/build/tasks"/>
     <work nested="proposal/myrmidon/build/test/classes"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="ant-dev@jakarta.apache.org"/>
   </project>
 
   <project name="jakarta-ant-mutant">
@@ -134,6 +143,9 @@
     <work nested="proposal/mutant/bin/init"/>
     <work nested="proposal/mutant/bin/antcore"/>
     <work nested="proposal/mutant/bin/antlibs/system"/>
+
+    <nag from="Diane Holt &lt;holtdl@apache.org&gt;"
+         to="ant-dev@jakarta.apache.org"/>
   </project>
 
 </module>
