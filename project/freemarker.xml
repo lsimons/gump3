@@ -23,6 +23,7 @@
     <depend project="jakarta-log4j"/>
     <depend project="jakarta-oro"/>
     <depend project="werken.xpath"/>
+    <depend project="javacc"/>
     
     <work nested="build"/>
     <jar name="lib/freemarker.jar"/>

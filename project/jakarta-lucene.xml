@@ -12,7 +12,7 @@
 
     <ant target="package-all">
       <property name="version" value="@@DATE@@"/>
-      <property name="javacc.home" reference="home" project="javacc"/>
+      <property name="javacc.zip.dir" reference="home" project="javacc"/>
     </ant>
 
     <depend project="jakarta-ant"/>
