@@ -15,7 +15,7 @@
       <property name="env.ANT_HOME" reference="home" project="ant"/>
     </ant>
 
-    <depend project="xml-xerces"/>
+    <depend project="java-xml-pack"/>
     <depend project="ant" inherit="runtime"/>
     <depend project="castor"/>
     <depend project="junit"/>
@@ -24,6 +24,10 @@
     <depend project="jakarta-servletapi-5-servlet"/>
     <depend project="ws-axis"/>
     <depend project="jakarta-pluto"/>
+    <depend project="commons-discovery"/>
+    <depend project="commons-logging"/>
+    <depend project="tt-bytecode"/>
+    <depend project="wsdl4j"/>
 
     <work nested="build/ant/lib/ForeachTask.jar"/>
 
@@ -48,5 +52,10 @@
     <url href="http://jakarta.apache.org/pluto/"/>
     <description>Reference implementation for JSR168 Portlet container</description>
     <jar name="lib/shared/pluto-0.1-dev-unreleased.jar"/>
+    <jar name="lib/shared/pluto-portal-impl.jar"/>
+    <jar name="lib/shared/portlet-api.jar"/>
+  </project>
+  <project name="tt-bytecode">
+  	<jar name="lib/tt-bytecode.jar"/>
   </project>
 </module>
