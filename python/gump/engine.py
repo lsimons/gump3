@@ -295,6 +295,9 @@ class GumpEngine:
                     module.changeState(STATE_FAILED,REASON_UPDATE_FAILED)
                 else:
                     module.changeState(STATE_SUCCESS)
+                    
+                    # Were the contents of the repository modified?                                        
+                    module.setModified(cmdResult.hasOutput())
                 
     def syncWorkDirs( self, run ):
         """copy the raw module (project) materials from source to work dir 

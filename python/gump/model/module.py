@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.5 2003/11/19 15:42:16 ajack Exp $
-# $Revision: 1.5 $
-# $Date: 2003/11/19 15:42:16 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.6 2003/11/20 00:57:39 ajack Exp $
+# $Revision: 1.6 $
+# $Date: 2003/11/20 00:57:39 $
 #
 # ====================================================================
 #
@@ -148,6 +148,8 @@ class Module(NamedModelObject):
     	self.projects={}
     	
     	self.repository=None
+    	
+    	self.modified=0
 
     # provide default elements when not defined in xml
     def complete(self,workspace):
@@ -250,7 +252,17 @@ class Module(NamedModelObject):
             fogFactors=1 # 0/1 is better than 0/0
             
         return round(fogFactor/fogFactors,2)
-         
+    
+    def getLastModified(self):
+        moduleLastModified=-1
+        for project in self.getProjects():
+            projectLastModified = project.getLastModified()
+            if projectLastModified > moduleLastModified:
+                moduleLastModified=projectLastModified
+               
+        return moduleLastModified
+                
+    
     # Get a summary of states for each project
     def getProjectSummary(self,summary=None):  
     
@@ -330,6 +342,13 @@ class Module(NamedModelObject):
     
     def isCVS(self):
         return hasattr(self,'cvs') and self.cvs
+        
+    # Where the contents (at the repository) modified?
+    def isModified(self):
+        return self.modified
+        
+    def setModified(self,modified):
+        self.modified=modified
     
     def hasRepository(self):
         return self.repository

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.8 2003/11/19 23:58:27 ajack Exp $
-# $Revision: 1.8 $
-# $Date: 2003/11/19 23:58:27 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.9 2003/11/20 00:57:39 ajack Exp $
+# $Revision: 1.9 $
+# $Date: 2003/11/20 00:57:39 $
 #
 # ====================================================================
 #
@@ -306,6 +306,9 @@ class Project(NamedModelObject):
         
     def getFOGFactor(self):
         return self.getStats().getFOGFactor()
+        
+    def getLastModified(self):
+        return self.getStats().getLastModified()
         
     def propagateErrorStateChange(self,state,reason,cause,message):
         

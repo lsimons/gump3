@@ -89,6 +89,9 @@ class ProjectStatistics:
     def getFOGFactor(self):
         return (self.successes - self.failures - self.prereqs)
         
+    def getLastModified(self):
+        return (self.lastModified)
+        
     def nameKey(self):
         return self.projectname + '-pname'
         
@@ -106,6 +109,9 @@ class ProjectStatistics:
         
     def lastKey(self):
         return self.projectname + '-last'
+        
+    def lastModifiedKey(self):
+        return self.projectname + '-last-modified'
         
     def currentStateKey(self):
         return self.projectname + '-current-state'
@@ -132,6 +138,12 @@ class ProjectStatistics:
             elif project.isPrereqFailed():                        
                 s.prereqs  += 1
                 
+        #
+        # Track code updates/changes
+        # 
+        if project.getModule().isModified():
+            self.lastModified=time.time()
+            
         #
         # Deal with states & changes...
         #
@@ -170,6 +182,7 @@ class StatisticsDB:
         s.prereqs=self.getInt(s.prereqsKey())
         s.first=self.getDate(s.firstKey())
         s.last=self.getDate(s.lastKey())
+        s.lastModified=self.getDate(s.lastKey())
         s.currentState=stateForName(self.get(s.currentStateKey()))
         s.previousState=stateForName(self.get(s.previousStateKey()))
         s.sequenceInState=self.getInt(s.sequenceInStateKey())
@@ -182,6 +195,7 @@ class StatisticsDB:
         self.putInt(s.prereqsKey(), s.prereqs)
         self.putDate(s.firstKey(), s.first)
         self.putDate(s.lastKey(), s.last)
+        self.putDate(s.lastKey(), s.lastModified)
         self.put(s.currentStateKey(), stateName(s.currentState))
         self.put(s.previousStateKey(), stateName(s.previousState))
         self.putInt(s.sequenceInStateKey(), s.sequenceInState)
@@ -209,6 +223,10 @@ class StatisticsDB:
             """ Hopefully means it wasn't there... """
         try:
             del self.db[s.lastKey()]
+        except:
+            """ Hopefully means it wasn't there... """
+         try:
+            del self.db[s.lastModifiedKey()]
         except:
             """ Hopefully means it wasn't there... """
         try:
@@ -359,6 +377,20 @@ def sortByFOGFactor(module1,module2):
     if not c: c=cmp(module1,module2)
     return c             
             
+def sortByFOGFactor(module1,module2):
+    fog1=module1.getFOGFactor()
+    fog2=module2.getFOGFactor()
+    c= int(round(fog2 - fog1,0))                  
+    if not c: c=cmp(module1,module2)
+    return c             
+            
+def sortByLastModified(module1,module2):
+    fog1=module1.getLastModified()
+    fog2=module2.getLastModified()
+    c= int(round(fog2 - fog1,0))                  
+    if not c: c=cmp(module1,module2)
+    return c             
+            
 class StatisticsGuru:
     """ Know it all ... """
     
@@ -372,3 +404,5 @@ class StatisticsGuru:
         self.modulesByTotalDependencies=createOrderedList(workspace.getModules(),sortByDependencyCount)
         self.modulesByTotalDependees=createOrderedList(workspace.getModules(),sortByDependeeCount)
         self.modulesByFOGFactor=createOrderedList(workspace.getModules(),sortByFOGFactor)
+        self.modulesByLastModified=createOrderedList(workspace.getModules(),sortByLastModified)
+        
