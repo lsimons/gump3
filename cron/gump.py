@@ -250,6 +250,11 @@ gumpHome=os.path.abspath(os.path.join(os.getcwd(),'..'))
 os.environ['GUMP_HOME']=gumpHome     
 os.chdir(gumpHome)
 
+# various parts of this file write logs to this dir...
+logDir='log'
+if not os.path.isdir(logDir):
+    os.mkdir(logDir)
+
 # Starting up...
 writeRunLogEntry('Gump Start-up. Arguments [%s]' % sys.argv)
 
@@ -269,7 +274,7 @@ except:
 # Enable a log
 runDateTime=time.strftime('%d%m%Y_%H%M%S')
 logFileName='gump_log_' + runDateTime + '.txt'
-logFile=os.path.abspath(os.path.join('log',logFileName))
+logFile=os.path.abspath(os.path.join(logDir,logFileName))
 log=open(logFile,'w',0) # Unbuffered...
 
 hostname='Unknown'

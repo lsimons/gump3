@@ -15,10 +15,35 @@
 # limitations under the License.
 #
 
+#############################################################################
+# Documentation
+#############################################################################
+
 # Documentation for the different commands.
 function usage
 {
   case $1 in
+    run)
+      echo '
+      Run Gumpy.
+
+      Usage:
+        $0 run [gump.py-args ...]
+
+      See http://wiki.apache.org/gump/GumpCommandLineOptions for more
+      information about the options Gumpy accepts. The one mandatory
+      argument is the "project expression" detailing what to run. You
+      will usually want "all" here.
+'
+        ;;
+    test)
+      echo '
+      Run Gumpy its unit tests.
+
+      Usage:
+        $0 test
+'
+        ;;
     site)
       echo '
       Use Apache Forrest to build the documentation.
@@ -58,13 +83,36 @@ function usage
   esac
 }
 
+#############################################################################
+# Utility methods
+#############################################################################
+
+# Print an error message and then exit.
 function error
 {
   echo "$0: $1"
-  usage
+#  usage
   exit 1
 }
 
+# Print a friendly error message if some dependency is missing.
+#
+# Arguments:
+#   - name of the command
+#   - url to download the package that provides it
+function check_env
+{
+  local cmd=`bin/PrintPath $1`;
+  if [[ -z "$cmd" ]]; then
+     error "Cannot find $cmd. Please retrieve it from 
+
+     $2
+     
+and install it."
+  fi
+}
+
+# Figure out which action to execute.
 function delegate
 {
   local called_as=$0
@@ -78,6 +126,12 @@ function delegate
   # delegate to the command handling functions
   case $command in
 
+    run)
+      run $@
+      ;;
+    test)
+      test $@
+      ;;
     site)
       site $@
       ;;
@@ -96,55 +150,69 @@ function delegate
   esac
 }
 
+#############################################################################
+# Actions
+#############################################################################
+
+# Run gumpy.
+function run
+{
+  check_env "python" "http://www.python.org/"
+  check_env "pkill" "http://sourceforge.net/projects/proctools"
+
+  cd cron
+  ./gump.sh $@
+  cd ..
+}
+
+# Run gump tests
+function test
+{
+  check_env "python" "http://www.python.org/"
+
+  local oldpythonpath=$PYTHONPATH
+  if [[ -z $oldpythonpath ]]; then
+    export PYTHONPATH=`pwd`/python
+  else
+    export PYTHONPATH=`pwd`/python:$PYTHONPATH
+  fi
+
+  ./test/gumptest.sh
+}
+
 # Use Apache Forrest to build the documentation.
 function site
 {
   echo "$0: WARNING -- latest Forrest doesn't seem to be working properly..."
-  local forrest=`bin/PrintPath forrest $FORREST_HOME/bin/forrest`
-  if [[ -z "$forrest" ]]; then
-    error 'Cannot find forrest. Please retrieve it from 
+  check_env "forrest" "http://forrest.apache.org/mirrors.cgi"
 
-  http://forrest.apache.org/mirrors.cgi
-  
-and install it.'
-  fi
-
-  $forrest
+  forrest
 }
 
 # Use svn and ssh to publish the site.
-
-
 function site_publish
 {
-  local svncmd=${SVN:-svn};
-  local svn=`bin/PrintPath $svncmd`;
-  if [[ -z "$svn" ]]; then
-     error 'Cannot find svn. Please retrieve it from 
-
-     http://subversion.tigris.org/
-     
-and install it.'
-  fi
-
-  local sshcmd=${SSH:-ssh};
-  local ssh=`bin/PrintPath $sshcmd`;
-  if [[ -z "$ssh" ]]; then
-     error 'Cannot find ssh. Please retrieve it from 
-
-        http://www.openssh.org/
-        
-and install it.'
-  fi
+  check_env "svn" "http://subversion.tigris.org/"
+  check_env "ssh" "http://www.openssh.org/"
 
   error 'This functionality is not yet implemented!'
 
-  #$svn commit -m "Publishing site..." build/site
+  cp -Rf build/site/* ../site/
+  svn commit -m "Publishing site..." ../site
   #$ssh minotaur.apache.org '/home/leosimons/bin/gump-site-up.sh'
 }
 
+
+#############################################################################
+# Run the script...
+#############################################################################
+
 # Figure out then run the appropriate function
 delegate $@
+
+#############################################################################
+# And some mess below...
+#############################################################################
 
 #option=$@
 #previous_argument=
