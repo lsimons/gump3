@@ -1,4 +1,4 @@
--lt-----
+--------
 Project: bsf
 To: bsf-discussion@dwoss.lotus.com
 From: Sam Ruby <rubys@us.ibm.com>
@@ -87,7 +87,7 @@ Regex: /BUILD FAILED/
 Project: commons-services
 To: commons-dev@jakarta.apache.org
 From: Ted Husted <ted@husted.com>
-Subject: [GUMP] Build Failure - pool
+Subject: [GUMP] Build Failure - services
 Regex: /BUILD FAILED/
 ------
 Project: commons-util
