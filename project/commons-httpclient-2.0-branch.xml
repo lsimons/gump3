@@ -10,7 +10,7 @@
     <package>org.apache.commons.httpclient</package>
     <description>HTTP Client Library</description>
     <ant target="dist">
-      <property name="version" value="2.0-@@DATE@@"/>
+      <property name="component.name" value="httpclient-2.0-@@DATE@@"/>
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
@@ -19,7 +19,7 @@
     <depend project="commons-logging" runtime="true"/>
     <work nested="target/classes"/>
     <home nested="dist"/>
-    <jar name="commons-httpclient.jar"/>
+    <jar name="commons-httpclient-2.0-@@DATE@@.jar"/>
     <javadoc nested="dist/docs/api"/>
     <nag to="commons-httpclient-dev@jakarta.apache.org"
          from="Stefan Bodewig &lt;bodewig@apache.org&gt;"/>
