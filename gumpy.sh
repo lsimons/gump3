@@ -2,8 +2,9 @@
 #
 # $Header: $
 
-if [ -e local-env-py.sh ] ; then
-	. local-env-py.sh
+export LOCAL_ENV=local-env-py.sh
+if [ -e  $LOCAL_ENV ] ; then
+	. $LOCAL_ENV
 fi
 
 if [ ! $GUMP ] ; then
@@ -91,6 +92,10 @@ fi
 
 cp $GUMP/gumpy.sh $GUMP_PROFILE_LOG_DIR
 cp $GUMP_HOST.xml  $GUMP_PROFILE_LOG_DIR
+if [ -e  $LOCAL_ENV ] ; then
+	cp  $LOCAL_ENV $GUMP_PROFILE_LOG_DIR
+fi
+
 cp -R `grep profile $GUMP_HOST.xml  | cut -d\" -f2` $GUMP_PROFILE_LOG_DIR
 
 #
