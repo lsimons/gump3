@@ -70,4 +70,19 @@
     <license name="src/docs/english/license.xml"/>
   </project>
 
+  <project name="mx4j-tools-from-packaged-jetty">
+    <package>mx4j</package>
+    <package>javax.management</package>
+
+    <ant basedir="build" target="release"/>
+    <depend project="mx4j" inherit="all"/>
+
+    <work nested="classes/core"/>
+    <depend project="packaged-jetty"/>
+ 
+    <home nested="dist"/>
+    <jar name="lib/mx4j-tools.jar" id="tools"/>
+    <license name="src/docs/english/license.xml"/>
+  </project>
+
 </module>

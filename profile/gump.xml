@@ -228,6 +228,7 @@
   <module href="project/cos.xml"/>
   <module href="project/multipartrequest.xml"/>
   <module href="project/packaged-jaxen.xml"/>
+  <module href="project/packaged-jetty.xml"/>
   <module href="project/packaged-dom4j.xml"/>
   <module href="http://cvs.sourceforge.net/viewcvs.py/*checkout*/jicarilla/jicarilla-sandbox/platform/gump/gump-module.xml?content-type=text/xml&amp;rev=HEAD"/>
   <module href="http://cvs.sourceforge.net/viewcvs.py/*checkout*/jicarilla/jicarilla-maven-repository/gump-module.xml?content-type=text/xml&amp;rev=HEAD"/>
@@ -308,6 +309,7 @@
   <project name="tranquilo"        package="xsdlib-20010424"/>
   <project name="nsuml"            package="nsuml"/>
   <project name="packaged-jaxen"   package="jaxen-1.0-FCS"/>
+  <project name="packaged-jetty"   package="Jetty-5.0.beta2"/>
   <project name="saxpath"          package="jaxen-1.0-FCS"/>
   <project name="packaged-dom4j"   package="dom4j-1.4"/>
 

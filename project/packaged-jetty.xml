@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!--
-  Copyright 2001-2004 The Apache Software Foundation
+  Copyright 2004 The Apache Software Foundation
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,28 +14,14 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<module name="jetty">
+<module name="packaged-jetty">
 
-  <url  href="http://jetty.mortbay.org/jetty/index.html"/>
   <description>
     Java HTTP Servlet Server
   </description>
-  <redistributable/>
 
-  <cvs repository="sourceforge" host-prefix="cvs.jetty" dir="jetty"
-    module="Jetty"/>
-  
-  <project name="jetty">
+  <project name="packaged-jetty">
     <package>org.mortbay</package>
-
-    <ant target="jetty.jar"/>
-
-    <depend project="ant"/>
-    <depend project="commons-logging" runtime="true"/>
-    <depend project="xml-xerces"/>
-    <depend project="mx4j"/>
-    <depend project="mx4j-tools-from-packaged-jetty"/>
-    <work nested="classes"/>
 
     <jar name="lib/org.mortbay.jetty.jar"/>
     <license name="LICENSE.html"/>
