@@ -83,7 +83,7 @@
 
     <p>
       The run at midnight US/Pacific time causes nag emails to be sent.  
-      Interrim runs are now done evey six hours, based on the hardware kindly 
+      Interrim runs are now done evey eight hours, based on the hardware kindly 
       donated by Sun and Covalent. Below is the schedule for all runs relative 
       to several representative time zones.
     </p>
@@ -98,17 +98,17 @@
       </tr>
       <tr>
         <td><a href="http://cvs.apache.org/builds/gump/latest">Rubix</a></td>
-        <td>Midnight</td>
-        <td>3 am</td>
-        <td>0800</td>
-        <td>7 pm</td>
+        <td>8 pm</td>
+        <td>11 pm</td>
+        <td>0400</td>
+        <td>3 pm</td>
       </tr>
       <tr>
         <td><a href="http://nagoya.apache.org/~rubys/gump/">Nagoya</a></td>
-        <td>6 am</td>
-        <td>9 am</td>
-        <td>1400</td>
-        <td>1 am</td>
+        <td>2 am</td>
+        <td>7 am</td>
+        <td>1200</td>
+        <td>11 pm</td>
       </tr>
       <tr>
         <td><a href="http://gump.covalent.net/log/index.html">Covalent</a></td>
@@ -117,23 +117,8 @@
         <td>2000</td>
         <td>7 am</td>
       </tr>
-      <tr>
-        <td><a href="http://nagoya.apache.org/~rubys/gump/">Nagoya</a></td>
-        <td>6 pm</td>
-        <td>9 pm</td>
-        <td>0200</td>
-        <td>1 pm</td>
-      </tr>
     </table>
 
-    <p>
-      At the same time the "official" run is done on Linux, I've started
-      some experimentals runs on nagoya.  This includes a complete run with
-      <a href="http://nagoya.apache.org/~rubys/gump/java14">java14</a>.
-      This run is done with the exact same sources as were used for the
-      <a href="http://nagoya.apache.org/~rubys/gump/base">baseline</a>
-      builds using jdk13.
-    </p>
   </section>
 
   <section name="Who is Gump?">
