@@ -50,7 +50,7 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
-    <depend project="xml-commons-which"/>
+    <depend project="xml-xalan2"/>
 
     <home nested="test/java/build"/>
     <jar name="qetest.jar"/>
