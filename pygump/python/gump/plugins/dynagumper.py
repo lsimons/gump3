@@ -18,14 +18,18 @@ __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import platform
+import os
 
 from gump.plugins import AbstractPlugin
+from gump.util.sysinfo import amount_of_memory
+from gump.util.sysinfo import amount_of_cpu_mhz
+from gump.util.sysinfo import number_of_cpus
 
 class Dynagumper(AbstractPlugin):
     """
     Populate the DynaGump run metadata database.
     """    
-    def __init__(self, db, log, startdate_property_name='startdate', enddate_property_name='enddate'):
+    def __init__(self, db, log):
         AbstractPlugin.__init__(self,log)
         """Set up the Dynagumper.
 
@@ -36,23 +40,27 @@ class Dynagumper(AbstractPlugin):
         self.db = db
         self.log = log
         
-        self.startdate_property_name = startdate_property_name
-        self.enddate_property_name = enddate_property_name
-        
     def initialize(self):
-        #TODO call ensureThisHostIsInDatabase
-        pass
+        self.ensureThisHostIsInDatabase()
     
     def ensureThisHostIsInDatabase(self):
         """Adds information about this server to the hosts table."""
         (system, host, release, version, machine, processor) = platform.uname()
         tablename = "hosts"
-        description = "%s (%s,%s,%s,%s,%s)" % (host, system, release, version, machine, processor)
-        cmd = "INSERT INTO %s (address, name, cpu_arch, description) VALUES ('%s', '%s', '%s', '%s')" \
-                % (tablename, host, host, processor, description)
         
-        self.db.execute(cmd)
-        
+        cmd = "SELECT * FROM %s WHERE address = '%s' AND name = '%s';"
+        (rows, result) = self.db.execute(cmd)
+        if rows == 0:
+            memory = amount_of_memory()
+            mhz = amount_of_cpu_mhz()
+            cpus = number_of_cpus()
+            
+            description = "%s (%s,%s,%s,%s,%s)" % (host, system, release, version, machine, processor)
+            cmd = """INSERT INTO %s (address, name, cpu_arch, cpu_number, cpu_speed_Mhz, memory, description)
+                     VALUES ('%s', '%s', '%s', %s, %s, %s, '%s')""" \
+                % (tablename, host, host, processor, cpus, mhz, memory, description)
+            self.db.execute(cmd)
+    
     def visit_workspace(self, workspace):
         """Add information about the workspace to the database."""
         pass
@@ -66,15 +74,12 @@ class Dynagumper(AbstractPlugin):
     def visit_project(self, project):    
         """Add information about a project to the database."""
         tablename = "projects"
-        startdate = getattr(project, self.startdate_property_name)
-        enddate = getattr(project, self.enddate_property_name)
+        startdate = project.startdate
+        enddate = project.enddate
         name = project.name
         
         cmd = "INSERT INTO %s (project_name, start_date, end_date) VALUES ('%s', '%s', '%s')" \
             % (tablename, name, startdate, enddate)
-        
         #TODO make query fit database model
-        self.log.debug("Executing SQL: %s" % cmd)
         # self.db.execute(cmd)
-        
         #TODO do the actual work right here...

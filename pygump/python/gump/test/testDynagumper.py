@@ -23,6 +23,8 @@ from pmock import *
 
 from gump.plugins.dynagumper import Dynagumper
 
+from main import _Logger
+
 class DynagumperTestCase(pmock.MockTestCase):
     def setUp(self):
         self.log = self.mock()
@@ -39,7 +41,7 @@ class DynagumperTestCase(pmock.MockTestCase):
     def test_ensureThisHostIsInDatabase(self):
         #TODO actual tests
         db = self.mock()
-        db.expects(once()).method("execute")
+        db.expects(at_least_once()).method("execute").will(return_value((0,None)))
         dynagumper = Dynagumper(db,self.log)
         dynagumper.ensureThisHostIsInDatabase()
 
