@@ -154,9 +154,8 @@
     <package>org.apache.commons.io</package>
     <description>Commons I/O Utility Package</description>
 
-    <mkdir dir="io/src/examples"/>
     <ant basedir="io" target="dist">
-      <property name="component.version"  value="@@DATE@@"/>
+      <property name="final.name"  value="jakarta-commons-io-@@DATE@@"/>
     </ant>
 
     <depend project="ant" inherit="runtime"/>
@@ -165,8 +164,9 @@
     <depend project="junit"/>
     
     <work nested="io/target/classes"/>
+    <work nested="io/target/test-classes"/>
 
-    <jar name="io/dist/commons-io.jar"/>
+    <jar name="io/dist/jakarta-commons-io-@@DATE@@.jar"/>
     <javadoc nested="io/dist/docs/api"/>
 
     <nag to="commons-dev@jakarta.apache.org"
