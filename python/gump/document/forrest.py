@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.114 2004/03/24 15:19:22 ajack Exp $
-# $Revision: 1.114 $f
-# $Date: 2004/03/24 15:19:22 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.115 2004/03/24 15:51:42 ajack Exp $
+# $Revision: 1.115 $f
+# $Date: 2004/03/24 15:51:42 $
 #
 # ====================================================================
 #
@@ -471,6 +471,51 @@ class ForrestDocumenter(Documenter):
             projectRow.createData(secsToElapsedString(project.getElapsedSecs())) 
                 
         if not pcount: projectsTable.createLine('None')
+        
+        document.serialize()
+      
+        #
+        # ----------------------------------------------------------------------
+        #
+        # notesLog.xml -- Notes log
+        #
+        document=XDocDocument('Annotations',	\
+                self.resolver.getFile(workspace,'notesLog'))        
+        self.documentSummary(document, workspace.getProjectSummary())
+        
+        notesSection=document.createSection('Negative Annotations')
+        notesSection.createParagraph(
+            """Entities with errors and warnings.""")
+            
+        ncount=0
+        for module in gumpSet.getModuleSequence():
+            if not gumpSet.inModuleSequence(module): continue               
+                                
+            moduleSection=document.createSection('Module : ' + module.getName())
+        
+            # Link to the module
+            self.insertLink(module,workspace,moduleSection.createParagraph())  
+                
+            if not module.containsNasties():  
+            
+                # Display the annotations
+                self.documentAnnotations(moduleSection,project,1)     
+                
+            for project in module.getProjects():
+                if not gumpSet.inProjectSequence(project): continue               
+                if not project.containsNasties(): continue
+            
+                projectSection=moduleSection.createSection('Project : ' + project.getName())
+        
+                # Link to the project
+                self.insertLink(project,workspace,projectSection.createParagraph())    
+            
+                # Display the annotations
+                self.documentAnnotations(projectSection,project,1)     
+        
+                ncount+=1
+                
+        if not ncount: notesTable.createLine('None')
         
         document.serialize()
            
@@ -1540,14 +1585,14 @@ This page helps Gumpmeisters (and others) observe community progress.
                     
         return totalDeps            
                 
-    def documentAnnotations(self,xdocNode,annotatable):
+    def documentAnnotations(self,xdocNode,annotatable,noWarn=0):
         
         annotations=annotatable.getAnnotations()
         if not annotations: return        
         
         annotationsSection=xdocNode.createSection('Annotations')
         
-        if annotatable.containsNasties():
+        if annotatable.containsNasties() and not noWarn:
             annotationsSection.createWarning(	\
                 'Some warnings and/or errors are present within these annotations.')
         
