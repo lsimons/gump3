@@ -71,12 +71,12 @@ if __name__=='__main__':
   if len(sys.argv)>1 :
     ws=sys.argv[1]
   else:
-    ws=gumpPath(default.workspace)
+    ws=default.workspace
 
   workspace=load(ws)
 
   try:
-    f=open(dir.work+'/'+default.merge, 'w')
+    f=open( default.merge, 'w')
     xmlize('workspace',workspace,f)
   finally:
     # Since we may exit via an exception, close fp explicitly.

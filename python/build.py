@@ -174,7 +174,7 @@ if __name__=='__main__':
   if len(sys.argv)>1 :
     ws=sys.argv[1]
   else:
-    ws=gumpPath(default.workspace)
+    ws=default.workspace
     
   if len(sys.argv)>2 :
     ps=sys.argv[2]

@@ -17,9 +17,9 @@ class dir:
     if base not in sys.path: sys.path.insert(0, base)
     
 class default:
-    workspace  = socket.gethostname().split('.')[0] + ".xml"
+    workspace  = os.path.normpath('%s/%s.xml' % (dir.base, socket.gethostname().split('.')[0]))
     project    = "krysalis-ruper-test"
-    merge      = "merge.xml"
+    merge      = os.path.normpath('%s/%s' % (dir.work, 'merge.xml'))
     date       = time.strftime('%Y%m%d')
     debug      = True
     antCommand = 'java org.apache.tools.ant.Main -Dbuild.sysclasspath=only'

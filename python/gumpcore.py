@@ -427,11 +427,10 @@ if __name__=='__main__':
   print
   print "               *** starting DEMO ***"
 
-  workspace=load(gumpPath(default.workspace))
+  workspace=load(default.workspace)
 
   print
   print "workspace: "+default.workspace
-  print "full path: "+gumpPath(default.workspace)
   print
   print 'basedir:\t', workspace.basedir
   print 'pkgdir:\t\t', workspace.pkgdir
