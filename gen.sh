@@ -120,7 +120,12 @@ if test -z "$FAIL"; then
   cd work
   chmod +x *.sh
   sh puball.sh $SOURCE
+  cd ..
 fi
+
+# Automatic login to each :pserver: cvsroot
+test -n "$FAIL" || \
+perl perl/cvslogin.pl work/merge.xml
 
 test -z "$FAIL" || echo "*** FAILED ***"
 

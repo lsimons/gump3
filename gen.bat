@@ -97,6 +97,9 @@ cd work
 puball %SOURCE%
 cd ..
 
+REM Automatic login to each :pserver: cvsroot
+perl perl\cvslogin.pl work\merge.xml
+
 goto eof
 :fail
 echo *** FAILED ***
