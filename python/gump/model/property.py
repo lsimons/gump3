@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.2 2003/11/18 17:29:17 ajack Exp $
-# $Revision: 1.2 $
-# $Date: 2003/11/18 17:29:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/property.py,v 1.3 2003/11/18 19:02:25 ajack Exp $
+# $Revision: 1.3 $
+# $Date: 2003/11/18 19:02:25 $
 #
 # ====================================================================
 #
@@ -82,36 +82,37 @@ class Property(NamedModelObject):
         if self.isComplete(): return
                  
         if self.xml.reference=='home':
-            try:
-                targetProject=workspace.getProject(self.xml.project)
-                self.setValue(targetProject.getHomeDirectory())
-            except Exception, details:
-                log.warn( "Cannot resolve homedir of " + self.xml.project + " for " + `parent` + ' : ' + `details`,exc_info=1)                
-        elif self.xml.reference=='srcdir':
-            try:
-                targetProject=workspace.getProject(self.xml.project)
+            if not workspace.hasProject(self.xml.project):
+                parent.addError('Cannot resolve homedir of *unknown* [' + self.xml.project + ']')                
+            else:
+                self.setValue(workspace.getProject(self.xml.project).getHomeDirectory())
                 
-                self.setValue(targetProject.getModule().getSourceDirectory())
-            except Exception, details:
-                log.warn( "Cannot resolve srcdir of " + self.xml.project + " for " + `parent` + ' : ' + `details`,exc_info=1)
-        elif self.xml.reference=='jarpath' or self.xml.reference=='jar':
-            try:
+        elif self.xml.reference=='srcdir':
+            if not workspace.hasProject(self.xml.project):
+                parent.addError('Cannot resolve srcdir of *unknown* [' + self.xml.project + ']')
+            else:
+                self.setValue(workspace.getProject(self.xml.project).getModule().getSourceDirectory())
+                
+        elif self.xml.reference=='jarpath' or self.xml.reference=='jar':            
+            if not workspace.hasProject(self.xml.project):
+                parent.addError('Cannot resolve jar/jarpath of *unknown* [' + self.xml.project + ']')
+            else:
                 targetProject=workspace.getProject(self.xml.project)
                 
                 if self.xml.id:
                     for jar in targetProject.getJars():
                         if jar.id==self.xml.id:
                             if self.xml.reference=='jarpath':
-                                self.setValue(jar.path)
+                                self.setValue(jar.getPath())
                             else:
-                                self.setValue(jar.name)
+                                self.setValue(jar.getName())
                             break
                     else:
                         self.value=("jar with id %s was not found in project %s " +
                                   "referenced by %s") % (self.xml.id, targetProject.getName(), project.getName())
                         log.error(self.value)
                 elif targetProject.getJarCount()==1:
-                    self.value=targetProject.getJars()[0].path
+                    self.value=targetProject.getJars()[0].getPath()
                 elif  targetProject.getJarCount()>1:
                     self.value=("Multiple jars defined by project %s referenced by %s; " + \
                         "an id attribute is required to select the one you want") % \
@@ -120,10 +121,8 @@ class Property(NamedModelObject):
                 else:
                     self.value=("Project %s referenced by %s defines no jars as output") % \
                         (targetProject.getName(), project.getName())
-                    log.error(self.value)
-            except Exception, details:
-                log.warn( "Cannot resolve jar/jarpath of " + self.xml.project + \
-                  " for " + `parent` + ". Details: " + str(details),exc_info=1)
+                    log.error(self.value)        
+                                
         elif self.xml.path:
             #
             # Path relative to module's srcdir 

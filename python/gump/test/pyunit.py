@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.1 2003/11/18 17:29:18 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/18 17:29:18 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/pyunit.py,v 1.2 2003/11/18 19:02:25 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 19:02:25 $
 #
 # ====================================================================
 #
@@ -179,8 +179,8 @@ class UnitTestSuite(Testable):
     
         results=[]
         
-        if hasattr(self,'setUp'):
-            self.setUp()
+        if hasattr(self,'suiteSetUp'):
+            self.suiteSetUp()
     
         # iterate over this suites properties
         for name in self.__class__.__dict__:
@@ -197,17 +197,26 @@ class UnitTestSuite(Testable):
             try:
                 log.debug('Perform [' + self.getName() + '::' + \
                         name + ']')
+                        
+                if hasattr(self,'setUp'):
+                    self.setUp()
+    
                 test()
+                
+                
+                if hasattr(self,'tearDown'):
+                    self.tearDown()
+        
             except Exception, details:
                 import traceback
                 ei = sys.exc_info()
                 message=formatException(ei)
                 del ei                
                 results.append(Problem(self,name,message))
-            
-        if hasattr(self,'tearDown'):
-            self.tearDown()
         
+        if hasattr(self,'suiteTearDown'):
+            self.suiteTearDown()
+    
         return results
 
       

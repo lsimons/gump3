@@ -131,7 +131,7 @@ def rss(run):
                                 + stateName(s.previousState)  \
                                 + "\n\n"
                      
-                        for note in pctxt.annotations:
+                        for note in project.annotations:
                             content += ("   - " + str(note) + "\n")
                         
                         # write out the item to the rss feed
@@ -143,7 +143,7 @@ def rss(run):
                               <dc:subject>%s</dc:subject>
                               <dc:date>%sT%s%s</dc:date>
                             </item>""" % \
-                          (pctxt.name,project.getStateDescriptionus(),datestr, link, \
+                          (project.getName(),project.getStateDescriptionus(),datestr, link, \
                                content, \
                                module.getName() + ":" + project.getName(), \
                                datestr,timestr,TZ))

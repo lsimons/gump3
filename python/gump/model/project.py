@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.3 2003/11/18 17:29:17 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/18 17:29:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/project.py,v 1.4 2003/11/18 19:02:25 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/18 19:02:25 $
 #
 # ====================================================================
 #
@@ -412,11 +412,11 @@ class Project(NamedModelObject):
             for xmldepend in badDepends:
                 self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
                 self.addError("Bad Dependency. Project: " + xmldepend.project + " unknown to *this* workspace")
-                log.error("Unknown Dependency [" + xmldepend.project + "] on [" + self.getName()  + "]")                    
+                #log.error("Unknown Dependency [" + xmldepend.project + "] on [" + self.getName()  + "]")                    
 
             for xmloption in badOptions:                
                 self.addWarning("Bad *Optional* Dependency. Project: " + xmloption.project + " unknown to *this* workspace")
-                log.warn("Unknown *Optional* Dependency [" + xmloption.project + "] on [" + self.getName() + "]")    
+                #log.warn("Unknown *Optional* Dependency [" + xmloption.project + "] on [" + self.getName() + "]")    
         
         self.setComplete(1)
 
@@ -438,8 +438,6 @@ class Project(NamedModelObject):
                 if not dependency in dependProject.dependees:
                     dependProject.dependees.append(dependency)
             else:
-                # :TODO: Fail
-                log.error("Unknown Project : " + dependProjectName ) 
                 badDepends.append(xmldepend)                
         
         # Walk the XML parts converting
@@ -458,8 +456,6 @@ class Project(NamedModelObject):
                 if not dependency in optionProject.dependees:
                     optionProject.dependees.append(dependency)
             else:
-                # :TODO: Don't fail, just warn..
-                log.warn( "Unknown Project : " + optionProjectName   )
                 badOptions.append(xmloption)
                 
                         

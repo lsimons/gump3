@@ -76,7 +76,7 @@ class ModelTestSuite(UnitTestSuite):
     def __init__(self):
         UnitTestSuite.__init__(self)
         
-    def setUp(self):
+    def suiteSetUp(self):
         #
         # Load a decent Workspace
         #

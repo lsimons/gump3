@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/xml_tests.py,v 1.1 2003/11/17 22:10:53 ajack Exp $
-# $Revision: 1.1 $
-# $Date: 2003/11/17 22:10:53 $
+# $Header: /home/stefano/cvs/gump/python/gump/test/Attic/xml_tests.py,v 1.2 2003/11/18 19:02:25 ajack Exp $
+# $Revision: 1.2 $
+# $Date: 2003/11/18 19:02:25 $
 #
 # ====================================================================
 #
@@ -70,7 +70,6 @@ import gump.config
 from gump.utils.xmlutils import *
 
 from gump.test import getTestWorkspace
-
 
 if __name__=='__main__':
 

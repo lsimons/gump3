@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.3 2003/11/18 17:29:17 ajack Exp $
-# $Revision: 1.3 $
-# $Date: 2003/11/18 17:29:17 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/module.py,v 1.4 2003/11/18 19:02:25 ajack Exp $
+# $Revision: 1.4 $
+# $Date: 2003/11/18 19:02:25 $
 #
 # ====================================================================
 #
@@ -91,8 +91,10 @@ class ModuleCVS(ModelObject):
             root+='@'
             if self.hostPrefix: root+=self.hostPrefix+'.'      
             root+=str(self.repository.getHostname()) + ':'
+            
             # :TODO: Allow users to override default port
-            if str(self.repository.getMethod())=='pserver': root+='2401'
+            if str(self.repository.getMethod())=='pserver': 
+                root+='2401'
         root+=str(self.repository.getPath())
         
         # If a subdirect
@@ -163,6 +165,7 @@ class Module(NamedModelObject):
                 repo.addModule(self)
                 self.cvs=ModuleCVS(self.xml.cvs,repo)
             else:
+                self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
                 log.error(':TODO: No such repository in w/s ['+ repoName +'] on [' \
                         + self.getName() + ']')
             
