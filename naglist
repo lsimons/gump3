@@ -1,8 +1,14 @@
 ------
 Project: bsf
-To: rubys@nc.rr.com
+To: bsf-discussion@dwoss.lotus.com
 From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - BSF
+Regex: /BUILD FAILED/
+------
+Project: dist-ant
+To: ant-dev@jakarta.apache.org
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - Ant distribution
 Regex: /BUILD FAILED/
 ------
 Project: dist-xalan1
@@ -17,10 +23,16 @@ From: Sam Ruby <rubys@us.ibm.com>
 Subject: [GUMP] Build Failure - Xalan2 dist
 Regex: /BUILD FAILED/
 ------
+Project: j2eeunit
+To: j2eeunit-dev@lists.sourceforge.net
+From: Sam Ruby <rubys@us.ibm.com>
+Subject: [GUMP] Build Failure - j2eeunit
+Regex: /BUILD FAILED/
+------
 Project: jakarta-alexandria
 To: alexandria-dev@jakarta.apache.org
 From: Sam Ruby <rubys@us.ibm.com>
-Subject: [GUMP] Build Failure
+Subject: [GUMP] Build Failure - Alexandria
 Regex: /BUILD FAILED/
 ------
 Project: jakarta-ant
