@@ -97,6 +97,14 @@ function usage
         $0 validate
 "
       ;;
+    experimental-tests)
+      echo "
+      Run the experimental new unit tests using testrunner.py.
+
+      Usage:
+        $0 experimental-tests
+"
+      ;;
     *)
       echo "
       Utility commandline interface for Gump.
@@ -194,6 +202,9 @@ function delegate
     help | usage | --help | -help | -H | -h)
       usage $@
       ;;
+    experimental-tests)
+      experimental_tests $@
+      ;;
     '')
       error "Please specify a command"
       ;;
@@ -252,7 +263,6 @@ gumpy thinks we have no projects defined :(
 # Use Apache Forrest to build the documentation.
 function site
 {
-  echo "$0: WARNING -- latest Forrest doesn't seem to be working properly..."
   check_env "forrest" "http://forrest.apache.org/mirrors.cgi"
 
   forrest
@@ -307,6 +317,21 @@ function validate
   cd ..
 }
 
+# Run the experimental new unit tests.
+function experimental_tests
+{
+  check_env "python" "http://www.python.org/"
+
+  local dir=$1
+  if [[ -z "$dir" ]]; then
+    dir='src/py'
+  else
+    shift
+  fi
+
+  find $dir -name *.pyc | xargs rm -Rf  # get rid of compiled files
+  python bin/testrunner.py -d $dir $@   # run the tests
+}
 
 #############################################################################
 # Run the script...
