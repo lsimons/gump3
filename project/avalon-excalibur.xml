@@ -576,6 +576,7 @@
         <depend project="excalibur-component"/>
         <depend project="excalibur-compatibility"/>
         <depend project="excalibur-instrument"/>
+        <depend project="junit"/>
 
         <home nested="monitor"/>
         <jar name="build/lib/excalibur-monitor-@@DATE@@.jar"/>
