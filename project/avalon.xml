@@ -546,19 +546,13 @@
         <depend project="xml-xerces"/>
         <depend project="avalon-framework" id="api" />
         <depend project="avalon-framework" id="impl" />
+        <depend project="avalon-util-i18n"/>
         <depend project="avalon-meta-api" />
         <depend project="avalon-meta-spi" />
         <depend project="avalon-meta-impl" />
         <depend project="avalon-meta-tools" />
-        <depend project="commons-collections" />
-        <depend project="commons-logging" />
-        <depend project="logging-log4j" />
-        <depend project="xdoclet" />
-        <!-- What is these dependencies
-            xdoclet+xdoclet-module
-            xdoclet+xjavadoc
-            xdoclet+jmx-module
-        -->    
+        <depend project="excalibur-configuration" />
+        <depend project="qdox" />
         <work nested="meta/plugin/target/classes"></work>
         <home nested="meta/plugin"></home>
         <jar name="target/avalon-meta-plugin-@@DATE@@.jar" id="plugin"/>
@@ -580,7 +574,6 @@
         <depend project="xml-xalan2"/>
         <depend project="xml-xerces"/>
         <depend project="avalon-framework"/>
-        <depend project="excalibur-i18n"/>
         <depend project="excalibur-configuration"/>
         <depend runtime="true" project="junit"/>
         <depend runtime="true" project="avalon-logkit"/>
