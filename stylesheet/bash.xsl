@@ -474,17 +474,15 @@
     </xsl:if>
 
     <xsl:if test="@file">
-      <xsl:text>eval "test -f </xsl:text>
+      <xsl:text>test -f </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
-      <xsl:text> -a ! -d </xsl:text>
-      <xsl:value-of select="translate(@todir,'\','/')"/>
-      <xsl:text> &amp;&amp; mkdir </xsl:text>
+      <xsl:text> &amp;&amp; eval "mkdir -p </xsl:text>
       <xsl:value-of select="translate(@todir,'\','/')"/>
       <xsl:text> $OUT 2&gt;&amp;1"&#10;</xsl:text>
 
-      <xsl:text>eval "test -f </xsl:text>
+      <xsl:text>test -f </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
-      <xsl:text> &amp;&amp; cp </xsl:text>
+      <xsl:text> &amp;&amp; eval "cp </xsl:text>
       <xsl:value-of select="translate(@file,'\','/')"/>
       <xsl:text> </xsl:text>
       <xsl:value-of select="translate(@todir,'\','/')"/>
