@@ -60,7 +60,6 @@
         <depend project="excalibur-thread" runtime="true" inherit="jars"/>
         <depend project="excalibur-threadcontext" runtime="true" inherit="jars"/>
         <depend project="excalibur-xmlutil" runtime="true" inherit="jars"/>
-        <depend project="excalibur-util" runtime="true" inherit="jars"/>
 
         <!-- build-time dependencies -->
         <depend project="dist-bsf"/>
@@ -326,7 +325,6 @@
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
             <depend property="excalibur-threadcontext.jar" project="excalibur-threadcontext"/>
             <depend property="excalibur-thread.jar" project="excalibur-thread"/>
-            <depend property="excalibur-util.jar" project="excalibur-util"/>
              <property name="package-version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -892,30 +890,6 @@
         <home nested="threadcontext"/>
         <jar name="build/lib/excalibur-threadcontext-@@DATE@@.jar"/>
 
-        <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
-                to="dev@avalon.apache.org"/>
-    </project>
-
-    <project name="excalibur-util">
-        <package>org.apache.avalon.excalibur.util</package>
-
-        <ant basedir="util">
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="ant" inherit="runtime"/>
-        <option project="checkstyle" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="avalon" runtime="true"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <work nested="util/build/classes"/>
-
-        <home nested="util"/>
-        <jar name="build/lib/excalibur-util-@@DATE@@.jar"/>
         <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
                 to="dev@avalon.apache.org"/>
     </project>
