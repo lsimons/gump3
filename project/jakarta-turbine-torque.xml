@@ -7,7 +7,7 @@
 
   <cvs repository="jakarta"/>
 
-  <ant basedir="build">
+  <ant>
     <property name="velocity.jar"
        reference="jarpath" id="velocity" project="jakarta-velocity"/>
     <property name="xerces.jar"
