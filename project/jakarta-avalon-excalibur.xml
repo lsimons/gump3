@@ -21,6 +21,7 @@
         <depend project="excalibur-assembly" runtime="true"/>
         <depend project="excalibur-datasource" runtime="true"/>
         <depend project="excalibur-component" runtime="true"/>
+        <depend project="excalibur-instrument-manager" runtime="true"/>
         <depend project="excalibur-collections" runtime="true"/>
         <depend project="excalibur-container" runtime="true"/>
         <depend project="excalibur-event" runtime="true"/>
