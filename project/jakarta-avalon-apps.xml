@@ -1,0 +1,28 @@
+<module name="jakarta-avalon-apps">
+
+  <url href="http://jakarta.apache.org/avalon/"/>
+  <description>
+    Set of applications running on Avalon/Phoenix
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-avalon-ftpserver">
+    <package>org.apache.avalon.ftpserver</package>
+
+    <ant basedir="ftpserver">
+    </ant>
+
+    <depend project="junit"/>
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces" id="parser" runtime="true"/>
+    <depend project="jakarta-avalon"/>
+    <depend project="jakarta-avalon-phoenix"/>
+    <depend project="jakarta-avalon-cornerstone"/>
+
+    <home nested="ftpserver"/>
+    <jar name="build/lib/ftp-server.sar"/>
+  </project>
+
+</module>
+

@@ -1,0 +1,68 @@
+<module name="jakarta-avalon">
+
+  <url href="http://jakarta.apache.org/avalon/"/>
+  <description>
+    Avalon framework
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="jakarta-avalon">
+    <package>org.apache.avalon.framework</package>
+
+    <ant>
+      <depend property="xerces.jar"  project="xml-xerces" id="parser"/>
+      <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
+      <depend property="junit.jar"   project="junit"/>
+    </ant>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xalan2"/>
+    <option project="jakarta-log4j"/>
+
+    <home nested="build/lib"/>
+    <jar name="avalon-framework.jar"/>
+
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="avalon-dev@jakarta.apache.org"/>
+  </project>
+
+  <project name="jakarta-avalon-dist">
+    <ant target="dist">
+      <depend property="xerces.jar"  project="xml-xerces" id="parser"/>
+      <depend property="logkit.jar"  project="jakarta-avalon-logkit"/>
+      <depend property="junit.jar"   project="junit"/>
+    </ant>
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-cocoon2"/>
+    <depend project="jakarta-avalon"/>
+    <depend project="dist-avalon-logkit"/>
+    <depend project="xml-xalan2"/>
+    <depend project="xml-batik"/>
+    <depend project="xml-fop"/>
+    <depend project="bsf"/>
+    <depend project="rhino"/>
+    <depend project="jakarta-avalon-excalibur"/>
+    <depend project="jakarta-avalon-site"/>
+    <depend project="resolver"/>
+  </project>
+
+  <project name="jakarta-avalon-exceptionutil">
+    <depend project="jakarta-ant" inherit="runtime"/>
+    <depend project="xml-xerces"/>
+    <ant target="jar-exceptionutil"/>
+    <home nested="build/lib"/>
+    <jar name="exceptionutil.jar"/>
+    <nag from="Peter Donald &lt;peter@apache.org&gt;"
+         to="avalon-dev@jakarta.apache.org"/>
+  </project>
+
+  <project name="junitperf">
+    <description>
+       JUnit test decorators for measuring performance and scalability
+    </description>
+    <url href="http://www.clarkware.com/software/JUnitPerf.html"/>
+    <home nested="tools/lib"/>
+    <jar name="junitperf.jar"/>
+  </project>
+
+</module>
