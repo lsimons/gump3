@@ -21,7 +21,7 @@
     <description>
         Avalon's main repository.
     </description>
-    <cvs repository="avalon"/>
+    <cvs repository="avalon" module="avalon"/>
 
     <project name="avalon-fortress-container">
         <package>org.apache.avalon.fortress</package>
