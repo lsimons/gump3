@@ -7,6 +7,7 @@
 	    <source href="http://cvs.apache.org/viewcvs/jakarta-gump/" label="Source"/>
 	    <faq href="faq.html" label="FAQ"/>
 	    <gettingstarted href="gettingstarted.html" label="Getting Started"/>
+	    <todo href="todo.html" label="Help Wanted"/>
 	</gump>
 	<results label="Results">
 	    <nightly href="http://gump.covalent.net/log/" label="Nightly"/>
@@ -24,9 +25,9 @@
 	-->
 	<getinvolved label="Get Involved">
 	    <overview href="http://jakarta.apache.org/site/getinvolved.html" label="Overview"/>
-	    <joinmailinglists href="http://jakarta.apache.org/getinvolved/mail.html" label="Join mailing lists"/>
-	    <searchmailinglists href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2" label="Search mailing lists"/>
-	    <browsemailinglists href="http://nagoya.apache.org/eyebrowse/" label="Browse mailing lists"/>
+	    <joinmailinglists href="http://jakarta.apache.org/getinvolved/mail.html" label="Mailing List"/>
+	    <searchmailinglists href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2" label="Search List"/>
+	    <browsemailinglists href="http://nagoya.apache.org/eyebrowse/SummarizeList?listId=198" label="Browse List"/>
 	    <wiki href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpProjectPages" label="Wiki"/>
 	</getinvolved>
 
@@ -54,13 +55,11 @@
 	<traditional label="Traditional" tab="traditional">
 	    <overview href="traditional/index.html" label="Overview"/>
 	    <usage href="traditional/usage.html" label="Usage"/>
-	    <!-- index href="traditional/gettingstarted.html" label="Getting Started"/ -->
 	</traditional>
 	
 	<python label="Python" tab="python">
 	    <overview href="python/index.html" label="Overview"/>
 	    <usage href="python/usage.html" label="Usage"/>
-	    <!-- index href="python/gettingstarted.html" label="Getting Started"/ -->
 	</python>
 
   <external-refs>

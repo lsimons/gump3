@@ -9,6 +9,7 @@
   	<authors>
   		<person name="Sam Ruby" email="rubys AT us.ibm DOT com"/>
   		<person name="Adam Jack" email="ajack AT sybase DOT com"/>
+  		<person name="Community" email="gump AT jakarta DOT apache DOT org"/>
   	</authors>
   </header>
 <body>
@@ -31,19 +32,18 @@
     good thing on a small project, why not apply it recursively and include all
     dependencies for which access to source is provided?
   </p>
-  <note>The Gump team are looking for volunteers to extend Gump, to install/manage public/private/cascaded Gumps,
-  	and generally spread Gump to an even broader section of the OSS community. Interested? Contact us on the
-  	Gump <link href="mailto:gump@jakarta.apache.org">mailing list</link></note>
+  <fixme author="Community">The Gump team are looking for volunteers to extend Gump, to install/manage public/private/cascaded Gumps,
+  	and generally spread Gump to an even broader section of the OSS community. Interested?<br/>
+  	Also, Gump is developing, and a has <link href="todo.html">outstanding TODOS</link> that
+  		you could help with.<br/>
+  	
+  	Contact us on the
+  	Gump <link href="mailto:gump@jakarta.apache.org">mailing list</link>
+  </fixme>
   </section>
 
   <section><title>How does Gump work?</title>
 
-  <warning>
-    <link href="traditional/index.html">Traditional Gump</link> is undergoing a re-write into <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">Python</link>, see
-    <link href="python/index.html">Python Gump</link>. Be aware that some of this documentation might be in transition,
-    or state traditional information (when Python information difers.) Please report any such findings to us.
-  </warning>
-  
     <p>
       With Traditional Gump, <link href="http://cvs.apache.org/viewcvs/jakarta-gump/project">
       project</link> definitions are converted from XML to scripts native to the
@@ -55,6 +55,12 @@
       are then built on these outputs.
     </p>
 
+  <warning>
+    <link href="traditional/index.html">Traditional Gump</link> is undergoing a re-write into <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?GumpPython">Python</link>, see
+    <link href="python/index.html">Python Gump</link>. Be aware that some of this documentation might be in transition,
+    or state traditional information (when Python information difers.) <strong>Please report any such findings to us</strong>.
+  </warning>
+  
     <p>
       The commands use the actual build.xml files from the projects, but do
       not use the scripts or jar files checked into CVS/SVN.  Instead, the
@@ -92,8 +98,6 @@
   <section><title>Where is Gump?</title>
     <ul>
       <li><link href="http://cvs.apache.org/viewcvs/jakarta-gump/">Source</link></li>
-      <li><link href="http://cvs.apache.org/builds/gump/latest/">Latest Results</link></li>
-      <li><link href="http://nagoya.apache.org/~rubys/gump/">Experimental runs</link></li>
     </ul>
   </section>
 
@@ -120,12 +124,12 @@
       <tr>
         <td><link href="http://cvs.apache.org/builds/gump/latest">Rubix</link> </td>
         <td/>
-        <td>Unavailable</td>
+        <td><strong>Unavailable</strong></td>
       </tr>
       <tr>
         <td><link href="http://nagoya.apache.org/~rubys/gump/">Nagoya</link> </td>
         <td/>
-        <td>Unavailable</td>
+        <td><strong>Unavailable</strong></td>
       </tr>
       <tr>
         <td><link href="http://gump.covalent.net/log/index.html">Covalent</link> </td>
@@ -163,22 +167,20 @@
     </p>
 
     <p>
-      This seemed oddly appropriate to me as much of the motivation I had
-      derived from the frustrations I had building a project that I was and
-      continue to be a big fan of - Cocoon.  The
-      <link href="http://xml.apache.org/cocoon/faqs.html#faq-whyname">FAQ</link> for
+      This seemed oddly appropriate as much of the motivation for Gump
+      derived from the frustrations building Cocoon.  The FAQ for
       that project indicate that the project was named after a movie that the
       creator of that project was particularly fond of, so it seemed fitting
-      that this effort would be named after a movie that I am fond of.
+      that this effort would be named after a movie.
     </p>
 
     <p>
-      A number of other fortunate coincidences have convinced me that this
-      was the right choice for a name.  From the role of the feather in the
-      opening and closing scenes (something I have adapted to the Apache
+      A number of other fortunate coincidences proved this was the right choice for a name.  
+      From the role of the feather in the
+      opening and closing scenes (something adapted to the Apache
       feature for the Gump icon), to the catch phase of "Stupid is as Stupid
       does" - something that captures the spirit of a large number of build
-      errors caught by this process.  And most significantly to me - the
+      errors caught by this process.  And most significantly (to some) - the
       wisdom passed on from Gump's mother that "Life is like a box of
       chocolates - you never know what you are going to get!".  I can think
       of no more apt description of a build process which takes the absolute

@@ -137,9 +137,8 @@ class GumpEngine:
         #
         #	Send Naggin E-mails
         #
-        if 1:
-#        if run.getGumpSet().isFull() \
-#            and run.getWorkspace().isNag():
+        if run.getGumpSet().isFull() \
+            and run.getWorkspace().isNag():
   
             log.info('Nag about failures... ')
             

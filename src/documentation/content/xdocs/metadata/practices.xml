@@ -15,25 +15,31 @@
 	<section><title>Why good practices?</title>
 		<p>There are a number of reasons why an optimal Gump Descriptor ought be
 			a goal. Some are to be nice to Gump, and it's resources. Some are so
-			Gump can be nice to your project.
-		</p>
-		<p>In short, don't ask Gump to do more than it needs, and don't put
+			Gump can be nice to your project. <strong>In short</strong>, don't ask Gump to do more than it needs, and don't put
 			barriers in the way of the frequent Gumping of your project. 
 		</p>
 	</section>
   	
   	<section><title>Ant</title>  	
   		<section><title>Selecting a minimal target</title> 
-  			<p>Select an ant target (from your build) that minimally compiles the code, and creates output jars.
+  			<p>Select an ant target (from your build.xml, or whichever) that minimally compiles the code, and creates output jars.
   				Try to avoid targets that create full distributions (in numerous formats), or perform unnecessary work like
   				javadoc generation. 
   			</p>
-  			<p>For your *-test project (see 'Separate Test Project') do unit tests only.</p>
+  			<p>For your *-test project (see 'Use a separate Test Project') do unit tests only.</p>
   		</section>  	
 	  	<section><title>Let Gump set your final jar name</title>
 	  		<p>Gump runs set @@DATE@@, which ought be set into the
 	  		jar name. Use a <link href="ant.html#property">property</link> for this.
   			</p>
+	  	</section>
+	  	<section><title>Example</title>	  		
+  			<source>
+        &lt;ant buildfile=&quot;build.xml&quot; target=&quot;gump&quot;&gt;
+          &lt;property name=&quot;DATE_STAMP&quot; value=&quot;@@DATE@@&quot;/&gt;        	
+        &lt;/ant&gt;
+  				
+  			</source>
 	  	</section>
   	</section>
   	

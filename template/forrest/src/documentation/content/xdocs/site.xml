@@ -63,6 +63,7 @@
     <index label="by Package" href="gump_xref/package_project.html"/>
     <index label="by Description" href="gump_xref/description_project.html"/>
     <index label="by Output" href="gump_xref/output_project.html"/>
+    <index label="by Descriptor" href="gump_xref/descriptor_project.html"/>    
   </stats>
 
   <external-refs>

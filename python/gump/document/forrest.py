@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.59 2004/01/29 03:49:58 ajack Exp $
-# $Revision: 1.59 $f
-# $Date: 2004/01/29 03:49:58 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.60 2004/01/29 18:11:56 ajack Exp $
+# $Revision: 1.60 $f
+# $Date: 2004/01/29 18:11:56 $
 #
 # ====================================================================
 #
@@ -1867,10 +1867,10 @@ class ForrestDocumenter(Documenter):
         
                 
         # Projects By Descriptor Location
-        #pByDL=self.documentProjectsByDescriptorLocation(xref, run, workspace, gumpSet)                
-        #pxrefRow=pxrefTable.createRow()
-        #pxrefRow.createData().createLink(pByDL, 'Projects By Descriptor Location')
-        #pxrefRow.createData('The descriptor for the project.')
+        pByDL=self.documentProjectsByDescriptorLocation(xref, run, workspace, gumpSet)                
+        pxrefRow=pxrefTable.createRow()
+        pxrefRow.createData().createLink(pByDL, 'Projects By Descriptor Location')
+        pxrefRow.createData('The descriptor for the project.')
         
         document.serialize()
         

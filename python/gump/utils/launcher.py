@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.9 2004/01/28 00:13:39 ajack Exp $
-# $Revision: 1.9 $
-# $Date: 2004/01/28 00:13:39 $
+# $Header: /home/stefano/cvs/gump/python/gump/utils/Attic/launcher.py,v 1.10 2004/01/29 18:11:56 ajack Exp $
+# $Revision: 1.10 $
+# $Date: 2004/01/29 18:11:56 $
 #
 # ====================================================================
 #
@@ -252,7 +252,7 @@ class Cmd:
     def overview(self,indent=''):
         overview=indent+'Command Line: ' + self.formatCommandLine()+'\n'
         if self.cwd:
-            overview += indent+'CWD: ' + self.cwd + '\n'
+            overview += indent+'[Working Directory: ' + self.cwd + ']\n'
         return overview
         
     def dump(self,indent=''):

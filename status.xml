@@ -1,19 +1,61 @@
 <?xml version="1.0"?>
 <status>
   <developers>
-    <person name="Gump"      email="gump@jakarta.apache.org"      id="Gump" />
+    <person name="Gump"      	email="gump@jakarta.apache.org"   id="Gump" />
+    <person name="Community"     email="gump@jakarta.apache.org"  id="Community" />
+    <person name="Administrators"     email="gump@jakarta.apache.org"  id="admins" />
+    <person name="Adam Jack"    email="ajack@apache.org"      id="ajack" />
     <!-- Add more people here -->
   </developers>
 
   <todo>
-    <actions priority="high">
-      <action context="docs" dev="JB">
-        Make prettier w/ nice skin.
+    <actions priority="High Priority"> 
+      <action context="community" dev="community">
+      	Keep project metadata clean/healthy, keep re-use strong.
       </action>
+      
+      <action context="community" dev="community">
+      	Get more Gump hosts (for more cycles, smaller time windows).
+      </action>  
+      
+      <action context="docs" dev="ajack">
+        Ensure the subtle differences of Python Gump are correctly noted.
+      </action>
+      
+      <action context="admin" dev="community">
+        Make it easier for folks to install/get started with local/private Gumps.
+      </action>
+      
+      <action context="admin" dev="admins">
+        Make distributed management easier (e.g. manually, for legal reasons, rsynch packages from central repository.)
+      </action>
+      
+      <action context="admin" dev="ajack">
+        Allow cascading Gumps, that 'download' jars from each other to save
+        cycles &amp; increase "reach" to a wider community.
+      </action>
+      
       <action context="feedback" dev="Gump">
         Mail <link
           href="mailto:gump@jakarta.apache.org">gump@jakarta.apache.org</link>
-        with feedback.
+        with feedback on usability (of the outputs, or providing the metadata).
+      </action>
+    </actions>
+    
+    <actions priority="Medium Priority"> 
+      <action context="usability" dev="community">
+        Identify 'prebuilt' projects (visually, and in lists like 'Packages').
+      </action>
+            
+      <action context="docs" dev="community">
+        Document gumpy.[bat|sh] and gump.[bat|sh].
+      </action>
+    </actions>
+    
+    <actions priority="Futures"> 
+      <action context="scm" dev="community">
+        Add more interfaces to source control, and clean up the XML metadata
+        to be SCM agnostic.
       </action>
     </actions>
   </todo>

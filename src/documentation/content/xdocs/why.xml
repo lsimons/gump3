@@ -5,7 +5,8 @@
   <header>
     
     <title>Why was Gump written?</title>
-  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
+  <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/>
+  		<person name="Adam Jack" email="ajack AT sybase DOT com"/></authors></header>
 
 <body>
 
@@ -122,7 +123,7 @@
   </section>
 
   <section><title>2003</title>
-  	<p>As a heavy user of a lot of OSS software, combining it into deep stacks,
+  	<p>As a heavy user of OSS software, combining lots of it into deep stacks,
   		<link href="http://www.krysalis.org/version/jar-hell.html">JAR Hell</link> became
   		a pet peave of <link href="http://www.apache.org/~ajack/">Adam Jack</link>.
   		Supporting heathly re-use became a passion.
