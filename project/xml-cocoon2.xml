@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="xml"/>
-  
+
   <project name="xml-cocoon2">
     <package>org.apache.cocoon</package>
 
@@ -21,6 +21,8 @@
     <depend project="xml-xalan2"/>
     <depend project="xml-batik"/>
     <depend project="jakarta-avalon-excalibur"/>
+    <depend project="excalibur-cli"/>
+    <depend project="excalibur-naming"/>
     <depend project="jakarta-regexp"/>
     <depend project="commons-httpclient"/>
     <depend project="commons-collections"/>
@@ -31,7 +33,7 @@
     <depend project="jakarta-lucene"/>
     <depend project="hsqldb"/>
     <depend project="castor"/>
-    
+
     <option project="xml-fop"/>
     <option project="jtidy"/>
     <option project="phpservlt"/>
@@ -43,20 +45,20 @@
     <option project="xml-axis"/>
     <option project="jisp"/>
     <option project="jakarta-poi"/>
-    <option project="commons-logging"/>    
-    
+    <option project="commons-logging"/>
+
     <work nested="build/cocoon/classes"/>
     <work nested="tools/anttasks"/>
 
     <home nested="build/cocoon"/>
-    
+
     <jar name="cocoon.jar"/>
-    
+
     <javadoc parent="build/cocoon/javadocs"/>
-        
+
     <!-- for possible future site tag
       <javadoc parent="build/cocoon/docs"/>-->
-            
+
   </project>
 
   <project name="jisp">
