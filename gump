@@ -17,14 +17,46 @@
 #
 # A (supposedly ) friendly commandline interface to the common gump tasks
 #
-#############################################################################
+##############################################################################
 # Documentation
-#############################################################################
+##############################################################################
 
 # Documentation for the different commands.
 function usage
 {
   case $1 in
+    help-variables)
+      echo "
+      Gump needs various other programs available in order to run. You
+      can change which programs gump tries to use using environment variables.
+      In addition, several core gump settings are also customizable using
+      environment variables.
+      
+      You can set all these variables (except for GUMP_HOME) in the file
+      
+        $GUMP_ENV_FILE
+      
+      the location of this file is found as follows:
+      
+        GUMP_HOME/GUMP_HOST-settings.sh
+      
+      Recognized variables are:
+      
+        GUMP_HOME     -- location of the gump subversion checkout. Defaults
+                         to the current working directory if possible.
+        GUMP_HOSTNAME -- name of this machine. Defaults to the output from the
+                         hostname command.
+        GUMP_ENV_FILE -- location of the file that contains the custom
+                         settings to load (i.e. the file mentioned above). You
+                         can override GUMP_HOME and GUMP_HOSTNAME here, but that
+                         may have some unpredictable effects.
+        GUMP_PYTHON   -- the name of the python executable to use. Defaults to
+                         the latest version of python that is installed. Note
+                         that pygump is supported only on python2.3.
+        JAVA_HOME     -- the location of a java development kit. Gump tries to
+                         work with any JDK, but results may vary (for example,
+                         both ant and maven require jdk 1.2 at least).
+"
     run)
       echo "
       Run Gumpy.
@@ -66,57 +98,134 @@ function usage
      
       Available commands are:
      
-        run -- run Gumpy
-        test -- run Gumpy its unit tests
-        get-metadata -- Check out or update metadata from CVS
-        validate -- validate the metadata
-        help -- print this information
-        site -- use Apache Forrest to build the documentation
-        site-publish -- use SVN and SSH to publish the site to the website
+        run -- run pygump
+        debug -- run pygump in debug mode
+        test -- run the pygump unit tests
      
       Run
      
         $0 help [command]
      
       for more information about a particular command.
+      
+      Run
+      
+        $0 help-variables
+      
+      for more information about the environment variables that alter gump its
+      behaviour.
 "
       ;;
   esac
 }
 
-#############################################################################
-# Utility methods
-#############################################################################
+##############################################################################
+# Setup methods
+##############################################################################
+# All of these are guaranteed to have run before any other method is
+# called, so other methods may safely assume that the basic environment
+# these methods put in place is there.
+
+# Determine the short form of the hostname
+function find_hostname
+{
+  if [[ ! -z "$GUMP_HOSTNAME" ]]; then
+    return
+  fi
+  
+  local hostnamecommand=`which hostname`
+  if [[ ! -z "$hostnamecommand" ]]; then
+    error "GUMP_HOSTNAME is not set and the hostname command is not
+available to determine it!"
+  fi
+  
+  local cygwin=false;
+  case "`uname`" in
+    CYGWIN*) cygwin=true ;;
+  esac
+  if $cygwin; then
+    export GUMP_HOSTNAME=`hostname`
+  else
+    export GUMP_HOSTNAME=`hostname -s`
+  fi
+}
+
+# Determine the location gump is installed in
+function find_home
+{
+  if [[ ! -z "$GUMP_HOME" ]]; then
+    return
+  fi
+  
+  # look for this file
+  local current=`pwd`
+  local thisscript="`pwd`/gump"
+  if [[ -f "$thisscript" ]]; then
+    # guess...
+    export GUMP_HOME="$current"
+  else
+    # complain!
+    error "GUMP_HOME is not set and failed to determine it. Please set it to
+the root of your svn checkout!"
+  fi
+}
+
+# Determine the location of the environment variables script
+function find_env_file
+{
+  export GUMP_ENV_FILE="$GUMP_HOME/$GUMP_HOSTNAME-settings.sh"
+}
+
+# Determine the python command to use
+function find_python
+{
+  if [[ ! -z "$GUMP_PYTHON ]]; then
+    return
+  fi
+
+  local python=`which python2.4`
+  if [[ -z "$python" ]]; then
+    python=`which python2.3`
+  fi
+  if [[ -z "$python" ]]; then
+    python=`which python2`
+  fi
+  if [[ -z "$python" ]]; then
+    python=`which python`
+  fi
+  if [[ -z "$python" ]]; then
+    python="python" # hope for the best...
+  fi
+  
+  export GUMP_PYTHON="$python"
+}
+
+# Load the environment variables script if it exists, then fill out missing
+# but required variables
+function setup_env
+{
+  find_hostname
+  find_home
+
+  find_env_file
+  if [[ -f "$GUMP_ENV_FILE" ]]; then
+    . "$GUMP_ENV_FILE"
+  fi
+  
+  find_python
+}
+
+##############################################################################
+# Utility functions
+##############################################################################
+# These functions don't represent actual commands but rather are utilized
+# from the command functions.
 
 # Print an error message and then exit.
 function error
 {
   echo "$0: $1"
-#  usage
   exit 1
-}
-
-# Load the environment variables script if it exists
-function load_env
-{
-  if [[ -z "$GUMP_HOME" ]]; then
-    # look for this file
-    local current=`pwd`
-    local thisscript="`pwd`/gump"
-    if [[ -f "$thisscript" ]]; then
-      # guess...
-      export GUMP_HOME=$current
-    else
-      # complain!
-      error "GUMP_HOME is not set and failed to determine it. Please set it to the root of your svn checkout!"
-    fi
-  fi
-
-  local host=`hostname -s`
-  local envfile="$GUMP_HOME/$host-settings.sh"
-  if [[ -f $envfile ]]; then
-    . $envfile
-  fi
 }
 
 # Print a friendly error message if some dependency is missing.
@@ -124,7 +233,7 @@ function load_env
 # Arguments:
 #   - name of the command
 #   - url to download the package that provides it
-function check_env
+function check_command
 {
   local cmd=`$GUMP_HOME/bin/PrintPath $1`;
   if [[ -z "$cmd" ]]; then
@@ -132,7 +241,10 @@ function check_env
 
      $2
      
-and install it."
+and install it. If it is already installed, modify your $PATH variable
+to point to it. You can customize the $PATH variable inside a file named
+  $GUMP_ENV_FILE
+if you wish."
   fi
 }
 
@@ -143,17 +255,14 @@ and install it."
 #   - description of what the variable should be set to
 function check_env_var
 {
-  local host=`hostname -s`
-  local envfile="$GUMP_HOME/$host-settings.sh"
-
-  local dereferenced=${!1}
+  local dereferenced="${!1}"
   if [[ -z "$dereferenced" ]]; then
     error "The variable $1 has not been set. It should be set to
 $2.
 You can either set this before invoking gump, or set it in a file
 named
-  $envfile.sh
-"
+  $GUMP_ENV_FILE
+if you wish."
   fi
 }
 
@@ -162,7 +271,7 @@ named
 # Arguments:
 #   - the library to import
 #   - url to download location of the library
-function check_env_pylib
+function check_pylib
 {
   cat > "$GUMP_HOME/pycmd.tmp.py" <<ENDCOMMAND
 try:
@@ -170,7 +279,7 @@ try:
 except:
   print "error"
 ENDCOMMAND
-  local cmd=`python "$GUMP_HOME/pycmd.tmp.py"`
+  local cmd=`$GUMP_PYTHON "$GUMP_HOME/pycmd.tmp.py"`
   result=`$cmd`
   rm -f "$GUMP_HOME/pycmd.tmp.py"
 
@@ -184,11 +293,81 @@ and install it."
   fi
 }
 
+# Print a friendly error message if the environment is not set up correctly.
+function check_environment
+{
+  check_command "$GUMP_PYTHON" "http://www.python.org/"
+  check_command "pkill" "http://sourceforge.net/projects/proctools"
+
+  check_env_var "JAVA_HOME" "the location of the java jdk"
+  
+  check_pylib "rdflib" "http://rdflib.net/"
+  check_pylib "MySQLdb" "http://sourceforge.net/projects/mysql-python"
+}
+
+#############################################################################
+# Action functions
+#############################################################################
+# There is one of these for each command that gump understands. Stricly
+# speaking, the usage function above is also an action function, but we put
+# it at the top of the file for readability :-D
+
+# Run pygump
+function run
+{
+  # add pygump to python path
+  local oldpythonpath="$PYTHONPATH"
+  if [[ -z "$oldpythonpath" ]]; then
+    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
+  else
+    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
+  fi
+
+  # run pygump
+  local current=`pwd`
+  cd "$GUMP_HOME/pygump"
+  $GUMP_PYTHON gump.py $*
+  cd "$current"
+
+  # restore python path
+  if [[ ! -z "$oldpythonpath" ]]; then
+    export PYTHONPATH="$oldpythonpath"
+  fi
+}
+
+# Run gumpy unit tests
+function test
+{
+  # add pygump to python path
+  local oldpythonpath="$PYTHONPATH"
+  if [[ -z "$oldpythonpath" ]]; then
+    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
+  else
+    export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
+  fi
+
+  # Run the pygump tests
+  local current=`pwd`
+  cd "$GUMP_HOME/pygump/python"
+  python ../../bin/testrunner.py -d ../python/gump/test $@
+  cd "$current"
+  
+  # restore python path
+  if [[ ! -z "$oldpythonpath" ]]; then
+    export PYTHONPATH="$oldpythonpath"
+  fi
+}
+
+#############################################################################
+# Main
+#############################################################################
+# Control logic and program flow are defined below.
+
 # Figure out which action to execute.
 function delegate
 {
-  local called_as=$0
-  local command=$1
+  local called_as="$0"
+  local command="$1"
   shift
 
   if [[ -z "$command" ]]; then
@@ -207,7 +386,7 @@ function delegate
     test)
       test $@
       ;;
-    help | usage | --help | -help | -H | -h)
+    help* | usage | --help | -help | -H | -h)
       usage $@
       ;;
     '')
@@ -219,52 +398,14 @@ function delegate
   esac
 }
 
-#############################################################################
-# Actions
-#############################################################################
+# Load environment variables
+setup_env
 
-# Run gumpy.
-function run
-{
-  check_env "python" "http://www.python.org/"
-  check_env "pkill" "http://sourceforge.net/projects/proctools"
-
-  check_env_var "JAVA_HOME" "the location of the java jdk"
-  
-  check_env_pylib "rdflib" "http://rdflib.net/"
-  check_env_pylib "MySQLdb" "http://sourceforge.net/projects/mysql-python"
-
-  local current=`pwd`
-  cd $GUMP_HOME/pygump
-  ./gump.sh $@
-  cd $current
-}
-
-# Run gumpy unit tests
-function test
-{
-  check_env "python" "http://www.python.org/"
-
-  local oldpythonpath=$PYTHONPATH
-  if [[ -z $oldpythonpath ]]; then
-    export PYTHONPATH=`pwd`/python:`pwd`
-  else
-    export PYTHONPATH=`pwd`/python:`pwd`:$PYTHONPATH
-  fi
-
-  # Run the tests
-  local current=`pwd`
-  cd $GUMP_HOME/pygump/python
-  python ../../bin/testrunner.py -d ../python/gump/test $@
-  cd $current
-}
-
-#############################################################################
-# Run the script...
-#############################################################################
-
-# Load any environment variables
-load_env
+# Check we have everything we need
+check_environment
 
 # Figure out the action to take then run the appropriate function
 delegate $@
+
+# Attempt to clean up leftover commands
+pkill -KILL -P $$
