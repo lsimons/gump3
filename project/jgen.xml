@@ -22,7 +22,7 @@
     <depend project="junit"/>
     <depend project="commons-jexl"/>
     <depend project="xml-batik"/>
-    <depend project="xml-fop-maintenance"/>
+    <depend project="xml-fop-maintenance" inherit="runtime"/>
     <depend project="xml-xalan2"/>
     <depend project="xml-apis"/>
     <depend project="rhino"/>
