@@ -342,6 +342,7 @@
         <depend project="bsf"/>
         <depend project="checkstyle" inherit="runtime"/>
         <depend project="xml-xalan2"/>
+        <depend project="iso-relax"/>
         <work nested="configuration/build/classes"/>
         <work nested="configuration/build/testclasses"/>
 
