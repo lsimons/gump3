@@ -226,7 +226,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
         
     def isMultithreading(self):
-        return self.hasUpdaters() or elf.hasBuilders()
+        return self.hasUpdaters() or self.hasBuilders()
         
     def hasUpdaters(self):
         return (0 < self.updaters)
@@ -240,7 +240,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
     #:TODO: Note, not implemented yet
     def getBuilders(self):
-        return (0 < self.builders)
+        return self.builders
         
     def complete(self):        
         if self.isComplete(): return
@@ -337,8 +337,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                 project.complete(self)   
                 
         # Mutlithreading
-        if self.hasDomChildElement('threads'):
-            threads=self.getDomChildElement('threads')
+        if self.hasDomChild('threads'):
+            threads=self.getDomChild('threads')
             if hasDomAttribute(threads,'updaters'):
                 self.updaters=int(getDomAttribute(threads,'updaters'))
             if hasDomAttribute(threads,'builders'):
