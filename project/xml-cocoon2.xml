@@ -26,6 +26,12 @@
     <depend project="jakarta-regexp"/>
     <depend project="commons-httpclient"/>
     <depend project="commons-collections"/>
+    <depend project="excalibur-pool"/>
+    <depend project="excalibur-datasource"/>
+    <depend project="excalibur-component"/>
+    <depend project="excalibur-logger"/>
+    <depend project="excalibur-collections"/>
+ 
     <depend project="jdom"/>
     <depend project="bsf"/>
     <depend project="jakarta-velocity"/>
