@@ -1,0 +1,12 @@
+<module name="resolver">
+
+  <url href="http://www.sun.com/xml/developers/resolver/"/>
+  <description>
+    XML Entity and URI Resolvers
+  </description>
+  
+  <project name="resolver">
+    <jar  name="resolver.jar"/>
+  </project>
+
+</module>

@@ -77,6 +77,11 @@
   </xsl:template>
 
   <xsl:template match="build//project">
+    <xsl:if test="@name='clean'">
+      <xsl:text>fi&#10;</xsl:text>
+      <xsl:text>&#10;if test $all; then&#10;</xsl:text>
+    </xsl:if>
+
     <xsl:text>echo Building </xsl:text>
     <xsl:value-of select="@name"/>
     <xsl:text>&#10;</xsl:text>

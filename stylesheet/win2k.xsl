@@ -33,6 +33,10 @@
   </xsl:template>
 
   <xsl:template match="build//project">
+    <xsl:if test="@name='clean'">
+      <xsl:text>if "%1"=="all" goto end_clean&#10;</xsl:text>
+    </xsl:if>
+
     <xsl:text>&#10;echo Building </xsl:text>
     <xsl:value-of select="@name"/>
     <xsl:text>&#10;</xsl:text>
@@ -224,10 +228,6 @@
   <!-- =================================================================== -->
 
   <xsl:template match="logic">
-    <xsl:if test="@name='clean'">
-      <xsl:text>if "%1"=="all" goto end_clean&#10;</xsl:text>
-    </xsl:if>
-
     <xsl:text>echo ^&lt;XMP^> %OUT%&#10;</xsl:text>
 
     <xsl:text>:</xsl:text>
