@@ -16,7 +16,7 @@
 
   <xsl:template match="workspace">
     <xsl:variable name="basedir" select="@basedir"/>
-    <xsl:variable name="version">0.2</xsl:variable>
+    <xsl:variable name="version">0.3</xsl:variable>
 
     <xsl:if test="not(@version)">
       <xsl:message terminate="yes">
@@ -57,6 +57,14 @@
         <xsl:attribute name="logdir">
           <xsl:value-of select="$basedir"/>
           <xsl:text>/log</xsl:text>
+        </xsl:attribute>
+      </xsl:if>
+
+      <!-- default cvs directory, if not present -->
+      <xsl:if test="not(@cvsdir)">
+        <xsl:attribute name="cvsdir">
+          <xsl:value-of select="$basedir"/>
+          <xsl:text>/cvs</xsl:text>
         </xsl:attribute>
       </xsl:if>
 
@@ -129,6 +137,11 @@
           </xsl:when>
           <xsl:when test="home/@dir">
              <xsl:value-of select="@dir"/>
+          </xsl:when>
+          <xsl:when test="@package">
+             <xsl:value-of select="../@pkgdir"/>
+             <xsl:text>/</xsl:text>
+             <xsl:value-of select="@package"/>
           </xsl:when>
           <xsl:otherwise>
              <xsl:value-of select="$basedir"/>

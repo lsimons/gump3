@@ -1,5 +1,6 @@
-<workspace basedir="/home/rubys/jakarta" cvsdir="/home/rubys/jakarta/cvs"
-           version="0.2">
+<?xml version="1.0" ?>
+
+<workspace basedir="/home/rubys/jakarta" pkgdir="/opt" version="0.3">
 
   <property name="build.sysclasspath" value="only"/>
 
@@ -11,25 +12,7 @@
     <jar name="lib/php/phpsrvlt.jar"/>
   </project>
 
-  <!-- Installed packages -->
-
-  <project name="ejb"            home="/opt/ejb-2_0-pfd"/>
-  <project name="j2ee-connector" home="/opt/j2ee_connector-1_0-pfd2"/>
-  <project name="jaas"           home="/opt/jaas1_0"/>
-  <project name="jaf"            home="/opt/jaf-1.0.1"/>
-  <project name="javamail"       home="/opt/javamail-1.2"/>
-  <project name="jaxp"           home="/opt/jaxp1.0.1"/>
-  <project name="jaxp1.1"        home="/opt/jaxp-1.1"/>
-  <project name="jdbc"           home="/opt/jdbc2_0"/>
-  <project name="jms"            home="/opt/jms1.0.2"/>
-  <project name="jmx"            home="/opt/jmx-1_0"/>
-  <project name="jndi"           home="/opt/jndi1_2_1"/>
-  <project name="jsse"           home="/opt/jsse1.0.2"/>
-  <project name="jta"            home="/opt/jta-spec1_0_1"/>
-  <project name="jts"            home="/opt/jts1_0"/>
-  <project name="tranquilo"      home="/opt/xsdlib-20010424"/>
-
-  <!-- CVS Repository overrides -->
+  <!-- Repository overrides -->
 
   <repository name="jakarta" method="ext" user="rubys" path="/home/cvs"/>
   <repository name="xml" method="ext" user="rubys" path="/home/cvs"/>
