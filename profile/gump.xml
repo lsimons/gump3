@@ -148,7 +148,7 @@
 
   <project name="aspectj"        package="aspectj1.0"/>
   <project name="concurrent"     package="dougLea"/>
-  <project name="ejb"            package="ejb-2_0-pfd"/>
+  <project name="ejb"            package="ejb-2_0-fr"/>
   <project name="j2ee-connector" package="j2ee_connector-1_0-pfd2"/>
   <project name="jaas"           package="jaas1_0"/>
   <project name="jaf"            package="jaf-1.0.1"/>

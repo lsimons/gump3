@@ -16,7 +16,7 @@
     <depend project="xml-xerces"/>
     <depend project="jakarta-log4j" runtime="true"/>
     <depend project="jmx"/>
-    <depend project="ejb2"/>
+    <depend project="ejb"/>
     <depend project="jms"/>
     <depend project="jrefactory-pretty"/>
     <depend project="jakarta-servletapi-4"/>
@@ -44,10 +44,6 @@
     <work nested="core/build/web/WEB-INF/classes"/>
     <nag from="Peter Donald &lt;peter@apache.org&gt;"
          to="xdoclet-devel@lists.sourceforge.net"/>
-  </project>
-
-  <project name="ejb2">
-    <jar id="xdoclet" name="lib/ejb.jar"/>
   </project>
 
 </module>
