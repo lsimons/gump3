@@ -23,6 +23,7 @@
     <depend project="bsf"/>
     <depend project="jakarta-servletapi"/>
 
+    <home nested="dist"/>
     <jar name="bsh-@@DATE@@.jar" id="all"/>
     <jar name="bsh-bsf-@@DATE@@.jar" id="bsh-bsf"/>
     <jar name="bsh-classpath-@@DATE@@.jar" id="bsh-classpath"/>

@@ -586,7 +586,7 @@
       Delivery context library
     </description>
     <home nested="lib/optional"/>
-    <jar name="deli-0.6.5.jar"/>
+    <jar name="deli-0.9.0.jar"/>
   </project>
 
   <project name="jisp">
@@ -640,7 +640,7 @@
     <description>
       unknown
     </description>
-    <home nested="lib/optional"/>
+    <home nested="src/blocks/swf"/>
     <jar name="spark.jar"/>
   </project>
 
