@@ -25,6 +25,7 @@
       apparently not being made in a backwards compatbile manner.</p>
     </subsection>
 
+<!--
     <subsection name="tyrex">
       <p>Tyrex will compile cleanly with Ant 1.3 and log4j 1.0.4.  It also have
       every indication that it would compile (albeit with deprecation warnings)
@@ -41,6 +42,7 @@
       On the third attempt, I received a response that these problems are
       temporary.</p>
     </subsection>
+-->
 
     <subsection name="scarab">
       <p>For a while, scarab was trying to keep up with the evolution of
@@ -57,13 +59,6 @@
       <p>At the present time, there is a good line of communication between
       the two projects, and the fop team understands and agrees to this change.
        They plan to step up once the changes are released.</p>
-    </subsection>
-
-    <subsection name="xml-xalan2-smoketest">
-      <p>StylesheetTestlet namespace70.xsl has failed since 2001-09-21.  At
-      the present time, I expect that this problem will be correctedly quickly
-      as the Xalan team has consistently been responsive to reports of Gump
-      errors.</p>
     </subsection>
   </section>
 
