@@ -344,7 +344,7 @@
     </ant>
     <depend project="ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
-    <home nested="launcher/dist"/>
+    <home nested="launcher/dist/bin"/>
     <jar name="commons-launcher.jar"/>
     <license name="LICENSE"/>
     <javadoc nested="launcher/dist/docs/api"/>
