@@ -14,11 +14,10 @@
   <module href="project/jakarta-avalon-phoenix.xml"/>
   <module href="project/jakarta-avalon-site.xml"/>
   <module href="project/jakarta-bcel.xml"/>
+  <module href="project/jakarta-bsf.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-cactus/gump.xml"/>
-  <!--module href="project/jakarta-cactus.xml"/-->
   <module href="project/jakarta-commons.xml"/>
   <module href="project/jakarta-commons-sandbox.xml"/>
-  <!-- grant with a Maven generated descriptor -->
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-commons-sandbox/grant/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-commons-sandbox/vfs/gump.xml"/>
   <module href="project/jakarta-ecs.xml"/>
@@ -53,7 +52,6 @@
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-3/Attic/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-fulcrum/gump.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-jcs/gump.xml"/>
-  <!--module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-stratum/gump.xml"-->
   <module href="project/jakarta-turbine-stratum.xml"/>
   <module href="http://cvs.apache.org/viewcvs/~checkout~/jakarta-turbine-torque/gump.xml"/>
   
@@ -77,7 +75,6 @@
   <module href="project/xml-axis-wsif.xml"/>
   <module href="project/xml-axis-wsil.xml"/>
   <module href="project/xml-batik.xml"/>
-  <!-- <module href="project/xml-cocoon2.xml"/> -->
   <module href="http://cvs.apache.org/viewcvs/~checkout~/xml-cocoon2/module.xml"/>  
   <module href="project/xml-commons.xml"/>
   <module href="project/xml-crimson.xml"/>
@@ -157,7 +154,6 @@
   <module href="project/jaf.xml"/>
   <module href="project/javamail.xml"/>
   <module href="project/java-xml-pack.xml"/>
-  <!-- module href="project/jaxp.xml"/ -->
   <module href="project/jdbc.xml"/>
   <module href="project/jdo.xml"/>
   <module href="project/jimi.xml"/>
@@ -189,7 +185,6 @@
   <project name="jaxp"           package="java_xml_pack-summer-02"/>
   <project name="jaxr"           package="java_xml_pack-summer-02"/>
   <project name="jaxrpc"         package="java_xml_pack-summer-02"/>
-  <!-- project name="jaxp"           package="jaxp-1.1"/ -->
   <project name="jce"            package="jce"/>
   <project name="jcifs"          package="jcifs_0.7.0b5"/>
   <project name="jdbc"           package="jdbc2_0"/>

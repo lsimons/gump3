@@ -1,0 +1,16 @@
+<module name="jakarta-bsf">
+
+  <url href="http://jakarta.apache.org/bsf/index.html"/>
+  <description>
+    Bean Scripting Framework
+  </description>
+
+  <cvs repository="jakarta"/>
+
+  <project name="jakarta-bsf">
+    <package>org.apache.bsf</package>
+    <nag from="Stefan Bodewig &lt;bodewig@apache.org&gt;"
+         to="bsf-dev@jakarta.apache.org"/>
+  </project>
+
+</module>
