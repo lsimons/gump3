@@ -11,7 +11,7 @@
 
   <project name="jython">
     <ant>
-      <property name="javaccHome2" reference="home" project="javacc"/>
+      <property name="javaccHome2" project="javacc" path="bin/lib"/>
     </ant>
 
     <depend project="jakarta-ant"/>
