@@ -41,12 +41,6 @@ from gump.utils.listener import Listener, Event
 # :TODO: Need to createa GumpEnvironment to move these to..
 #
 
-SUCCESS=0
-FAILED=1
-MISSING_UTILITY=2
-BAD_ENVIRONMENT=3
-
-
 class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     """Gump Workspace"""
     def __init__(self,xmlworkspace):

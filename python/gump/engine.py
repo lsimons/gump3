@@ -96,9 +96,9 @@ class GumpEngine:
         # Return an exit code based off success
         # :TODO: Move onto run
         if run.getWorkspace().isSuccess():
-            result = SUCCESS 
+            result = EXIT_CODE_SUCCESS 
         else: 
-            result = FAILED
+            result = EXIT_CODE_FAILED
         
         return result  
     
@@ -195,9 +195,9 @@ class GumpEngine:
         # Return an exit code based off success
         # :TODO: Move onto run
         if run.getWorkspace().isSuccess():
-            result = SUCCESS 
+            result = EXIT_CODE_SUCCESS 
         else: 
-            result = FAILED
+            result = EXIT_CODE_FAILED
         
         return result
   
@@ -336,9 +336,9 @@ class GumpEngine:
         # Return an exit code based off success
         # :TODO: Move onto run
         if run.getWorkspace().isSuccess():
-            result = SUCCESS 
+            result = EXIT_CODE_SUCCESS 
         else: 
-            result = FAILED        
+            result = EXIT_CODE_FAILED        
         return result
         
     

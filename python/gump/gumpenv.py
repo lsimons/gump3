@@ -28,7 +28,7 @@ from fnmatch import fnmatch
 
 from gump import log
 
-from gump.config import dir, default, basicConfig
+from gump.config import *
 
 from gump.utils.note import Annotatable
 from gump.utils.work import *
@@ -177,7 +177,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             print " Unable to detect/test mandatory [" + command+ "] in path (see next)."
             for p in sys.path:
                 print "  " + str(os.path.abspath(p))
-            sys.exit(MISSING_UTILITY)
+            sys.exit(EXIT_CODE_MISSING_UTILITY)
         
         # Store the output
         if logOutput and result.output:
@@ -207,7 +207,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
                     print "  " + e + " = " + v
                 except:
                     print "  " + e 
-            sys.exit(BAD_ENVIRONMENT)
+            sys.exit(EXIT_CODE_BAD_ENVIRONMENT)
     
         return ok
         

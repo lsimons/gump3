@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.112 2004/03/19 22:06:43 ajack Exp $
-# $Revision: 1.112 $f
-# $Date: 2004/03/19 22:06:43 $
+# $Header: /home/stefano/cvs/gump/python/gump/document/Attic/forrest.py,v 1.113 2004/03/19 23:11:46 ajack Exp $
+# $Revision: 1.113 $f
+# $Date: 2004/03/19 23:11:46 $
 #
 # ====================================================================
 #
@@ -1359,17 +1359,17 @@ This page helps Gumpmeisters (and others) observe community progress.
         depees = 0
         
         depens += self.documentDependenciesList(dependencySection, "Project Dependencies",	\
-                    project.getDirectDependencies(), 0, 0, project)
+                    project.getDirectDependencies(), 0, 0, project, gumpSet)
                     
         depees += self.documentDependenciesList(dependencySection, "Project Dependees",		\
-                    project.getDirectDependees(), 1, 0, project)
+                    project.getDirectDependees(), 1, 0, project, gumpSet)
                     
         if project.isVerboseOrDebug():
             self.documentDependenciesList(dependencySection, "Full Project Dependencies",	\
-                    project.getFullDependencies(), 0, 1, project)
+                    project.getFullDependencies(), 0, 1, project, gumpSet)
                                                 
             self.documentDependenciesList(dependencySection, "Full Project Dependees",		\
-                    project.getFullDependees(), 1, 1, project)
+                    project.getFullDependees(), 1, 1, project, gumpSet)
         
         deps = depees + depens
         
@@ -1438,7 +1438,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         if not paths:        
             pathTable.createLine('No ' + title + ' entries')
                      
-    def documentDependenciesList(self,xdocNode,title,dependencies,dependees,full,referencingObject):        
+    def documentDependenciesList(self,xdocNode,title,dependencies,dependees,full,referencingObject,gumpSet):        
         totalDeps=0
                 
         if dependencies:
@@ -1449,6 +1449,11 @@ This page helps Gumpmeisters (and others) observe community progress.
             titles.append('Notes')
             dependencyTable=dependencySection.createTable(titles)
             for depend in dependencies:
+                
+                # Don't document out of scope...
+                if not gumpSet.inProjectSequence(depend.getProject()) \
+                    or not gumpSet.inProjectSequence(depend.getOwnerProject()) : 
+                    continue      
                 
                 totalDeps += 1
                 
@@ -1468,7 +1473,10 @@ This page helps Gumpmeisters (and others) observe community progress.
                     type+='Runtime'              
                 if depend.isOptional():
                     if type: type += ' '
-                    type+='Optional'                
+                    type+='Optional'               
+                if depend.isNoClasspath():
+                    if type: type += ' '
+                    type+='NoClasspath'                
                 dependencyRow.createData(type)
                 
                 # Inheritence

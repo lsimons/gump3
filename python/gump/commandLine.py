@@ -110,7 +110,6 @@ class CommandLine:
                 self.options.setText(1)
                 log.info('Use text (not forrest).')
 
-
         if len(argv)>2 and argv[1] in ['-w','--workspace']:
             self.args.append(argv[2])
             del argv[1:3]

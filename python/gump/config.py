@@ -27,6 +27,11 @@ import logging
 
 from gump import log
 
+EXIT_CODE_SUCCESS=0
+EXIT_CODE_FAILED=1
+EXIT_CODE_MISSING_UTILITY=2
+EXIT_CODE_BAD_ENVIRONMENT=3
+
 class dir:
     """Configuration of paths"""
 
