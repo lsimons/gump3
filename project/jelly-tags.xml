@@ -89,6 +89,9 @@
     <package>org.apache.commons.jelly.tags.email</package>
     <description>This is a Jelly interface for Email</description>
 
+    <!-- maven-generated ant scripts don't work if there is no test directory -->
+    <mkdir dir="jelly/jelly-tags/email/src/test/"/>
+    
     <ant basedir="jelly/jelly-tags/email" target="jar">
       <property name="final.name"  value="commons-jelly-tags-email-@@DATE@@"/>
     </ant>
