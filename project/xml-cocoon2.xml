@@ -30,6 +30,7 @@
     <depend project="xml-xalan2" version="supplied"/>
     <depend project="excalibur-cli" version="supplied"/>
     <depend project="excalibur-instrument" version="supplied"/>
+    <depend project="excalibur-instrument-manager" version="supplied"/>    
     <depend project="excalibur-naming" version="supplied"/>
     <depend project="excalibur-sourceresolve" version="supplied"/>
     <depend project="excalibur-xmlutil" version="supplied"/>
