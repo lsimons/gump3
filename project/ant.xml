@@ -51,7 +51,6 @@
     <jar name="lib/ant-stylebook.jar" id="stylebook"/>
     <jar name="lib/ant-swing.jar" id="swing"/>
     <jar name="lib/ant-trax.jar" id="trax"/>
-    <jar name="lib/ant-xalan2.jar" id="xalan2"/>
     <jar name="lib/ant-nodeps.jar" id="nodeps"/>
 
     <license name="LICENSE"/>
@@ -107,7 +106,6 @@
     <jar name="lib/ant-stylebook.jar" id="stylebook"/>
     <jar name="lib/ant-swing.jar" id="swing"/>
     <jar name="lib/ant-trax.jar" id="trax"/>
-    <jar name="lib/ant-xalan2.jar" id="xalan2"/>
 
     <javadoc nested="build/javadocs" project="ant"/>
 
