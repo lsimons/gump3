@@ -13,6 +13,7 @@
     <package>org.apache.axis</package>
 
     <ant basedir="java" target="all">
+      <property name="lib.dir" value="lib"/>
       <property name="env.ANT_HOME" reference="home" project="jakarta-ant"/>
       <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
       <depend name="log4j-core.jar" project="jakarta-log4j"/>
@@ -32,6 +33,8 @@
     <option project="javamail"/>
     <option project="jsse"/>
     <option project="jms"/>
+    <option project="xml-security" inherit="runtime"/>
+
     <work nested="java/build/lib/axis-ant.jar"/>
     <work nested="java/build/classes"/>
 
@@ -46,34 +49,6 @@
          to="axis-dev@xml.apache.org">
       <regexp  subject="Build Failure - Axis"/>
       <regexp pattern="/timed out/" subject="Build timed out - Axis"/>
-    </nag>
-  </project>
-
-  <project name="xml-axis-security">
-    <ant basedir="java" target="all">
-      <property name="lib.dir" value="lib"/>
-      <property name="env.ANT_HOME" reference="home" project="jakarta-ant"/>
-      <depend name="wsdl4j.jar" project="wsdl4j" id="wsdl4j"/>
-      <depend name="log4j-core.jar" project="jakarta-log4j"/>
-    </ant>
-
-    <depend project="jakarta-ant" inherit="runtime"/>
-    <depend project="xml-axis" inherit="all"/>
-    <depend project="xml-security" inherit="runtime"/>
-    <work nested="java/build/classes"/>
-    <work nested="java/build/lib/axis-ant.jar"/>
-
-    <home nested="java/build"/>
-    <jar name="lib/axis.jar"/>
-    <jar name="lib/jaxrpc.jar"/>
-    <jar name="lib/saaj.jar"/>
-
-    <javadoc nested="java/build/javadocs"/>
-
-    <nag from="Sam Ruby &lt;rubys@us.ibm.com&gt;"
-         to="axis-dev@xml.apache.org">
-      <regexp  subject="Build Failure - Axis Security"/>
-      <regexp pattern="/timed out/" subject="Build timed out - Axis security"/>
     </nag>
   </project>
 
