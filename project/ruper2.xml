@@ -91,6 +91,7 @@
     </ant>
    
     <depend project="krysalis-ruper2-ant" inherit="all"/>
+      <depend project="ant-testutil"/>
     <depend project="junit"/>
         
     <nag to="krysalis-developers@lists.sourceforge.net"
@@ -115,7 +116,6 @@
     
   </project>
   -->
-  <!-- Not ready yet... 
   <project name="krysalis-ruper2">
        
       	<depend project="krysalis-centipede" inherit="all"/> 
@@ -130,13 +130,12 @@
     	<work nested="build/classes"/>
         <ant basedir="." buildfile="centibuild.xml" target="gump" vm="1.2">
         	<property name="ant.home" project="ant" reference="home"/>
-        	<property name="project.name" value="krysalis-ruper"/>
+        	<property name="project.name" value="krysalis-ruper2"/>
       	</ant>
       	
       	<nag to="krysalis-developers@lists.sourceforge.net"
         	 from="Adam Jack &lt;arb_jack@users.sourceforge.net&gt;"/> 
   </project>  
-  -->
   
   <!-- Eclipse Plugin -->
   <!-- Not ready yet... 

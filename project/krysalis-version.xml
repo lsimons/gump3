@@ -112,7 +112,6 @@
         <depend project="krysalis-version-core" inherit="all"/>
         
         <depend project="ant"/>
-        <depend project="ant-testutil"/>
         <depend project="xml-xerces"/>
 
       	<ant basedir="." buildfile="build.xml" target="gump" vm="1.2">
@@ -309,6 +308,7 @@
       
         <depend project="krysalis-version-ant" inherit="all"/>
         <depend project="krysalis-centipede" inherit="all"/>
+        <depend project="ant-testutil"/>
         <depend project="junit"/>
 
       	<ant basedir="." buildfile="centibuild.xml" target="dist-gump" vm="1.2">
