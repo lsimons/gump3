@@ -22,6 +22,7 @@
       <depend property="commons-dbcp.jar"        project="commons-dbcp"/>
       <depend property="commons-services.jar"    project="commons-services"/>
       <depend property="commons-validator.jar"   project="commons-validator"/>
+      <depend property="regexp.jar"              project="jakarta-regexp"/>
     </ant>
 
     <depend project="xml-xalan2"/>
