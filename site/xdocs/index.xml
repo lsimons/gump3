@@ -31,7 +31,7 @@
 
   <section name="How does Gump work?">
     <p>
-      <a href="http://cvs.apache.org/viewcvs/jakarta-alexandria/proposal/gump/project">
+      <a href="http://cvs.apache.org/viewcvs/jakarta-gump/project">
       Project</a> definitions are converted from XML to scripts native to the
       platform on which you are running.  These scripts execute cvs update
       commands for every module which contains a project being built, and
@@ -68,7 +68,7 @@
 
   <section name="Where is Gump?">
     <ul>
-      <li><a href="http://cvs.apache.org/viewcvs/jakarta-alexandria/proposal/gump/">Source</a></li>
+      <li><a href="http://cvs.apache.org/viewcvs/jakarta-gump/">Source</a></li>
       <li><a href="http://cvs.apache.org/builds/gump/latest/">Latest Results</a></li>
       <li><a href="http://nagoya.apache.org/~rubys/gump/">Experimental runs</a></li>
     </ul>
