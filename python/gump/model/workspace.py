@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.17 2003/12/15 19:36:51 ajack Exp $
-# $Revision: 1.17 $
-# $Date: 2003/12/15 19:36:51 $
+# $Header: /home/stefano/cvs/gump/python/gump/model/workspace.py,v 1.18 2003/12/15 19:59:19 ajack Exp $
+# $Revision: 1.18 $
+# $Date: 2003/12/15 19:59:19 $
 #
 # ====================================================================
 #
@@ -550,7 +550,7 @@ class Workspace(ModelObject,PropertyContainer):
             self.addWarning('"forrest" command not found, no xdoc output')
         
         if not self.noRuper and \
-            not self.checkExecutable('ruper','-version',exitOnError,0,'check_ruper'): 
+            not self.checkExecutable('ruper','-version',0,0,'check_ruper'): 
             self.noRuper=1
             self.addWarning('"ruper" command not found, no package downloads')
         
