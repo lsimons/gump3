@@ -296,6 +296,7 @@
         </ant>
 
         <!-- runtime dependencies -->
+        <depend project="avalon-logkit" runtime="true"/>
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-logging-api" runtime="true"/>
         <depend project="avalon-logging-spi" runtime="true"/>
@@ -341,14 +342,18 @@
         </ant>
 
         <!-- runtime dependencies -->
+        <depend project="avalon-logkit" runtime="true"/>
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-logging-api" runtime="true"/>
+        <depend project="avalon-logging-impl" runtime="true"/>
         <depend project="avalon-logging-spi" runtime="true"/>
+        <depend project="avalon-logging-logkit-api" runtime="true"/>
         <depend project="avalon-repository-api" runtime="true"/>
         <depend project="avalon-repository-spi" runtime="true"/>
         <depend project="avalon-util-criteria" runtime="true"/>
-        <depend project="avalon-util-i18n" runtime="true"/>
         <depend project="avalon-util-defaults" runtime="true"/>
+        <depend project="avalon-util-exception" runtime="true"/>
+        <depend project="avalon-util-i18n" runtime="true"/>
         <depend project="excalibur-configuration" runtime="true"/>
 
         <!-- test-time dependencies -->
@@ -386,9 +391,11 @@
         </ant>
 
         <!-- runtime dependencies -->
+        <depend project="avalon-logkit" runtime="true"/>
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-logging-api" runtime="true"/>
         <depend project="avalon-logging-spi" runtime="true"/>
+        <depend project="avalon-logging-logkit-api" runtime="true"/>
         <depend project="avalon-repository-api" runtime="true"/>
         <depend project="avalon-repository-spi" runtime="true"/>
         <depend project="avalon-util-criteria" runtime="true"/>
@@ -431,9 +438,11 @@
         </ant>
 
         <!-- runtime dependencies -->
+        <depend project="avalon-logkit" runtime="true"/>
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-logging-api" runtime="true"/>
         <depend project="avalon-logging-spi" runtime="true"/>
+        <depend project="avalon-logging-logkit-api" runtime="true"/>
         <depend project="avalon-repository-api" runtime="true"/>
         <depend project="avalon-repository-spi" runtime="true"/>
         <depend project="avalon-util-criteria" runtime="true"/>
@@ -476,9 +485,11 @@
         </ant>
 
         <!-- runtime dependencies -->
+        <depend project="avalon-logkit" runtime="true"/>
         <depend project="avalon-framework" runtime="true" id="api"/>
         <depend project="avalon-logging-api" runtime="true"/>
         <depend project="avalon-logging-spi" runtime="true"/>
+        <depend project="avalon-logging-logkit-api" runtime="true"/>
         <depend project="avalon-repository-api" runtime="true"/>
         <depend project="avalon-repository-spi" runtime="true"/>
         <depend project="avalon-util-criteria" runtime="true"/>
@@ -529,6 +540,7 @@
         <depend project="avalon-repository-api" />
         <depend project="avalon-repository-spi" />
         <depend project="avalon-repository-main" />
+        <depend project="avalon-util-criteria" runtime="true"/>
         <depend project="avalon-util-i18n" />
         <depend project="excalibur-configuration" />
         <depend project="logging-log4j" />
@@ -701,8 +713,13 @@
         <depend project="ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="avalon-repository-main" />
+        <depend project="avalon-repository-api" runtime="true"/>
+        <depend project="avalon-repository-main" runtime="true"/>
+        <depend project="avalon-repository-spi" runtime="true"/>
+        <depend project="avalon-repository-util" runtime="true"/>
         <depend project="commons-cli" />
+        <depend project="avalon-util-env" />
+        <depend project="avalon-util-exception" />
         <depend project="avalon-util-i18n" />
         <work nested="repository/cli/target/classes"/>
         <home nested="repository/cli"/>
