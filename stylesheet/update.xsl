@@ -13,7 +13,7 @@
   </xsl:template>
 
   <!-- =================================================================== -->
-  <!-- provide support for specifying desired projects on the command line -->
+  <!-- provide support for specifying desired modules on the command line  -->
   <!-- =================================================================== -->
 
   <xsl:template match="workspace">

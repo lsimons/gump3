@@ -211,7 +211,7 @@
               </xsl:for-each>
 
               <xsl:for-each select="depend[not(noclasspath)]|option">
-                <xsl:for-each select="jar">
+                <xsl:for-each select="jar[not(@type='boot')]">
                   <pathelement location="{../@home}/{@name}"/>
                 </xsl:for-each>
               </xsl:for-each>
@@ -263,8 +263,11 @@
 
       <xsl:apply-templates select="@*[name()!='target']"/>
       <xsl:apply-templates select="/workspace/property"/>
-      <xsl:apply-templates select="*"/>
+      <xsl:apply-templates select="*[name()!='bootclass']"/>
 
+      <xsl:for-each select="../depend/jar[@type='boot']">
+        <bootclass location="{../@home}/{@name}"/>
+      </xsl:for-each>
     </xsl:copy>
   </xsl:template>
 

@@ -77,8 +77,8 @@
       <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
 
-    <xsl:text>if not "%1"=="" echo Unknown project: %1&#10;</xsl:text>
-    <xsl:text>echo Usage: update all ^| project...&#10;</xsl:text>
+    <xsl:text>if not "%1"=="" echo Unknown module: %1&#10;</xsl:text>
+    <xsl:text>echo Usage: update all ^| module...&#10;</xsl:text>
     <xsl:text>goto eoj&#10;</xsl:text>
     <xsl:text>&#10;:header&#10;</xsl:text>
 
@@ -303,13 +303,12 @@
   <!-- =================================================================== -->
 
   <xsl:template match="classpath">
-    <xsl:text>SET CLASSPATH=.&#10;</xsl:text>
+    <xsl:text>SET CLASSPATH=%CP%;%JAVA_HOME%\lib\tools.jar&#10;</xsl:text>
     <xsl:for-each select="pathelement">
       <xsl:text>SET CLASSPATH=%CLASSPATH%;</xsl:text>
       <xsl:value-of select="translate(@location,'/','\')"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
-    <xsl:text>SET CLASSPATH=%CLASSPATH%;%CP%&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
@@ -319,7 +318,19 @@
   <xsl:template match="ant">
 
     <xsl:text>SET STATUS=SUCCESS&#10;</xsl:text>
-    <xsl:text>java org.apache.tools.ant.Main</xsl:text>
+    <xsl:text>java</xsl:text>
+
+    <xsl:if test="bootclass">
+      <xsl:text> -Xbootclasspath/p:</xsl:text>
+      <xsl:for-each select="bootclass">
+        <xsl:if test="position()!=1">
+          <xsl:text>;</xsl:text>
+        </xsl:if>
+        <xsl:value-of select="translate(@location,'\','/')"/>
+      </xsl:for-each>
+    </xsl:if>
+
+    <xsl:text> org.apache.tools.ant.Main</xsl:text>
 
     <xsl:if test="@buildfile">
       <xsl:text> -buildfile </xsl:text>

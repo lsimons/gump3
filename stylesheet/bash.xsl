@@ -113,7 +113,7 @@
 
     <xsl:call-template name="select">
       <xsl:with-param name="usage">
-        Usage: update all \| project...
+        Usage: update all \| module...
       </xsl:with-param>
     </xsl:call-template>
 
@@ -342,13 +342,12 @@
   <!-- =================================================================== -->
 
   <xsl:template match="classpath">
-    <xsl:text>export CLASSPATH=.&#10;</xsl:text>
+    <xsl:text>export CLASSPATH=$CP:$JAVA_HOME\lib\tools.jar&#10;</xsl:text>
     <xsl:for-each select="pathelement">
       <xsl:text>export CLASSPATH=$CLASSPATH:</xsl:text>
       <xsl:value-of select="translate(@location,'\','/')"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
-    <xsl:text>export CLASSPATH=$CLASSPATH:$CP&#10;</xsl:text>
   </xsl:template>
 
   <!-- =================================================================== -->
@@ -370,7 +369,19 @@
        <xsl:value-of select="$cmd-prefix"/>
        <xsl:text>" </xsl:text>
     </xsl:if>
-    <xsl:text>"java org.apache.tools.ant.Main</xsl:text>
+    <xsl:text>"java</xsl:text>
+
+    <xsl:if test="bootclass">
+      <xsl:text> -Xbootclasspath/p:</xsl:text>
+      <xsl:for-each select="bootclass">
+        <xsl:if test="position()!=1">
+          <xsl:text>:</xsl:text>
+        </xsl:if>
+        <xsl:value-of select="translate(@location,'\','/')"/>
+      </xsl:for-each>
+    </xsl:if>
+
+    <xsl:text> org.apache.tools.ant.Main</xsl:text>
 
     <xsl:if test="@buildfile">
       <xsl:text> -buildfile </xsl:text>

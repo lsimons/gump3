@@ -14,42 +14,8 @@
         href="/status.html"/>
       <item name="Source"     
         href="http://cvs.apache.org/viewcvs/jakarta-alexandria/proposal/gump/"/>
-    </menu>
-
-    <menu name="Data Definitions">
-      <item name="overview"     
-        href="/overview.html"/>
-      <item name="workspace"  
-        href="/workspace.html"/>
-      <item name="profile"  
-        href="/profile.html"/>
-      <item name="repository"  
-        href="/repository.html"/>
-      <item name="module"  
-        href="/module.html"/>
-      <item name="project"  
-        href="/project.html"/>
-    </menu>
-
-    <menu name="Sources">
-      <item name="dbxml"     
-        href="http://www.dbxml.org/"/>
-      <item name="devworks"  
-        href="http://oss.software.ibm.com/developerworks/opensource/"/>
-      <item name="exolab"    
-        href="http://www.exolab.org/"/>
-      <item name="jakarta"   
-        href="http://jakarta.apache.org/"/>
-      <item name="jdom"      
-        href="http://www.jdom.org/"/>
-      <item name="mozilla"   
-        href="http://www.mozilla.org/"/>
-      <item name="sourceforge" 
-        href="http://sourceforge.net/"/>
-      <item name="whichever" 
-        href="http://share.whichever.com/"/>
-      <item name="xml"       
-        href="http://xml.apache.org/"/>
+      <item name="Usage"     
+        href="/usage.html"/>
     </menu>
   
     <menu name="Get Involved">
@@ -59,6 +25,17 @@
         href="http://jakarta.apache.org/getinvolved/mail.html"/>
       <item name="Search Mailing lists"  
         href="http://marc.theaimsgroup.com/?l=alexandria-dev&amp;r=1&amp;w=2"/>
+    </menu>
+
+    <menu name="Cross reference">
+      <item name="by dependency"     
+        href="http://jakarta.apache.org/builds/gump/latest/xref.html"/>
+      <item name="modules by repository"  
+        href="http://jakarta.apache.org/builds/gump/latest/modxref.html"/>
+      <item name="installed packages"  
+        href="http://jakarta.apache.org/builds/gump/latest/packages.html"/>
+      <item name="jars by module"  
+        href="http://jakarta.apache.org/builds/gump/latest/cvsjars.html"/>
     </menu>
   
   </body>

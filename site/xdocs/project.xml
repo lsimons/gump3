@@ -209,6 +209,13 @@
           between multiple jars definitions.</td>
           <td>No</td>
         </tr>
+        <tr>
+          <td>type</td>
+          <td>If the value of this attribute is "boot" then the jar is
+          prepended to the bootclasspath instead of being appended to the 
+          classpath.</td>
+          <td>No</td>
+        </tr>
       </table>
     </subsection>
 

@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="rubys@us.ibm.com">Sam Ruby</author>
+    <title>Gump</title>
+  </properties>
+
+<body>
+
+  <section name="Building projects for yourself using Gump">
+
+    <subsection name="Planning">
+      <p>The bare minimum required to get started is a JDK, a JAXP 1.1
+      compliant parser, a command prompt (bash or Windows NT/2K), and Perl.
+      Perl is only used at the moment for some of the publishing and
+      notification, so it can be omitted.</p>
+
+      <p>It is hightly recommended at this point that you review the
+      description of the data definitions used by Gump, starting with
+      the <a href="overview.html">overview</a>.</p>
+
+      <p>It also would be useful to gather up a list of installed packages
+      that you will be referencing in your build.  A list of some of the
+      packages you might want can be found
+      <a href="http://jakarta.apache.org/builds/gump/latest/packages.html">
+      here</a>.</p>
+    </subsection>
+
+    <subsection name="Getting the source to Gump">
+      <source>
+
+      export CVSROOT=:pserver:anoncvs@cvs.apache.org:/home/cvspublic
+      cvs login
+      cvs co -d gump jakarta-alexandria/proposal/gump</source>
+
+      <p>If prompted for the password, enter <b><tt>anoncvs</tt></b></p>
+    </subsection>
+
+    <subsection name="Defining your workspace">
+      <p>Two sample workspaces are provided, rubix and rubypad.  Find the
+      one that is closest to your needs and make a copy of it.  The suggested
+      name for the file you create is your host name.</p>
+
+      <p>Again, reference the <a href="overview.html">overview</a> to see
+      how you can add projects, define your own profiles, and the modify
+      which version of referenced projects you want to build.</p>
+
+      <p>You will also need to directly modify the <code>gen.bat</code>
+      or <code>gen.sh</code> scripts to specify where to find the JAXP
+      implementation to use.  At the present time, recent releases of 
+      Xalan are recommended for performance reasons; but the JAXP
+      reference implementation will likely catch up shortly.</p>
+
+      <p><b>Note:</b> Yes, it is tacky that you should have to modify this
+      file directly.  Patches are welcome.  Meanwhile, cvs does a farily
+      good job of merging changes.</p>
+    </subsection>
+
+    <subsection name="Generation">
+      <p>For Unix and cygwin installations using bash:</p>
+
+      <xmp>
+        bash ./gen.sh
+      </xmp>
+
+      <p>For Windows NT and 2K installations:</p>
+
+      <xmp>
+        gen
+      </xmp>
+
+      <p>This process generates the update and build scripts used in
+      subsequent steps.  It also logs you onto any :pserver: cvs
+      repository defined which you are not currently logged onto, and
+      generates the various cross reference pages.</p>
+    </subsection>
+
+    <subsection name="Update">
+      <p>For Unix and cygwin installations using bash:</p>
+
+      <xmp>
+         bash ./update.sh ( all | module ... )
+      </xmp>
+
+      <p>For Windows NT and 2K installations:</p>
+
+      <xmp>
+         update ( all | module ... )
+      </xmp>
+
+      <p>With this command you can specify you either want to update all or a 
+      specified list or modules.  If the module had not been previously
+      checked out (or the target cvs directory has been removed) then a
+      checkout is done instead.  If <code>all</code> is spacified then a
+      web page containing the logs for each update is produced, as well as
+      a summary page.  If specific modules are listed, then the output comes
+      to the screen.</p>
+    </subsection>
+
+    <subsection name="Build">
+      <p>For Unix and cygwin installations using bash:</p>
+
+      <xmp>
+         bash ./build.sh ( all | clean | (project [ target ... ] ) )
+      </xmp>
+
+      <p>For Windows NT and 2K installations:</p>
+
+      <xmp>
+         build ( all | clean | (project [ target ... ] ) )
+      </xmp>
+
+      <p>With this command you can specify you either want to build all or a 
+      specified project.  If <code>all</code> is spacified then a
+      web page containing the logs for each build is produced, as well as
+      a summary page.  If <code>clean</code> is specified then the only
+      action that is performed is to syncronize the build directories from
+      the cvs directories.  If a project is specified, then the output comes
+      to the screen, using the target you provide.</p>
+    </subsection>
+  </section>
+
+</body>
+</document>

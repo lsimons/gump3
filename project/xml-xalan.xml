@@ -14,7 +14,7 @@
     <depend project="xml-xerces"/>
 
     <home nested="java/build"/>
-    <jar  name="xalan.jar" id="xalan"/>
+    <jar  name="xalan.jar" id="xalan" type="boot"/>
   </project>
 
   <project name="xml-xalan1-compat">
@@ -56,7 +56,7 @@
     <work nested="java/build/classes"/>
 
     <home nested="java/build/xalan-j_gump"/>
-    <jar  name="bin/xalan.jar"/>
+    <jar  name="bin/xalan.jar" type="boot"/>
   </project>
 
   <project name="xml-xalan2-smoketest">
