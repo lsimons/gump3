@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="sourceforge" host-prefix="cvs.qdox" 
-       module="qdox"/>
+       module="qdox" dir="qdox"/>
   
   <project name="qdox">
     <package>com.thoughtworks.qdox</package>
