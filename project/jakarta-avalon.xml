@@ -20,10 +20,8 @@
   <depend project="xml-xerces"/>
   <depend project="xml-xalan2"/>
   <depend project="jsse"/>
-  <depend project="kawa"/>
   <depend project="jdbc"/>
   <depend project="xml-stylebook2"/>
-  <depend project="jdom"/>
 
   <work nested="build/classes"/>
 
@@ -31,12 +29,6 @@
   <jar name="avalon-framework.jar" id="avalon-framework"/>
   <jar name="avalon-excalibur.jar" id="avalon-excalibur"/>
   <jar name="avalon-scratchpad.jar" id="avalon-scratchpad"/>
-
-  <!-- Anybody want to contribute an ant build.xml to Kawa ;-) -->
-  <project name="kawa">
-    <url href="http://www.gnu.org/software/kawa/"/>
-    <jar name="lib/bytecode.jar"/>
-  </project>
 
   <project name="jakarta-avalon-exceptionutil">
     <depend project="jakarta-ant"/>
