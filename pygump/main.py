@@ -391,7 +391,7 @@ def main():
             log.level = DEBUG
     
         # print some basic debug info...
-        log.info("Pyump version %s starting..." % (options.version) )
+        log.info("Pygump version %s starting..." % (options.version) )
         log.info("  (the detailed log is written to %s)" % (log.filename) )
         log.debug('  - hostname           : ' + options.hostname)
         log.debug('  - homedir            : ' + options.homedir)
