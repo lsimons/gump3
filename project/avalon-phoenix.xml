@@ -26,7 +26,7 @@
     <project name="avalon-phoenix">
         <package>org.apache.avalon.phoenix</package>
 
-        <ant target="jars">
+        <ant target="gump">
             <property name="checkstyle.failOnError" value="true"/>
             <depend property="mx4j.jar" project="mx4j" id="mx4j"/>
             <depend property="mx4j-tools.jar" project="mx4j-tools" id="tools"/>
@@ -48,16 +48,22 @@
         <option project="jakarta-servletapi-4" runtime="true"/>
         <depend project="junit"/>
         <depend project="logging-log4j"/>
-
+        
+        <!-- Unlisted Dependencies
+             Spice LoggerStore   http://osdn.dl.sourceforge.net/sourceforge/spice/spice-loggerstore-0.5.tar.gz
+             Spice ConfigKit     http://osdn.dl.sourceforge.net/sourceforge/spice/spice-configkit-1.1.2.tar.gz
+             Spice XMLPolicy     http://osdn.dl.sourceforge.net/sourceforge/spice/spice-xmlpolicy-1.0.tar.gz
+             Spice ClassMan      http://osdn.dl.sourceforge.net/sourceforge/spice/spice-classman-1.0.tar.gz
+        -->
         <work nested="target/classes"/>
 
         <home nested="target/lib"/>
         <jar name="phoenix-client.jar" id="client"/>
 
-        <jar name="phoenix-tools.jar" id="metagenerate"/>
-        <jar name="phoenix-loader.jar" id="loader"/>
-        <jar name="phoenix-engine.jar" id="metagenerate-2"/>
-        <jar name="phoenix-punit.jar" id="punit"/>
+        <jar name="target/lib/phoenix-tools.jar" id="metagenerate"/>
+        <jar name="target/lib/phoenix-loader.jar" id="loader"/>
+        <jar name="target/lib/phoenix-engine.jar" id="metagenerate-2"/>
+        <jar name="target/lib/phoenix-punit.jar" id="punit"/>
 
         <license name="LICENSE.txt"/>
         <javadoc nested="target/javadocs" module="avalon"/>
