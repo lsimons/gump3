@@ -132,7 +132,13 @@
 
       <p>For both script and ant based builds, any jars defined by the
       specified project as outputs are added to the CLASSPATH prior to
-      invoking the build operation.</p>
+      invoking the build operation, unless you nest a
+      &lt;noclasspath&gt; element into the &lt;depend&gt; element.</p>
+
+	<warning>
+          <link href="../python/index.html">Python Gump</link> does
+          NOT (currently) support the &lt;noclasspath&gt; feature.
+  	</warning>
 
       <table>
         <tr>
@@ -180,8 +186,14 @@
 
       <p>For both script and ant based builds, any jars defined by the
       specified project as outputs are added to the CLASSPATH prior to
-      invoking the build operation.  If the files are not present,
-      this will have little effect.</p>
+      invoking the build operation, unless you nest a
+      &lt;noclasspath&gt; element into the &lt;option&gt; element.  If
+      the files are not present, this will have little effect.</p>
+
+	<warning>
+          <link href="../python/index.html">Python Gump</link> does
+          NOT (currently) support the &lt;noclasspath&gt; feature.
+  	</warning>
 
       <table>
         <tr>
