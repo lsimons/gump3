@@ -76,7 +76,7 @@ class Server(NamedModelObject):
     def setResults(self,results):
         self.results=results
         
-    def getResults(self,results):
+    def getResults(self):
         return self.results
         
     def hasTitle(self): 
