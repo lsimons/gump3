@@ -174,7 +174,7 @@
 
     <ant basedir="proposal/embed" target="embed-optional" >
       <property name="ant.home" reference="home" project="ant"/>
-      <depend id="api" project="commons-logging"
+      <depend id="commons-logging-api" project="commons-logging"
               property="commons-logging.jar"/>
       <depend property="jxpath.jar" project="commons-jxpath"/>
       <depend property="velocity.jar" project="jakarta-velocity"/>
