@@ -379,7 +379,7 @@ public class Project {
                 // that dependency.
                 if (source.getAttribute("inherit").equals("jars")) {
                     Element clone = (Element) source.cloneNode(true);
-                    clone.setAttribute("inherit", "runtime");
+                    clone.setAttribute("runtime", "true");
                     inheritance.add(clone);
                 }
             }
