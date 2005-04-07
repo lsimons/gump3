@@ -1,0 +1,7 @@
+if [[ -z "$GUMP_HOME" ]]; then
+  echo "ERROR: \$GUMP_HOME is not set!"
+  exit 1
+fi
+APACHECTL=$GUMP_HOME/webgump/lib/apache2-install/current/bin/apachectl
+APACHECMD=$GUMP_HOME/webgump/lib/apache2-install/current/bin/httpd
+APACHECONF=$GUMP_HOME/webgump/conf/`hostname -s`.conf

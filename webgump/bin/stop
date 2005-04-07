@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Simple script to stop apache
+
+# look for this file
+current=`pwd`
+thisscript="`pwd`/start"
+if [[ -f "$thisscript" ]]; then
+  # guess...
+  scriptdir="$current"
+else
+  # look for the path to this file
+  homedir=`dirname $0`
+  thisscript="$homedir/start"
+  if [[ -f "$thisscript" ]]; then
+    # guess...
+    scriptdir="$homedir"
+  fi
+fi
+
+# source settings
+. $scriptdir/settings
+
+$APACHECTL -f $APACHECONF -k stop

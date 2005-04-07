@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Simple script to get rid of python object files in this webapp
+
+find $GUMP_HOME/webgump -name '*.pyc' -or -name '*.pyo' | xargs rm -f
+

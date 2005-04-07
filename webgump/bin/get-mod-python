@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# Simple script to install mod_python
+
+# Where are we?
+if [[ -z "$GUMP_HOME" ]]; then
+  echo "ERROR: \$GUMP_HOME not set!"
+  exit 1
+fi
+
+###
+### Settings
+###
+MOD_PYTHON_VERSION=3.1.4
+APACHE_INSTALL=$GUMP_HOME/webgump/lib/apache2-install
+WEBGUMP=$GUMP_HOME/webgump
+
+###
+### Install mod_python
+###
+if [[ ! -d "$WEBGUMP/lib/python/mod_python" ]]; then
+  cd $APACHE_INSTALL
+  wget http://dist.apache.easynet.nl/httpd/modpython/mod_python-$MOD_PYTHON_VERSION.tgz
+  tar zxf mod_python-$MOD_PYTHON_VERSION.tgz
+  cd mod_python-$MOD_PYTHON_VERSION
+  ./configure --with-apxs=$APACHE_INSTALL/current/bin/apxs
+  make
+  make install_dso
+  cd dist
+  python setup.py install --install-lib=$WEBGUMP/lib/python
+else
+  echo "WARNING appears mod_python is already installed at"
+  echo "WARNING   $WEBGUMP/lib/python"
+  echo "WARNING We won't attempt re-install"
+fi

@@ -129,6 +129,20 @@ Run pygump.
       If no action is specified, gump passes run as the action to
       execute."
       ;;
+    webgump)
+      echo "
+      Run Webgump.
+
+      Usage:
+        $0 webgump webgump-action [webgump-args ...]
+
+      The available actions are:
+"
+      ls -1 webgump/bin
+      echo "
+      If no action is specified, gump passes debug as the action to
+      execute."
+      ;;
     update-host)
       echo "
       Updates the gump installation on the specified host.
@@ -149,7 +163,7 @@ Run pygump.
       ;;
     create-database)
       echo "
-      Create a new MySQL database with the gump database schema.
+      Create a new MySQL database with the dynagump database schema.
 
       Usage:
         $0 create-database [database-name] [mysql-args ...]
@@ -188,6 +202,7 @@ Run pygump.
         debug           -- run pygump in debug mode
         test            -- run the pygump unit tests
         dynagump        -- run the dynagump web application server
+        webgump         -- run the webgump application server
         update-host     -- update the configuration of a gump host
         create-database -- create a new gump MySQL database
         pycompile       -- compile all pyump source files
@@ -707,6 +722,22 @@ if you wish."
   cd "$current"
 }
 
+# Run webgump
+function webgump
+{
+  # "debug" is the default command
+  local command="$1"
+  shift
+  if [[ -z "$command" ]]; then
+    command="debug"
+  fi
+  
+  local current=`pwd`
+  cd "$GUMP_HOME/webgump"
+  ./bin/$command $@
+  cd "$current"
+}
+
 # Create the gump database
 function create_database
 {
@@ -793,6 +824,9 @@ function delegate
       ;;
     dynagump)
       dynagump $@
+      ;;
+    webgump)
+      webgump $@
       ;;
     create-database)
       create_database $@

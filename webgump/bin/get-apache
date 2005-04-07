@@ -1,0 +1,121 @@
+#!/bin/bash
+# simple script to setup apache
+
+# Where are we?
+if [[ -z "$GUMP_HOME" ]]; then
+  echo "ERROR: \$GUMP_HOME not set!"
+  exit 1
+fi
+
+###
+### Settings
+###
+APACHE_VERSION=2.0.53
+APACHE_INSTALL=$GUMP_HOME/webgump/lib/apache2-install
+
+###
+### Install apache
+###
+if [[ ! -d "$APACHE_INSTALL/current" ]]; then
+  mkdir $APACHE_INSTALL
+  cd $APACHE_INSTALL
+  if [[ ! -d "$APACHE_INSTALL/httpd-$APACHE_VERSION" ]]; then
+    wget http://apache.surfnet.nl/httpd/httpd-$APACHE_VERSION.tar.gz
+    tar zxf httpd-$APACHE_VERSION.tar.gz
+  fi
+  cd $APACHE_INSTALL/httpd-$APACHE_VERSION
+  ./configure --prefix=$APACHE_INSTALL/current --enable-mods-shared=most
+  make
+  make install
+else
+  echo "WARNING appears apache is already installed at"
+  echo "WARNING   $APACHE_INSTALL/current"
+  echo "WARNING We won't attempt re-install"
+fi
+
+###
+### Install mod_python
+###
+$GUMP_HOME/webgump/bin/get-mod-python
+
+###
+### Use our own config
+###
+if [[ -d "$APACHE_INSTALL/current/conf.dist" ]]; then
+  echo "WARNING appears our custom apache config is already installed at"
+  echo "WARNING   $APACHE_INSTALL/current/conf"
+  echo "WARNING We won't attempt re-install"
+else
+  echo "Installing config..."
+  cd $APACHE_INSTALL/current
+  mv conf conf.dist
+  ln -s $GUMP_HOME/webgump/conf
+  cd conf
+fi
+
+# Write the basic path-dependent config settings into a seperate file
+host=`hostname -s`
+if [[ -f "$GUMP_HOME/webgump/conf/$host.conf" ]]; then
+  echo "WARNING appears machine specific apache config is already installed at"
+  echo "WARNING   $GUMP_HOME/webgump/conf/$host.conf"
+  echo "WARNING We won't attempt re-install"
+else
+  echo "Installing machine-specific config"
+  cat > $GUMP_HOME/webgump/conf/$host.conf <<ENDECHO
+ServerName $host
+ServerRoot "$APACHE_INSTALL/current"
+# get most settings from the common config
+Include "conf/httpd.conf"
+
+ErrorLog "$GUMP_HOME/webgump/logs/error_log"
+
+DocumentRoot "$GUMP_HOME/webgump/htdocs"
+<Directory />
+    Options FollowSymLinks
+    AllowOverride None
+</Directory>
+
+<Directory "$GUMP_HOME/webgump/htdocs">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+
+<Directory "$GUMP_HOME/webgump/htdocs/app">
+    AddHandler python-program .py
+    PythonHandler handler::Handler.handle
+    PythonPath "sys.path+['$GUMP_HOME/webgump/conf', '$GUMP_HOME/webgump/htdocs/app', '$GUMP_HOME/webgump/lib/python', '$GUMP_HOME/pygump/python']"
+    PythonDebug On
+
+    Order allow,deny
+    Allow from all
+
+    Options +Includes
+    SetOutputFilter INCLUDES
+    AcceptPathInfo On
+</Directory>
+ENDECHO
+
+fi
+
+###
+### Done. Report!
+###
+cat <<ENDMSG
+
+if All went well, apache2 is now installed inside
+
+  $APACHE_INSTALL/current
+
+ You may wish to customize the file
+
+ "$GUMP_HOME/webgump/conf/$host.conf"
+
+to further customize webgump's behaviour. After that,
+you should be able to run apache using
+
+ $GUMP_HOME/webgump/bin/start
+
+good luck!
+ENDMSG
