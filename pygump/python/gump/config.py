@@ -166,7 +166,7 @@ class Config:
         if name == 'debug':
             return self.loglevel >= logging.DEBUG
         if name == 'paths_pygump':
-            return os.path.jion(self.paths_home, "pygump")
+            return os.path.join(self.paths_home, "pygump")
         if name == 'paths_metadata':
             return os.path.join(self.paths_home, "metadata")
         if name == 'do_mail':
