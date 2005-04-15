@@ -17,7 +17,18 @@
 """This module provides a thin wrapper around the subprocess library.
 
 On posix platforms, it does process group management to allow us to clean up
-misbehaved processes."""
+misbehaved processes.
+
+To start using this module, simply replace all imports of the subprocess
+module with imports of the gump.util.executor module. It defines a Popen
+class that has the same behaviour as the Popen class in the subprocess
+module.
+
+Next, near the end of your application (right before you're calling
+system.exit(), usually), add a call to the clean_up_processes() method. This
+will attempt to clean up any leftover children created by this module. Note
+that doing this can take some time depending on how well-behaved your children
+are!"""
 
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
@@ -105,7 +116,7 @@ else:
                      cwd=cwd, env=env, universal_newlines=universal_newlines,
                      startupinfo=startupinfo, creationflags=creationflags)
 
-    def clean_up_processes(timeout):
+    def clean_up_processes(timeout=300):
         """This function can be called prior to program exit to attempt to
         kill all our running children that were created using this module."""
     
@@ -139,7 +150,7 @@ else:
                 if e.errno == errno.ESRCH:
                     pgrp_list.remove(pgrp)
 
-    def _reap_children(pgrp_list, timeout=300):
+    def _reap_children(pgrp_list, timeout):
         # NOTE: this function edits pgrp_list
       
         # keep reaping until the timeout expires, or we finish
@@ -147,6 +158,11 @@ else:
       
         # keep reaping until all pgrps are done, or we run out of time
         while pgrp_list and time.time() < end_time:
+            # if there's no groups left, we're done, so let's
+            # exit early!
+            if len(pgrp_list) == 0:
+                break
+            
             # pause for a bit while processes work on exiting. this pause is
             # at the top, so we can also pause right after the killpg()
             time.sleep(1)
