@@ -403,6 +403,7 @@ def main():
     
     # create logger
     log = _Logger(options.logdir)
+    exitcode = 0
     try:
         if options.debug:
             log.level = DEBUG
@@ -452,11 +453,27 @@ def main():
                 log.exception("Unable to send e-mail to administrator")
                 pass
             
-            sys.exit(1)
+            exitcode = 1
     finally:
+        # rigorously clean up our child processes
+        try:
+            timeout = 300
+            try:
+                log.debug("Cleaning up child processes. This may take up to a little over %s seconds." % (timeout+100))
+            except:
+                pass
+            from gump.util.executor import clean_up_processes
+            clean_up_processes(timeout)
+        except:
+            try:
+                log.exception("Error cleaning up child processes!")
+            except:
+                pass
+    
+        # close the logs
         try:
             log.close()
         except:
             pass
     
-    sys.exit(0)
+    sys.exit(exitcode)
