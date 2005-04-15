@@ -109,7 +109,9 @@ def get_plugins(config):
 
     from gump.plugins import LoggingPlugin
     log = get_logger(config, "plugin")
-    plugins.append(LoggingPlugin(log))
+
+    from gump.plugins.mkdirbuilder import MkdirBuilderPlugin
+    plugins.append(MkdirBuilderPlugin(config.paths_work))
     
     post_process_plugins = []
     # TODO: append more plugins here...
