@@ -95,6 +95,8 @@ def get_plugins(config):
     # Note that in general, the ordering of these plugins is vital to ensuring
     # correct functionality!
     #
+    log = get_logger(config, "plugin")
+
     pre_process_plugins = []
     # TODO: append more plugins here...
     
@@ -110,7 +112,6 @@ def get_plugins(config):
     # TODO: append more plugins here...
 
     from gump.plugins import LoggingPlugin
-    log = get_logger(config, "plugin")
 
     # by contract, rmdir always needs to go before mkdir!
     from gump.plugins.dirbuilder import RmdirBuilderPlugin
@@ -118,16 +119,24 @@ def get_plugins(config):
     from gump.plugins.dirbuilder import MkdirBuilderPlugin
     plugins.append(MkdirBuilderPlugin(config.paths_work))
     
+    from gump.plugins.builder import ScriptBuilderPlugin
+    plugins.append(ScriptBuilderPlugin(config.paths_work))
+
     post_process_plugins = []
     # TODO: append more plugins here...
     post_process_plugins.append(TimerPlugin("run_end"))
-
-    from gump.plugins.dynagumper import Dynagumper
-    log = get_logger(config, "util")
-    db = get_db(log,config)
-    log = get_logger(config, "plugin.dynagumper")
-    post_process_plugins.append(Dynagumper(db, log))
     
+    from gump.plugins.dynagumper import Dynagumper
+    dblog = get_logger(config, "util")
+    db = get_db(dblog,config)
+    dynagumplog = get_logger(config, "plugin.dynagumper")
+    post_process_plugins.append(Dynagumper(db, dynagumplog))
+    
+    if config.debug:
+        reportlog = get_logger(config, "plugin.logger")
+        from gump.plugins.logreporter import LogReporterPlugin
+        post_process_plugins.append(LogReporterPlugin(reportlog))
+
     return (pre_process_plugins, plugins, post_process_plugins)
 
 
@@ -168,10 +177,8 @@ class Config:
     def __getattr__(self,name):
         """Calculate missing settings from other settings at runtime."""
         if hasattr(self.settings, name):
-            return self.settings.name
+            return getattr(self.settings, name)
 
-        if name == 'debug':
-            return self.loglevel >= logging.DEBUG
         if name == 'paths_pygump':
             return os.path.join(self.paths_home, "pygump")
         if name == 'paths_metadata':
