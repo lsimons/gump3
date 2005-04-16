@@ -539,7 +539,7 @@ function pycompile
   # import all modules, one by one, to check syntax
   local current=`pwd`
   cd $GUMP_HOME/pygump
-  local files=`find . -name '*.py' | sed -e 's/\.\///g' -e 's/\//./g' -e 's/\.py//g' -e 's/python\.//g' | grep -v __init__`
+  local files=`find . -name '*.py' -not -path './work*' | sed -e 's/\.\///g' -e 's/\//./g' -e 's/\.py//g' -e 's/python\.//g' | grep -v __init__`
   for i in $files; do
     $GUMP_PYTHON -c "import $i"
   done
