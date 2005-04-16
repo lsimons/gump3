@@ -984,8 +984,9 @@ class Objectifier:
             dependency_project = dependency_name
         
         id = dependency.getAttribute("id")
-        new_dependency = Dependency(dependency_project,project,optional,runtime,inherit,id)
-        project.add_dependency(Dependency(dependency_project,project,optional,runtime,inherit,id))
+        
+        relationship = project.get_dependency_on_project(dependency_project)
+        relationship.add_dependency_info(DependencyInfo(relationship,optional,runtime,inherit,id))
 
 
 class VerificationError(ModellerError):

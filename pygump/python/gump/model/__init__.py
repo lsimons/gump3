@@ -298,6 +298,22 @@ class Project(ModelObject):
                                                             # dependency
             relationship.dependency.add_dependee(relationship)
     
+    def get_dependency_on_project(self, dependency):
+        """Retrieve the relationship object for this dependency.
+        
+        If this project already has a declared relationship with the project
+        specified as the dependency argument, return that relationship. If not,
+        create a new relationship object, add it to "self", then return it."""
+        assert isinstance(dependency, Project)
+        
+        for relationship in self.dependencies:
+            if relationship.dependency == dependency:
+                return relationship
+        
+        new_relationship = Dependency(dependency,self)
+        self.add_dependency(new_relationship)
+        return new_relationship
+    
     def add_dependee(self, relationship):
         #print "%s is told that %s is a dependee of %s" % (self.name, relationship.dependee.name, self.name)
         self.dependees.append(relationship)
@@ -321,16 +337,6 @@ DEPENDENCY_INHERIT_HARD          = "hard"
 DEPENDENCY_INHERIT_COPY_OUTPUTS  = "copy-outputs"
 DEPENDENCY_INHERIT_JARS          = DEPENDENCY_INHERIT_COPY_OUTPUTS
 
-# TODO currently the model is one project has many dependencies which may be
-# further specified by output id, meaning a project can have multiple
-# dependencies with a different id but on the same project. This potentially
-# leads to a big performance hit on the graphing code and the like. Maybe it
-# is a better idea to have multiple (optional,runtime,inherit,id) pairs
-# associated with a (dependency,dependee) pair. Might rename "dependency" to
-# "relationship" and call "(optional,runtime,inherit,id)" the "dependency".
-#
-# That would mean a mismatch between object model and xml model that's a little
-# bigger than what we have now. Hmm.
 class Dependency(ModelObject):
     """Model a dependency.
     
@@ -344,6 +350,35 @@ class Dependency(ModelObject):
                         it doesn't actually exist (ie that's an error
                         condition).
         - dependee -- the project that is depending on the other project
+        - dependencyInfo -- an array of DependencyInfo objects further
+                            qualifying this dependency
+    """
+    def __init__(self,
+                 dependency,
+                 dependee,
+                 dependencyInfo = []):
+        assert isinstance(dependency, Project)
+        assert isinstance(dependee, Project)
+        for info in dependencyInfo:
+            assert isinstance(info, DependencyInfo)
+        self.dependency         = dependency
+        self.dependee           = dependee
+        self.dependencyInfo     = dependencyInfo
+    
+    def add_dependency_info(self, info):
+        assert isinstance(info, DependencyInfo)
+        self.dependencyInfo.append(info)
+
+class DependencyInfo(ModelObject):
+    """Model information about a particular dependency.
+    
+    DependencyInfo objects are used to describe additional information about
+    a dependency besides just what projects relate to each other. Each
+    Dependency can have multiple DependencyInfo objects associated with it
+    detailing exactly what is depended on in the dependency.
+    
+    Has the following properties:
+        - dependency -- the Dependency instance this info is associated with
         - optional   -- flag indicating whether the dependee can be built and
                         used if this dependency cannot be satisfied
         - runtime    -- flag indicating whether the dependee needs this
@@ -355,15 +390,12 @@ class Dependency(ModelObject):
     """
     def __init__(self,
                  dependency,
-                 dependee,
                  optional = False,
                  runtime  = False,
                  inherit  = DEPENDENCY_INHERIT_NONE,
                  specific_output_id = None):
-        assert isinstance(dependency, Project)
-        assert isinstance(dependee, Project)
+        assert isinstance(dependency, Dependency)
         self.dependency         = dependency
-        self.dependee           = dependee
         self.optional           = optional
         self.runtime            = runtime
         self.inherit            = inherit
