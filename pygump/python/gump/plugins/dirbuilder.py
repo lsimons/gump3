@@ -18,11 +18,13 @@ __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 from gump.model import Mkdir
+from gump.model import Rmdir
 from gump.model import Error
 from gump.model.util import get_project_directory
 from gump.plugins import AbstractPlugin
 
 import os
+import shutil
 
 class MkdirBuilderPlugin(AbstractPlugin):
     """Execute all "mkdir" commands for all projects."""
@@ -44,3 +46,24 @@ class MkdirBuilderPlugin(AbstractPlugin):
     def visit_project(self, project):
         for command in [command for command in project.commands if isinstance(command,Mkdir)]:
             self._do_mkdir(project, command.directory)
+
+class RmdirBuilderPlugin(AbstractPlugin):
+    """Execute all "rmdir" commands for all projects."""
+    def __init__(self, workdir):
+        self.workdir = workdir
+        
+    def _do_rmdir(self, project, directory):
+        projectpath = get_project_directory(self.workdir,project)
+        dirpath = os.path.abspath(os.path.join(projectpath,directory))
+        if not dirpath.startswith(projectpath):
+            raise Error, "Directory '%s' to be deleted not within project path '%s'!" % (directory, projectpath)
+        
+        if os.path.exists(dirpath):
+            if not os.path.isdir(dirpath):
+                raise Error, "Directory path '%s' to be removed exists as a file!" % dirpath
+            
+            shutil.rmtree(dirpath)
+
+    def visit_project(self, project):
+        for command in [command for command in project.commands if isinstance(command,Rmdir)]:
+            self._do_rmdir(project, command.directory)

@@ -22,17 +22,42 @@ from unittest import TestCase
 
 from tempfile import mkdtemp
 from os import mkdir
+from os import makedirs
 from os.path import abspath
 from os.path import isdir
 from os.path import join
 
 from shutil import rmtree
 
-from gump.plugins.mkdirbuilder import MkdirBuilderPlugin
+from gump.plugins.dirbuilder import MkdirBuilderPlugin
+from gump.plugins.dirbuilder import RmdirBuilderPlugin
 
 from gump.model import Error, Workspace, Repository, Module, Project, Mkdir, Rmdir
 
-class MkdirBuilderTestCase(TestCase):
+class DirBuilderTestCase(TestCase):
+    def test_do_rmdir(self):
+        basedir = abspath(mkdtemp())
+        try:
+            w = Workspace("w")
+            mkdir(join(basedir,w.name))
+            r = Repository(w,"r")
+            mkdir(join(basedir,w.name,r.name))
+            m = Module(r,"m")
+            mpath = join(basedir,w.name,r.name,m.name)
+            mkdir(mpath)
+            p = Project(m,"p")
+
+            cmd = Rmdir(p,"somedir")
+
+            plugin = RmdirBuilderPlugin(basedir)
+            
+            makedirs(join(mpath, cmd.directory, "nested", "stuff", "here"))
+            plugin._do_rmdir(cmd.project, cmd.directory)
+            self.assertFalse(isdir(join(mpath,cmd.directory)))
+            self.assert_(isdir(join(mpath)))
+        finally:
+            rmtree(basedir)
+        
     def test_do_mkdir(self):
         basedir = abspath(mkdtemp())
         try:
@@ -84,7 +109,7 @@ class MkdirBuilderTestCase(TestCase):
 
 # this is used by testrunner.py to determine what tests to run
 def test_suite():
-    return unittest.makeSuite(MkdirBuilderTestCase,'test')
+    return unittest.makeSuite(DirBuilderTestCase,'test')
 
 # this allows us to run this test by itself from the commandline
 if __name__ == '__main__':

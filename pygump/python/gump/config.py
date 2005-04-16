@@ -91,7 +91,10 @@ def get_plugins(config):
     The config argument provided is an instance of the _Config class that is
     returned from the get_config method below.
     """
-    
+    #
+    # Note that in general, the ordering of these plugins is vital to ensuring
+    # correct functionality!
+    #
     pre_process_plugins = []
     # TODO: append more plugins here...
     
@@ -109,7 +112,10 @@ def get_plugins(config):
     from gump.plugins import LoggingPlugin
     log = get_logger(config, "plugin")
 
-    from gump.plugins.mkdirbuilder import MkdirBuilderPlugin
+    # by contract, rmdir always needs to go before mkdir!
+    from gump.plugins.dirbuilder import RmdirBuilderPlugin
+    plugins.append(RmdirBuilderPlugin(config.paths_work))
+    from gump.plugins.dirbuilder import MkdirBuilderPlugin
     plugins.append(MkdirBuilderPlugin(config.paths_work))
     
     post_process_plugins = []

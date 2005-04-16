@@ -50,9 +50,11 @@
       <module name="ant"/>
     </project>
     
-    <project name="test-attempt-mkdirs">
+    <project name="test-attempt-dir-management">
       <module name="ant"/>
       
+      <!-- commands -->
+      <rmdir dir="some"/>
       <mkdir dir="some/directory"/>
     </project>
     
