@@ -14,7 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Contains several modules which can be plugged into the pygump engine."""
+"""Contains several modules which can be plugged into the pygump engine.
+
+A plugin is an instance of a class that extends AbstractPlugin. See the
+documentation for AbstractPlugin to learn more about the contracts 
+surrounding plugins.
+"""
 
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
@@ -56,6 +61,8 @@ class AbstractPlugin:
         - visit_project(project)
         - finalize()
     
+    Ordering
+    --------
     Each of these methods will be called in a "topologically sorted" order.
     Concretely, this means that:
         
@@ -71,6 +78,30 @@ class AbstractPlugin:
     
     More concretely, this means plugins usually do not have to worry about
     the correct ordering of events, since this is usually what you want.
+    
+    Error handling
+    --------------
+    Plugins are expected to raise an exception (usually gump.model.Error)
+    if there is a problem with the model that prevents them from functioning
+    as intended. If they are able to proceed but their execution results in
+    a failure (which is not uncommon in the gump world at all), the plugin
+    should *not* raise an exception but rather annotate the model with the
+    information about that exception.
+    
+    Model annotation
+    ----------------
+    Plugins are expected to communicate with their environment through reading
+    properties from the gump object model or setting properties on that model.
+    
+    In general, plugins that execute commands are expected to set the return
+    code for that command as a "$action_exit_status" property on whatever part
+    of the model makes most sense, for example a plugin that executes a Script
+    model element should set the "build_exit_status" property on that element.
+    
+    Also in general, plugins that execute commands are expected to place the
+    output (both stdout and stderr) of their commands as a "$action_log"
+    property on the relevant part of the model, where "$action" is the
+    conceptual task they are performing (update,build,...).
     """
     def __init__(self, log):
         self.log = log
