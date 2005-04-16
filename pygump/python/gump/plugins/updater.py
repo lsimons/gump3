@@ -20,10 +20,15 @@ __copyright__ = "Copyright (c) 2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import os
-import commands
 
 from gump.plugins import AbstractPlugin
 from gump.model import CvsRepository, SvnRepository
+from gump.model.util import get_repository_directory
+from gump.model.util import get_module_directory
+
+from gump.util.executor import Popen
+from gump.util.executor import PIPE
+from gump.util.executor import STDOUT
 
 UPDATE_TYPE_CHECKOUT="checkout"
 UPDATE_TYPE_UPDATE="update"
@@ -33,20 +38,14 @@ class ModuleUpdater(AbstractPlugin):
         self.workdir = workdir
 
     def visit_repository(self, repository):
-        repopath = self.get_repo_path(repository)
+        repopath = get_repository_directory(self.workdir, repository)
         if not os.path.exists(repopath):
-            os.mkdir(repopath)
+            os.makedirs(repopath)
 
     def visit_module(self, module):
-        modulepath = self.get_module_path(module)
+        modulepath = get_module_directory(self.workdir, module)
         if not os.path.exists(modulepath):
-            os.mkdir(modulepath)
-            
-    def get_repo_path(self, repository):
-        return os.path.join(self.workdir, repository.name)
-
-    def get_module_path(self, module):
-        return os.path.join(self.get_repo_path(module.repository), module.name)
+            os.makedirs(modulepath)
 
 class CvsUpdater(ModuleUpdater):
     def __init__(self, workdir):
@@ -61,7 +60,7 @@ class CvsUpdater(ModuleUpdater):
 
         ModuleUpdater.visit_module(self, module)
 
-        repopath = self.get_repo_path(module)
+        repopath = get_repository_directory(self.workdir, module.repository)
         current = os.path.curdir
         os.chdir(repopath)
         cvsdir = os.path.join(repopath, module.name, 'CVS')
@@ -73,18 +72,15 @@ class CvsUpdater(ModuleUpdater):
     
     def checkout(self, module):
         repository = module.repository.to_url()
-        cmd = 'cvs -d %s checkout %s' % (repository, module.name)
-        (status, output) = commands.getstatusoutput(cmd)
-        module.update_log = output
-        module.update_exit_status = status
+        cvs = Popen(['cvs', '-d', repository, 'checkout', module.name], stdout=PIPE, stderr=STDOUT)
+        module.update_log = cvs.communicate()[0]
+        module.update_exit_status = cvs.wait()
         module.update_type = UPDATE_TYPE_CHECKOUT
     
     def update(self, module):
-        cmd = 'cvs up -Pd'
-
-        (status, output) = commands.getstatusoutput(cmd)
-        module.update_log = output
-        module.update_exit_status = status
+        cvs = Popen(['cvs', 'up', '-Pd'], stdout=PIPE, stderr=STDOUT)
+        module.update_log = cvs.communicate()[0]
+        module.update_exit_status = cvs.wait()
         module.update_type = UPDATE_TYPE_UPDATE
 
 class SvnUpdater(ModuleUpdater):
@@ -100,7 +96,7 @@ class SvnUpdater(ModuleUpdater):
 
         ModuleUpdater.visit_module(self, module)
 
-        modulepath = self.get_module_path(module)
+        modulepath = get_module_directory(module)
         current = os.path.curdir
         os.chdir(modulepath)
         svndir = os.path.join(modulepath, '.svn')
@@ -112,17 +108,13 @@ class SvnUpdater(ModuleUpdater):
     
     def checkout(self, module):
         repository = module.repository.url + '/' + module.path
-        cmd = 'svn checkout %s .' % repository
-        
-        (status, output) = commands.getstatusoutput(cmd)
-        module.update_log = output
-        module.update_exit_status = status
+        svn = Popen(['svn', 'checkout', repository, '.'], stdout=PIPE, stderr=STDOUT)
+        module.update_log = svn.communicate()[0]
+        module.update_exit_status = svn.wait()
         module.update_type = UPDATE_TYPE_CHECKOUT
     
     def update(self, module):
-        cmd = 'svn up'
-
-        (status, output) = commands.getstatusoutput(cmd)
-        module.update_log = output
-        module.update_exit_status = status
-        module.update_type = UPDATE_TYPE_UPDATE
+        svn = Popen(['svn', 'up'], stdout=PIPE, stderr=STDOUT)
+        module.update_log = svn.communicate()[0]
+        module.update_exit_status = svn.wait()
+        module.update_type = UPDATE_TYPE_CHECKOUT
