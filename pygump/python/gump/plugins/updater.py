@@ -62,23 +62,22 @@ class CvsUpdater(ModuleUpdater):
 
         repopath = get_repository_directory(self.workdir, module.repository)
         current = os.path.curdir
-        os.chdir(repopath)
-        cvsdir = os.path.join(repopath, module.name, 'CVS')
+        modulepath = os.path.join(repopath, module.name)
+        cvsdir = os.path.join(modulepath, 'CVS')
         if not os.path.exists(cvsdir):
-            self.checkout(module)
+            self.checkout(module, repopath)
         else:
-            self.update(module)
-        os.chdir(current)
+            self.update(module, modulepath)
     
-    def checkout(self, module):
+    def checkout(self, module, cwd):
         repository = module.repository.to_url()
-        cvs = Popen(['cvs', '-d', repository, 'checkout', module.name], stdout=PIPE, stderr=STDOUT)
+        cvs = Popen(['cvs', '-Q', '-d', repository, 'checkout', module.name], cwd=cwd, stdout=PIPE, stderr=STDOUT)
         module.update_log = cvs.communicate()[0]
         module.update_exit_status = cvs.wait()
         module.update_type = UPDATE_TYPE_CHECKOUT
     
-    def update(self, module):
-        cvs = Popen(['cvs', 'up', '-Pd'], stdout=PIPE, stderr=STDOUT)
+    def update(self, module, cwd):
+        cvs = Popen(['cvs', '-Q', 'up', '-Pd'], cwd=cwd, stdout=PIPE, stderr=STDOUT)
         module.update_log = cvs.communicate()[0]
         module.update_exit_status = cvs.wait()
         module.update_type = UPDATE_TYPE_UPDATE
@@ -101,20 +100,23 @@ class SvnUpdater(ModuleUpdater):
         os.chdir(modulepath)
         svndir = os.path.join(modulepath, '.svn')
         if not os.path.exists(svndir):
-            self.checkout(module)
+            self.checkout(module, modulepath)
         else:
-            self.update(module)
+            self.update(module, moduelpath)
         os.chdir(current)
     
-    def checkout(self, module):
+    def checkout(self, module, cwd):
         repository = module.repository.url + '/' + module.path
-        svn = Popen(['svn', 'checkout', repository, '.'], stdout=PIPE, stderr=STDOUT)
+        if not os.path.exists(cwd):
+            os.makedirs(cwd)
+        
+        svn = Popen(['svn', 'checkout', repository, '.'], cwd=cwd, stdout=PIPE, stderr=STDOUT)
         module.update_log = svn.communicate()[0]
         module.update_exit_status = svn.wait()
         module.update_type = UPDATE_TYPE_CHECKOUT
     
-    def update(self, module):
-        svn = Popen(['svn', 'up'], stdout=PIPE, stderr=STDOUT)
+    def update(self, module, cwd):
+        svn = Popen(['svn', 'up'], cwd=cwd, stdout=PIPE, stderr=STDOUT)
         module.update_log = svn.communicate()[0]
         module.update_exit_status = svn.wait()
         module.update_type = UPDATE_TYPE_CHECKOUT
