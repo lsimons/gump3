@@ -50,6 +50,12 @@
       <module name="ant"/>
     </project>
     
+    <project name="test-attempt-mkdirs">
+      <module name="ant"/>
+      
+      <mkdir dir="some/directory"/>
+    </project>
+    
     <project name="bootstrap-ant">
       <module name="ant"/>
       

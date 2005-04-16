@@ -39,8 +39,8 @@ class MkdirBuilderPlugin(AbstractPlugin):
             if os.path.exists(dirpath):
                 raise Error, "Directory path '%s' to be created exists as a file!" % dirpath
             
-            os.mkdir(dirpath)
+            os.makedirs(dirpath)
 
-    def visit_project(self, project):    
+    def visit_project(self, project):
         for command in [command for command in project.commands if isinstance(command,Mkdir)]:
             self._do_mkdir(project, command.directory)

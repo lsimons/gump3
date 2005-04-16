@@ -53,6 +53,10 @@ class MkdirBuilderTestCase(TestCase):
             self.assert_(isdir(join(mpath,cmd.directory)))
             rmtree(join(mpath,cmd.directory))
             
+            plugin._do_mkdir(cmd.project, "some/nested/directory")
+            self.assert_(isdir(join(mpath,"some/nested/directory")))
+            rmtree(join(mpath,"some/nested/directory"))
+
             p.add_command(cmd)
             cmd2 = Mkdir(p,"somedir2")
             p.add_command(cmd2)
