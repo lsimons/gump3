@@ -75,9 +75,8 @@ def get_config(settings):
     config.database_user = settings.databaseuser
     config.database_password = settings.databasepassword
     
-    # set up logging
-    from logging.config import fileConfig
-    fileConfig('gump.log.config')
+    # set up other stuff
+    run_config_hooks(config)
     
     return config
 
@@ -99,10 +98,10 @@ def get_plugins(config):
     from gump.plugins.instrumentation import TimerPlugin
     pre_process_plugins.append(TimerPlugin("run_start"))
     
-    from gump.plugins.updater import CvsUpdater, SvnUpdater
-    pre_process_plugins.append(CvsUpdater(config.paths_work))
-    pre_process_plugins.append(SvnUpdater(config.paths_work))
-    
+    if config.do_update:
+        from gump.plugins.updater import CvsUpdater, SvnUpdater
+        pre_process_plugins.append(CvsUpdater(config.paths_work))
+        pre_process_plugins.append(SvnUpdater(config.paths_work))
     
     plugins = []
     # TODO: append more plugins here...
@@ -259,3 +258,19 @@ def get_plugin(config):
     return (MulticastPlugin(pre_process_plugins, error_handler),
             MulticastPlugin(plugins, error_handler),
             MulticastPlugin(post_process_plugins, error_handler))
+
+#
+# Miscellaneous configuration bits
+#
+def run_config_hooks(config):
+    """This function is the place to configure all things that aren't cleanly
+    "class-based", for example per-module configuration."""
+
+    # set up logging module
+    from logging.config import fileConfig
+    fileConfig('gump.log.config')
+    
+    # set up gump.util.executor module
+    # this will make Popen log all invocations
+    import gump.util.executor
+    gump.util.executor._log = get_logger(config, "util.executor")

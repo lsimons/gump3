@@ -30,10 +30,19 @@ will attempt to clean up any leftover children created by this module. Note
 that doing this can take some time depending on how well-behaved your children
 are!"""
 
+# The reason we aren't using a cleaner class-based setup here like we do with
+# most of the other utility methods is that doing things this way (providing a
+# Popen class) means this module can be used as a drop-in replacement for the
+# subprocess module, which is, simply put, very convenient!
+
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import sys
+
+# set this to a logging-module-compatible logger to make this module log all
+# the commands it executes
+_log = None
 
 if sys.platform == "win32":
     from subprocess import PIPE
@@ -108,6 +117,10 @@ else:
                 # call in there while still supporting the originally provided
                 # function
                 pre_exec_function = lambda: (preexec_fn(),os.setpgid(0, _our_process_group))
+            
+            # a logger can be set for this module to make us log commands
+            if _log:
+                _log.debug("Executing command: '%s' in directory '%s'" % (" ".join(args),os.path.abspath(cwd or os.curdir)))
             
             subprocess.Popen.__init__(self, args, bufsize=bufsize, executable=executable,
                      stdin=stdin, stdout=stdout, stderr=stderr,

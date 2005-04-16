@@ -28,6 +28,22 @@ from subprocess import PIPE
 from gump.util.executor import clean_up_processes
 
 class ZZZExecutorUtilTestCase(TestCase):
+    def test_command_logging(self):
+        if sys.platform == "win32":
+            return
+        
+        class _DummyLogger:
+            msg = None
+            
+            def debug(self,msg):
+                self.msg = msg
+        import gump.util.executor
+        gump.util.executor._log = _DummyLogger()
+        result = Popen(["pwd"], stdout=PIPE).communicate()[0]
+        self.assertNotEqual(None, gump.util.executor._log.msg)
+        self.assert_(gump.util.executor._log.msg.index("pwd") >= 0)
+        gump.util.executor._log = None
+        
     def test_zzz_run_simple_command_then_clean_up_processes(self):
         if sys.platform == "win32":
             return
