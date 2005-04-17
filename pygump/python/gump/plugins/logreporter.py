@@ -32,15 +32,26 @@ class LogReporterPlugin(AbstractPlugin):
         self.log.debug(hr)
 
     def _do_visit(self, object, container=None):
+        name = getattr(object, "name", "unnamed %s" % type(object))
+        if container:
+            if hasattr(container, "name"):
+                name = "%s:%s" % (container.name, name)
+
         for attribute in dir(object):
             if attribute.endswith("_log"):
                 logmsg = getattr(object,attribute)
-                name = getattr(object, "name", "unnamed %s" % type(object))
-                if container:
-                    if hasattr(container, "name"):
-                        name = "%s:%s" % (container.name, name)
                 self.log.debug("---%s.%s----------------------------------:\n%s" % (name, attribute, logmsg))
                 self.log.debug(hr)
+
+        if hasattr(object, 'exceptions'):
+            import StringIO
+            import traceback
+            for entry in object.exceptions:
+                target = StringIO.StringIO()
+                traceback.print_tb(entry[2], file=target)
+                trace = target.getvalue()
+                target.close()
+                self.log.error("---%s--exception--%s:%s------:\n%s" % (name, entry[0], entry[1], trace))
     
     def visit_workspace(self, workspace):
         self._do_visit(workspace)
