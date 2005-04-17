@@ -26,6 +26,8 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import sys
 
+from gump.model import ModelObject
+
 class BaseErrorHandler:
     """Base error handler for use with the MulticastPlugin.
     
@@ -48,6 +50,22 @@ class LoggingErrorHandler:
         """Override this method to be able to swallow exceptions."""
         self.log.exception("%s threw an exception while visiting %s!" % (visitor, visited_model_object))
         raise type, value
+
+class OptimisticLoggingErrorHandler:
+    """Logging error handler for use with the MulticastPlugin.
+    
+    This handler logs a caught error then stores it on the model.
+    """
+    def __init__(self, log):
+        self.log = log
+
+    def handle(self, visitor, visited_model_object, type, value, traceback):
+        """Override this method to be able to swallow exceptions."""
+        self.log.exception("%s threw an exception while visiting %s!" % (visitor, visited_model_object))
+        if isinstance(visited_model_object, ModelObject):
+            if not hasattr(visited_model_object, 'exceptions'):
+                visited_model_object.exceptions = []
+            visited_model_object.exceptions.append( (type, value, traceback) )
 
 class AbstractPlugin:
     """Base class for all plugins.
