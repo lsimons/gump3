@@ -155,9 +155,10 @@ def get_error_handler(config):
 
     # TODO: implement an error handler that does actual recovery...
     
-    from gump.plugins import LoggingErrorHandler
+    #from gump.plugins import LoggingErrorHandler
+    from gump.plugins import OptimisticLoggingErrorHandler
     log = get_logger(config, "plugin.error-handler")
-    return LoggingErrorHandler(log)
+    return OptimisticLoggingErrorHandler(log)
 
 ###
 ### Changing anything below this line is for advanced gump hackers only!
