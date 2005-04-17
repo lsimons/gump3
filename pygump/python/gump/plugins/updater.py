@@ -20,6 +20,7 @@ __copyright__ = "Copyright (c) 2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import os
+import shutil
 
 from gump.plugins import AbstractPlugin
 from gump.model import CvsRepository, SvnRepository
@@ -70,14 +71,20 @@ class CvsUpdater(ModuleUpdater):
             self.update(module, modulepath)
     
     def checkout(self, module, cwd):
+        # no 'CVS', but there is a module dir. That could cause cvs to fail.
+        # get rid of the contents...
+        targetdir=os.path.join(cwd, module.name)
+        if os.path.exists(targetdir):
+            shutil.rmtree(targetdir)
+
         repository = module.repository.to_url()
-        cvs = Popen(['cvs', '-Q', '-d', repository, 'checkout', module.name], cwd=cwd, stdout=PIPE, stderr=STDOUT)
+        cvs = Popen(['cvs', '-q', '-d', repository, 'checkout', module.name], cwd=cwd, stdout=PIPE, stderr=STDOUT)
         module.update_log = cvs.communicate()[0]
         module.update_exit_status = cvs.wait()
         module.update_type = UPDATE_TYPE_CHECKOUT
     
     def update(self, module, cwd):
-        cvs = Popen(['cvs', '-Q', 'up', '-Pd'], cwd=cwd, stdout=PIPE, stderr=STDOUT)
+        cvs = Popen(['cvs', '-q', 'up', '-Pd'], cwd=cwd, stdout=PIPE, stderr=STDOUT)
         module.update_log = cvs.communicate()[0]
         module.update_exit_status = cvs.wait()
         module.update_type = UPDATE_TYPE_UPDATE
