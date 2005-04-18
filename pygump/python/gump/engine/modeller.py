@@ -202,6 +202,11 @@ class Loader:
                      be None only if the workspace to load does not contain
                      any hrefs.
         """
+        assert hasattr(log, "warning")
+        assert callable(log.warning)
+        if vfs:
+            assert hasattr(vfs, "get_as_stream")
+            assert callable(vfs.get_as_stream)
         self.log = log
         self.vfs = vfs
     
@@ -228,9 +233,10 @@ class Loader:
     
     def _resolve_hrefs_in_workspace(self, ws, dropped_nodes):
         """Redirects to _resolve_hrefs_in_children."""
-        self._resolve_hrefs_in_children(ws, dropped_nodes)
+        found_hrefs=[]
+        self._resolve_hrefs_in_children(ws, dropped_nodes, found_hrefs)
     
-    def _resolve_hrefs_in_children(self, element, dropped_nodes):
+    def _resolve_hrefs_in_children(self, element, dropped_nodes, found_hrefs):
         """Recursively resolve all hrefs in all the children for a DOM node.
         
         The resolution is done in a resolve-then-recurse manner, so the end
@@ -238,8 +244,12 @@ class Loader:
         be passed in a dom Element or something else which actually has children;
         passing in an Attr for example makes no sense and results in problems.
         
-        The dropped_nodes arguments should be a list that will be populated with
+        The dropped_nodes argument should be a list that will be populated with
         nodes for which href resolution fails.
+        
+        The found_hrefs argument should be al ist that will be populated with all
+        the hrefs that have been resolved by the method that resolved hrefs for
+        the parent. An error will be thrown when recursion is detected.
         """
         for child in element.childNodes:
             # only resolve hrefs for elements
@@ -252,12 +262,15 @@ class Loader:
                 self._resolve_href(child, dropped_nodes)
 
             # now recurse to resolve any hrefs within this child
-            self._resolve_hrefs_in_children(child, dropped_nodes)
+            # note that we duplicate the found_hrefs array. This means that the
+            # same file can be imported multiple times, as long as it is imported
+            # by siblings, rather than as part of some parent<->child relation.
+            self._resolve_hrefs_in_children(child, dropped_nodes, found_hrefs[:])
         
         # we're now done with resolution
         #return node
     
-    def _resolve_href(self, node, dropped_nodes):
+    def _resolve_href(self, node, dropped_nodes, found_hrefs):
         """Resolve a href for the provided node.
 
         We merge in the referenced xml document into the provided node.
@@ -266,7 +279,12 @@ class Loader:
         its parent and appended to the dropped_nodes list.
         """
         href = node.getAttribute('href')
+        if href in found_hrefs:
+            raise ModellerError, \
+"""Recursive inclusion because files refer to each other. This href leads to
+a cycle: %s.""" % href
         self.log.debug( "Resolving HREF: %s" % href )
+        found_hrefs.append(href)
         
         try:
             stream = self.vfs.get_as_stream(href)

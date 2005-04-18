@@ -21,6 +21,7 @@ import unittest
 from unittest import TestCase
 
 from xml.dom import minidom
+import StringIO
 
 from gump.engine.modeller import _find_element_text
 from gump.engine.modeller import _do_drop
@@ -30,6 +31,8 @@ from gump.engine.modeller import _find_repository_containing_node
 from gump.engine.modeller import _find_module_containing_node
 from gump.engine.modeller import _find_project_containing_node
 from gump.engine.modeller import _import_node
+from gump.engine.modeller import ModellerError
+from gump.engine.modeller import Loader
 
 class ModellerTestCase(TestCase):
     def setUp(self):
@@ -83,6 +86,20 @@ class ModellerTestCase(TestCase):
 """
         self.sampledom2 = minidom.parseString(self.samplexml2)
 
+        self.sampleworkspacestring = """<?xml version="1.0"?>
+
+<workspace>
+  <newelem attr="yo">contents</newelem>
+  <module name="foo">
+    <project name="bar">
+      <blah/>
+    </project>
+  </module>
+  <newelem>ignore</newelem>
+</workspace>
+"""
+        self.sampleworkspace = minidom.parseString(self.sampleworkspacestring)
+    
     def test_find_element_text(self):
         root = self.sampledom.documentElement
         text = _find_element_text(root, "elem")
@@ -158,6 +175,49 @@ class ModellerTestCase(TestCase):
         self.assertEqual(1, oldroot.getElementsByTagName("uniquetaghere").length)
         self.assertEqual(2, oldroot.getElementsByTagName("newelem").length)
         self.assertEqual(1, oldroot.getElementsByTagName("newstuff").length)
+    
+    def test_modeller_error(self):
+        error = ModellerError()
+        self.assert_(isinstance(error, Exception))
+    
+    def test_loader_init(self):
+        log = MockLog()
+        vfs = MockVFS()
+        
+        loader = Loader(log,vfs)
+        loader = Loader(log,None)
+        
+        self.assertRaises(AssertionError, Loader, self, vfs)
+        self.assertRaises(AssertionError, Loader, log, self)
+        self.assertRaises(AssertionError, Loader, None, vfs)
+    
+    def test_loader_get_workspace_tree_simple(self):
+        log = MockLog()
+        vfs = MockVFS()
+        loader = Loader(log,vfs)
+        
+        (wsdom, dropped_nodes) = loader.get_workspace_tree(StringIO.StringIO(self.sampleworkspacestring))
+        # TODO check wsdom content validity
+        self.assertEqual(0, len(dropped_nodes))
+        self.assertEqual(type(self.sampleworkspace), type(wsdom))
+        self.assertEqual(None, log.msg)
+        self.assertEqual(None, vfs.href)
+    
+    # TODO test loader href resolution
+    # TODO test loader looping href resolution
+    # TODO test loader href resolution failure
+    # TODO test loader vfs exception
+        
+class MockLog:
+    msg = None
+    def warning(self,msg):
+        self.msg = msg
+
+class MockVFS:
+    href = None
+    def get_as_stream(href):
+        self.href = href
+        return StringIO.StringIO()
 
 # this is used by testrunner.py to determine what tests to run
 def test_suite():
