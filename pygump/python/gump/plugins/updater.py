@@ -102,7 +102,7 @@ class SvnUpdater(ModuleUpdater):
 
         ModuleUpdater.visit_module(self, module)
 
-        modulepath = get_module_directory(module)
+        modulepath = get_module_directory(self.workdir, module)
         current = os.path.curdir
         os.chdir(modulepath)
         svndir = os.path.join(modulepath, '.svn')
