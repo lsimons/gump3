@@ -42,7 +42,7 @@ from subprocess import STDOUT
 
 # for log messages...
 SEP = "------------------------------------------------------------------------------\n"
-GUMP_VERSION = '3.0-alpha-2'
+GUMP_VERSION = '3.0-alpha-3'
 
 # log levels
 DEBUG = 5
