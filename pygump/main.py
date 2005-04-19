@@ -105,8 +105,8 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
     parser.add_option("--no-updates",
                       action="store_true",
                       dest="no_updates",
-                      default=False,
-                      help="skip cvs and svn updates")
+                      default=True, # Default to NOT. At least during initial development...
+                      help="skip svn updates")
     parser.add_option("--databaseserver",
                       action="store",
                       default=_databaseserver,
@@ -145,7 +145,7 @@ class _Logger:
     by one of those.
     """
     
-    def __init__(self, logdir, level=DEBUG, console_level=INFO):
+    def __init__(self, logdir, level=DEBUG, console_level=DEBUG): # Both DEBUG for dev...
         self.level = level
         self.console_level = console_level
         

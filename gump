@@ -459,7 +459,9 @@ function check_environment
   #check_command "pkill" "http://sourceforge.net/projects/proctools"
   check_command "mysql" "http://www.mysql.com/"
   check_command "mysqladmin" "http://www.mysql.com/"
-  check_command "ssh" "http://www.openssh.org/"
+  #Temporary, until folks like AJ install the thing, or make it
+  # work w/ PuTTY.
+  #check_command "ssh" "http://www.openssh.org/"
 
   check_env_var "JAVA_HOME" "the location of the java jdk"
   

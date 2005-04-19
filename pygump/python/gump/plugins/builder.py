@@ -26,24 +26,42 @@ from gump.model.util import get_project_directory
 from gump.plugins import AbstractPlugin
 from gump.util.executor import Popen, PIPE, STDOUT
 
-class ScriptBuilderPlugin(AbstractPlugin):
+
+class BuilderPlugin(AbstractPlugin):
+    """Execute all commands for all projects."""
+    def __init__(self, workdir, cmd_clazz, method):
+        self.workdir = workdir
+        self.cmd_clazz = cmd_clazz
+        self.method = method             
+
+    def visit_project(self, project):
+        """ Dispatch for each matching command (matching by class type) """
+        for command in [command for command in project.commands if isinstance(command,self.cmd_clazz)]:
+            try:
+                self.method(project, command)
+            except:
+                pass # :TODO: Short term
+
+class ScriptBuilderPlugin(BuilderPlugin):
     """Execute all "script" commands for all projects."""
     def __init__(self, workdir):
-        self.workdir = workdir
+        BuilderPlugin.__init__( self, workdir, Script, self._do_script)  
         
     def _do_script(self, project, script):
         # NOTE: no support for basedir="", an undocumented feature in gump2
         projectpath = get_project_directory(self.workdir,project)
         
         scriptfile = abspath(join(projectpath, script.name))
+        
+        # No extension is ok, otherwise guess at one, platform appropriately
         if not isfile(scriptfile):
             if sys.platform == "win32":
                 scriptfile += ".bat"
             else:
                 scriptfile += ".sh"
             
-            if not isfile(scriptfile):
-                raise Error, "No script '%s' found!" % scriptfile
+        #    if not isfile(scriptfile):
+        #        raise Error, "No script '%s' found!" % scriptfile
         
         args = [scriptfile] + script.args
         cmd = Popen(args,shell=True,cwd=projectpath,stdout=PIPE,stderr=STDOUT)
@@ -51,6 +69,19 @@ class ScriptBuilderPlugin(AbstractPlugin):
         script.build_log = cmd.communicate()[0]
         script.build_exit_status = cmd.wait()
 
-    def visit_project(self, project):
-        for command in [command for command in project.commands if isinstance(command,Script)]:
-            self._do_script(project, command)
+
+class AntBuilderPlugin(BuilderPlugin):
+    """Execute all "ant" commands for all projects."""
+    def __init__(self, workdir):
+        BuilderPlugin.__init__(self, workdir, Ant, self._do_ant)
+        
+    def _do_ant(self, project, ant):
+        # NOTE: no support for basedir="", an undocumented feature in gump2
+        projectpath = get_project_directory(self.workdir,project)
+        
+        buildfile = abspath(join(projectpath, script.name))        
+        
+        # :TODO:
+        import pprint
+        pprint.pprint(project)
+        pprint.pprint(ant)

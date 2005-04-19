@@ -105,8 +105,8 @@ def get_plugins(config):
     
     if config.do_update:
         from gump.plugins.updater import CvsUpdater, SvnUpdater
-        pre_process_plugins.append(CvsUpdater(config.paths_work))
-        pre_process_plugins.append(SvnUpdater(config.paths_work))
+        #pre_process_plugins.append(CvsUpdater(config.paths_work))
+        #pre_process_plugins.append(SvnUpdater(config.paths_work))
     
     plugins = []
     # TODO: append more plugins here...
@@ -136,6 +136,10 @@ def get_plugins(config):
         reportlog = get_logger(config, "plugin.logger")
         from gump.plugins.logreporter import LogReporterPlugin
         post_process_plugins.append(LogReporterPlugin(reportlog))
+
+    for plugin in pre_process_plugins: log.debug("Pre : %s " % plugin)
+    for plugin in plugins: log.debug("Proc: %s " % plugin)
+    for plugin in post_process_plugins: log.debug("Post: %s " % plugin)
 
     return (pre_process_plugins, plugins, post_process_plugins)
 
