@@ -60,8 +60,8 @@ class ScriptBuilderPlugin(BuilderPlugin):
             else:
                 scriptfile += ".sh"
             
-        #    if not isfile(scriptfile):
-        #        raise Error, "No script '%s' found!" % scriptfile
+            if not isfile(scriptfile):
+                raise Error, "No script '%s' found!" % scriptfile
         
         args = [scriptfile] + script.args
         cmd = Popen(args,shell=True,cwd=projectpath,stdout=PIPE,stderr=STDOUT)
