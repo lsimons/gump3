@@ -961,6 +961,16 @@ class Objectifier:
                 args.append((name, value))
                 
             project.add_command(Script(project, name, args))
+            
+        ants = project_definition.getElementsByTagName("ant")
+        for cmd in ants:
+            name = cmd.getAttribute("name")
+            buildfile = cmd.getAttribute("target")
+            target = cmd.getAttribute("target")
+                
+            project.add_command(Ant(project, name, target, buildfile))
+            
+            #TODO 
         
         #TODO more commands
     
@@ -999,12 +1009,18 @@ class Objectifier:
         except KeyError:
             # we store the name instead. a Verifier should be used later to
             # fix this error.
+            #TODO get_dependency_on_project (below) asserts this is a
+            # Project not a string, causing a big KABOOM!...
             dependency_project = dependency_name
         
-        id = dependency.getAttribute("id")
+        idList = dependency.getAttribute("ids")
+        if idList:
+            ids=idList.split(' ')        
+        else:
+            ids=[]
         
         relationship = project.get_dependency_on_project(dependency_project)
-        relationship.add_dependency_info(DependencyInfo(relationship,optional,runtime,inherit,id))
+        relationship.add_dependency_info(DependencyInfo(relationship,optional,runtime,inherit,ids))
 
 
 class VerificationError(ModellerError):

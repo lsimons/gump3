@@ -52,17 +52,23 @@ class Walker:
         visited_projects = []
 
         visitor._initialize()
+        
+        self.log.debug('Visit W/S : ' + `workspace`)
         visitor._visit_workspace(workspace)
         list = self._topsort_projects(workspace)
         
         for project in list:
             if not project.module in visited_modules:
                 if not project.module.repository in visited_repositories:
+                    self.log.debug('Visit Repo : ' + `project.module.repository`)
                     visitor._visit_repository(project.module.repository)
                     visited_repositories.append(project.module.repository)
+                    
+                self.log.debug('Visit Module : ' + `project.module`)
                 visitor._visit_module(project.module)
                 visited_modules.append(project.module)
             
+            self.log.debug('Visit Project : ' + `project`)
             visitor._visit_project(project)
             visited_projects.append(project)
         

@@ -385,7 +385,7 @@ class DependencyInfo(ModelObject):
                         dependency at runtime or just for building
         - inherit    -- option dictating whether this dependency should
                         "cascade" or "propagate in some form
-        - specific_output_id -- option that specifies one output ID from
+        - specific_output_ids -- option that specifies output IDs from
                         the specified project that is depended on
     """
     def __init__(self,
@@ -393,13 +393,13 @@ class DependencyInfo(ModelObject):
                  optional = False,
                  runtime  = False,
                  inherit  = DEPENDENCY_INHERIT_NONE,
-                 specific_output_id = None):
+                 specific_output_ids = None):
         assert isinstance(dependency, Dependency)
-        self.dependency         = dependency
-        self.optional           = optional
-        self.runtime            = runtime
-        self.inherit            = inherit
-        self.specific_output_id = specific_output_id
+        self.dependency          = dependency
+        self.optional            = optional
+        self.runtime             = runtime
+        self.inherit             = inherit
+        self.specific_output_ids = specific_output_ids
 
 class Command(ModelObject):
     """Model a command.
@@ -413,8 +413,7 @@ class Command(ModelObject):
     def __init__(self, project):
         assert isinstance(project, Project)
         self.project = project
-    pass
-
+        
 class Mkdir(Command):
     """Model a mkdir command.
     
@@ -467,6 +466,25 @@ class Script(Command):
         self.name = name
         self.args = args
 
+class Ant(Command):
+    """Command to run an Ant build.
+
+    Has the following properties:
+        
+        - all the properties a Command has
+        - name -- the name of the script to run
+        - target -- the Ant target
+        - buildfile -- the Ant build file
+    """
+    def __init__(self, project, name, target, buildfile):
+        assert isinstance(name, basestring)
+        assert isinstance(target, basestring)
+        assert isinstance(buildfile, basestring)
+        Command.__init__(self, project)
+        self.name = name
+        self.target = target
+        self.buildfile = buildfile
+
 #TODO: more Commands
 
 OUTPUT_ID_HOME = "homedir"
@@ -516,6 +534,6 @@ class Jar(Output):
         assert isinstance(name, basestring)
         Output.__init__(self, project, id)
         self.name = name
-        self.add_to_bootclass_path = add_to_bootclass_path
+        self.add_to_bootclass_path = add_to_bootclass_path      
 
 #TODO: more outputs

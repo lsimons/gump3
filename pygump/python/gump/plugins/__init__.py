@@ -154,6 +154,9 @@ class AbstractPlugin:
         if not callable(self.finalize): return        
         self.finalize()
     
+    def __str__(self):
+        return self.__class__.__name__
+    
 class MulticastPlugin(AbstractPlugin):
     """Core plugin that redirects visit_XXX calls to other plugins."""
     def __init__(self, plugin_list, error_handler=BaseErrorHandler()):

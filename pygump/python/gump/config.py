@@ -113,15 +113,22 @@ def get_plugins(config):
 
     from gump.plugins import LoggingPlugin
 
+    
     # by contract, rmdir always needs to go before mkdir!
     from gump.plugins.dirbuilder import RmdirBuilderPlugin
     plugins.append(RmdirBuilderPlugin(config.paths_work))
     from gump.plugins.dirbuilder import MkdirBuilderPlugin
     plugins.append(MkdirBuilderPlugin(config.paths_work))
     
+    buildlog = get_logger(config, "plugin.builder")
+    
     from gump.plugins.builder import ScriptBuilderPlugin
-    plugins.append(ScriptBuilderPlugin(config.paths_work))
-
+    plugins.append(ScriptBuilderPlugin(config.paths_work,buildlog))
+    from gump.plugins.java.builder import ClasspathPlugin
+    plugins.append(ClasspathPlugin(config.paths_work,buildlog))
+    from gump.plugins.java.builder import AntPlugin
+    plugins.append(AntPlugin(config.paths_work,buildlog))
+    
     post_process_plugins = []
     # TODO: append more plugins here...
     post_process_plugins.append(TimerPlugin("run_end"))
@@ -137,9 +144,9 @@ def get_plugins(config):
         from gump.plugins.logreporter import LogReporterPlugin
         post_process_plugins.append(LogReporterPlugin(reportlog))
 
-    for plugin in pre_process_plugins: log.debug("Pre : %s " % plugin)
-    for plugin in plugins: log.debug("Proc: %s " % plugin)
-    for plugin in post_process_plugins: log.debug("Post: %s " % plugin)
+    for plugin in pre_process_plugins: log.debug("Preprocessor : %s " % `plugin`)
+    for plugin in plugins: log.debug("Processor    : %s " % `plugin`)
+    for plugin in post_process_plugins: log.debug("Postprocessor: %s " % `plugin`)
 
     return (pre_process_plugins, plugins, post_process_plugins)
 

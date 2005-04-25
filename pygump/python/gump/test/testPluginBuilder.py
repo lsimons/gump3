@@ -29,12 +29,13 @@ from os.path import abspath
 from os.path import isdir
 from os.path import join
 from shutil import rmtree
+from pmock import *
 
 from gump.plugins.builder import ScriptBuilderPlugin
 
 from gump.model import Workspace, Repository, Module, Project, Script, Error
 
-class BuilderTestCase(TestCase):
+class BuilderTestCase(MockTestCase):
     def test_do_script(self):
         basedir = abspath(mkdtemp())
         try:
@@ -55,7 +56,7 @@ echo RESULT
             scriptfile.close()
             os.chmod(scriptpath, 0755)
 
-            plugin = ScriptBuilderPlugin(basedir)
+            plugin = ScriptBuilderPlugin(basedir, self.mock())
 
             cmd = Script(p, "dobuild")
             plugin._do_script(cmd.project, cmd)
