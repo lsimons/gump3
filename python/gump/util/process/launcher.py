@@ -92,7 +92,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
             # Child gets PID = 0
             if 0 == forkPID:
                 # Run the information within this file...
-                os._exit(runProcess(execFile))
+                os._exit(runProcess(execFile,0))
             
             # Parent gets real PID
             else:
@@ -195,9 +195,11 @@ def shutdownProcessAndProcessGroup(pid):
     """
     Kill this (and all child processes).
     """
-    log.warn('Kill process group (anything launched by PID' + str(pid) + ')')    
+    log.warn('Kill process group (anything launched by PID %s)' % (pid))    
     try:
         pgrpID=os.getpgid(pid)
+        log.warn('Kill process group %s (anything launched by PID %s) [from %s]' \
+                    % (pgrpID, pid, os.getpid()))  
         if -1 != pgrpID:
             os.killpg(pgrpID,signal.SIGKILL)
         else:
@@ -210,15 +212,15 @@ def shutdownProcesses():
     """
     Kill this (and all child processes).
     """
-    gumpid = default.gumpid
-    log.warn('Kill all child processed (anything launched by PID' + str(gumpid) + ')')    
+    pid=os.getpid()
+    log.warn('Kill all child processed (anything launched by PID %s)' % (pid))    
     try:
-        os.kill(gumpid,signal.SIGKILL)
+        os.kill(pid,signal.SIGKILL)
         gumpid
     except Exception, details:
         log.error('Failed to dispatch signal ' + str(details), exc_info=1)
          
-def runProcess(execFilename):
+def runProcess(execFilename,standaloneProcess=1):
     """
     Read an 'exec file' (formatted by Gump) to detect what to run,
     and how to run it.
@@ -258,7 +260,7 @@ def runProcess(execFilename):
                
         # Timeout support
         timer = None
-        if timeout:
+        if timeout and standaloneProcess:
             import threading
             timer = threading.Timer(timeout, shutdownProcesses)
             timer.setDaemon(1)
@@ -296,7 +298,7 @@ if __name__=='__main__':
     execFilename = sys.argv[1]
     
     # Run the information within this file...
-    exit_code = runProcess(execFilename)
+    exit_code = runProcess(execFilename,1)
         
     # print 'Exit: ' + `exit_code`
     sys.exit(exit_code)
