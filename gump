@@ -237,18 +237,20 @@ function find_hostname
   if [[ ! -z "$GUMP_HOSTNAME" ]]; then
     return
   fi
-  
+
   local hostnamecommand=`which hostname`
   if [[ -z "$hostnamecommand" || "$hostnamecommand" == "no*" ]]; then
     error "GUMP_HOSTNAME is not set and the hostname command is not
 available to determine it!"
   fi
   
-  local cygwin="no";
+  local no_s_flag="no";
   case "`uname`" in
-    CYGWIN*) cygwin="yes" ;;
+    CYGWIN*) no_s_flag="yes" ;;
+    Sun*) no_s_flag="yes" ;;
   esac
-  if [[ "x$cygwin" == "xyes" ]]; then
+
+  if [[ "x$no_s_flag" == "xyes" ]]; then
     export GUMP_HOSTNAME=`hostname`
   else
     export GUMP_HOSTNAME=`hostname -s`
