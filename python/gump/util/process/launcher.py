@@ -91,6 +91,9 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
             
             # Child gets PID = 0
             if 0 == forkPID:
+                # Become a process group leader
+                os.setpgrp()
+                
                 # Run the information within this file...
                 os._exit(runProcess(execFile,0))
             
@@ -101,7 +104,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
                 if cmd.timeout:
                     import threading
                     timer = threading.Timer(cmd.timeout, \
-		    		shutdownProcessAndProcessGroup, [forkPID])
+		    		    shutdownProcessAndProcessGroup, [forkPID])
                     timer.start()
             
                 # Run the command
@@ -198,8 +201,8 @@ def shutdownProcessAndProcessGroup(pid):
     log.warn('Kill process group (anything launched by PID %s)' % (pid))    
     try:
         pgrpID=os.getpgid(pid)
-        log.warn('Kill process group %s (anything launched by PID %s) [from %s]' \
-                    % (pgrpID, pid, os.getpid()))  
+        log.warn('Kill process group %s (i.e. anything launched by PID %s) [from %s, for %s]' \
+                    % (pgrpID, pid, os.getpid(), default.gumpid))  
         if -1 != pgrpID:
             os.killpg(pgrpID,signal.SIGKILL)
         else:
@@ -216,7 +219,6 @@ def shutdownProcesses():
     log.warn('Kill all child processed (anything launched by PID %s)' % (pid))    
     try:
         os.kill(pid,signal.SIGKILL)
-        gumpid
     except Exception, details:
         log.error('Failed to dispatch signal ' + str(details), exc_info=1)
          
