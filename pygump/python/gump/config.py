@@ -124,10 +124,10 @@ def get_plugins(config):
     
     from gump.plugins.builder import ScriptBuilderPlugin
     plugins.append(ScriptBuilderPlugin(config.paths_work,buildlog))
-    from gump.plugins.java.builder import ClasspathPlugin
-    plugins.append(ClasspathPlugin(config.paths_work,buildlog))
-    from gump.plugins.java.builder import AntPlugin
-    plugins.append(AntPlugin(config.paths_work,buildlog))
+    #from gump.plugins.java.builder import ClasspathPlugin
+    #plugins.append(ClasspathPlugin(config.paths_work,buildlog))
+    #from gump.plugins.java.builder import AntPlugin
+    #plugins.append(AntPlugin(config.paths_work,buildlog))
     
     post_process_plugins = []
     # TODO: append more plugins here...
@@ -276,11 +276,13 @@ def get_dom_implementation():
 def get_plugin(config):
     """Provide a Plugin implementation."""
     from gump.plugins import MulticastPlugin
+    #from gump.plugins.buildintelligence import MoreEfficientMulticastPlugin
     
     (pre_process_plugins, plugins, post_process_plugins) = get_plugins(config)
     error_handler = get_error_handler(config)
     
     return (MulticastPlugin(pre_process_plugins, error_handler),
+            #MoreEfficientMulticastPlugin(plugins, error_handler),
             MulticastPlugin(plugins, error_handler),
             MulticastPlugin(post_process_plugins, error_handler))
 
