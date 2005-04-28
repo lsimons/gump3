@@ -36,12 +36,15 @@ class LogReporterPlugin(AbstractPlugin):
         if container:
             if hasattr(container, "name"):
                 name = "%s:%s" % (container.name, name)
-
+                
+        #self.log.debug(name)
         for attribute in dir(object):
             if attribute.endswith("_log"):
                 logmsg = getattr(object,attribute)
                 self.log.debug("---%s.%s----------------------------------:\n%s" % (name, attribute, logmsg))
                 self.log.debug(hr)
+            #else:
+            #    self.log.debug(' %s -> %s' % (attribute,getattr(object,attribute)))
 
         if hasattr(object, 'exceptions'):
             import StringIO
@@ -63,3 +66,7 @@ class LogReporterPlugin(AbstractPlugin):
         self._do_visit(project)
         for command in project.commands:
             self._do_visit(command,project)
+            
+    def finalize(self):
+        self.log.debug('  Finished Outputting all log data (a lot)...')
+        self.log.debug(hr)

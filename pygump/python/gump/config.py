@@ -103,14 +103,18 @@ def get_plugins(config):
     from gump.plugins.instrumentation import TimerPlugin
     pre_process_plugins.append(TimerPlugin("run_start"))
     
-    if config.do_update:
+    if config.do_update:    
+        pre_process_plugins.append(TimerPlugin("update_start"))
         from gump.plugins.updater import CvsUpdater, SvnUpdater
-        #pre_process_plugins.append(CvsUpdater(config.paths_work))
-        #pre_process_plugins.append(SvnUpdater(config.paths_work))
-    
+        pre_process_plugins.append(CvsUpdater(config.paths_work))
+        pre_process_plugins.append(SvnUpdater(config.paths_work))
+        pre_process_plugins.append(TimerPlugin("update_end"))
+        
     plugins = []
     # TODO: append more plugins here...
 
+    plugins.append(TimerPlugin("build_start"))
+        
     from gump.plugins import LoggingPlugin
 
     
@@ -124,10 +128,10 @@ def get_plugins(config):
     
     from gump.plugins.builder import ScriptBuilderPlugin
     plugins.append(ScriptBuilderPlugin(config.paths_work,buildlog))
-    #from gump.plugins.java.builder import ClasspathPlugin
-    #plugins.append(ClasspathPlugin(config.paths_work,buildlog))
-    #from gump.plugins.java.builder import AntPlugin
-    #plugins.append(AntPlugin(config.paths_work,buildlog))
+    from gump.plugins.java.builder import ClasspathPlugin
+    plugins.append(ClasspathPlugin(config.paths_work,buildlog))
+    from gump.plugins.java.builder import AntPlugin
+    plugins.append(AntPlugin(config.paths_work,buildlog))
     
     post_process_plugins = []
     # TODO: append more plugins here...
@@ -139,11 +143,14 @@ def get_plugins(config):
     dynagumplog = get_logger(config, "plugin.dynagumper")
     post_process_plugins.append(Dynagumper(db, dynagumplog))
     
+    plugins.append(TimerPlugin("build_end"))
+
     if config.debug:
         reportlog = get_logger(config, "plugin.logger")
         from gump.plugins.logreporter import LogReporterPlugin
         post_process_plugins.append(LogReporterPlugin(reportlog))
-
+    
+    # Give us an insight to what we have cooking...
     for plugin in pre_process_plugins: log.debug("Preprocessor : %s " % `plugin`)
     for plugin in plugins: log.debug("Processor    : %s " % `plugin`)
     for plugin in post_process_plugins: log.debug("Postprocessor: %s " % `plugin`)
@@ -206,9 +213,14 @@ def get_logger(config, name):
     """Provide a logging implementation for the given level and name."""
     logging.basicConfig()
     log = logging.getLogger(name)
-    log.setLevel(config.log_level)
+    print 'Got Logger %s for %s' % (log,name)
+    # Let the file decide ... log.setLevel(config.log_level)
     return log
 
+def shutdown_logging():
+    """Perform orderly logging shutdown"""
+    logging.shutdown()
+    
 
 def get_db(log,config):
     """Provide a database implementation."""

@@ -109,6 +109,8 @@ def main(settings):
     
     # run it
     engine.run()
+    
+    shutdown_logging()
 
 
 def _banner(version):
@@ -221,10 +223,10 @@ class _Engine:
             self.workspace_verifier.verify(workspace)
             
             # * Pfew! All done. Now actually start *doing* stuff.
-            self.walker.walk(workspace, self.pre_process_visitor)
+            self.walker.walk(workspace, self.pre_process_visitor, 'pre_process')
             # (visited_repositories, visited_modules, visited_projects) = \
-            self.walker.walk(workspace, self.visitor)
-            self.walker.walk(workspace, self.post_process_visitor)
+            self.walker.walk(workspace, self.visitor, 'process')
+            self.walker.walk(workspace, self.post_process_visitor, 'post_process')
             
             # That's it? Yeah! All other functionality is in the visitors :-D
         except:

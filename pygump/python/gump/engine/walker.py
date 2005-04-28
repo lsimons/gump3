@@ -37,7 +37,7 @@ class Walker:
         
         self.log = log
     
-    def walk(self, workspace, visitor):
+    def walk(self, workspace, visitor, description='unspecified'):
         """Walks a gump tree using inverted topsort.
         
         Arguments:
@@ -51,27 +51,30 @@ class Walker:
         visited_modules = []
         visited_projects = []
 
+        self.log.debug('Visitor %s initialize, on %s walk.' % (`visitor`, description))
         visitor._initialize()
         
-        self.log.debug('Visit W/S : ' + `workspace`)
+        self.log.debug('Visit W/S %s for %s walk.' % (`workspace`, description))
         visitor._visit_workspace(workspace)
         list = self._topsort_projects(workspace)
         
         for project in list:
             if not project.module in visited_modules:
                 if not project.module.repository in visited_repositories:
-                    self.log.debug('Visit Repo : ' + `project.module.repository`)
+                    self.log.debug('Visit Repo %s for %s walk.' % \
+                                   (`project.module.repository`, description))
                     visitor._visit_repository(project.module.repository)
                     visited_repositories.append(project.module.repository)
                     
-                self.log.debug('Visit Module : ' + `project.module`)
+                self.log.debug('Visit Module %s for %s walk.' % (`project.module`,description))
                 visitor._visit_module(project.module)
                 visited_modules.append(project.module)
             
-            self.log.debug('Visit Project : ' + `project`)
+            self.log.debug('Visit Project %s for %s walk.' % (`project`, description))
             visitor._visit_project(project)
             visited_projects.append(project)
         
+        self.log.debug('Visitor %s finalize, on %s walk.' % (`visitor`, description))
         visitor._finalize()
         return (visited_repositories, visited_modules, visited_projects)
     
