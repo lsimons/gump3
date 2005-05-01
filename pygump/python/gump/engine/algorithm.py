@@ -41,7 +41,7 @@ from gump.model.util import mark_whether_module_was_updated
 from gump.model.util import UPDATE_TYPE_CHECKOUT, UPDATE_TYPE_UPDATE
 
 class BaseErrorHandler:
-    """Base error handler for use with the MulticastPlugin.
+    """Base error handler for use with the various algorithms.
     
     This handler just re-raises a caught error.
     """
@@ -51,7 +51,7 @@ class BaseErrorHandler:
         raise type, value
 
 class LoggingErrorHandler:
-    """Logging error handler for use with the MulticastPlugin.
+    """Logging error handler for use with the various algorithms.
     
     This handler logs then just re-raises a caught error.
     """
@@ -64,7 +64,7 @@ class LoggingErrorHandler:
         raise type, value
 
 class OptimisticLoggingErrorHandler:
-    """Logging error handler for use with the MulticastPlugin.
+    """Logging error handler for use with the various algorithms.
     
     This handler logs a caught error then stores it on the model.
     """
@@ -80,7 +80,7 @@ class OptimisticLoggingErrorHandler:
             visited_model_object.exceptions.append( (type, value, traceback) )
 
 class DumbAlgorithm:
-    """Core plugin that redirects visit_XXX calls to other plugins."""
+    """"Core" algorithm that simply redirects all visit_XXX calls to other plugins."""
     def __init__(self, plugin_list, error_handler=BaseErrorHandler()):
         self.list = plugin_list
         self.error_handler = error_handler
@@ -128,9 +128,9 @@ class DumbAlgorithm:
                 self.error_handler.handle(visitor, "{{{finalization stage}}}", type, value, traceback)
 
 class MoreEfficientAlgorithm(DumbAlgorithm):
-    """MulticastPlugin that implements a more efficient build algorithm.
+    """Algorithm that implements a more efficient build algorithm.
 
-    This plugin detects "failure" for a particular step in the build, and when
+    This algorithm detects "failure" for a particular step in the build, and when
     it does, it sometimes skips a few steps.
     
     The following rules are implemented:
@@ -143,9 +143,6 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
     array named "failure_cause" will be created pointing to the elements that
     "caused" them to fail.
     """
-    #def __init__(self, plugin_list):
-    #    MulticastPlugin.__init__(self, plugin_list, OptimisticLoggingErrorHandler())
-    
     def visit_module(self, module):
         # run the delegates
         try:

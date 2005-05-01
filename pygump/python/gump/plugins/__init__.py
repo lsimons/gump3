@@ -81,6 +81,12 @@ class AbstractPlugin:
     output (both stdout and stderr) of their commands as a "$action_log"
     property on the relevant part of the model, where "$action" is the
     conceptual task they are performing (update,build,...).
+    
+    Additional rules and constraints
+    --------------------------------
+    Additional rules and constraints are satisfied or imposed by different
+    algorithm implementations. In general, plugins should try to assume as little
+    as possible about things like the build sequence.
     """
     def __init__(self, log):
         self.log = log
