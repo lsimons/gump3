@@ -174,7 +174,7 @@ def get_error_handler(config):
     # TODO: implement an error handler that does actual recovery...
     
     #from gump.plugins import LoggingErrorHandler
-    from gump.plugins import OptimisticLoggingErrorHandler
+    from gump.engine.algorithm import OptimisticLoggingErrorHandler
     log = get_logger(config, "plugin.error-handler")
     return OptimisticLoggingErrorHandler(log)
 
@@ -287,16 +287,16 @@ def get_dom_implementation():
 
 def get_plugin(config):
     """Provide a Plugin implementation."""
-    from gump.plugins import MulticastPlugin
-    #from gump.plugins.buildintelligence import MoreEfficientMulticastPlugin
+    from gump.engine.algorithm import DumbAlgorithm
+    #from gump.engine.algorithm import MoreEfficientAlgorithm
     
     (pre_process_plugins, plugins, post_process_plugins) = get_plugins(config)
     error_handler = get_error_handler(config)
     
-    return (MulticastPlugin(pre_process_plugins, error_handler),
-            #MoreEfficientMulticastPlugin(plugins, error_handler),
-            MulticastPlugin(plugins, error_handler),
-            MulticastPlugin(post_process_plugins, error_handler))
+    return (DumbAlgorithm(pre_process_plugins, error_handler),
+            #MoreEfficientAlgorithm(plugins, error_handler),
+            DumbAlgorithm(plugins, error_handler),
+            DumbAlgorithm(post_process_plugins, error_handler))
 
 #
 # Miscellaneous configuration bits
