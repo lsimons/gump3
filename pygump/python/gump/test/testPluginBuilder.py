@@ -23,6 +23,7 @@ from unittest import TestCase
 from tempfile import mkdtemp
 import stat
 import os
+import sys
 from os import mkdir
 from os import makedirs
 from os.path import abspath
@@ -47,14 +48,21 @@ class BuilderTestCase(MockTestCase):
             mpath = join(basedir,w.name,r.name,m.name)
             mkdir(mpath)
             p = Project(m,"p")
-            scriptpath = join(mpath,"dobuild")
-            scriptfile = open(scriptpath, mode='w')
-            scriptfile.write("""#!/bin/sh
-
+            if sys.platform == "win32":
+                scriptpath = join(mpath,"dobuild.bat")
+                scriptfile = open(scriptpath, mode='w')
+                scriptfile.write("""echo off
 echo RESULT
 """)
-            scriptfile.close()
-            os.chmod(scriptpath, 0755)
+            else:
+                scriptpath = join(mpath,"dobuild")
+                scriptfile = open(scriptpath, mode='w')
+                scriptfile.write("""#!/bin/sh
+    
+echo RESULT
+""")
+                scriptfile.close()
+                os.chmod(scriptpath, 0755)
 
             plugin = ScriptBuilderPlugin(basedir, self.mock())
 
