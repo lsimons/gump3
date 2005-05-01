@@ -31,8 +31,8 @@ from gump.engine.modeller import _find_repository_containing_node
 from gump.engine.modeller import _find_module_containing_node
 from gump.engine.modeller import _find_project_containing_node
 from gump.engine.modeller import _import_node
-from gump.engine.modeller import ModellerError
-from gump.engine.modeller import Loader
+from gump.engine import EngineError
+from gump.engine.loader import Loader
 
 class ModellerTestCase(TestCase):
     def setUp(self):
@@ -176,8 +176,8 @@ class ModellerTestCase(TestCase):
         self.assertEqual(2, oldroot.getElementsByTagName("newelem").length)
         self.assertEqual(1, oldroot.getElementsByTagName("newstuff").length)
     
-    def test_modeller_error(self):
-        error = ModellerError()
+    def test_engine_error(self):
+        error = EngineError()
         self.assert_(isinstance(error, Exception))
     
     def test_loader_init(self):

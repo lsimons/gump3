@@ -213,7 +213,6 @@ def get_logger(config, name):
     """Provide a logging implementation for the given level and name."""
     logging.basicConfig()
     log = logging.getLogger(name)
-    print 'Got Logger %s for %s' % (log,name)
     # Let the file decide ... log.setLevel(config.log_level)
     return log
 
@@ -248,25 +247,25 @@ def get_vfs(config):
 
 def get_modeller_loader(log, vfs=None):
     """Provide a Loader implementation."""
-    from gump.engine.modeller import Loader
+    from gump.engine.loader import Loader
     return Loader(log, vfs)
 
 
 def get_modeller_normalizer(log):
     """Provide a Normalizer implementation."""
-    from gump.engine.modeller import Normalizer
+    from gump.engine.normalizer import Normalizer
     return Normalizer(log)
 
 
 def get_modeller_objectifier(log):
     """Provide a Objectifier implementation."""
-    from gump.engine.modeller import Objectifier
+    from gump.engine.objectifier import Objectifier
     return Objectifier(log)
 
 
 def get_modeller_verifier(walker):
     """Provide a Verifier implementation."""
-    from gump.engine.modeller import Verifier
+    from gump.engine.verifier import Verifier
     return Verifier(walker)
 
 

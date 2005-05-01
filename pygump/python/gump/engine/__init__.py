@@ -126,6 +126,11 @@ def _banner(version):
     print
 
 
+class EngineError(Exception):
+    """Generic error thrown for all internal Engine module exceptions."""
+    pass
+
+
 class _Engine:
     """This is the core of the core of the pygump application. It interacts
     with the other parts of the gump.engine package to transform the model
