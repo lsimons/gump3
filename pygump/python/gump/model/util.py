@@ -24,6 +24,9 @@ from os.path import join
 
 from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule
 
+UPDATE_TYPE_CHECKOUT="checkout"
+UPDATE_TYPE_UPDATE="update"
+
 def get_project_directory(workdir, project):
     """Determine the base directory for a project."""
     return get_module_directory(workdir, project.module)

@@ -31,8 +31,7 @@ from gump.util.executor import Popen
 from gump.util.executor import PIPE
 from gump.util.executor import STDOUT
 
-UPDATE_TYPE_CHECKOUT="checkout"
-UPDATE_TYPE_UPDATE="update"
+from gump.model.util import UPDATE_TYPE_CHECKOUT, UPDATE_TYPE_UPDATE
 
 class ModuleUpdater(AbstractPlugin):
     def __init__(self, workdir):
