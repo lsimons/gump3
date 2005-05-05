@@ -48,8 +48,28 @@
   <projects>
     <project name="bogus">
       <module name="ant"/>
+      
+      <!-- test failure...<script name="doesnotexist"/>-->
     </project>
     
+    <project name="bogus2">
+      <module name="ant"/>
+      
+      <depend project="bogus"/>
+    </project>
+
+    <project name="bogus3">
+      <module name="ant"/>
+      
+      <depend project="bogus2"/>
+    </project>
+
+    <project name="bogus4">
+      <module name="ant"/>
+      
+      <depend project="bogus3"/>
+    </project>
+
     <project name="test-attempt-dir-management">
       <module name="ant"/>
       
@@ -70,7 +90,7 @@
       <jar name="lib/ant-launcher.jar" id="ant-launcher"/>
 
       <!-- dependencies -->
-      <option project="bogus"/>
+      <depend project="bogus4"/>
     </project>
   </projects>
 </workspace>
