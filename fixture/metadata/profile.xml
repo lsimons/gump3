@@ -29,6 +29,12 @@ limitations under the License.
     <projects>
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-1.xml"/>
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-2.xml"/>
-        <project href="http://svn.apache.org/repos/asf/gump/branches/Gump3/fixture/metadata/projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-2.xml"/>
+        <project href="http://svn.apache.org/repos/asf/gump/branches/Gump3/fixture/metadata/projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-3.xml"/>
+
+        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-1.xml"/>
+        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-2.xml"/>
+        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-3.xml"/>
+
+        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-does-not-exist.xml"/>
     </projects>
 </profile>
