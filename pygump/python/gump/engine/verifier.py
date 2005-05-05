@@ -78,7 +78,7 @@ class LoggingErrorHandler(AbstractErrorHandler):
         errorType = sys.exc_info()[0]
         if errorType is CyclicDependencyError:
             errorValue = sys.exc_info()[1]
-            self.log.error("Cyclic dependencies occurred:")
+            self.log.error("The following cyclic dependencies were found:")
             print_cyclic_trace(errorValue, self.log.error)
             self.log.error("The projects involved will not be built!")
         else:
@@ -102,9 +102,6 @@ class Verifier:
         """Sends VerificationError objects to the errorHandler argument if the
         provided model contains errors. If no errorHandler is provided, the
         exceptions are 'raise'd."""
-        # TODO: get rid of this return statement
-        #return
-        # TODO: Test this code!!!
         from gump.plugins import AbstractPlugin
         visitor = AbstractPlugin(None)
         (visited_repositories, visited_modules, visited_projects) = self.walker.walk(workspace, visitor)
@@ -138,7 +135,6 @@ class Verifier:
                 them only once
            2.b) store a cycle when its found
         3) return an array containing an array of cycles"""
-        #TODO: test this
         cycles = []
         for project in projects:
             needle = project
