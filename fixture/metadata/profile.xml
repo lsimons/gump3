@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+Copyright 2005 The Apache Software Foundation
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<profile name="gump3-test-fixture">
+    <repositories>
+        <repository href="repositories/gump.apache.org-fixture-cvs.xml"/>
+        <repository href="repositories/gump.apache.org-fixture-svn.xml"/>
+    </repositories>
+    <modules>
+        <module name="gump-fixture-cvs">
+            <repository name="gump-fixture-cvs" subdir="fixture/cvsprojects"/>
+        </module>
+        <module name="gump-fixture-svn">
+            <repository name="gump-fixture-svn" subdir="svnprojects"/>
+        </module>
+    </modules>
+    <projects>
+        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-1.xml"/>
+        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-2.xml"/>
+        <project href="http://svn.apache.org/repos/asf/gump/branches/Gump3/fixture/metadata/projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-2.xml"/>
+    </projects>
+</profile>
