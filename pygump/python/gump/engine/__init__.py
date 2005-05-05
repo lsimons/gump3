@@ -45,6 +45,7 @@ from xml.dom import minidom
 
 from gump.config import *
 from gump.util.io import open_file_or_stream
+from gump.util import ansicolor
 
 _ENGINE_LOGGER_NAME = "engine"
 _MODELLER_LOGGER_NAME = "modeller"
@@ -78,6 +79,10 @@ def main(settings):
     # is no if/else branching of any kind, no looping, etc.
     
     # ooh...ah...fancy :-D
+    if settings.enable_colors:
+        from gump.util import ansicolor
+        ansicolor.enable_colors()
+
     _banner(settings.version)
     
     # get engine config
@@ -115,15 +120,13 @@ def main(settings):
 
 def _banner(version):
     """Print a fancy ASCII-art gump logo."""
-    print
-    print
-    print "      _____"
-    print "     |   __|_ Apache_ ___"
-    print "     |  |  | | |     | . |"
-    print "     |_____|___|_|_|_|  _|"
-    print "                     |_|     ~ v. " + version + " ~"
-    print
-    print
+    print ansicolor.Bright_Blue
+    print "         _____"
+    print "        |   __|_ " + ansicolor.Red + "Apache" + ansicolor.Bright_Blue + "_ ___"
+    print "        |  |  | | |     | . |"
+    print "        |_____|___|_|_|_|  _|"
+    print "                        |_|     " + ansicolor.Blue + "~ v. " + version + " ~"
+    print ansicolor.Black
 
 
 class EngineError(Exception):

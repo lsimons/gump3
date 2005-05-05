@@ -581,7 +581,8 @@ function do_run
   
   # run pygump
   local current=`pwd`
-  pycompile
+  # disabled for speedier runs
+  # pycompile
 
   if [[ ! -z "$GUMP_CYGWIN" ]]; then
     local old_gump_home=$GUMP_HOME

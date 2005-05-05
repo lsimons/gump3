@@ -51,13 +51,12 @@ def get_config(settings):
         config.log_level       = logging.DEBUG
     else:
         config.log_level       = logging.INFO
-
+    
     # TODO: change main.py to do it like this
     config.paths_home      = settings.homedir
     config.paths_work      = settings.workdir
     config.paths_logs      = settings.logdir
     config.paths_workspace = settings.workspace
-    config.do_update       = not settings.no_updates
     config.start_time      = settings.starttimeutc
     
     config.projects        = settings.projects
@@ -117,7 +116,10 @@ def get_plugins(config):
         
     from gump.plugins import LoggingPlugin
 
-    
+    reportlog = get_logger(config, "plugin.logger")
+    from gump.plugins.logreporter import DebugLogReporterPlugin
+    plugins.append(DebugLogReporterPlugin(reportlog))
+        
     # by contract, rmdir always needs to go before mkdir!
     from gump.plugins.dirbuilder import RmdirBuilderPlugin
     plugins.append(RmdirBuilderPlugin(config.paths_work))
@@ -138,7 +140,7 @@ def get_plugins(config):
     post_process_plugins.append(TimerPlugin("run_end"))
     
     from gump.plugins.dynagumper import Dynagumper
-    dblog = get_logger(config, "util")
+    dblog = get_logger(config, "util.db")
     db = get_db(dblog,config)
     dynagumplog = get_logger(config, "plugin.dynagumper")
     post_process_plugins.append(Dynagumper(db, dynagumplog))
@@ -146,9 +148,12 @@ def get_plugins(config):
     plugins.append(TimerPlugin("build_end"))
 
     if config.debug:
-        reportlog = get_logger(config, "plugin.logger")
-        from gump.plugins.logreporter import LogReporterPlugin
-        post_process_plugins.append(LogReporterPlugin(reportlog))
+        from gump.plugins.logreporter import OutputLogReporterPlugin
+        post_process_plugins.append(OutputLogReporterPlugin(reportlog))
+
+    from gump.plugins.logreporter import ResultLogReporterPlugin
+    post_process_plugins.append(ResultLogReporterPlugin(reportlog))
+        
     
     # Give us an insight to what we have cooking...
     for plugin in pre_process_plugins: log.debug("Preprocessor : %s " % `plugin`)
@@ -287,14 +292,14 @@ def get_dom_implementation():
 def get_plugin(config):
     """Provide a Plugin implementation."""
     from gump.engine.algorithm import DumbAlgorithm
-    #from gump.engine.algorithm import MoreEfficientAlgorithm
+    from gump.engine.algorithm import MoreEfficientAlgorithm
     
     (pre_process_plugins, plugins, post_process_plugins) = get_plugins(config)
     error_handler = get_error_handler(config)
     
     return (DumbAlgorithm(pre_process_plugins, error_handler),
-            #MoreEfficientAlgorithm(plugins, error_handler),
-            DumbAlgorithm(plugins, error_handler),
+            MoreEfficientAlgorithm(plugins, error_handler),
+            #DumbAlgorithm(plugins, error_handler),
             DumbAlgorithm(post_process_plugins, error_handler))
 
 #
@@ -306,7 +311,10 @@ def run_config_hooks(config):
 
     # set up logging module
     from logging.config import fileConfig
-    fileConfig('gump.log.config')
+    if config.debug:
+        fileConfig('gump.log.config.debug')
+    else:
+        fileConfig('gump.log.config')
     
     # set up gump.util.executor module
     # this will make Popen log all invocations

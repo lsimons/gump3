@@ -9,66 +9,66 @@ keys=stdout,filehandler
 keys=simple,fileformatter
 
 [logger_root]
-level=WARN
+level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 
 [logger_engine]
-level=WARN
+level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 qualname=engine
 
 [logger_modeller]
-level=WARN
+level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 qualname=modeller
 
 [logger_walker]
-level=WARN
+level=INFO
 handlers=stdout,filehandler
 propagate=0
 qualname=walker
 
 [logger_plugin]
-level=WARN
+level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 qualname=plugin
 
 [logger_util_db]
-level=INFO
+level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 qualname=util.db
 
 [logger_util_executor]
-level=INFO
+level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 qualname=util.executor
 
 [logger_plugin_error-handler]
-level=WARN
+level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 qualname=plugin.error-handler
 
 [logger_plugin_dynagumper]
-level=WARN
+level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 qualname=plugin.dynagumper
 
 [logger_plugin_logger]
-level=INFO
+level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 qualname=plugin.logger
 
 [logger_plugin_builder]
-level=WARN
+level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 qualname=plugin.builder

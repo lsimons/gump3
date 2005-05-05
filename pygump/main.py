@@ -102,11 +102,11 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       action="store",
                       default=_workspace,
                       help="absolute path to the workspace gump will use")
-    parser.add_option("--no-updates",
+    parser.add_option("--do-updates",
                       action="store_true",
-                      dest="no_updates",
-                      default=True, # Default to NOT. At least during initial development...
-                      help="skip svn updates")
+                      dest="do_update",
+                      default=False, # Default to NOT. At least during initial development...
+                      help="run cvs and svn updates")
     parser.add_option("--databaseserver",
                       action="store",
                       default=_databaseserver,
@@ -127,6 +127,11 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       action="store",
                       default=_databasepassword,
                       help="password gump will use to connect to the database")
+    parser.add_option("--enable-colors",
+                      action="store_true",
+                      dest="enable_colors",
+                      default=False,
+                      help="write log output using ansi color codes")
                       
     return parser
 
@@ -145,7 +150,7 @@ class _Logger:
     by one of those.
     """
     
-    def __init__(self, logdir, level=DEBUG, console_level=DEBUG): # Both DEBUG for dev...
+    def __init__(self, logdir, level=INFO, console_level=INFO):
         self.level = level
         self.console_level = console_level
         
@@ -407,6 +412,7 @@ def main():
     try:
         if options.debug:
             log.level = DEBUG
+            log.console_level = DEBUG
     
         # print some basic debug info...
         log.debug("Pygump version %s starting..." % (options.version) )
@@ -438,7 +444,7 @@ def main():
 
         try:
             # self-update
-            if not options.no_updates:
+            if options.do_update:
                 _svn_update(log, options)
                 
             # finally: fire us up!

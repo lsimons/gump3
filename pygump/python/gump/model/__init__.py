@@ -26,7 +26,13 @@ class Error(Exception):
 
 class ModelObject:
     """Base object for all gump model elements."""
-    pass
+    def __str__(self):
+        typerep = str(self.__class__).split('.').pop()
+        
+        if hasattr(self, "name"):
+            return "<%s: %s>" % (typerep, self.name)
+        else:
+            return "<%s>" % typerep
 
 
 class Workspace(ModelObject):
@@ -368,6 +374,9 @@ class Dependency(ModelObject):
     def add_dependency_info(self, info):
         assert isinstance(info, DependencyInfo)
         self.dependencyInfo.append(info)
+    
+    def __str__(self):
+        return "<Dependency:%s-->%s>" % (self.dependee, self.dependency)
 
 class DependencyInfo(ModelObject):
     """Model information about a particular dependency.
@@ -400,6 +409,10 @@ class DependencyInfo(ModelObject):
         self.runtime             = runtime
         self.inherit             = inherit
         self.specific_output_ids = specific_output_ids
+    
+    def __str__(self):
+        return "<DependencyInfo:optional=%s,runtime=%s,inherit=%s,specific_output_ids=%s>" % \
+               (self.optional, self.runtime, self.inherit, self.specific_output_ids)
 
 class Command(ModelObject):
     """Model a command.
@@ -429,6 +442,9 @@ class Mkdir(Command):
         assert isinstance(directory, basestring)
         Command.__init__(self, project)
         self.directory = directory
+    
+    def __str__(self):
+        return "<Mkdir:%s>" % self.directory
 
 class Rmdir(Command):
     """Model a delete command.
@@ -445,6 +461,9 @@ class Rmdir(Command):
         assert isinstance(directory,basestring)
         Command.__init__(self, project)
         self.directory = directory
+
+    def __str__(self):
+        return "<Rmdir:%s>" % self.directory
 
 class Script(Command):
     """Command to run a script.
@@ -485,6 +504,9 @@ class Ant(Command):
         self.target = target
         self.buildfile = buildfile
 
+    def __str__(self):
+        return "<Ant:%s,target=%s,buildfile=%s>" % (self.name, self.target, self.buildfile)
+
 #TODO: more Commands
 
 OUTPUT_ID_HOME = "homedir"
@@ -504,6 +526,9 @@ class Output(ModelObject):
         assert isinstance(project, Project)
         self.project = project
         self.id      = id
+    
+    def __str__(self):
+        return "<Output:%s>" % self.id
 
 class Homedir(Output):
     """Model a directory containing stuff that can be used by other projects.
@@ -518,6 +543,9 @@ class Homedir(Output):
         assert isinstance(directory, basestring)
         Output.__init__(self, project, OUTPUT_ID_HOME)
         self.directory = directory
+    
+    def __str__(self):
+        return "<Homedir:%s>" % self.directory
 
 class Jar(Output):
     """Model a java archive that can be used by other projects.
@@ -534,6 +562,9 @@ class Jar(Output):
         assert isinstance(name, basestring)
         Output.__init__(self, project, id)
         self.name = name
-        self.add_to_bootclass_path = add_to_bootclass_path      
+        self.add_to_bootclass_path = add_to_bootclass_path
+    
+    def __str__(self):
+        return "<Jar:%s,id=%s,add_to_bootclass_path=%s>" % (self.name, self.id, self.add_to_bootclass_path)
 
 #TODO: more outputs

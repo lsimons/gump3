@@ -20,6 +20,7 @@ __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import types
+from gump.util import ansicolor
 
 class Database:
     """
@@ -76,14 +77,13 @@ class Database:
         rows affected and the result set as a tuple of tuples, if there was a
         result set, or None otherwise.
         """
-        self.log.debug("Executing SQL statement: %s" % statement)
         cursor = None
+        affected = 0
         try:
             cursor = self._connection().cursor()
             cursor.execute(statement)
             
             affected = cursor.rowcount
-            self.log.debug("   ...%s rows affected." % affected)
             if statement.lower().startswith("select"):
                 if affected > 0:
                     result = cursor.fetchall()
@@ -91,6 +91,7 @@ class Database:
                 
             return (affected, None)
         finally:
+            self.log.info("Executed SQL statement: %s%s%s ...%s rows affected." % (ansicolor.Blue, statement, ansicolor.Black, affected))
             if cursor: cursor.close()
     
     def _connection(self):

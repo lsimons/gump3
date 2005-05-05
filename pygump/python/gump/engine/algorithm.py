@@ -34,11 +34,21 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import sys
 
+from gump.util import ansicolor
 from gump.model import ModelObject, CvsModule
 from gump.model.util import mark_failure, check_failure, mark_skip, check_skip
 from gump.model.util import mark_whether_module_was_updated
 
 from gump.model.util import UPDATE_TYPE_CHECKOUT, UPDATE_TYPE_UPDATE
+
+class ExceptionInfo(ModelObject):
+    def __init__(self, type, value, traceback):
+        self.type = type
+        self.value = value
+        self.traceback = traceback
+    
+    def __str__(self):
+        return "<%s:%s>" % (self.type, self.value)
 
 class BaseErrorHandler:
     """Base error handler for use with the various algorithms.
@@ -73,11 +83,11 @@ class OptimisticLoggingErrorHandler:
 
     def handle(self, visitor, visited_model_object, type, value, traceback):
         """Override this method to be able to swallow exceptions."""
-        self.log.exception("%s threw an exception while visiting %s!" % (visitor, visited_model_object))
+        self.log.exception("%s%s threw an exception while visiting %s!%s" % (ansicolor.Bright_Red, visitor, visited_model_object, ansicolor.Black))
         if isinstance(visited_model_object, ModelObject):
             if not hasattr(visited_model_object, 'exceptions'):
                 visited_model_object.exceptions = []
-            visited_model_object.exceptions.append( (type, value, traceback) )
+            visited_model_object.exceptions.append( ExceptionInfo(type, value, traceback) )
 
 class DumbAlgorithm:
     """"Core" algorithm that simply redirects all visit_XXX calls to other plugins."""
@@ -143,7 +153,7 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
     array named "failure_cause" will be created pointing to the elements that
     "caused" them to fail.
     """
-    def visit_module(self, module):
+    def _visit_module(self, module):
         # run the delegates
         try:
             for visitor in self.list:
@@ -163,11 +173,13 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
         
         # check for changes
         mark_whether_module_was_updated(module)
-        if not getattr(module, "was_updated", False):
-            for project in module.projects.values():
-                mark_skip(project)
+        #TODO enable
+        #if not getattr(module, "was_updated", False):
+        #    for project in module.projects.values():
+        #        print "Line 170: %s was not updated!" % module.name
+        #        mark_skip(project)
             
-    def visit_project(self, project):
+    def _visit_project(self, project):
         # check for dependencies that failed to build
         for relationship in project.dependencies:
             if check_failure(relationship.dependency):

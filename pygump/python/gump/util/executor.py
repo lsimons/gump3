@@ -39,6 +39,7 @@ __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import sys
+from gump.util import ansicolor
 
 # set this to a logging-module-compatible logger to make this module log all
 # the commands it executes
@@ -120,7 +121,7 @@ else:
             
             # a logger can be set for this module to make us log commands
             if _log:
-                _log.debug("Executing command: '%s' in directory '%s'" % (" ".join(args),os.path.abspath(cwd or os.curdir)))
+                _log.info("Executing command: %s'%s'%s in directory '%s'" % (ansicolor.Blue, " ".join(args), ansicolor.Black, os.path.abspath(cwd or os.curdir)))
             
             subprocess.Popen.__init__(self, args, bufsize=bufsize, executable=executable,
                      stdin=stdin, stdout=stdout, stderr=stderr,

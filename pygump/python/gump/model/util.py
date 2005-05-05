@@ -69,8 +69,11 @@ def get_cause_for_cause(cause):
     
     Returns only the *first* parent cause, not all of them. Returns
     None if there's no "parent" "cause"."""
+    if isinstance(cause, Dependency):
+        cause = cause.dependency
+
     if not isinstance(cause, ModelObject) \
-       or not len(getattr(model_element, "failure_cause", [])) > 0:
+       or not len(getattr(cause, "failure_cause", [])) > 0:
         return None
     
     return cause.failure_cause[0]
@@ -81,7 +84,12 @@ def get_root_cause(model_element):
     Returns an array containing a trace of all the different causes, starting
     with the main cause and ending with the "root" cause."""
     assert isinstance(model_element, ModelObject)
-    assert isinstance(model_element, ModelObject)
+
+    if isinstance(model_element, Dependency):
+        model_element = model_element.dependency
+
+    if not hasattr(model_element, "failure_cause"):
+        return []
     
     cause = model_element.failure_cause[0]
     trace = [cause]
@@ -118,7 +126,7 @@ def mark_whether_module_was_updated(module):
     """Mark a module as "updated" if it was."""
     # checkout means we did in fact update
     if hasattr(module, "update_type"):
-        if module.update_type == UPDATE_TYPE_CHECKOUT and not module.failed:
+        if module.update_type == UPDATE_TYPE_CHECKOUT and not getattr(module, "failed", False):
             module.was_updated = True
         
     # no checkout, so an update. Might have had no effect. Check.

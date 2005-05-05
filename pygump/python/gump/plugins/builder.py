@@ -39,11 +39,8 @@ class BuilderPlugin(AbstractPlugin):
         assert isinstance(project, Project)
         self.log.debug("Visit %s looking for %s" % (project,self.cmd_clazz))
         for command in [command for command in project.commands if isinstance(command,self.cmd_clazz)]:
-            try:        
-                self.log.debug("Perform %s on %s" % (command, project))
-                self.method(project, command)
-            except Exception:
-                self.log.exception("Failed...")
+            self.log.debug("Perform %s on %s" % (command, project))
+            self.method(project, command)
 
 class ScriptBuilderPlugin(BuilderPlugin):
     """Execute all "script" commands for all projects."""
