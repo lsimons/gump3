@@ -19,11 +19,11 @@ limitations under the License.
         <repository href="repositories/gump.apache.org-fixture-svn.xml"/>
     </repositories>
     <modules>
-        <module name="gump-fixture-cvs">
-            <repository name="gump-fixture-cvs" subdir="fixture/cvsprojects"/>
+        <module name="gump-fixture-cvs" path="fixture/cvsprojects">
+            <repository name="gump-fixture-cvs"/>
         </module>
-        <module name="gump-fixture-svn">
-            <repository name="gump-fixture-svn" subdir="svnprojects"/>
+        <module name="gump-fixture-svn" path="svnprojects">
+            <repository name="gump-fixture-svn"/>
         </module>
     </modules>
     <projects>

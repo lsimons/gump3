@@ -108,7 +108,7 @@ class SvnUpdater(ModuleUpdater):
         if not os.path.exists(svndir):
             self.checkout(module, modulepath)
         else:
-            self.update(module, moduelpath)
+            self.update(module, modulepath)
         os.chdir(current)
     
     def checkout(self, module, cwd):

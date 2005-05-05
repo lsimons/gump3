@@ -172,7 +172,10 @@ class SvnRepository(Repository):
                  password = None):
         assert isinstance(url, basestring)
         Repository.__init__(self, workspace, name, title, home_page, cvsweb, redistributable)
-        self.url      = url
+        if url.endswith("/"):
+            self.url = url[:-1]
+        else:
+            self.url = url
         self.user     = user
         self.password = password
 
