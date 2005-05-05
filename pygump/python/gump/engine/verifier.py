@@ -21,6 +21,7 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import logging
 import os
+import sys
 
 from xml import dom
 from xml.dom import minidom
@@ -28,6 +29,7 @@ from xml.dom import minidom
 from gump.model import *
 
 from gump.engine import EngineError
+from gump.util import ansicolor
 
 class VerificationError(EngineError):
     """Error raised by the verifier if the model is not valid."""
@@ -39,9 +41,17 @@ class CyclicDependencyError(VerificationError):
     a cycle again is an array of projects that together make up a cycle."""
     #TODO think about error hierarchies in gump and decide if this is the way
     #     we want to implement them
-    def __init__(self, cycles):
-        self.cycles = cycles
+    pass
 
+def print_cyclic_trace(cycles, handler):
+    for cycle in cycles: # isn't there a level of nesting too much here???
+        for chain in cycle:
+            msg = "  "
+            for project in chain:
+                msg += "%s --> " % project.name
+            msg = ansicolor.Bright_Red + msg[:-5] + ansicolor.Black
+            handler(msg)
+    
 class AbstractErrorHandler:
     """Base class for supporting configurable error recovery. Instead of
     raising exceptions, supportive classes will pass the error to an instance
@@ -54,10 +64,25 @@ class AbstractErrorHandler:
     
     This setup is similar to that used by the SAX libraries."""
     #TODO maybe move this elsewhere?
-    def _handleError(self,error):
-        if not hasattr(self,'handleError'): raise error
-        if not callable(self.handleError): raise error
-        self.handleError(error)
+    def _handleError(self):
+        if not hasattr(self, 'handleError'): raise
+        if not callable(self.handleError): raise
+        self.handleError()
+
+class LoggingErrorHandler(AbstractErrorHandler):
+    """Naive error handler which logs all errors and then swallows them."""
+    def __init__(self, log):
+        self.log = log
+
+    def handleError(self):
+        errorType = sys.exc_info()[0]
+        if errorType is CyclicDependencyError:
+            errorValue = sys.exc_info()[1]
+            self.log.error("Cyclic dependencies occurred:")
+            print_cyclic_trace(errorValue, self.log.error)
+            self.log.error("The projects involved will not be built!")
+        else:
+            raise
 
 class Verifier:
     """Determines whether a finished gump model conforms to certain contracts.
@@ -66,18 +91,19 @@ class Verifier:
     possible to digest them from the model documentation. However, the
     verifier itself together with its unit tests is probably the only "hard"
     specification of those contracts."""
-    def __init__(self, walker):
+    def __init__(self, walker, errorHandler=AbstractErrorHandler()):
         assert hasattr(walker, "walk")
         assert callable(walker.walk)
         
         self.walker = walker
+        self.errorHandler = errorHandler
         
-    def verify(self, workspace, errorHandler=AbstractErrorHandler()):
+    def verify(self, workspace):
         """Sends VerificationError objects to the errorHandler argument if the
         provided model contains errors. If no errorHandler is provided, the
         exceptions are 'raise'd."""
         # TODO: get rid of this return statement
-        return
+        #return
         # TODO: Test this code!!!
         from gump.plugins import AbstractPlugin
         visitor = AbstractPlugin(None)
@@ -92,8 +118,13 @@ class Verifier:
                     unvisited.append(p)
             
             cycles = self._find_cycles(unvisited[:])
+            workspace.cycles = cycles
+            workspace.unvisited = unvisited
             
-            errorHandler._handleError(CyclicDependencyError(cycles))
+            try:
+                raise CyclicDependencyError, cycles
+            except:
+                self.errorHandler._handleError()
     
     def _find_cycles(self,projects):
         """Brute-force find all cycles.
@@ -118,23 +149,24 @@ class Verifier:
         return cycles
     
     def _visit(self,project,visited,stack,needle,cycles):
-        #TODO: test this
+        # debuggging statements...
+        #msg = "Visiting: %s, stack=[" % project.name
+        #for p in stack:
+        #    msg += p.name + ","
+        #msg = msg[:-1] + "]"
+        #print msg
+        
         visited.append(project)
         for relationship in project.dependencies:
             dependency = relationship.dependency
             stack.append(dependency)
             if dependency == needle: # cycle involving needle!
-                cycles.append(stack)
+                cycles.append(stack[:])
                 visited.append(dependency)
-                stack = stack[:-1] # pop this dependency off the stack,
-                      # we'll look at the next dependency in the next
-                      # for loop iteration
             else:
                 if not dependency in visited:
                     self._visit(dependency,visited,stack,needle,cycles)
-                # else we have a cycle not involving the needle,
-                # we'll find it later (or we've found it already)
-        
-            stack = stack[:-1] # pop this dependency off the stack,
-              # we'll look at the next dependency in the next
-              # for loop iteration
+
+            stack.pop() # get rid of this dependency, we'll be looking
+                        # at the next dependency in the next iteration of
+                        # the for loop

@@ -58,7 +58,7 @@ def _resolve_hrefs_in_children(element, dropped_nodes, found_hrefs, download_fun
         if child.tagName == 'url': continue
         if child.hasAttribute('href'):
             # yep, this is one to load...
-            _resolve_href(child, dropped_nodes, download_func, error_func)
+            _resolve_href(child, dropped_nodes, found_hrefs, download_func, error_func)
 
         # now recurse to resolve any hrefs within this child
         # note that we duplicate the found_hrefs array. This means that the
@@ -86,7 +86,7 @@ def _resolve_href(node, dropped_nodes, found_hrefs, download_func, error_func):
     except Exception, details:
         # swallow this in interest of log readability
         #_drop_module_or_project(node, dropped_nodes)
-        error_func(node, dropped_nodes)
+        error_func(href, node, dropped_nodes)
         return # make sure to stop processing...
     
     new_dom = minidom.parse(stream)
@@ -191,7 +191,7 @@ class Loader:
         self.log.debug( "Resolving HREF: %s" % href )
         return self.vfs.get_as_stream(href)
 
-    def handle_error(self, href):
+    def handle_error(self, href, node, dropped_nodes):
         """Finds the project associated with this node and removes it.
         
         If there is no associated project, the associated module is removed
@@ -201,12 +201,14 @@ class Loader:
         project = _find_project_containing_node(node)
         if project:
             doc = _find_document_containing_node(project)
+            modulename = "Uknown"
             module = _find_module_containing_node(project)
-            modulename = module.getAttribute("name")
-            comment = doc.createComment(" Part of module: %s " % modulename)
-            project.appendChild(comment)
+            if module:
+                modulename = module.getAttribute("name")
+                comment = doc.createComment(" Part of module: %s " % modulename)
+                project.appendChild(comment)
             name = project.getAttribute("name")
-            self.log.warning("Dropping project '%s' from module '%s' because of href resolution error!" % (name , modulename))
+            self.log.warning("Dropping project '%s' from module '%s' because of href (%s) resolution error!" % (name , modulename, href))
     
             _do_drop(project, dropped_nodes)
         else:

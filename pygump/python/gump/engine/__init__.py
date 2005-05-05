@@ -97,7 +97,7 @@ def main(settings):
     modeller_loader = get_modeller_loader(modeller_log, vfs)
     modeller_normalizer = get_modeller_normalizer(modeller_log)
     modeller_objectifier = get_modeller_objectifier(modeller_log)
-    modeller_verifier = get_modeller_verifier(walker)
+    modeller_verifier = get_modeller_verifier(config, walker)
     
     mergefile = os.path.join(config.paths_work, _MERGE_FILE_NAME)
     dropfile = os.path.join(config.paths_work, _DROPPED_FILE_NAME)
@@ -256,4 +256,4 @@ class _Engine:
             for node in dropped_nodes:
                 dropdocroot.appendChild(node)
             self.drop_to.write( dropdoc.toxml() )
-            self.drop_to.close()        
+            self.drop_to.close()

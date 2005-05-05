@@ -57,6 +57,8 @@ def get_config(settings):
     config.paths_work      = settings.workdir
     config.paths_logs      = settings.logdir
     config.paths_workspace = settings.workspace
+    # resolve hrefs relative to workspace xml file
+    config.paths_metadata  = os.path.dirname(config.paths_workspace)
     config.start_time      = settings.starttimeutc
     
     config.projects        = settings.projects
@@ -268,10 +270,11 @@ def get_modeller_objectifier(log):
     return Objectifier(log)
 
 
-def get_modeller_verifier(walker):
+def get_modeller_verifier(config, walker):
     """Provide a Verifier implementation."""
-    from gump.engine.verifier import Verifier
-    return Verifier(walker)
+    from gump.engine.verifier import Verifier, LoggingErrorHandler
+    log = get_logger(config, "verifier")
+    return Verifier(walker, LoggingErrorHandler(log))
 
 
 def get_walker(config):

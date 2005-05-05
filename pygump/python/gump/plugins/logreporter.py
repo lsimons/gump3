@@ -109,6 +109,11 @@ class ResultLogReporterPlugin(AbstractPlugin):
         self.wr(hr)
         self.wr('                           %sBUILD RESULTS%s' % (ansicolor.Bright_Blue, ansicolor.Black))
         self.wr(hr)
+    
+    def visit_workspace(self, workspace):
+        if hasattr(workspace, "unvisited"):
+            for project in workspace.unvisited:
+                self.wr('%s%s: CYCLIC DEPENDENCY%s' % (ansicolor.Bright_Red, project, ansicolor.Black))
  
     def visit_project(self, project):
         if check_skip(project):
