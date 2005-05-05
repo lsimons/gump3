@@ -1,0 +1,4 @@
+You probably want to check out gump/fixture/cvsprojects from cvs into this directory:
+
+  cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co gump/fixture/cvsprojects .
+
