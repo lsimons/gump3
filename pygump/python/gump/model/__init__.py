@@ -500,7 +500,7 @@ class Ant(Command):
         - target -- the Ant target
         - buildfile -- the Ant build file
     """
-    def __init__(self, project, name, target, buildfile):
+    def __init__(self, project, name, target, buildfile="build.xml"):
         assert isinstance(name, basestring)
         assert isinstance(target, basestring)
         assert isinstance(buildfile, basestring)

@@ -209,7 +209,7 @@ def _create_ant_commands(project, project_definition):
     ants = project_definition.getElementsByTagName("ant")
     for cmd in ants:
         name = cmd.getAttribute("name")
-        buildfile = cmd.getAttribute("target")
+        buildfile = cmd.getAttribute("buildfile")
         target = cmd.getAttribute("target")
             
         project.add_command(Ant(project, name, target, buildfile))

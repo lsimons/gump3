@@ -221,15 +221,23 @@ class ArtifactPlugin(BuilderPlugin):
         
 class AntPlugin(BuilderPlugin):
     """Execute all "ant" commands for all projects."""
-    def __init__(self, workdir, log):
+    def __init__(self, workdir, log, debug=False):
         BuilderPlugin.__init__(self, workdir, log, Ant, self._do_ant)
+        self.debug = debug
         
     def _do_ant(self, project, ant):                
         projectpath = get_project_directory(self.workdir,project)
         
-        buildfile = abspath(join(projectpath, ant.name))        
-        
-        #TODO
-        import pprint
+        # TODO get proper classpath
         self.log.debug('CLASSPATH %s' % ant.classpath)
         self.log.debug('BOOTCLASSPATH %s' % ant.boot_classpath)
+        # TODO test this
+        # TODO sysclasspath only
+        # TODO more options
+        args = ["ant","-buildfile",ant.buildfile,ant.target]
+        if self.debug:
+            args += "-debug"
+        cmd = Popen(args,shell=False,cwd=projectpath,stdout=PIPE,stderr=STDOUT)
+
+        ant.build_log = cmd.communicate()[0]
+        ant.build_exit_status = cmd.wait()
