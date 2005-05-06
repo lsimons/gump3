@@ -37,6 +37,10 @@ class ZZZExecutorUtilTestCase(TestCase):
             
             def debug(self,msg):
                 self.msg = msg
+            
+            def info(self,msg):
+                self.msg = msg
+                
         import gump.util.executor
         gump.util.executor._log = _DummyLogger()
         result = Popen(["pwd"], stdout=PIPE).communicate()[0]
