@@ -21,6 +21,7 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import logging
 import os
+import sys
 
 from xml import dom
 from xml.dom import minidom
@@ -251,7 +252,7 @@ def _add_dependency(project, dependency, projectlist):
     try:
         dependency_project = projectlist[dependency_name]
     except KeyError:
-        raise MissingDependencyError(project, dependency_name), "Dependency '%s' specified by '%s' cannot be found!" % (dependency_name, project)
+        raise MissingDependencyError(project, dependency_name)
     
     idList = dependency.getAttribute("ids")
     if idList:
@@ -304,9 +305,12 @@ def _find_project_definitions(root):
 ###
 class MissingDependencyError(EngineError):
     """Exception that's raised if a dependency is declared on a project that doesn't exist."""
-    def __init__(project, dependency_name):
+    def __init__(self, project, dependency_name):
         self.project = project
         self.dependency_name = dependency_name
+    
+    def __str__(self):
+        return "Dependency '%s' specified by '%s' cannot be found!" % (self.dependency_name, self.project)
 
 
 class Objectifier:
@@ -385,4 +389,15 @@ class Objectifier:
         # wire up dependencies only after projects have been created
         for project_definition in project_definitions:
             if not project_definition.nodeType == dom.Node.ELEMENT_NODE: continue
-            _create_dependencies(project_definition, workspace.projects)
+            try:
+                _create_dependencies(project_definition, workspace.projects)
+            except MissingDependencyError:
+                # TODO this is introducing a dependency on the engine
+                # algorithm. Need to move the "failure" logic closer to
+                # the "core" model.
+                from gump.model.util import mark_failure
+                from gump.engine.algorithm import ExceptionInfo
+                (type, value, traceback) = sys.exc_info()
+                cause = ExceptionInfo(type, value, traceback)
+                mark_failure(project, cause)
+                self.log.error(cause)
