@@ -104,13 +104,6 @@ def get_plugins(config):
     from gump.plugins.instrumentation import TimerPlugin
     pre_process_plugins.append(TimerPlugin("run_start"))
     
-    if config.do_update:    
-        pre_process_plugins.append(TimerPlugin("update_start"))
-        from gump.plugins.updater import CvsUpdater, SvnUpdater
-        pre_process_plugins.append(CvsUpdater(config.paths_work))
-        pre_process_plugins.append(SvnUpdater(config.paths_work))
-        pre_process_plugins.append(TimerPlugin("update_end"))
-        
     plugins = []
     # TODO: append more plugins here...
 
@@ -121,6 +114,13 @@ def get_plugins(config):
     reportlog = get_logger(config, "plugin.logger")
     from gump.plugins.logreporter import DebugLogReporterPlugin
     plugins.append(DebugLogReporterPlugin(reportlog))
+        
+    if config.do_update:    
+        plugins.append(TimerPlugin("update_start"))
+        from gump.plugins.updater import CvsUpdater, SvnUpdater
+        plugins.append(CvsUpdater(config.paths_work))
+        plugins.append(SvnUpdater(config.paths_work))
+        plugins.append(TimerPlugin("update_end"))
         
     # by contract, rmdir always needs to go before mkdir!
     from gump.plugins.dirbuilder import RmdirBuilderPlugin
