@@ -1,0 +1,3 @@
+echo off
+echo Designed to fail...
+exit 1

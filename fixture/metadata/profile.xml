@@ -36,6 +36,7 @@ limitations under the License.
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-ant-based-1.xml"/>
 
         <!-- failure tests -->
+        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-failure-1.xml"/>
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-1.xml"/>
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-2.xml"/>
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-3.xml"/>
