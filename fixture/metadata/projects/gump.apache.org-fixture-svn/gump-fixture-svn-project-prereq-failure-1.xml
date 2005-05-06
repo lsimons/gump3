@@ -19,6 +19,6 @@ limitations under the License.
     <license name="LICENSE.txt"/>
     <depend project="gump-fixture-svn-project-1"/>
     <depend project="gump-fixture-svn-project-3"/>
-    <depend project="gump-fixture-svn-ant-based-1"/>
+    <depend project="gump-fixture-svn-project-ant-based-1"/>
     <depend project="gump-fixture-svn-project-failure-1"/>
 </project>
