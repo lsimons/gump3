@@ -116,14 +116,23 @@ class ResultLogReporterPlugin(AbstractPlugin):
             self.wr('  Run finished: %s' % workspace.run_end)
             self.wr('')
         
-        failed  = 0
-        skipped = 0
-        success = 0
-        cycled  = 0
+        failed        = 0
+        prereq_failed = 0
+        skipped       = 0
+        success       = 0
+        cycled        = 0
         total = len(workspace.projects)
         for project in workspace.projects.values():
             if check_failure(project):
-                failed += 1
+                prereq_fail = False
+                for cause in get_failure_causes(project):
+                    if isinstance(cause, Dependency) or isinstance(cause, Project):
+                        prereq_fail = True
+                        prereq_failed += 1
+                        break
+                
+                if not prereq_fail:
+                    failed += 1
                 continue
             if check_skip(project):
                 skipped += 1
@@ -137,22 +146,23 @@ class ResultLogReporterPlugin(AbstractPlugin):
         
         total_percent = 100.0
         failed_percent = (1.0 * failed / total) * total_percent
+        prereq_failed_percent = (1.0 * prereq_failed / total) * total_percent
         skipped_percent = (1.0 * skipped / total) * total_percent
         success_percent = (1.0 * success / total) * total_percent
         cycled_percent = (1.0 * cycled / total) * total_percent
         
         self.wr('  Project build statistics:')
-        self.wr('    Total   %sFailed   %sSkipped   %sSuccess   %sCyclic Dependency%s' % \
+        self.wr('Total   %sFailed   %sPrereq Failed   Skipped   %sSuccess   %sCyclic Dependency%s' % \
                 (ansicolor.Red, ansicolor.Yellow, ansicolor.Green, ansicolor.Bright_Red, ansicolor.Black))
-        self.wr('    %5u   %s%6u   %s%7u   %s%7u   %s%17u%s' % (total,
+        self.wr('%5u   %s%6u   %s%13u   %7u   %s%7u   %s%17u%s' % (total,
                  ansicolor.Red, failed,
-                 ansicolor.Yellow, skipped,
+                 ansicolor.Yellow, prereq_failed, skipped,
                  ansicolor.Green, success,
                  ansicolor.Bright_Red, cycled,
                  ansicolor.Black))
-        self.wr('    %5.1f%%  %s%6.1f%%  %s%7.1f%%  %s%7.1f%%  %s%17.1f%%%s' % (total_percent,
+        self.wr('%5.0f%%  %s%6.1f%%  %s%13.1f%%  %7.1f%%  %s%7.1f%%  %s%17.1f%%%s' % (total_percent,
                  ansicolor.Red, failed_percent,
-                 ansicolor.Yellow, skipped_percent,
+                 ansicolor.Yellow, prereq_failed_percent, skipped_percent,
                  ansicolor.Green, success_percent,
                  ansicolor.Bright_Red, cycled_percent,
                  ansicolor.Black))
@@ -192,7 +202,7 @@ class ResultLogReporterPlugin(AbstractPlugin):
                         real_elem = trace_elem.dependency
                         
                     if hasattr(real_elem, "name"):
-                        self.wr("%s%s caused by %s%s" % (ansicolor.Grey, indent, real_elem, ansicolor.Black))
+                        self.wr("%s%s caused by %s%s" % (ansicolor.Yellow, indent, real_elem, ansicolor.Black))
                         
                     indent += "  "
                     
