@@ -208,6 +208,8 @@ class Loader:
                 comment = doc.createComment(" Part of module: %s " % modulename)
                 project.appendChild(comment)
             name = project.getAttribute("name")
+            if not name:
+                name = "Uknown"
             self.log.warning("Dropping project '%s' from module '%s' because of href (%s) resolution error!" % (name , modulename, href))
     
             _do_drop(project, dropped_nodes)

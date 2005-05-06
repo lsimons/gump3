@@ -111,6 +111,53 @@ class ResultLogReporterPlugin(AbstractPlugin):
         self.wr(hr)
     
     def visit_workspace(self, workspace):
+        if hasattr(workspace, "run_start") and hasattr(workspace, "run_end"):
+            self.wr('  Run started:  %s' % workspace.run_start)
+            self.wr('  Run finished: %s' % workspace.run_end)
+            self.wr('')
+        
+        failed  = 0
+        skipped = 0
+        success = 0
+        cycled  = 0
+        total = len(workspace.projects)
+        for project in workspace.projects.values():
+            if check_failure(project):
+                failed += 1
+                continue
+            if check_skip(project):
+                skipped += 1
+                continue
+            if hasattr(workspace, "unvisited"):
+                if project in workspace.unvisited:
+                    cycled += 1
+                    continue
+            
+            success += 1
+        
+        total_percent = 100.0
+        failed_percent = (1.0 * failed / total) * total_percent
+        skipped_percent = (1.0 * skipped / total) * total_percent
+        success_percent = (1.0 * success / total) * total_percent
+        cycled_percent = (1.0 * cycled / total) * total_percent
+        
+        self.wr('  Project build statistics:')
+        self.wr('    Total   %sFailed   %sSkipped   %sSuccess   %sCyclic Dependency%s' % \
+                (ansicolor.Red, ansicolor.Yellow, ansicolor.Green, ansicolor.Bright_Red, ansicolor.Black))
+        self.wr('    %5u   %s%6u   %s%7u   %s%7u   %s%17u%s' % (total,
+                 ansicolor.Red, failed,
+                 ansicolor.Yellow, skipped,
+                 ansicolor.Green, success,
+                 ansicolor.Bright_Red, cycled,
+                 ansicolor.Black))
+        self.wr('    %5.1f%%  %s%6.1f%%  %s%7.1f%%  %s%7.1f%%  %s%17.1f%%%s' % (total_percent,
+                 ansicolor.Red, failed_percent,
+                 ansicolor.Yellow, skipped_percent,
+                 ansicolor.Green, success_percent,
+                 ansicolor.Bright_Red, cycled_percent,
+                 ansicolor.Black))
+        self.wr(hr)
+        
         if hasattr(workspace, "unvisited"):
             for project in workspace.unvisited:
                 self.wr('%s%s: CYCLIC DEPENDENCY%s' % (ansicolor.Bright_Red, project, ansicolor.Black))

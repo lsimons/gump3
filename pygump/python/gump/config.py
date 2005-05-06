@@ -137,6 +137,8 @@ def get_plugins(config):
     from gump.plugins.java.builder import AntPlugin
     plugins.append(AntPlugin(config.paths_work,buildlog))
     
+    plugins.append(TimerPlugin("build_end"))
+
     post_process_plugins = []
     # TODO: append more plugins here...
     post_process_plugins.append(TimerPlugin("run_end"))
@@ -147,8 +149,6 @@ def get_plugins(config):
     dynagumplog = get_logger(config, "plugin.dynagumper")
     post_process_plugins.append(Dynagumper(db, dynagumplog))
     
-    plugins.append(TimerPlugin("build_end"))
-
     if config.debug:
         from gump.plugins.logreporter import OutputLogReporterPlugin
         post_process_plugins.append(OutputLogReporterPlugin(reportlog))
