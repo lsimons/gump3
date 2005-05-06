@@ -121,7 +121,7 @@ else:
             
             # a logger can be set for this module to make us log commands
             if _log:
-                _log.info("        Executing command: %s'%s'%s in directory '%s'" % (ansicolor.Blue, " ".join(args), ansicolor.Black, os.path.abspath(cwd or os.curdir)))
+                _log.info("        Executing command:\n      %s'%s'%s\n       in directory '%s'" % (ansicolor.Blue, " ".join(args), ansicolor.Black, os.path.abspath(cwd or os.curdir)))
             
             subprocess.Popen.__init__(self, args, bufsize=bufsize, executable=executable,
                      stdin=stdin, stdout=stdout, stderr=stderr,

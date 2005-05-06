@@ -46,9 +46,11 @@ class CyclicDependencyError(VerificationError):
 def print_cyclic_trace(cycles, handler):
     for cycle in cycles: # isn't there a level of nesting too much here???
         for chain in cycle:
-            msg = "  "
+            msg = ""
+            indent = "  "
             for project in chain:
-                msg += "%s --> " % project.name
+                msg += "%s%s -->\n" % (indent, project.name)
+                indent += "  "
             msg = ansicolor.Bright_Red + msg[:-5] + ansicolor.Black
             handler(msg)
     

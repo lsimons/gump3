@@ -25,7 +25,7 @@ from gump.util import ansicolor
 
 from StringIO import StringIO
 
-hr = '------------------------------------------------------------------------'
+hr = '  --------------------------------------------------------------------------'
 
 class DebugLogReporterPlugin(AbstractPlugin):
     """Outputs debug messages as it visits model elements."""
@@ -107,7 +107,7 @@ class ResultLogReporterPlugin(AbstractPlugin):
     
     def initialize(self):
         self.wr(hr)
-        self.wr('                           %sBUILD RESULTS%s' % (ansicolor.Bright_Blue, ansicolor.Black))
+        self.wr('                              %sBUILD RESULTS%s' % (ansicolor.Bright_Blue, ansicolor.Black))
         self.wr(hr)
     
     def visit_workspace(self, workspace):
@@ -151,51 +151,58 @@ class ResultLogReporterPlugin(AbstractPlugin):
         success_percent = (1.0 * success / total) * total_percent
         cycled_percent = (1.0 * cycled / total) * total_percent
         
-        self.wr('  Project build statistics:')
-        self.wr('Total   %sFailed   %sPrereq Failed   Skipped   %sSuccess   %sCyclic Dependency%s' % \
+        self.wr('  Project build statistics')
+        self.wr('  ==========================================================================')
+        self.wr('      Total | %sFailed | %sPrereq Failed | Skipped | %sSuccess | %sCyclic Dependency%s' % \
                 (ansicolor.Red, ansicolor.Yellow, ansicolor.Green, ansicolor.Bright_Red, ansicolor.Black))
-        self.wr('%5u   %s%6u   %s%13u   %7u   %s%7u   %s%17u%s' % (total,
-                 ansicolor.Red, failed,
-                 ansicolor.Yellow, prereq_failed, skipped,
-                 ansicolor.Green, success,
+        self.wr('      ------|--------|---------------|---------|---------|------------------')
+        self.wr('      %5u | %s%6u%s | %s%13u%s | %s%7u%s | %s%7u%s | %s%17u%s' % (total,
+                 ansicolor.Red, failed, ansicolor.Black, 
+                 ansicolor.Yellow, prereq_failed, ansicolor.Black,
+                 ansicolor.Yellow, skipped, ansicolor.Black, 
+                 ansicolor.Green, success, ansicolor.Black, 
                  ansicolor.Bright_Red, cycled,
                  ansicolor.Black))
-        self.wr('%5.0f%%  %s%6.1f%%  %s%13.1f%%  %7.1f%%  %s%7.1f%%  %s%17.1f%%%s' % (total_percent,
-                 ansicolor.Red, failed_percent,
-                 ansicolor.Yellow, prereq_failed_percent, skipped_percent,
-                 ansicolor.Green, success_percent,
+        self.wr('     %5.0f%% |%s%6.1f%%%s |%s%13.1f%%%s |%s%7.1f%%%s |%s%7.1f%%%s |%s%17.1f%%%s' % (total_percent,
+                 ansicolor.Red, failed_percent, ansicolor.Black, 
+                 ansicolor.Yellow, prereq_failed_percent, ansicolor.Black,
+                 ansicolor.Yellow, skipped_percent, ansicolor.Black, 
+                 ansicolor.Green, success_percent, ansicolor.Black, 
                  ansicolor.Bright_Red, cycled_percent,
                  ansicolor.Black))
-        self.wr(hr)
+        self.wr('  ==========================================================================')
+        self.wr('')
+        self.wr('  Project build log')
+        self.wr('  ==========================================================================')
         
         if hasattr(workspace, "unvisited"):
             for project in workspace.unvisited:
-                self.wr('%s%s: CYCLIC DEPENDENCY%s' % (ansicolor.Bright_Red, project, ansicolor.Black))
+                self.wr('  %s%s: CYCLIC DEPENDENCY%s' % (ansicolor.Bright_Red, project, ansicolor.Black))
  
     def visit_project(self, project):
         if check_skip(project):
-            self.wr('%s%s: SKIPPED%s' % (ansicolor.Blue, project, ansicolor.Black))
+            self.wr('  %s%s: SKIPPED%s' % (ansicolor.Blue, project, ansicolor.Black))
             return
         
         if not check_failure(project):
-            self.wr('%s%s: OK%s' % (ansicolor.Green, project, ansicolor.Black))
+            self.wr('  %s%s: OK%s' % (ansicolor.Green, project, ansicolor.Black))
         else:
-            self.wr('%s%s: FAIL%s' % (ansicolor.Red, project, ansicolor.Black+ansicolor.Black))
+            self.wr('  %s%s: FAIL%s' % (ansicolor.Red, project, ansicolor.Black+ansicolor.Black))
 
             causes = get_failure_causes(project)
             for cause in causes:
                 if isinstance(cause, ExceptionInfo):
-                    self.wr("    %sMETADATA FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
+                    self.wr("      %sMETADATA FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
                 if isinstance(cause, Command):
-                    self.wr("    %sBUILD FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
+                    self.wr("      %sBUILD FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
                 if isinstance(cause, Dependency):
-                    self.wr("    %sPREREQ FAILURE (%s)%s" % (ansicolor.Red, cause.dependency, ansicolor.Black))
+                    self.wr("      %sPREREQ FAILURE (%s)%s" % (ansicolor.Red, cause.dependency, ansicolor.Black))
                 if isinstance(cause, Project):
-                    self.wr("    %sPREREQ FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
+                    self.wr("      %sPREREQ FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
                 if isinstance(cause, Module):
-                    self.wr("    %sUPDATE FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
+                    self.wr("      %sUPDATE FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
                 
-                indent =    "     "
+                indent =    "       "
                 for trace_elem in get_root_cause(cause):
                     real_elem = trace_elem
                     if isinstance(trace_elem, Dependency):
@@ -207,7 +214,7 @@ class ResultLogReporterPlugin(AbstractPlugin):
                     indent += "  "
                     
     def finalize(self):
-        self.wr(hr)
+        self.wr('  ==========================================================================')
         
         self.buffer.flush()
         self.log.info(self.buffer.getvalue())

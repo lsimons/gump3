@@ -83,7 +83,8 @@ def main(settings):
         from gump.util import ansicolor
         ansicolor.enable_colors()
 
-    _banner(settings.version)
+    if not settings.quiet:
+        _banner(settings.version)
     
     # get engine config
     config = get_config(settings)
@@ -121,11 +122,11 @@ def main(settings):
 def _banner(version):
     """Print a fancy ASCII-art gump logo."""
     print ansicolor.Bright_Blue
-    print "         _____"
-    print "        |   __|_ " + ansicolor.Red + "Apache" + ansicolor.Bright_Blue + "_ ___"
-    print "        |  |  | | |     | . |"
-    print "        |_____|___|_|_|_|  _|"
-    print "                        |_|     " + ansicolor.Blue + "~ v. " + version + " ~"
+    print "                  _____"
+    print "                 |   __|_ " + ansicolor.Red + "Apache" + ansicolor.Bright_Blue + "_ ___"
+    print "                 |  |  | | |     | . |"
+    print "                 |_____|___|_|_|_|  _|"
+    print "                                 |_|     " + ansicolor.Blue + "~ v. " + version + " ~"
     print ansicolor.Black
 
 

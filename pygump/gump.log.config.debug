@@ -1,6 +1,6 @@
 # not used atm..
 [loggers]
-keys=root,engine,modeller,walker,plugin,plugin_dynagumper,plugin_logger,util_db,util_executor
+keys=root,engine,modeller,walker,plugin,plugin_dynagumper,plugin_logger,plugin_logger_debug,util_db,util_executor
 
 [handlers]
 keys=stdout,filehandler
@@ -66,6 +66,12 @@ level=DEBUG
 handlers=stdout,filehandler
 propagate=0
 qualname=plugin.logger
+
+[logger_plugin_logger_debug]
+level=DEBUG
+handlers=stdout,filehandler
+propagate=0
+qualname=plugin.logger.debug
 
 [logger_plugin_builder]
 level=DEBUG

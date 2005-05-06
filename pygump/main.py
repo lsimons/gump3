@@ -74,13 +74,19 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
     """
     # TODO: make sure no CLI settings are overridden!
     from optparse import OptionParser
-    usage = "$0 run [options ...]"
+    usage = "gump run [options ...]"
 
     parser = OptionParser(usage=usage)
-    parser.add_option("--debug",
+    parser.add_option("-d",
+                      "--debug",
                       action="store_true",
                       default=False,
                       help="print extra information")
+    parser.add_option("-q",
+                      "--quiet",
+                      action="store_true",
+                      default=False,
+                      help="print as little information as possible (overrides --debug)")
     parser.add_option("--homedir",
                       action="store",
                       default=_homedir,
@@ -102,7 +108,8 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       action="store",
                       default=_workspace,
                       help="absolute path to the workspace gump will use")
-    parser.add_option("--do-updates",
+    parser.add_option("-u",
+                      "--do-updates",
                       action="store_true",
                       dest="do_update",
                       default=False, # Default to NOT. At least during initial development...
@@ -127,7 +134,7 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       action="store",
                       default=_databasepassword,
                       help="password gump will use to connect to the database")
-    parser.add_option("--enable-colors",
+    parser.add_option("--color",
                       action="store_true",
                       dest="enable_colors",
                       default=False,

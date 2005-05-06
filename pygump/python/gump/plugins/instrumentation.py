@@ -41,4 +41,4 @@ class TimerPlugin(AbstractPlugin):
 
     def gettime(self):
         import time
-        return time.strftime(self.format, time.gmtime())
+        return time.strftime(self.format, time.localtime())

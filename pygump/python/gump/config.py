@@ -51,6 +51,9 @@ def get_config(settings):
         config.log_level       = logging.DEBUG
     else:
         config.log_level       = logging.INFO
+    if settings.quiet:
+        settings.debug = False
+        config.log_level = logging.WARN
     
     # TODO: change main.py to do it like this
     config.paths_home      = settings.homedir
@@ -111,9 +114,9 @@ def get_plugins(config):
         
     from gump.plugins import LoggingPlugin
 
-    reportlog = get_logger(config, "plugin.logger")
+    debuglog = get_logger(config, "plugin.logger.debug")
     from gump.plugins.logreporter import DebugLogReporterPlugin
-    plugins.append(DebugLogReporterPlugin(reportlog))
+    plugins.append(DebugLogReporterPlugin(debuglog))
         
     if config.do_update:    
         plugins.append(TimerPlugin("update_start"))
@@ -149,9 +152,9 @@ def get_plugins(config):
     dynagumplog = get_logger(config, "plugin.dynagumper")
     post_process_plugins.append(Dynagumper(db, dynagumplog))
     
-    if config.debug:
-        from gump.plugins.logreporter import OutputLogReporterPlugin
-        post_process_plugins.append(OutputLogReporterPlugin(reportlog))
+    reportlog = get_logger(config, "plugin.logger")
+    from gump.plugins.logreporter import OutputLogReporterPlugin
+    post_process_plugins.append(OutputLogReporterPlugin(reportlog))
 
     from gump.plugins.logreporter import ResultLogReporterPlugin
     post_process_plugins.append(ResultLogReporterPlugin(reportlog))
@@ -317,7 +320,10 @@ def run_config_hooks(config):
     if config.debug:
         fileConfig('gump.log.config.debug')
     else:
-        fileConfig('gump.log.config')
+        if config.quiet:
+            fileConfig('gump.log.config.quiet')
+        else:
+            fileConfig('gump.log.config')
     
     # set up gump.util.executor module
     # this will make Popen log all invocations
