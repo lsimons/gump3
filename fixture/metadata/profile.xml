@@ -27,15 +27,18 @@ limitations under the License.
         </module>
     </modules>
     <projects>
+        <!-- please keep this list in "dependency order" for now -->
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-1.xml"/>
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-2.xml"/>
         <project href="http://svn.apache.org/repos/asf/gump/branches/Gump3/fixture/metadata/projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-3.xml"/>
 
+        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-dir-management-1.xml"/>
+        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-ant-based-1.xml"/>
+
+        <!-- failure tests -->
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-1.xml"/>
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-2.xml"/>
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-3.xml"/>
-        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-dir-management-1.xml"/>
-
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-does-not-exist.xml"/>
     </projects>
 </profile>

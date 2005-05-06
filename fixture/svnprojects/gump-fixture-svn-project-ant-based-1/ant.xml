@@ -13,14 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<project name="gump-fixture-svn-project-ant-based-1"
-        path="gump-fixture-svn-project-ant-based-1">
-    <module name="gump-fixture-svn"/>
-
-    <license name="LICENSE.txt"/>
-    
-    <ant target="gump" buildfile="ant.xml"/>
-
-    <depend project="gump-fixture-svn-project-3"/>
-    <depend project="gump-fixture-svn-project-dir-management-1"/>
+<project name="gump-ant-based-1" default="not-used" basedir=".">
+  <target name="not-used">
+    <fail message="The 'not-used' target should not be executed!"/>
+  </target>
+  
+  <target name="gump">
+    <echo>Hi from inside ant!</echo>
+  </target>
 </project>
