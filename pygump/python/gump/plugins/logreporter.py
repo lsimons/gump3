@@ -153,8 +153,12 @@ class ResultLogReporterPlugin(AbstractPlugin):
         
         self.wr('  Project build statistics')
         self.wr('  ==========================================================================')
-        self.wr('      Total | %sFailed | %sPrereq Failed | Skipped | %sSuccess | %sCyclic Dependency%s' % \
-                (ansicolor.Red, ansicolor.Yellow, ansicolor.Green, ansicolor.Bright_Red, ansicolor.Black))
+        self.wr('      Total | %sFailed%s | %sPrereq Failed%s | Skipped%s | %sSuccess%s | %sCyclic Dependency%s' % \
+                (ansicolor.Red, ansicolor.Black,
+                 ansicolor.Yellow, ansicolor.Black,
+                 ansicolor.Green, ansicolor.Black,
+                 ansicolor.Bright_Red,
+                 ansicolor.Black))
         self.wr('      ------|--------|---------------|---------|---------|------------------')
         self.wr('      %5u | %s%6u%s | %s%13u%s | %s%7u%s | %s%7u%s | %s%17u%s' % (total,
                  ansicolor.Red, failed, ansicolor.Black, 
