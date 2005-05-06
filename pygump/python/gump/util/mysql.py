@@ -91,7 +91,7 @@ class Database:
                 
             return (affected, None)
         finally:
-            self.log.info("Executed SQL statement: %s%s%s ...%s rows affected." % (ansicolor.Blue, statement, ansicolor.Black, affected))
+            self.log.info("        Executed SQL statement: %s%s%s ...%s rows affected." % (ansicolor.Blue, statement, ansicolor.Black, affected))
             if cursor: cursor.close()
     
     def _connection(self):
