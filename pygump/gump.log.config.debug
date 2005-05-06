@@ -94,7 +94,8 @@ args=('work/log/run.log', 'w')
 #args=('work/log/run.log', 'W', '0', 10)
 
 [formatter_simple]
-format=%(levelname)s - %(message)s
+format=%(asctime)-8s %(levelname)-8s   %(message)s
+datefmt=%H:%M:%S
 
 [formatter_fileformatter]
 format=%(levelname)s [%(name)s] %(asctime)s: %(pathname)s:%(lineno)d: %(message)s

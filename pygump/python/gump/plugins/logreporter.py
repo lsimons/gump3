@@ -50,9 +50,9 @@ class OutputLogReporterPlugin(AbstractPlugin):
         self.log = log
     
     def initialize(self):
-        self.log.debug(hr)
+        self.log.debug('------------------------------------------------')
         self.log.debug('  Outputting all log data (potentially a lot)...')
-        self.log.debug(hr)
+        self.log.debug('------------------------------------------------')
 
     def _do_log_printing_visit(self, object, container=None):
         name = getattr(object, "name", "unnamed %s" % type(object))
@@ -64,8 +64,8 @@ class OutputLogReporterPlugin(AbstractPlugin):
         for attribute in dir(object):
             if attribute.endswith("_log"):
                 logmsg = getattr(object,attribute)
-                self.log.debug("---%s.%s----------------------------------:\n%s" % (name, attribute, logmsg))
-                self.log.debug(hr)
+                self.log.debug("---%s.%s--:\n%s" % (name, attribute, logmsg))
+                self.log.debug('------------------------------------------------')
             #else:
             #    self.log.debug(' %s -> %s' % (attribute,getattr(object,attribute)))
 
@@ -77,7 +77,7 @@ class OutputLogReporterPlugin(AbstractPlugin):
                 traceback.print_tb(entry.traceback, file=target)
                 trace = target.getvalue()
                 target.close()
-                self.log.error("---%s--exception--%s:%s------:\n%s" % (name, entry.type, entry.value, trace))
+                self.log.error("---%s--exception--%s:%s--:\n%s" % (name, entry.type, entry.value, trace))
     
     def visit_workspace(self, workspace):
         self._do_log_printing_visit(workspace)
@@ -92,7 +92,7 @@ class OutputLogReporterPlugin(AbstractPlugin):
             
     def finalize(self):
         self.log.debug('  Finished outputting all log data.')
-        self.log.debug(hr)
+        self.log.debug('-----------------------------------')
 
 class ResultLogReporterPlugin(AbstractPlugin):
     """Outputs information about build results to the logs."""
