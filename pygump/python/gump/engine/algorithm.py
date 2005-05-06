@@ -198,5 +198,5 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
             # blame commands that went awry
             for command in project.commands:
                 if getattr(command, "build_exit_status", False):
-                    mark_failure(command, command)
+                    #mark_failure(command, command)
                     mark_failure(project, command)
