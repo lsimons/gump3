@@ -13,8 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<project name="gump-fixture-svn-project-3">
-    <module name="gump-fixture-svn" subdir="gump-fixture-svn-project-3"/>
+<project name="gump-fixture-svn-project-3" path="gump-fixture-svn-project-3">
+    <module name="gump-fixture-svn"/>
 
     <license name="LICENSE.txt"/>
     

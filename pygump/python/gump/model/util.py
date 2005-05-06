@@ -29,7 +29,7 @@ UPDATE_TYPE_UPDATE="update"
 
 def get_project_directory(workdir, project):
     """Determine the base directory for a project."""
-    return get_module_directory(workdir, project.module)
+    return join(get_module_directory(workdir, project.module),project.path)
 
 def get_module_directory(workdir, module):
     """Determine the base directory for a module."""

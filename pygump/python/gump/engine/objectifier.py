@@ -164,8 +164,9 @@ def _create_svn_module(repository, name, url, description, module_definition):
 
 def _create_project(module, project_definition):
     name = project_definition.getAttribute("name")
+    path = project_definition.getAttribute("path")
     
-    project = Project(module, name)
+    project = Project(module, name, path)
     return project
 
 

@@ -34,6 +34,7 @@ limitations under the License.
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-1.xml"/>
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-2.xml"/>
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-cyclic-3.xml"/>
+        <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-dir-management-1.xml"/>
 
         <project href="projects/gump.apache.org-fixture-svn/gump-fixture-svn-project-does-not-exist.xml"/>
     </projects>

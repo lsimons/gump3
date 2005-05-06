@@ -263,6 +263,7 @@ class Project(ModelObject):
         
         - module       -- the containing module
         - name         -- per-run unique identifier
+        - path         -- directory path within the containing module
         - dependencies -- list of Dependency instances describing what other
                           projects this project depends upon
         - dependees    -- list of Dependency instances describing what other
@@ -276,12 +277,13 @@ class Project(ModelObject):
     #def __str__(self):
     #    return "<Project: %s>" % self.name
 
-    def __init__(self, module, name):
+    def __init__(self, module, name, path="."):
         assert isinstance(module, Module)
         assert isinstance(name, basestring)
         
         self.module = module
         self.name   = name
+        self.path   = path
         
         self.dependencies=[]
         self.dependees=[]

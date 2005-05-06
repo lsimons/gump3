@@ -45,16 +45,18 @@ class DirBuilderTestCase(TestCase):
             m = Module(r,"m")
             mpath = join(basedir,w.name,r.name,m.name)
             mkdir(mpath)
-            p = Project(m,"p")
+            p = Project(m,"p","p")
+            ppath = join(basedir,w.name,r.name,m.name,p.path)
+            mkdir(ppath)
 
             cmd = Rmdir(p,"somedir")
 
             plugin = RmdirBuilderPlugin(basedir)
             
-            makedirs(join(mpath, cmd.directory, "nested", "stuff", "here"))
+            makedirs(join(ppath, cmd.directory, "nested", "stuff", "here"))
             plugin._do_rmdir(cmd.project, cmd.directory)
-            self.assertFalse(isdir(join(mpath,cmd.directory)))
-            self.assert_(isdir(join(mpath)))
+            self.assertFalse(isdir(join(ppath,cmd.directory)))
+            self.assert_(isdir(join(ppath)))
         finally:
             rmtree(basedir)
         
@@ -68,19 +70,21 @@ class DirBuilderTestCase(TestCase):
             m = Module(r,"m")
             mpath = join(basedir,w.name,r.name,m.name)
             mkdir(mpath)
-            p = Project(m,"p")
+            p = Project(m,"p","p")
+            ppath = join(basedir,w.name,r.name,m.name,p.path)
+            mkdir(ppath)
 
             cmd = Mkdir(p,"somedir")
         
             plugin = MkdirBuilderPlugin(basedir)
             
             plugin._do_mkdir(cmd.project, cmd.directory)
-            self.assert_(isdir(join(mpath,cmd.directory)))
-            rmtree(join(mpath,cmd.directory))
+            self.assert_(isdir(join(ppath,cmd.directory)))
+            rmtree(join(ppath,cmd.directory))
             
             plugin._do_mkdir(cmd.project, "some/nested/directory")
-            self.assert_(isdir(join(mpath,"some/nested/directory")))
-            rmtree(join(mpath,"some/nested/directory"))
+            self.assert_(isdir(join(ppath,"some/nested/directory")))
+            rmtree(join(ppath,"some/nested/directory"))
 
             p.add_command(cmd)
             cmd2 = Mkdir(p,"somedir2")
@@ -89,10 +93,10 @@ class DirBuilderTestCase(TestCase):
             p.add_command(cmd3)
             plugin.visit_project(p)
             
-            self.assert_(isdir(join(mpath,cmd.directory)))
-            self.assert_(isdir(join(mpath,cmd2.directory)))
-            self.assertFalse(isdir(join(mpath,cmd3.directory)))
-            rmtree(join(mpath,cmd.directory))
+            self.assert_(isdir(join(ppath,cmd.directory)))
+            self.assert_(isdir(join(ppath,cmd2.directory)))
+            self.assertFalse(isdir(join(ppath,cmd3.directory)))
+            rmtree(join(ppath,cmd.directory))
             
             # failure on bad path
             cmd = Mkdir(p,join("..", "..", "..", "somedir"))
@@ -100,7 +104,7 @@ class DirBuilderTestCase(TestCase):
 
             # failure on bad file
             cmd = Mkdir(p,"somedir")
-            file = open(join(mpath,cmd.directory),"w")
+            file = open(join(ppath,cmd.directory),"w")
             file.write("blah")
             file.close()
             self.assertRaises(Error, plugin._do_mkdir, cmd.project, cmd.directory)
