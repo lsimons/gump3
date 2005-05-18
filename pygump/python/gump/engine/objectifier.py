@@ -27,6 +27,7 @@ from xml import dom
 from xml.dom import minidom
 
 from gump.model import *
+from gump.model.util import *
 
 from gump.engine import EngineError
 from gump.engine.modeller import _find_element_text
@@ -216,20 +217,41 @@ def _create_ant_commands(project, project_definition):
         project.add_command(Ant(project, name, target, buildfile))
         #TODO 
 
+def _extract_relative_item(project, element):
+    """ Extract directory relative to module or project, based
+        upon which attribute  (parent or nested) is present."""
+    parent=element.getAttribute("parent")    
+    nested=element.getAttribute("nested")
+        
+    if parent:
+        rel_item=RelativePath(project.module,parent)
+    elif nested:
+        rel_item=RelativePath(project,nested)
+    else:
+        raise Error, "Unknown relative path entry (no parent or nested): %s" % (element)
+    
+    return rel_item
+        
+def _create_artifacts(project, project_definition):    
+    
+    # Work Items
+    works = project_definition.getElementsByTagName("work")
+    for work in works:
+        project.add_output(WorkItem(project,_extract_relative_item(project,work)))
 
-def _create_outputs(project, project_definition):
+    # Home Directory (outputs are relative to this)
     homes = project_definition.getElementsByTagName("home")
     if homes.length > 0:
-        home = homes.item(0).getAttribute("directory")
-        project.add_output(Homedir(project,home))
+        project.homedir = _extract_relative_item(project,homes.item(0))
     
+    # Outputs
     jars = project_definition.getElementsByTagName("jar")
     for jar in jars:
         name = jar.getAttribute("name")
         id = jar.getAttribute("id")
         add_to_bootclass_path = jar.getAttribute("type") == "boot"
         project.add_output(Jar(project,name,id,add_to_bootclass_path))
-        
+    
     #TODO more outputs
 
 
@@ -384,7 +406,7 @@ class Objectifier:
             workspace.projects[project.name] = project
 
             _create_commands(project, project_definition)
-            _create_outputs(project, project_definition)
+            _create_artifacts(project, project_definition)
 
         # wire up dependencies only after projects have been created
         for project_definition in project_definitions:

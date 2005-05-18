@@ -38,8 +38,7 @@ from gump.model import Output
 from gump.model import Mkdir
 from gump.model import Rmdir
 from gump.model import Script
-from gump.model import Homedir
-from gump.model import OUTPUT_ID_HOME
+from gump.model import WorkItem
 from gump.model import Jar
 
 class ModelTestCase(TestCase):
@@ -547,27 +546,7 @@ class ModelTestCase(TestCase):
         o = Output(p)
         self.assertEqual(p,o.project)
         self.assertRaises(AssertionError,Output,None)
-        self.assertRaises(AssertionError,Output,"someproject")
-        
-    def test_homedir(self):
-        wname = "blah"
-        w = Workspace(wname)
-        rname = "booh"
-        r = Repository(w,rname)
-        mname = "bweh"
-        m = Module(r,mname)
-        pname = "bwop"
-        p = Project(m,pname)
-        
-        dir = "some/dir"
-        o = Homedir(p,dir)
-        self.assertEqual(p,o.project)
-        self.assertEqual(dir,o.directory)
-        self.assertEqual(OUTPUT_ID_HOME,o.id)
-        self.assertRaises(AssertionError,Homedir,None,dir)
-        self.assertRaises(AssertionError,Homedir,"someproject",dir)
-        self.assertRaises(AssertionError,Homedir,p,None)
-        self.assertRaises(AssertionError,Homedir,p,p)
+        self.assertRaises(AssertionError,Output,"someproject")           
         
     def test_jar(self):
         wname = "blah"

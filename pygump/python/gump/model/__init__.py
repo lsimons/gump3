@@ -19,6 +19,7 @@
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
+        
 class Error(Exception):
     """Generic error thrown for all internal model module exceptions."""
     pass
@@ -270,8 +271,11 @@ class Project(ModelObject):
                           projects depend on this project
         - commands     -- ordered list of Commands instances that need to be
                           executed to build this project
+        - homedir      -- None or a ResolvablePath (outputs are relative to this)
         - outputs      -- list of Output instances describing what results a
                           build of this project results in
+        - workitems    -- list of WorkItem instances describing what directories/files
+                          are used during the build of this project.
     """
     #TODO nice string representations of the entire model
     #def __str__(self):
@@ -284,11 +288,13 @@ class Project(ModelObject):
         self.module = module
         self.name   = name
         self.path   = path
+        self.homedir = None
         
         self.dependencies=[]
         self.dependees=[]
         self.commands=[]
         self.outputs=[]
+        self.workitems=[]
     
     def add_dependency(self, relationship):
         assert isinstance(relationship, Dependency)
@@ -336,6 +342,10 @@ class Project(ModelObject):
     def add_output(self, output):
         assert isinstance(output, Output)
         self.outputs.append(output)
+        
+    def add_work(self,work):
+        assert isinstance(work,WorkItem)
+        selfd.works.append(work)
 
 DEPENDENCY_INHERIT_NONE          = "none"
 DEPENDENCY_INHERIT_RUNTIME       = "runtime"
@@ -514,7 +524,42 @@ class Ant(Command):
 
 #TODO: more Commands
 
-OUTPUT_ID_HOME = "homedir"
+class RelativePath(ModelObject):
+    def __init__(self,model,path):
+        assert isinstance(model, ModelObject)
+        assert isinstance(path, basestring)
+        self.model = model
+        self.path  = path
+        
+    def resolve(self,workdir):
+        from gump.model.util import get_module_directory,get_project_directory
+        if isinstance(self.model,Module):
+            base=get_module_directory(workdir,self.model)
+        elif isinstance(self.model,Project):
+            base=get_project_directory(workdir,self.model)
+        else:
+            pass #TODO Raise?
+        import os.path
+        return os.path.join(base,self.path)
+    
+    def __str__(self):
+        return "RelativePath:%s:%s" % (self.model,self.path)
+
+class WorkItem(ModelObject):
+    """Model a directory containing stuff that can be used by other projects.
+
+    Has the following properties:
+
+        - project -- the containing project.
+        - path -- the path to the directory or file.
+    """
+    def __init__(self, project, path):
+        assert isinstance(path, RelativePath)
+        self.project = project
+        self.path = path
+    
+    def __str__(self):
+        return "<WorkItem:%s>" % (self.path)
 
 class Output(ModelObject):
     """Model an output, something a successful project build will yield.
@@ -534,24 +579,7 @@ class Output(ModelObject):
     
     def __str__(self):
         return "<Output:%s>" % self.id
-
-class Homedir(Output):
-    """Model a directory containing stuff that can be used by other projects.
-
-    Has the following properties:
-
-        - all the properties an Output has
-        - directory -- the directory that should be exported as this project
-                       its homedirectory
-    """
-    def __init__(self, project, directory):
-        assert isinstance(directory, basestring)
-        Output.__init__(self, project, OUTPUT_ID_HOME)
-        self.directory = directory
     
-    def __str__(self):
-        return "<Homedir:%s>" % self.directory
-
 class Jar(Output):
     """Model a java archive that can be used by other projects.
 

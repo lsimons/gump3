@@ -21,8 +21,8 @@ import os
 import sys
 from os.path import abspath, join, isfile
 
-from gump.model import Script, Error, Project, Ant, Dependency, Homedir, Jar
-from gump.model.util import get_project_directory
+from gump.model import Script, Error, Project, Ant, Dependency, WorkItem, Jar
+from gump.model.util import get_project_directory,get_module_directory
 from gump.plugins import AbstractPlugin
 from gump.plugins.builder import BuilderPlugin
 from gump.util.executor import Popen, PIPE, STDOUT
@@ -97,9 +97,11 @@ class ClasspathPlugin(BuilderPlugin):
     def _calculateClasspaths(self, project, ant):
         """Generate the classpath lists"""
         #TODO This ought be under "java" not under "Ant".        
-        
-        #TODO Need "<work> elements
-        
+
+        # Any internal build artifacts
+        for work in project.workitems:
+            self.classpath += ArtifactPath(work.name,output.path.resolve(self.workdir)) 
+            
         # Recurse into dependencies
         visited=[]
         for dependency in project.dependencies:
@@ -113,7 +115,10 @@ class ClasspathPlugin(BuilderPlugin):
 
         # Access the players
         project=dependency.dependency
-        projectpath = get_project_directory(self.workdir,project)
+        projectpath=get_project_directory(self.workdir,project)
+        if project.homedir:
+            projectpath = project.homedir.resolve(self.workdir)
+        self.log.debug('Project HomeDir : %s' % projectpath)
         
         #TODO Do we need a filter here? Are all dependency infos
         # appropriate, or not?
@@ -149,16 +154,14 @@ class ClasspathPlugin(BuilderPlugin):
                 if (not ids) or (output.id in ids):   
                     if ids: depend_str += ' ID = ' + output.id
                     
-                    if isinstance(output,Homedir):
-                        path = os.path.join(projectpath,output.directory)
-                    elif isinstance(output,Jar):
+                    if isinstance(output,Jar):
                         path = os.path.join(projectpath,output.name)
                     else:
                         raise Error, "Unknown Output Type for %s: %s" % (self.__class__.__name__, output.__class__.__name__)
 
-                    self.log.debug('Contribution : %s' % path)
                     artifact_path=ArtifactPath(output.id,path,depend_str) 
-              
+                    self.log.debug('Contribution : %s' % artifact_path)
+                    
                     # Add to CLASSPATH (or BOOTCLASSPATH)
                     if not isinstance(output,Jar) or not output.add_to_bootclass_path:
                         ant.classpath += artifact_path
@@ -200,9 +203,7 @@ class ArtifactPlugin(BuilderPlugin):
     def __init__(self,workdir, log):
         BuilderPlugin.__init__(self, workdir, log, Ant, self._resolve_classpaths)
         
-    def _resolve_classpaths(self, project, ant):           
-        
-        projectpath = get_project_directory(self.workdir,project)
+    def _resolve_classpaths(self, project, ant):                   
         
         self._resolve_classpath(ant.classpath)
         self._resolve_classpath(ant.boot_classpath)
