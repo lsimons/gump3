@@ -24,26 +24,9 @@ from os.path import abspath, join, isfile
 from gump.model import Script, Error, Project, Ant, Dependency, Homedir, Jar
 from gump.model.util import get_project_directory
 from gump.plugins import AbstractPlugin
+from gump.plugins.builder import BuilderPlugin
 from gump.util.executor import Popen, PIPE, STDOUT
 
-class BuilderPlugin(AbstractPlugin):
-    """Execute all commands for all projects."""
-    def __init__(self, workdir, log, cmd_clazz, method):
-        self.workdir = workdir
-        self.log = log
-        self.cmd_clazz = cmd_clazz
-        self.method = method             
-
-    def visit_project(self, project):
-        """ Dispatch for each matching command (matching by class type) """        
-        assert isinstance(project, Project)
-        self.log.debug("Visit %s looking for %s" % (project,self.cmd_clazz))
-        for command in [command for command in project.commands if isinstance(command,self.cmd_clazz)]:
-            try:        
-                self.log.debug("Perform %s on %s" % (command, project))
-                self.method(project, command)
-            except Exception:
-                self.log.exception("Failed...")
 
 
 class ArtifactPath(object):
@@ -76,6 +59,13 @@ class Classpath(object):
         self.parts = []
         self.state='unknown'
     
+    def __nonzero__(self) :
+        if self.parts: return True
+        return False
+    
+    def __len__(self):
+        return len(self.parts)
+    
     def __add__(self,other):
         if not isinstance(other,ArtifactPath):
              other=ArtifactPath("Unknown",other,"Unspecified")
@@ -84,8 +74,11 @@ class Classpath(object):
         return self
     
     def __str__(self):
+        return self.join(os.pathsep)
+    
+    def join(self,sep):
         import string
-        return string.join([ part.path for part in self.parts ], os.pathsep)
+        return string.join([ part.path for part in self.parts ], sep)
     
 class ClasspathPlugin(BuilderPlugin):
     """Generate build attributes (e.g. CLASSAPATH) for a builder."""
@@ -95,8 +88,8 @@ class ClasspathPlugin(BuilderPlugin):
     def _forge_classpaths(self, project, ant):               
 
         # Stub them out...
-        ant.classpath=Classpath("Standard")
-        ant.boot_classpath=Classpath("Boot")
+        ant.classpath=Classpath('Standard')
+        ant.boot_classpath=Classpath('Boot')
         
         # Flesh them out...
         self._calculateClasspaths(project,ant)
@@ -162,7 +155,8 @@ class ClasspathPlugin(BuilderPlugin):
                         path = os.path.join(projectpath,output.name)
                     else:
                         raise Error, "Unknown Output Type for %s: %s" % (self.__class__.__name__, output.__class__.__name__)
-                    
+
+                    self.log.debug('Contribution : %s' % path)
                     artifact_path=ArtifactPath(output.id,path,depend_str) 
               
                     # Add to CLASSPATH (or BOOTCLASSPATH)
@@ -224,6 +218,9 @@ class AntPlugin(BuilderPlugin):
     def __init__(self, workdir, log, debug=False):
         BuilderPlugin.__init__(self, workdir, log, Ant, self._do_ant)
         self.debug = debug
+
+        # Clone the environment, so we can squirt CLASSPATH into it.
+        self.tmp_env = dict(os.environ)
         
     def _do_ant(self, project, ant):                
         projectpath = get_project_directory(self.workdir,project)
@@ -231,13 +228,37 @@ class AntPlugin(BuilderPlugin):
         # TODO get proper classpath
         self.log.debug('CLASSPATH %s' % ant.classpath)
         self.log.debug('BOOTCLASSPATH %s' % ant.boot_classpath)
+        
+        # Create an Environment
+        self.tmp_env['CLASSPATH'] = str(ant.classpath)
+        
         # TODO test this
         # TODO sysclasspath only
         # TODO more options
-        args = ["ant","-buildfile",ant.buildfile,ant.target]
-        if self.debug:
-            args += "-debug"
-        cmd = Popen(args,shell=False,cwd=projectpath,stdout=PIPE,stderr=STDOUT)
+        
+        # Build the command line.
+        args = ["java"]
+        
+        # Allow bootclasspath
+        if ant.boot_classpath:
+            args += ['-X','bootclasspath/p',ant.boot_classpath.join(':')]
+
+        # Ant's entry point, and main options.
+        args += ["org.apache.tools.ant.Main"]
+                 
+        # Specify a build file.
+        if ant.buildfile: args += ["-buildfile",ant.buildfile]
+
+        # Override the default target
+        if ant.target: args += [ant.target]
+        
+        # Allow debugging
+        if self.debug: args += ["-debug"]
+        
+        self.log.debug("Command : %s " % (args))
+        self.log.debug("        : %s " % ant.classpath)
+        #self.log.debug("        : %s " % self.tmp_env)
+        cmd = Popen(args,shell=False,cwd=projectpath,stdout=PIPE,stderr=STDOUT,env=self.tmp_env)
 
         ant.build_log = cmd.communicate()[0]
         ant.build_exit_status = cmd.wait()

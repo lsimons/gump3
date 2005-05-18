@@ -39,9 +39,16 @@ class BuilderPlugin(AbstractPlugin):
         assert isinstance(project, Project)
         self.log.debug("Visit %s looking for %s" % (project,self.cmd_clazz))
         for command in [command for command in project.commands if isinstance(command,self.cmd_clazz)]:
-            self.log.debug("Perform %s on %s" % (command, project))
-            self.method(project, command)
-
+            try:        
+                self.log.debug("Perform %s on %s" % (command, project))
+                self.method(project, command)
+            except Exception:
+                self.log.exception("Command %s Failed..." % (command))
+                #TODO Ought we create a BuilderErrorHandler for this?
+                # Annotate failure
+                # command.build_log = ':TODO: Serialize Exception trace into here?';
+                command.build_exit_status=1
+            
 class ScriptBuilderPlugin(BuilderPlugin):
     """Execute all "script" commands for all projects."""
     def __init__(self, workdir, log):
