@@ -96,11 +96,17 @@ class ClasspathPlugin(BuilderPlugin):
 
     def _calculateClasspaths(self, project, ant):
         """Generate the classpath lists"""
-        #TODO This ought be under "java" not under "Ant".        
+        #TODO This ought be under "java & Ant" not under "Ant".        
 
+        # Ant requires to be told about a compiler, so (for now)
+        # we'll hardcode CLASSPATH to add $JAVA_HOME/lib/tools.jar
+        # IFF $JAVA_HOME exists.
+        if os.environ.has_key('JAVA_HOME'):
+            ant.classpath += ArtifactPath('Java Tools (e.g. Compiler)',os.path.join(os.environ['JAVA_HOME'],'lib','tools.jar'))
+        
         # Any internal build artifacts
         for work in project.workitems:
-            self.classpath += ArtifactPath(work.name,output.path.resolve(self.workdir)) 
+            ant.classpath += ArtifactPath(work.name,output.path.resolve(self.workdir)) 
             
         # Recurse into dependencies
         visited=[]
@@ -226,7 +232,8 @@ class AntPlugin(BuilderPlugin):
     def _do_ant(self, project, ant):                
         projectpath = get_project_directory(self.workdir,project)
         
-        # TODO get proper classpath
+        
+        #TODO get proper classpath
         self.log.debug('CLASSPATH %s' % ant.classpath)
         self.log.debug('BOOTCLASSPATH %s' % ant.boot_classpath)
         
