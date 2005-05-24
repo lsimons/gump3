@@ -70,7 +70,7 @@
   <projects>
     <project name="gump-unit-tests">
 <module name="gump"/>
-<script name="gump-unit-tests"/> 
+<script name="gump" args="test"/> 
     </project>
 
     <project name="gump-test1">
