@@ -80,7 +80,7 @@ class Normalizer:
           
         </workspace>
     
-    Note that the introduction of the Notifier makes pygump more flexible than
+    Note that the introduction of the Normalizer makes pygump more flexible than
     the current gump model is specced in several ways:
 
         * All named elements (repositories, modules, projects) can appear

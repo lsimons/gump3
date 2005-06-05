@@ -53,14 +53,14 @@ def _do_drop(to_remove, dropped_nodes=None):
 
 def _find_ancestor_by_tag(node, tagName):
     """Walk up the DOM hierarchy to locate an element of the specified tag."""
-    parent = node
+    parent = node 
+    print "Find %s starting with %s " % (tagName, node)
     while parent.nodeType == dom.Node.ELEMENT_NODE:
         if parent.tagName == tagName:
             return parent
         parent = parent.parentNode
         if not parent:
             return None
-
 
 def _find_document_containing_node(node):
     """Walk up the DOM hierarchy to locate a Document node."""
@@ -92,8 +92,7 @@ def _find_repository_containing_node(node):
 def _import_node(target_node, new_node):
     """Combines two DOM trees together.
 
-    The second argument is merged into the first argument, which is then
-    returned.
+    The attributes/children of the second argument is cloned into the first argument.
     """
     _import_attributes(target_node, new_node)
     _import_children(target_node, new_node)
@@ -119,9 +118,7 @@ def _import_children(target_node, new_node, filter=None):
     new_elements = new_node.childNodes
     if new_elements and new_elements.length > 0:
         for child in new_elements:
-            if filter:
-                if filter.exclude(child):
-                    continue # skip this one
+            if filter and filter.exclude(child): continue # skip this one
             clone = child.cloneNode(True)
             target_node.appendChild(clone)
 

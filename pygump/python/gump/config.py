@@ -108,9 +108,10 @@ def get_plugins(config):
     pre_process_plugins.append(TimerPlugin("run_start"))
     
     plugins = []
+
     # TODO: append more plugins here...
 
-    plugins.append(TimerPlugin("build_start"))
+    plugins.append(TimerPlugin("work_start"))
         
     from gump.plugins import LoggingPlugin
 
@@ -125,22 +126,23 @@ def get_plugins(config):
         plugins.append(SvnUpdater(config.paths_work))
         plugins.append(TimerPlugin("update_end"))
         
-    # by contract, rmdir always needs to go before mkdir!
-    from gump.plugins.dirbuilder import RmdirBuilderPlugin
-    plugins.append(RmdirBuilderPlugin(config.paths_work))
-    from gump.plugins.dirbuilder import MkdirBuilderPlugin
-    plugins.append(MkdirBuilderPlugin(config.paths_work))
+    if config.do_build:
+        # by contract, rmdir always needs to go before mkdir!
+        from gump.plugins.dirbuilder import RmdirBuilderPlugin
+        plugins.append(RmdirBuilderPlugin(config.paths_work))
+        from gump.plugins.dirbuilder import MkdirBuilderPlugin
+        plugins.append(MkdirBuilderPlugin(config.paths_work))
     
-    buildlog = get_logger(config, "plugin.builder")
+        buildlog = get_logger(config, "plugin.builder")
     
-    from gump.plugins.builder import ScriptBuilderPlugin
-    plugins.append(ScriptBuilderPlugin(config.paths_work,buildlog))
-    from gump.plugins.java.builder import ClasspathPlugin
-    plugins.append(ClasspathPlugin(config.paths_work,buildlog))
-    from gump.plugins.java.builder import AntPlugin
-    plugins.append(AntPlugin(config.paths_work,buildlog))
+        from gump.plugins.builder import ScriptBuilderPlugin
+        plugins.append(ScriptBuilderPlugin(config.paths_work,buildlog))
+        from gump.plugins.java.builder import ClasspathPlugin
+        plugins.append(ClasspathPlugin(config.paths_work,buildlog))
+        from gump.plugins.java.builder import AntPlugin
+        plugins.append(AntPlugin(config.paths_work,buildlog))
     
-    plugins.append(TimerPlugin("build_end"))
+    plugins.append(TimerPlugin("work_end"))
 
     post_process_plugins = []
     # TODO: append more plugins here...

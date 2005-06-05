@@ -114,6 +114,12 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       dest="do_update",
                       default=False, # Default to NOT. At least during initial development...
                       help="run cvs and svn updates")
+    parser.add_option("-b",
+                      "--do-builds",
+                      action="store_true",
+                      dest="do_build",
+                      default=False, # Default to NOT. At least during initial development...
+                      help="run builders")
     parser.add_option("--databaseserver",
                       action="store",
                       default=_databaseserver,
@@ -443,7 +449,7 @@ def main():
             log.debug("No projects to build set, defaulting to 'all'")
             options.projects = ["all"]
         if not os.path.exists(options.workspace):
-            log.error("Workspace not found: %s." % options.workspace)
+            log.error("Workspace not found : %s." % options.workspace)
             sys.exit(1)
         
         # get some more options from the workspace

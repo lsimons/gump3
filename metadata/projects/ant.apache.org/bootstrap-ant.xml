@@ -15,6 +15,9 @@
   limitations under the License.
 -->
   <project name="bootstrap-ant">
+    <!-- TODO: See http://issues.apache.org/jira/browse/GUMP-139 -->
+    <module name="ant"/>
+
     <script name="bootstrap"/>
 
     <option project="jaxp"/>

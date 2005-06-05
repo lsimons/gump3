@@ -30,7 +30,14 @@ from gump.util.executor import Popen, PIPE, STDOUT
 
 
 class ArtifactPath(object):
-    """Represents an artifact within a path"""
+    """
+    Represents an artifact within a path
+    
+    Has the following properties:
+
+        - id -- the identifier for this artifact path.
+        - path -- the path to the file.
+        - description -- the description of this artifact path"""
     def __init__(self,id,path,description=None):
         self.id=id
         self.path = path

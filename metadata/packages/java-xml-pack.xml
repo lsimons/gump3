@@ -22,12 +22,14 @@
   </description>
 
   <project name="jaxm">
+    <module name="java-xml-pack"/>
     <package>javax.xml.messaging</package>
 
     <jar name="jaxm-1.1_01/lib/jaxm-api.jar" id="jaxm-api" />
   </project>
 
-  <project name="jaxp">
+  <project name="jaxp">    
+    <module name="java-xml-pack"/>
     <package>javax.xml</package>
 
     <jar name="jaxp-1.2_01/jaxp-api.jar" id="jaxp-api" />
@@ -38,6 +40,7 @@
   </project>
 
   <project name="jaxr">
+    <module name="java-xml-pack"/>
     <package>javax.xml.registry</package>
 
     <jar name="jaxr-1.0_02/lib/jaxr-api.jar" id="jaxr-api" />
@@ -45,6 +48,7 @@
   </project>
 
   <project name="jaxrpc">
+    <module name="java-xml-pack"/>
     <package>javax.xml.rpc</package>
 
     <jar name="jaxrpc-1.0_01/lib/jaxrpc-api.jar" id="jaxrpc-api" />

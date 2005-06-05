@@ -26,6 +26,7 @@
   <!-- build bootstrap -->
 
   <project name="xml-xerces">
+    <module name="xml-xerces2"/>
     <package>org.apache.xerces</package>
 
     <ant basedir="java" target="jar"/>
@@ -43,6 +44,7 @@
   </project>
 
   <project name="xml-xercesImpl">
+    <module name="xml-xerces2"/>
     <package>org.apache.xerces</package>
     <depend project="xml-xerces"/>
     <home nested="java/build"/>
@@ -53,6 +55,7 @@
   <!-- package up the distribution -->
 
   <project name="dist-xerces">
+    <module name="xml-xerces2"/>
     <ant basedir="java" target="pack-bin">
       <sysproperty name="build.clonevm" value="true"/>
     </ant>
@@ -76,6 +79,7 @@
   </project>
 
   <project name="xjavac">
+    <module name="xml-xerces2"/>
     <home nested="java/tools"/>
     <jar name="bin/xjavac.jar"/>
   </project>

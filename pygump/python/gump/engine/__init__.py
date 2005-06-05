@@ -212,6 +212,9 @@ class _Engine:
         try:
             # * merge workspace into big DOM tree
             (domtree, dropped_nodes) = self.workspace_loader.get_workspace_tree(self.workspace)
+
+            import pprint
+            pprint.pprint(domtree)
             
             # * clean it up and structure it properly
             domtree = self.workspace_normalizer.normalize(domtree)

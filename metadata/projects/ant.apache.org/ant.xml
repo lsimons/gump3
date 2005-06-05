@@ -15,6 +15,10 @@
   limitations under the License.
 -->
   <project name="ant">
+
+    <!-- TODO: See http://issues.apache.org/jira/browse/GUMP-139  -->
+    <module name="ant"/>
+
     <package>org.apache.tools.ant</package>
     <repository href="repositories/apr.xml"/><!-- demonstrate repos can be defined elsewhere -->
 

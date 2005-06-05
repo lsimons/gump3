@@ -37,12 +37,12 @@ class DynagumperTestCase(MockTestCase):
         self.log.stubs().method("close")
         self.db = self.mock()
     
-    def test_ensureThisHostIsInDatabase(self):
+    def test_storeHost(self):
         #TODO actual tests
         db = self.mock()
         db.expects(at_least_once()).method("execute").will(return_value((0,None)))
         dynagumper = Dynagumper(db,self.log)
-        dynagumper.ensureThisHostIsInDatabase()
+        dynagumper.storeHost()
 
     def test_visit_workspace(self):
         #TODO

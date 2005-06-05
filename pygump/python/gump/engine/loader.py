@@ -142,6 +142,8 @@ class Loader:
                   <module href="jo.xml"/>
                 </with>
               </xml-data>
+            </any>
+          </imagine>
         </bogus>
     
     Of course, other parts of the modeller package are not so tolerant!

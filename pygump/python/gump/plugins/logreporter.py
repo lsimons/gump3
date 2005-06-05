@@ -144,41 +144,43 @@ class ResultLogReporterPlugin(AbstractPlugin):
             
             success += 1
         
-        total_percent = 100.0
-        failed_percent = (1.0 * failed / total) * total_percent
-        prereq_failed_percent = (1.0 * prereq_failed / total) * total_percent
-        skipped_percent = (1.0 * skipped / total) * total_percent
-        success_percent = (1.0 * success / total) * total_percent
-        cycled_percent = (1.0 * cycled / total) * total_percent
+        # Assuming we have one or more...
+        if total:
+            total_percent = 100.0
+            failed_percent = (1.0 * failed / total) * total_percent
+            prereq_failed_percent = (1.0 * prereq_failed / total) * total_percent
+            skipped_percent = (1.0 * skipped / total) * total_percent
+            success_percent = (1.0 * success / total) * total_percent
+            cycled_percent = (1.0 * cycled / total) * total_percent
         
-        self.wr('  Project build statistics')
-        self.wr('  ==========================================================================')
-        self.wr('      Total | %sFailed%s | %sPrereq Failed%s | %sSkipped%s | %sSuccess%s | %sCyclic Dependency%s' % \
-                (ansicolor.Red, ansicolor.Black,
-                 ansicolor.Yellow, ansicolor.Black,
-                 ansicolor.Yellow, ansicolor.Black,
-                 ansicolor.Green, ansicolor.Black,
-                 ansicolor.Bright_Red,
-                 ansicolor.Black))
-        self.wr('      ------|--------|---------------|---------|---------|------------------')
-        self.wr('      %5u | %s%6u%s | %s%13u%s | %s%7u%s | %s%7u%s | %s%17u%s' % (total,
-                 ansicolor.Red, failed, ansicolor.Black, 
-                 ansicolor.Yellow, prereq_failed, ansicolor.Black,
-                 ansicolor.Yellow, skipped, ansicolor.Black, 
-                 ansicolor.Green, success, ansicolor.Black, 
-                 ansicolor.Bright_Red, cycled,
-                 ansicolor.Black))
-        self.wr('     %5.0f%% |%s%6.1f%%%s |%s%13.1f%%%s |%s%7.1f%%%s |%s%7.1f%%%s |%s%17.1f%%%s' % (total_percent,
-                 ansicolor.Red, failed_percent, ansicolor.Black, 
-                 ansicolor.Yellow, prereq_failed_percent, ansicolor.Black,
-                 ansicolor.Yellow, skipped_percent, ansicolor.Black, 
-                 ansicolor.Green, success_percent, ansicolor.Black, 
-                 ansicolor.Bright_Red, cycled_percent,
-                 ansicolor.Black))
-        self.wr('  ==========================================================================')
-        self.wr('')
-        self.wr('  Project build log')
-        self.wr('  ==========================================================================')
+            self.wr('  Project build statistics')
+            self.wr('  ==========================================================================')
+            self.wr('      Total | %sFailed%s | %sPrereq Failed%s | %sSkipped%s | %sSuccess%s | %sCyclic Dependency%s' % \
+                    (ansicolor.Red, ansicolor.Black,
+                     ansicolor.Yellow, ansicolor.Black,
+                     ansicolor.Yellow, ansicolor.Black,
+                     ansicolor.Green, ansicolor.Black,
+                     ansicolor.Bright_Red,
+                     ansicolor.Black))
+            self.wr('      ------|--------|---------------|---------|---------|------------------')
+            self.wr('      %5u | %s%6u%s | %s%13u%s | %s%7u%s | %s%7u%s | %s%17u%s' % (total,
+                     ansicolor.Red, failed, ansicolor.Black, 
+                     ansicolor.Yellow, prereq_failed, ansicolor.Black,
+                     ansicolor.Yellow, skipped, ansicolor.Black, 
+                     ansicolor.Green, success, ansicolor.Black, 
+                     ansicolor.Bright_Red, cycled,
+                     ansicolor.Black))
+            self.wr('     %5.0f%% |%s%6.1f%%%s |%s%13.1f%%%s |%s%7.1f%%%s |%s%7.1f%%%s |%s%17.1f%%%s' % (total_percent,
+                     ansicolor.Red, failed_percent, ansicolor.Black, 
+                     ansicolor.Yellow, prereq_failed_percent, ansicolor.Black,
+                     ansicolor.Yellow, skipped_percent, ansicolor.Black, 
+                     ansicolor.Green, success_percent, ansicolor.Black, 
+                     ansicolor.Bright_Red, cycled_percent,
+                     ansicolor.Black))
+            self.wr('  ==========================================================================')
+            self.wr('')
+            self.wr('  Project build log')
+            self.wr('  ==========================================================================')
         
         if hasattr(workspace, "unvisited"):
             for project in workspace.unvisited:

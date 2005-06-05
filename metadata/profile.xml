@@ -15,8 +15,17 @@
   limitations under the License.
 -->
 <profile name="gump">
-  <repository href="repositories/ant.xml"/>
-  <repository href="repositories/xml-svn.xml"/>
-  <module href="projects/ant.apache.org/module.xml"/>
+	<!-- Source Code Repositories -->
+	<repository href="repositories/ant.xml"/>
+	<repository href="repositories/xml.xml"/>
+	<repository href="repositories/xml-svn.xml"/>
+
+
+	<!-- Packages -->
+	<module href="packages/java-xml-pack.xml"/>
+
+	<!-- Module/Projects -->
+  	<module href="projects/xml.apache.org-xerces/xml-xerces2.xml"/>  	
+	<module href="projects/ant.apache.org/module.xml"/>
 </profile>
 
