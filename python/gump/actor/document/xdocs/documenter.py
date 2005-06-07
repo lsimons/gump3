@@ -81,7 +81,6 @@ class XDocDocumenter(Documenter):
         self.syncObject(module)
          
     def processProject(self,project):
-        
         verbose=self.run.getOptions().isVerbose()
         debug=self.run.getOptions().isDebug()
         self.documentProject(project,True)
@@ -809,9 +808,6 @@ class XDocDocumenter(Documenter):
         projectsTable=projectsSection.createTable(['Index','Time','Name','State','Duration\nin state','Last Modified','Notes'])
         pcount=0
         for project in self.gumpSet.getCompletedProjects():
-                        
-            # Hack for bad data.
-            if not project.inModule(): continue
                        
             #if realTime and \
             #    (project.getState()==STATE_FAILED or \
@@ -987,9 +983,6 @@ This page helps Gumpmeisters (and others) locate the main areas to focus attenti
         depOrder=createOrderedList(sortedProjectList,compareProjectsByFullDependeeCount)
   
         for project in depOrder:
-            # Hack for bad data
-            if not project.inModule(): continue
-                
             if not self.gumpSet.inProjectSequence(project): continue       
             
             if not project.getState()==STATE_FAILED:
@@ -1049,9 +1042,6 @@ This page helps Gumpmeisters (and others) observe community progress.
                     'Dependees','Project State','Duration\nin state'])
         pcount=0
         for project in sortedProjectList:
-            # Hack for bad data
-            if not project.inModule(): continue    
-            # Filter
             if not self.gumpSet.inProjectSequence(project): continue       
             
             if not project.getState()==STATE_SUCCESS or \
@@ -1098,9 +1088,6 @@ This page helps Gumpmeisters (and others) observe community progress.
                     'Depends','Not-Built Depends','Project State','Duration\nin state'])
         pcount=0
         for project in sortedProjectList:
-            # Hack for bad data
-            if not project.inModule(): continue    
-            # Filter    
             if not self.gumpSet.inProjectSequence(project): continue       
             
             if not project.getState()==STATE_PREREQ_FAILED:
@@ -1691,10 +1678,6 @@ This page helps Gumpmeisters (and others) observe community progress.
     #    endXDoc(x)
         
     def documentProject(self,project,realTime=False): 
-    
-        # Hack for bad data. Gump3 won't let it get this
-        # far.
-        if not project.inModule(): return
         
         spec=self.resolver.getFileSpec(project)
         document=XDocDocument('Project : ' + project.getName(),    

@@ -81,11 +81,6 @@ which will be used to configure the chosen Forrest skin.
   Alternative static image:
   <group-logo>images/group-logo.gif</group-logo> -->
 
-  <group-name>ApacheCon</group-name>
-  <group-description>ApacheCon Europe 2005</group-description>
-  <group-url>http://apachecon.com/</group-url>
-  <group-logo>http://apache.org/images/ac2005eu_135x50.gif</group-logo>
-
   <!-- optional host logo (e.g. sourceforge logo)
        default skin: renders it at the bottom-left corner -->
   <host-url></host-url>

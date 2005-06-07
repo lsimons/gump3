@@ -321,7 +321,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                         project.addError("See Directory Listing Work for Missing Outputs")
             else:
                 project.changeState(STATE_SUCCESS)
-        elif project.inModule():
+        else:
             # List source directory (when failed) in case it helps debugging...
             listDirectoryToFileHolder(project,project.getModule().getWorkingDirectory(), 
                                         FILE_TYPE_SOURCE, 'list_source_'+project.getName())           

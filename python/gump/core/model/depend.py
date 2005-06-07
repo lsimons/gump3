@@ -93,7 +93,6 @@ class ProjectDependency(Annotatable):
         self.optional=optional
         self.ids=ids
         self.noclasspath=noclasspath
-        self.valid=True
         if annotation:	self.addInfo(annotation)
         
     def __del__(self):
@@ -223,12 +222,6 @@ class DependSet:
         # Which direction (to or from?)
         self.dependees=dependees
         
-    def removeDepend(self, depend):
-        # :TODO: Ought remove more (or never delete,
-        # but never let 'bad' (i.e. circular) get in
-        # here in the first place.
-        self.depends.remove(depend)
-        
     def addDepend(self, depend):
         
         #
@@ -317,9 +310,6 @@ class Dependable:
     # 
     def addDependency(self,depend):
         self.directDependencies.addDepend(depend)
-        
-    def removeDependency(self,depend):
-        self.directDependencies.removeDepend(depend)
             
     def getDirectDependencies(self):
         return self.directDependencies.getDepends()
@@ -461,6 +451,14 @@ class Dependable:
             if dependency.getProject().getName()==name	\
                 and not dependency.isNoClasspath() :
                 return True            
+        return False
+
+    def uponFuzzy(self):
+        """
+        At least one of these dependencies is Fuzzy...
+        """
+        for dependency in self.getFullDependencies():
+            if dependency.getProject().isFuzzy(): return True
         return False
 
     # determine if this project is a prereq of any project on the todo list

@@ -56,30 +56,26 @@ class Dynagumper(gump.core.run.actor.AbstractRunActor):
         
     def processOtherEvent(self,event):
         #TODO do the actual work right here...
-        #self.log.warning('dynagumper.py processOtherEvent: need to implement event processing')
-        pass
-              
+        self.log.warning('dynagumper.py processOtherEvent: need to implement event processing')
+                      
     def processWorkspace(self):
         """
         Add information about the workspace to the database.
         """
         #TODO do the actual work right here...
         #self.ensureThisHostIsInDatabase()
-        #self.log.warning('dynagumper.py processWorkspace: need to implement workspace event processing')
-        pass
-
+        self.log.warning('dynagumper.py processWorkspace: need to implement workspace event processing')
+    
     def processModule(self,module):    
         """
         Add information about a module to the database.
         """
         #TODO do the actual work
-        #self.log.warning('dynagumper.py processModule: need to implement module event processing')
-        pass
-
+        self.log.warning('dynagumper.py processModule: need to implement module event processing')
+    
     def processProject(self,project):    
         """
         Add information about a project to the database.
         """
         #TODO do the actual work right here...
-        #self.log.warning('dynagumper.py processProject: need to implement project event processing')
-        pass
+        self.log.warning('dynagumper.py processProject: need to implement project event processing')

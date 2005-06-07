@@ -216,11 +216,7 @@ class GumpRunner(RunSpecific):
         
         # Notify last
         if self.run.getOptions().isNotify() and self.run.getWorkspace().isNotify():
-            self.run.registerActor(Notifier(self.run))    
-        else:
-            self.log.info('Not doing notifications [%s,%s]' \
-                % (self.run.getOptions().isNotify(), \
-                    self.run.getWorkspace().isNotify() ) )
+            self.run.registerActor(Notifier(self.run))         
                     
                     
         # See what we have...            

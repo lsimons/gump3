@@ -342,16 +342,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return (not self.isPackaged()) and self.hasBuilder()
         
     # provide elements when not defined in xml
-    def complete(self,workspace,visited=None): 
+    def complete(self,workspace): 
         if self.isComplete(): return
-        
-        if not visited:         
-            # Start with knowledge of having visited self.
-            visited = [self]
-                            
+
         if not self.inModule():
-            self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
-            self.addError("Not in a module")
+            self.addWarning("Not in a module")
             return
          
         # :TODO: hacky   
@@ -567,25 +562,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         [b.expand(self, workspace) for b in self.builder]
 
         if not packaged:
-            removes = []
-            
             # Complete dependencies so properties can reference the,
             # completed metadata within a dependent project
             for dependency in self.getDirectDependencies():
                 depProject=dependency.getProject()
-                if depProject in visited:
-                    self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
-                    self.addError("Circular Dependency with %s." % \
-                            depProject.getName())
-                    removes.append(dependency)
-                else:
-                    if not depProject.isComplete():
-                        depProject.complete(workspace)
-                    visited.append(depProject)
-                        
-            # Remove circulars...
-            for dependency in removes:
-                self.removeDependency(dependency)
+                if not depProject.isComplete():
+                    depProject.complete(workspace)
 
             self.buildDependenciesMap(workspace)                        
         
@@ -612,16 +594,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             # TODO -- move these back?
             #
             if badDepends or badOptions: 
-                for badDep in badDepends:
-                    (xmldepend,reason) = badDep
+                for xmldepend in badDepends:
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
-                    self.addError("Bad Dependency. Project: %s : %s " \
-                            % (getDomAttributeValue(xmldepend,'project'),reason))
+                    self.addError("Bad Dependency. Project: " \
+                            + getDomAttributeValue(xmldepend,'project') + " unknown to *this* workspace")
 
-                for badOpt in badOptions:
-                    (xmloption,reason) = badOpt   
-                    self.addWarning("Bad *Optional* Dependency. Project: %s : %s" \
-                            % (getDomAttributeValue(xmloption,'project') , reason))
+                for xmloption in badOptions:                
+                    self.addWarning("Bad *Optional* Dependency. Project: " \
+                            + getDomAttributeValue(xmloption,'project') + " unknown to *this* workspace")
         else:
             self.addInfo("This is a packaged project, location: " + self.home)        
                                     
@@ -645,10 +625,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                     
         # Close down the DOM...
         self.shutdownDom()       
-    
-        # Done so don't redo
+        
+        # Done, don't redo
         self.setComplete(True)
-    
+
     # turn the <jvmarg> children of domchild into jvmargs
     def addJVMArgs(self,domChild):        
         for jvmarg in getDomChildIterator(domChild,'jvmarg'):
@@ -671,7 +651,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 # Add a dependency
                 self.addDependency(dependency)
             else:
-                badDepends.append((ddom,"unknown to *this* workspace"))    
+                badDepends.append(ddom)    
                 
         # Walk the XML parts converting
         badOptions=[]
@@ -686,7 +666,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 # Add a dependency
                 self.addDependency(dependency)                    
             else:
-                badOptions.append((odom,"unknown to *this* workspace"))
+                badOptions.append(odom)
 
         return (badDepends, badOptions)
         

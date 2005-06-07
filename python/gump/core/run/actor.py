@@ -163,15 +163,10 @@ class AbstractRunActor(RunActor):
         is available on the sub-class (i.e. if needed)
         """
         if not hasattr(self,'processProject'): return        
-        if not callable(self.processProject):  return     
-        
-        # Hack for bad data.
-        if project.inModule():   
-        	self.log.debug('Process Project [' + `project` + '] using [' + `self` + ']')        
-        	self.processProject(project)
-     	else:
-            self.log.debug('Skip Project (not in module) [' + `project` + '] for [' + `self` + ']')        
-        	   
+        if not callable(self.processProject):  return        
+        self.log.debug('Process Project [' + `project` + '] using [' + `self` + ']')        
+        self.processProject(project)
+               
     def _processOtherEvent(self,event):
         """
         Call a method called 'processOtherEvent(event)', if it
