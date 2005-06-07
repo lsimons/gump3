@@ -473,13 +473,13 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def hasNotifyFromOverride(self):
         if not self.isNotify(): return False
         nag=self.getDomChild('nag')
-        return hasDomAttribute(nag,'from')
+        return hasDomAttribute(nag,'from')        
         
     def getNotifyFromOverride(self):
         if self.isNotify():
             nag=self.getDomChild('nag')
-            return getDomAttributeValue(nag,'from')
-        
+            return getDomAttributeValue(nag,'from')    
+            
     def getNotifyOverrides(self):
         
         # Nag Overrides
@@ -492,7 +492,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         if self.hasNotifyFromOverride():
             wsNotifyFromOverrideAddr=self.getNotifyFromOverride()
         
-        return ( wsNotifyToOverrideAddr, wsNotifyFromOverrideAddr)
+        return ( wsNotifyToOverrideAddr, wsNotifyFromOverrideAddr )
              
     def getVersion(self):
         if self.hasDomAttribute('version'):

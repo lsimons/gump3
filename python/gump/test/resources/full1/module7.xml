@@ -1,0 +1,27 @@
+<module name="module7">
+
+  <url  href="http://gump.apache.org/"/>
+  <description>
+    Module #7
+  </description>
+
+  <cvs repository="repository1"/>
+
+  <project name="project7">
+    <package>org.apache.project7</package>
+
+    <depend project="project6"><noclasspath/></depend>
+    <depend project="alias1"><noclasspath/></depend>
+
+    <home nested="dist"/>
+    <work nested="classes" />
+
+    <jar name="lib/output.jar" id="output"/>
+
+    <license name="LICENSE"/>
+
+    <nag from="Gump Integration Build &lt;general@gump.apache.org&gt;"
+         to="general@gump.apache.org"/>
+  </project>
+</module>
+
