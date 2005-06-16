@@ -182,6 +182,25 @@ class SvnRepository(Repository):
 
 #TODO: class PerforceRepository
 
+#TODO: suppport for configuring these needs to be built into gump, eg point at
+#      /usr/local/gump/packages or a location of choice and create an instance.
+#      Also, plugins must learn how to "consume" these.
+class LocalRepository(Repository):
+    """Model a "repository" that exists only locally (eg, "installed packages").
+
+    Has the following properties:
+        
+        - all of the properties a Repository has
+    """
+    def __init__(self,
+                 workspace,
+                 name,
+                 title = None,
+                 home_page = None,
+                 cvsweb = None):
+        Repository.__init__(self, workspace, name, title, home_page, cvsweb, False)
+
+
 class Module(ModelObject):
     """Model a module within a source control repository.
 
@@ -253,6 +272,18 @@ class SvnModule(Module):
         self.path = path
 
 #TODO: class PerforceModule
+
+#TODO: suppport for configuring these needs to be built into gump, eg point at
+#      /usr/local/gump/packages or a location of choice and create an instance.
+#      Also, plugins must learn how to "consume" these.
+class LocalModule(Module):
+    """Model a module that is not within a version control repository."""
+    def __init__(self,
+                 repository,
+                 name,
+                 url = None,
+                 description = None):
+        Module.__init__(self, repository, name, url, description)
 
 class Project(ModelObject):
     """Model a "project".

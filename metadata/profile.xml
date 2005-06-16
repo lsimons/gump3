@@ -25,7 +25,7 @@
 	<module href="packages/java-xml-pack.xml"/>
 
 	<!-- Module/Projects -->
+  	<module href="projects/xml.apache.org-commons/xml-commons.xml"/>  	
   	<module href="projects/xml.apache.org-xerces/xml-xerces2.xml"/>  	
 	<module href="projects/ant.apache.org/module.xml"/>
 </profile>
-

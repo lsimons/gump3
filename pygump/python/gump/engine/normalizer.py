@@ -110,6 +110,9 @@ class Normalizer:
     
     def normalize(self, olddoc):
         """Turns a messy gump DOM workspace into a simplified and normalized form."""
+        # Note that further down, perhaps contrary to what one would expect,
+        # we are actually modifying the olddoc DOM tree. That's okay, since we
+        # really don't have a use for it once we're done here (see engine.py).
         self.olddoc = olddoc
         self.oldroot = olddoc.documentElement
         self.impl = dom.getDOMImplementation()
@@ -235,17 +238,20 @@ class Normalizer:
         
         exclude = ["project", "module", "repository"];
         for module in modules:
+            clone = module.cloneNode(True)
+            self._clean_out_by_tag( clone, exclude )
+
             repository = self._find_repository_for_module(module)
             if not repository:
                 name = module.getAttribute("name")
-                self.log.warn("Dropping module '%s' because no corresponding repository could be found!" % name)
-                continue
-            
-            clone = module.cloneNode(True)
-            self._clean_out_by_tag( clone, exclude )
-            reporef = self.newdoc.createElement("repository")
-            reporef.setAttribute("name", repository.getAttribute("name") )
-            clone.insertBefore(reporef, clone.firstChild)
+                self.log.warn("Module '%s' does not have a corresponding repository!" % name)
+                # its okay to have a module without associated repository, its
+                # then an "installed package"
+                #continue
+            else:
+                reporef = self.newdoc.createElement("repository")
+                reporef.setAttribute("name", repository.getAttribute("name") )
+                clone.insertBefore(reporef, clone.firstChild)
             
             self.modules.appendChild(clone)
 
@@ -361,8 +367,16 @@ class Normalizer:
             if newlist.has_key(name):
                 _import_node(newlist[name], elem)
             else:
-                clone = elem.cloneNode(True)
-                newlist[name] = clone
+                # do not clone *here*. That is something the caller should do
+                # at some point. This is necessary (see GUMP-139) because
+                # otherwise we also lose the information on what the parent
+                # and ancestors are. The methods that call this one should
+                # do the clone at some point.
+                #clone = elem.cloneNode(True)
+                # Note that not cloning here means that in the case of the if
+                # above, we are merging nodes inside the oldroot. T
+                #newlist[name] = clone
+                newlist[name] = elem
         
         return newlist.values()
     

@@ -148,6 +148,8 @@ def _create_module(repository, module_definition):
         module = _create_cvs_module(repository, name, url, description, module_definition)
     elif isinstance(repository, SvnRepository):
         module = _create_svn_module(repository, name, url, description, module_definition)
+    elif isinstance(repository, LocalRepository):
+        module = _create_local_module(repository, name, url, description, module_definition)
     else:
         raise EngineError, "Unknown repository type '%s' referenced by module '%s'" % (repository.__class__,name)
     #TODO perforce support
@@ -162,6 +164,10 @@ def _create_cvs_module(repository, name, url, description, module_definition):
 def _create_svn_module(repository, name, url, description, module_definition):
     path = module_definition.getAttribute("path")
     return SvnModule(repository, name, path, url, description)
+
+
+def _create_local_module(repository, name, url, description, module_definition):
+    return LocalModule(repository, name, url, description)
 
 
 def _create_project(module, project_definition):
@@ -334,6 +340,7 @@ class MissingDependencyError(EngineError):
     def __str__(self):
         return "Dependency '%s' specified by '%s' cannot be found!" % (self.dependency_name, self.project)
 
+DEFAULT_GUMP_LOCAL_REPOSITORY_NAME = "DEFAULT_GUMP_LOCAL_REPOSITORY"
 
 class Objectifier:
     """Turns a *normalized* gump DOM workspace into a pythonified workspace.
@@ -365,6 +372,11 @@ class Objectifier:
     
     def _create_repositories(self, workspace, repository_definitions):
         """Creates all repositories and adds them to the workspace."""
+        
+        # Create a "default repository" for modules that don't actually live in
+        # version control (aka installed packages)
+        repository = LocalRepository(workspace, DEFAULT_GUMP_LOCAL_REPOSITORY_NAME)
+        workspace.repositories[repository.name] = repository
 
         for repository_definition in repository_definitions:
             if not repository_definition.nodeType == dom.Node.ELEMENT_NODE: continue
@@ -379,10 +391,16 @@ class Objectifier:
                 self.log.exception("Failed to convert repository definition '%s' into object form." % name)
     
     def _find_repository_for_module(self, workspace, module_definition):
-        name = module_definition.getAttribute("name")
-        repo_name = module_definition.getElementsByTagName("repository").item(0).getAttribute("name")
-        repo = workspace.repositories[repo_name]
-        return repo
+        try:
+            name = module_definition.getAttribute("name")
+            repo_name = module_definition.getElementsByTagName("repository").item(0).getAttribute("name")
+            repo = workspace.repositories[repo_name]
+            return repo
+        except:
+            # If we can't find a repository, then we're dealing with an installed
+            # package
+            self.log.debug("It seems that the module '%s' is an installed package" % name)
+            return workspace.repositories[DEFAULT_GUMP_LOCAL_REPOSITORY_NAME]
 
     def _create_modules(self, workspace, module_definitions):
         for module_definition in module_definitions:
