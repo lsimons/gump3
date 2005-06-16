@@ -83,26 +83,26 @@ def _resolve_href(node, dropped_nodes, found_hrefs, download_func, error_func):
     
     try:
         stream = download_func(href)
+
+        new_dom = minidom.parse(stream)
+        new_dom.normalize()
+        stream.close() # close file immediately, we're done!
+        new_root = new_dom.documentElement
+        
+        # we succeeded loading the new document, get rid of the href, save it
+        # as "resolved"
+        node.removeAttribute('href')
+        node.setAttribute('resolved-from-href', href)
+        
+        _import_node(node, new_root)
+        
+        # we're done with the file now, allow GC
+        new_root.unlink()
     except Exception, details:
         # swallow this in interest of log readability
         #_drop_module_or_project(node, dropped_nodes)
         error_func(href, node, dropped_nodes)
-        return # make sure to stop processing...
     
-    new_dom = minidom.parse(stream)
-    new_dom.normalize()
-    stream.close() # close file immediately, we're done!
-    new_root = new_dom.documentElement
-    
-    # we succeeded loading the new document, get rid of the href, save it
-    # as "resolved"
-    node.removeAttribute('href')
-    node.setAttribute('resolved-from-href', href)
-    
-    _import_node(node, new_root)
-    
-    # we're done with the file now, allow GC
-    new_root.unlink()
 
 ###
 ### Classes
