@@ -428,7 +428,7 @@ class Objectifier:
             if not project_definition.nodeType == dom.Node.ELEMENT_NODE: continue
             try:
                 _create_dependencies(project_definition, workspace.projects)
-            except MissingDependencyError:
+            except:
                 # TODO this is introducing a dependency on the engine
                 # algorithm. Need to move the "failure" logic closer to
                 # the "core" model.
