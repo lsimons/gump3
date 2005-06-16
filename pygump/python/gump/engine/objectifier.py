@@ -370,8 +370,13 @@ class Objectifier:
             if not repository_definition.nodeType == dom.Node.ELEMENT_NODE: continue
             name = repository_definition.getAttribute("name")
             self.log.debug("Converting repository definition '%s' into object form." % name)
-            repository = _create_repository(workspace, repository_definition)
-            workspace.repositories[repository.name] = repository
+            try:
+                repository = _create_repository(workspace, repository_definition)
+                workspace.repositories[repository.name] = repository
+            except:
+                # TODO: the name of the failing element and ideally the source xml file should be
+                #       reported somewhere and e.g. e-mailed to the gump admins
+                self.log.exception("Failed to convert repository definition '%s' into object form." % name)
     
     def _find_repository_for_module(self, workspace, module_definition):
         name = module_definition.getAttribute("name")
@@ -384,10 +389,15 @@ class Objectifier:
             if not module_definition.nodeType == dom.Node.ELEMENT_NODE: continue
             name = module_definition.getAttribute("name")
             self.log.debug("Converting module definition '%s' into object form." % name)
-            repository = self._find_repository_for_module(workspace, module_definition)
-            module = _create_module(repository, module_definition)
-            module.repository.modules[module.name] = module
-            workspace.modules[module.name] = module
+            try:
+                repository = self._find_repository_for_module(workspace, module_definition)
+                module = _create_module(repository, module_definition)
+                module.repository.modules[module.name] = module
+                workspace.modules[module.name] = module
+            except:
+                # TODO: the name of the failing element and ideally the source xml file should be
+                #       reported somewhere and e.g. e-mailed to the gump admins
+                self.log.exception("Failed to convert module definition '%s' into object form." % name)
         
     def _find_module_for_project(self, workspace, project_definition):
         name = project_definition.getAttribute("name")
@@ -400,13 +410,18 @@ class Objectifier:
             if not project_definition.nodeType == dom.Node.ELEMENT_NODE: continue
             name = project_definition.getAttribute("name")
             self.log.debug("Converting project definition '%s' into object form." % name)
-            module = self._find_module_for_project(workspace, project_definition)
-            project = _create_project(module, project_definition)
-            project.module.projects[project.name] = project
-            workspace.projects[project.name] = project
-
-            _create_commands(project, project_definition)
-            _create_artifacts(project, project_definition)
+            try:
+                module = self._find_module_for_project(workspace, project_definition)
+                project = _create_project(module, project_definition)
+                project.module.projects[project.name] = project
+                workspace.projects[project.name] = project
+    
+                _create_commands(project, project_definition)
+                _create_artifacts(project, project_definition)
+            except:
+                # TODO: the name of the failing element and ideally the source xml file should be
+                #       reported somewhere and e.g. e-mailed to the gump admins
+                self.log.exception("Failed to convert project definition '%s' into object form." % name)
 
         # wire up dependencies only after projects have been created
         for project_definition in project_definitions:
