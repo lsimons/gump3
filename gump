@@ -110,8 +110,8 @@ Run pygump.
       
       Available options include:"
       # This is a little wacky way to get just the option list from the
-      # testrunner.py script. It works for now :-D
-      python $GUMP_HOME/bin/testrunner.py -h 2>&1 | grep '       '
+      # pylid.py script. It works for now :-D
+      python $GUMP_HOME/bin/pylid-0.3/pylid.py -h 2>&1 | grep '  '
         ;;
     dynagump)
       echo "
@@ -657,36 +657,14 @@ function test
 {
   lock
   
-  # add pygump to python path
-  if [[ -z "$oldpythonpath" ]]; then
-    if [[ ! -z "$GUMP_CYGWIN" ]]; then
-      export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`"
-    else
-      export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump"
-    fi
-  else
   if [[ ! -z "$GUMP_CYGWIN" ]]; then
-      export PYTHONPATH="`cygpath -w $GUMP_HOME/pygump/python`;`cygpath -w $GUMP_HOME/pygump`:$PYTHONPATH"
-    else
-      export PYTHONPATH="$GUMP_HOME/pygump/python:$GUMP_HOME/pygump:$PYTHONPATH"
-    fi
-  fi
-
-  local current=`pwd`
-  cd "$GUMP_HOME/pygump/python"
-  pycompile
-  
-  # Run the pygump tests
-  if [[ ! -z "$GUMP_CYGWIN" ]]; then
-    $GUMP_PYTHON `cygpath -w $GUMP_HOME/bin/testrunner.py` -d `cygpath -w $GUMP_HOME/pygump/python/gump/test` $@
+    $GUMP_PYTHON `cygpath -w $GUMP_HOME/bin/pylid-0.3/pylid.py` \
+      -c -v -b `cygpath -w $GUMP_HOME/pygump:$GUMP_HOME/pygump/python` \
+      `cygpath -w $GUMP_HOME/pygump/python/gump/test` $@
   else
-    $GUMP_PYTHON $GUMP_HOME/bin/testrunner.py -d $GUMP_HOME/pygump/python/gump/test $@
-  fi
-  cd "$current"
-  
-  # restore python path
-  if [[ ! -z "$oldpythonpath" ]]; then
-    export PYTHONPATH="$oldpythonpath"
+    $GUMP_PYTHON $GUMP_HOME/bin/pylid-0.3/pylid.py -c -v -b \
+      $GUMP_HOME/pygump:$GUMP_HOME/pygump/python \
+      $GUMP_HOME/pygump/python/gump/test $@
   fi
   
   unlock
