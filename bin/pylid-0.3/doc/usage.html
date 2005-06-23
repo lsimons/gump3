@@ -1,0 +1,135 @@
+
+
+<html>
+	<head>
+		<LINK REL=StyleSheet HREF="./style/style.css" TYPE="text/css">
+	</head>
+		<a href="intro.html">&lt;--previous</a> |
+	<a href="./index.html">contents</a> |
+	<a href="examples.html">next--&gt;</a> 
+
+	<hr>
+	<body>
+        <h1>Usage</h1>
+		
+
+<h2> Synopsis </h2>
+
+<code class="shell">
+pylid.py [-acdhqsv] [-b path] [-e path] [-i path] [test ...]
+</code>
+
+<h2> Options </h2>
+
+<h3> -c : Clear </h3>
+
+<p> Clear all .pyc and .pyo files before a run. When a .pyc file is first
+compiled, the name of the source file is saved along with the compiled code.
+This source file name is the concatenation of the element in sys.path in which
+it occurs, and relative part of the filename. This means that if a .pyc file is
+created from a file imported from a relative sys.path entry, the filename
+embedded in the file will be relative as well.  If, after a .pyc file has been
+created, you import the module from elsewhere, and then check the code
+co_filename entry, the relative filename will be meaningless in your program
+context. This interferes with PyLid's ability to find source files to perform a
+coverage analysis on. If the preceding explanation meant little to you, do not
+fear - simply include the -c option if your coverage results seem peculiar
+(i.e. files are skipped, etc).</p>
+
+<h3> -d : Debug </h3>
+
+<p> This suppresses the actual testing component of the unit tests run. This is
+handy during coding, since it allows exceptions to propagate out of the testing
+framework. </p>
+
+<h3> -a : Annotate </h3>
+
+<p> Allow the user to page through annotated source files, indicating lines not
+covered during a testing run. This makes use of the user's preferred pager, as
+defined in the "PAGER" environment variable. </p>
+
+<h3> -h : Help </h3>
+
+<p> Print usage information and exit. </p>
+
+<h3> -q : Quiet </h3>
+
+<p> Decrease the level of verbosity during testing. </p>
+
+<h3> -s : Stats </h3>
+
+<p> Give condensed coverage statistics at the end of the test run. This
+includes, the number of statements covered in each file, the percentage of
+coverage in each file, and a list of line numbers not covered for each file.
+</p>
+
+<h3> -v : Verbosity </h3>
+
+<p> Increase the level of verbosity during testing. </p>
+
+<h2> Specifying Tests </h2>
+
+<p> If no test is specified, PyLid will search the entire directory tree rooted
+at the current directory for files matching "test_*.py", and run all unit tests
+found in these files. Tests can also be specified by file, i.e. </p>
+
+<code class="shell">
+pylid.py test_foo.py
+</code>
+
+<p> By test case: </p>
+
+<code class="shell">
+pylid.py test_foo.uTestCase
+</code>
+
+<p> Or even by specific test: </p>
+
+<code class="shell">
+pylid.py test_foo.uTestCase.test_something
+</code>
+
+
+<h2> Controlling Coverage Paths </h2>  
+
+<h3> -b : Project Base </h3>
+
+<p> Specify the project base directory. This path will be added to sys.path,
+allowing unit test files to import modules from here. The default value is
+"..".</p>
+
+<h3> -i : Include </h3>
+
+<p> Specify the path to consider during code analysis. The default value for
+this parameter is "..", i.e. all code in the tree starting just above the
+current directory is included in analysis. </p>
+
+<h3> -e : Exclude </h3>
+
+<p> Specify a path to be excluded from coverage analysis. Usually, the argument
+to this option would lie within the include path - else there would be little
+point explicitly excluding it. The default for this option is ".", i.e. exclude
+all files in the current directory tree from analysis. This is desirable, since
+the current directory tree usually contains the unit tests themselves. This
+option can be passed multiple times. </p>
+
+
+
+
+	</body>
+	<hr>
+    <table width="100%">
+        <tr>
+            <td>
+                	<a href="intro.html">&lt;--previous</a> |
+	<a href="./index.html">contents</a> |
+	<a href="examples.html">next--&gt;</a> 
+
+            </td>
+            <td align="right">
+                (11/16/04)
+            </td>
+        </tr>
+    </table>
+	<center> Pylid Manual </center>
+</html>

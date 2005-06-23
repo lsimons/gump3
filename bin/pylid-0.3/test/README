@@ -1,0 +1,2 @@
+Note that the pylid unit tests CAN be run using pylid itself, but coverage
+analysis will NOT work.

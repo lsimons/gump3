@@ -1,0 +1,8 @@
+        BODY { font-family: verdana,arial,helvetica,sans-serif; font-size:medium; color: #333333; }
+		CODE { font-size: medium; color: blue;}
+		code.SHELL { color: blue; }
+		code.OUTPUT { color: green; }
+        A:link { text-decoration:none; color: #6666aa; }
+        A:visited { text-decoration:none; color: #6666aa; }
+        A:active { text-decoration:none; color: #6666aa; }
+        A:hover { text-decoration; color:#FF0000 }
