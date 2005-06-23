@@ -30,6 +30,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 import sys, parser, token, symbol, copy, getopt, unittest, os, fnmatch, os.path, time, glob, trace
 
+UNIT_TEST_FILE_NAME_GLOB = 'test*.py' # 'test_*.py'
+
 def isPathContained(outer, inner):
     """
        Does inner lie "within" outer?
@@ -246,14 +248,16 @@ class Coverage:
 
 
 class Tester:
-    def __init__(self, baseDir, include, exclude):
+    def __init__(self, baseDirs, include, exclude):
         """
-            Takes the project base directory. This directory is inserted into
+            Takes the project base directories. These directories are inserted into
             our path so that unit tests can import files/modules from there. 
         """
         # We want to be able to import from the current dir
         self.cov = Coverage(include, exclude)
-        sys.path.insert(0, baseDir)
+        for baseDir in baseDirs:
+            sys.path.insert(0, baseDir)
+
         # We also insert the current directory, to make sure we can import
         # source files in our test directory.
         sys.path.insert(0, ".")
@@ -277,7 +281,7 @@ class Tester:
         if os.path.isfile(path):
             self._addFile(path, coverage)
         elif os.path.isdir(path):
-            for filename in glob.glob(os.path.join(path, 'test_*.py')):
+            for filename in glob.glob(os.path.join(path, UNIT_TEST_FILE_NAME_GLOB)):
                 self._addFile(filename, coverage)
         else:
             # We now assume that it's a module
@@ -376,7 +380,7 @@ def main():
                         "If a project is structured correctly, these options will rarely be required.")
     group.add_option("-b", "--base",
                       action="store", type="string", dest="base", default="..", metavar="DIR",
-                      help='Project base directory. (Default: "..")')
+                      help='Project base directories, seperated by colons. (Default: "..")')
     group.add_option("-e", "--exclude",
                       action="append", type="string", dest="exclude", metavar="DIR",
                       help='Exclude path from coverage analysis. Can be passed multiple times. (Default: ".")')
@@ -401,15 +405,17 @@ def main():
     if options.clear:
         for filename in GlobDirectoryWalker(options.include, '*.pyc'):
             os.remove(filename)
-        for filename in GlobDirectoryWalker(options.base, '*.pyc'):
-            os.remove(filename)
+        for basedir in options.base.split(':'):
+            for filename in GlobDirectoryWalker(basedir, '*.pyc'):
+                os.remove(filename)
         for filename in GlobDirectoryWalker(options.include, '*.pyo'):
             os.remove(filename)
-        for filename in GlobDirectoryWalker(options.base, '*.pyo'):
-            os.remove(filename)
+        for basedir in options.base.split(':'):
+            for filename in GlobDirectoryWalker(basedir, '*.pyo'):
+                os.remove(filename)
 
     # Do the actual run
-    t = Tester(options.base, options.include, options.exclude)
+    t = Tester(options.base.split(':'), options.include, options.exclude)
 
     dostats = options.stats or options.annotate
 
