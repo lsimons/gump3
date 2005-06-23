@@ -62,7 +62,3 @@ class DynagumperTestCase(MockTestCase):
         self.project.startdate = "21 June 2005"
         self.project.enddate = "22 June 2005"
         dynagumper.visit_project(self.project)
-
-# this allows us to run this test by itself from the commandline
-if __name__ == '__main__':
-    unittest.main()
