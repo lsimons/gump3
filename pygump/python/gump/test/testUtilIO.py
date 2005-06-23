@@ -134,12 +134,3 @@ that is currently not available. This is likely a non-critical problem.
             os.rmdir(cache)
         except:
             pass
-
-# this is used by testrunner.py to determine what tests to run
-def test_suite():
-    # be sure to change the referenceto the TestCase class you create above!
-    return unittest.makeSuite(IOUtilTestCase,'test')
-
-# this allows us to run this test by itself from the commandline
-if __name__ == '__main__':
-    unittest.main()

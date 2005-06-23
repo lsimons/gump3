@@ -579,12 +579,3 @@ class ModelTestCase(TestCase):
         self.assertEqual(id,o.id)
         o = Jar(p, jar, add_to_bootclass_path=bootclass)
         self.assertEqual(bootclass,o.add_to_bootclass_path)
-        
-
-# this is used by testrunner.py to determine what tests to run
-def test_suite():
-    return unittest.makeSuite(ModelTestCase,'test')
-
-# this allows us to run this test by itself from the commandline
-if __name__ == '__main__':
-    unittest.main()

@@ -218,12 +218,3 @@ class MockVFS:
     def get_as_stream(href):
         self.href = href
         return StringIO.StringIO()
-
-# this is used by testrunner.py to determine what tests to run
-def test_suite():
-    # be sure to change the referenceto the TestCase class you create above!
-    return unittest.makeSuite(ModellerTestCase,'test')
-
-# this allows us to run this test by itself from the commandline
-if __name__ == '__main__':
-    unittest.main()

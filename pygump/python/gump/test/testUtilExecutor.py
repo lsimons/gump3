@@ -74,11 +74,3 @@ class ZZZExecutorUtilTestCase(TestCase):
         #        self.assert_(os.WIFSIGNALED(exitcode), "Process should've been signalled...")
         #    except:
         #        pass
-        
-# this is used by testrunner.py to determine what tests to run
-def test_suite():
-    return unittest.makeSuite(ZZZExecutorUtilTestCase,'test')
-
-# this allows us to run this test by itself from the commandline
-if __name__ == '__main__':
-    unittest.main()

@@ -258,13 +258,3 @@ class MockVerifier:
         
     def verify(self,argument):
         TestCase.failUnlessEqual(self.testcase, self.expected, argument)
-        
-        
-# this is used by testrunner.py to determine what tests to run
-def test_suite():
-    # be sure to change the referenceto the TestCase class you create above!
-    return unittest.makeSuite(EngineTestCase,'test')
-
-# this allows us to run this test by itself from the commandline
-if __name__ == '__main__':
-    unittest.main()

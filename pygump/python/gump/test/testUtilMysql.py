@@ -86,13 +86,3 @@ prior to running this test.
 """
                 raise
 
-        
-
-# this is used by testrunner.py to determine what tests to run
-def test_suite():
-    # be sure to change the referenceto the TestCase class you create above!
-    return unittest.makeSuite(MysqlUtilTestCase,'test')
-
-# this allows us to run this test by itself from the commandline
-if __name__ == '__main__':
-    unittest.main()

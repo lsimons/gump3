@@ -45,12 +45,3 @@ class ExampleTestCase(TestCase):
         # to check conditions
         self.assert_( True )
         self.assertEquals( type({}), type({}) )
-
-# this is used by testrunner.py to determine what tests to run
-def test_suite():
-    # be sure to change the referenceto the TestCase class you create above!
-    return unittest.makeSuite(ExampleTestCase,'test')
-
-# this allows us to run this test by itself from the commandline
-if __name__ == '__main__':
-    unittest.main()

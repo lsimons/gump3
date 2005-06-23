@@ -91,12 +91,3 @@ class MainTestCase(TestCase):
     
     # don't test main because that would basically be running
     # an integration test
-
-# this is used by testrunner.py to determine what tests to run
-def test_suite():
-    # be sure to change the referenceto the TestCase class you create above!
-    return unittest.makeSuite(MainTestCase,'test')
-
-# this allows us to run this test by itself from the commandline
-if __name__ == '__main__':
-    unittest.main()
