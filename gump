@@ -658,12 +658,15 @@ function test
   lock
   
   if [[ ! -z "$GUMP_CYGWIN" ]]; then
-    $GUMP_PYTHON `cygpath -w $GUMP_HOME/bin/pylid-0.3/pylid.py` \
-      -c -v -b `cygpath -w $GUMP_HOME/pygump:$GUMP_HOME/pygump/python` \
+    $GUMP_PYTHON `cygpath -w $GUMP_HOME/bin/pylid-0.3/pylid.py` -c -v \
+      -b `cygpath -w $GUMP_HOME/pygump` -b `cygpath -w $GUMP_HOME/pygump/python` \
+      -i `cygpath -w $GUMP_HOME/pygump` -i `cygpath -w $GUMP_HOME/pygump/python` \
       `cygpath -w $GUMP_HOME/pygump/python/gump/test` $@
   else
-    $GUMP_PYTHON $GUMP_HOME/bin/pylid-0.3/pylid.py -c -v -b \
-      $GUMP_HOME/pygump:$GUMP_HOME/pygump/python \
+    $GUMP_PYTHON $GUMP_HOME/bin/pylid-0.3/pylid.py -c -v \
+      -b $GUMP_HOME/pygump -b $GUMP_HOME/pygump/python \
+      -i $GUMP_HOME/pygump -i $GUMP_HOME/pygump/python \
+      -e $GUMP_HOME/pygump/python/gump/test \
       $GUMP_HOME/pygump/python/gump/test $@
   fi
   
