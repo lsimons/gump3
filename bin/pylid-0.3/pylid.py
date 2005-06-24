@@ -28,7 +28,7 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
-import sys, parser, token, symbol, copy, getopt, unittest, os, fnmatch, os.path, time, glob, trace
+import sys, parser, token, symbol, copy, getopt, unittest, os, fnmatch, os.path, time, glob, trace, shutil
 
 UNIT_TEST_FILE_NAME_GLOB = 'test*.py' # 'test_*.py'
 
@@ -100,7 +100,12 @@ class Coverage:
         Analyse code coverage.
     """
     def __init__(self, coveragePath, excludeList=[]):
-        self.coveragePath = os.path.abspath(coveragePath)
+        if(isinstance(coveragePath, str)):
+            # support for old calling convention for Coverage with just a single coveragePath...
+            self.coveragePaths = [os.path.abspath(coveragePath)]
+        else:
+            self.coveragePaths = [os.path.abspath(x) for x in coveragePath]
+
         self.excludeList = [os.path.abspath(x) for x in excludeList]
         # Keys are filenames, values are dictionaries of line numbers.
         self.linesRun = {}
@@ -123,7 +128,13 @@ class Coverage:
 
     def _integrateTrace(self):
         for i in self._traceData:
-            if (os.path.abspath(i[0])[:len(self.coveragePath)] == self.coveragePath):
+            coverThis = False
+            for coveragePath in self.coveragePaths:
+                if (os.path.abspath(i[0])[:len(coveragePath)] == coveragePath):
+                    coverThis = True
+                    break
+
+            if (coverThis):
                 if self.linesRun.has_key(i[0]):
                     self.linesRun[i[0]][i[1]] = 1     
                 else:
@@ -147,10 +158,6 @@ class Coverage:
             return self._findTerminal(lst[1])
             
     def _makeCoverage(self):
-        """
-            Runs through the list of files, calculates a list of lines that
-            weren't covered, and writes the list to self.files["filenames"].
-        """
         if not self.coverageUpToDate:
             self._integrateTrace()
             for fileName in self.linesRun.keys():
@@ -253,8 +260,8 @@ class Tester:
             Takes the project base directories. These directories are inserted into
             our path so that unit tests can import files/modules from there. 
         """
-        # We want to be able to import from the current dir
         self.cov = Coverage(include, exclude)
+
         if(isinstance(baseDir, str)):
             # support for old calling convention for Tester with just a single basedir...
             sys.path.insert(0, baseDir)
@@ -297,6 +304,35 @@ class Tester:
                 self.cov.stop()
             self.suite.addTest(tests)
 
+    def _addCoverageFile(self, baseDir, fileName):
+        """Load the specified python module. This ensures there
+           will be coverage data for that file."""
+        sys.path.insert(0, baseDir)
+        fileName = fileName[len(baseDir):]
+        if(fileName.startswith(os.path.sep)):
+            fileName = fileName[1:]
+        modname = os.path.splitext(fileName)[0]
+        self.cov.start()
+        module = __import__(modname)
+        self.cov.stop()
+        del sys.path[0]
+
+    def addCoveragePath(self, path):
+        """Load all python modules in the provided path. This ensures
+           there will be coverage data for all those files."""
+        if os.path.isfile(path):
+            self._addCoverageFile(path)
+        elif os.path.isdir(path):
+            for filename in GlobDirectoryWalker(path, '*.py'):
+                self._addCoverageFile(path, filename)
+        else:
+            # We now assume that it's a module
+            self.cov.start()
+            tests = unittest.defaultTestLoader.loadTestsFromName(path)
+            if coverage:
+                self.cov.stop()
+            self.suite.addTest(tests)
+
     def coverageRun(self, verbosity=0):
         """
             "include" is a directory that should be included in the coverage analysis.
@@ -321,14 +357,14 @@ class Tester:
                                                               i[1]["allStatements"],
                                                               i[1]["coverage"],
                                                               i[0])
-            if i[1]["ranges"]:
-                print "                            ",
-                for j in i[1]["ranges"]:
-                    try:
-                        print "[%s...%s] "%(j[0], j[1]),
-                    except:
-                        print "%s "%(j),
-                print
+            #if i[1]["ranges"]:
+            #    print "                            ",
+            #    for j in i[1]["ranges"]:
+            #        try:
+            #            print "[%s...%s] "%(j[0], j[1]),
+            #        except:
+            #            print "%s "%(j),
+            #    print
 
     def coverageSummary(self):
         x = self.cov.getGlobalStats()
@@ -338,26 +374,28 @@ class Tester:
         print "\t\tStatements Run:   %s"%x["statementsRun"]
         print "\t\tPercentage:       %.5s%%"%x["percentage"]
 
-    def _page(self, data):
-        if os.environ.has_key("PAGER"):
-            cmd = os.environ["PAGER"]
-            pipe = os.popen(cmd, 'w')
-            try:
-                pipe.write(data)
-                pipe.close()
-            except IOError:
-                pass # Ignore broken pipes caused by quitting the pager program.
-        else:
-            print "Please define a 'PAGER' environment variable."
-
-    def pageAnnotations(self):
+    def logAnnotations(self, logDir):
+        if os.path.exists(logDir):
+            shutil.rmtree(logDir)
+        os.mkdir(logDir)
         ann = self.cov.getAnnotation()
         for i in ann:
-            print "View annotation for %s? "%i,
-            ans = raw_input()
-            if ans in ["y", "Y"]:
-                self._page("".join(ann[i]))
-
+            val = ann[i]
+            
+            # get to the actual module name
+            modulepaths = sys.path[:]
+            modulepaths.sort()
+            modulepaths.reverse()
+            for p in modulepaths:
+                if isPathContained(os.path.abspath(p), i):
+                    i = i[len(os.path.abspath(p)):]
+            if i.startswith(os.path.sep):
+                i = i[1:]
+            i = os.path.splitext(i)[0]
+            modulename = i.replace(os.path.sep, ".")
+            fileName = os.path.join(logDir, "%s.txt" % modulename)
+            file = open(fileName, mode='w')
+            file.write("".join(val))
 
 def main():
     from optparse import OptionParser, OptionGroup
@@ -381,6 +419,10 @@ def main():
                       action="store_true", dest="verbose",
                       help="Verbose.")
 
+    parser.add_option("-l", "--logdir",
+                      action="store", dest="logdir", default="logs/",
+                      help="Directory to write annotation log files (for use with -a).")
+
     group = OptionGroup(parser, "Controlling Coverage Paths",
                         "These options are only necessary if your project layout deviates from what pylid expects.")
     group.add_option("-b", "--base",
@@ -390,8 +432,8 @@ def main():
                       action="append", type="string", dest="exclude", metavar="DIR",
                       help='Exclude path from coverage analysis. Can be passed multiple times. (Default: ".")')
     group.add_option("-i", "--include",
-                      action="store", type="string", dest="include", default="..", metavar="DIR",
-                      help='Include path for analysis. (Default: "..")')
+                      action="append", type="string", dest="include", metavar="DIR",
+                      help='Include path for analysis. Can be passed multiple times (Default: "..")')
 
     parser.add_option_group(group)
 
@@ -402,6 +444,8 @@ def main():
         options.base = [".."]
     if not options.exclude:
         options.exclude = ["."]
+    if not options.include:
+        options.include = [".."]
 
     verbosity = 1
     if options.quiet:
@@ -410,15 +454,11 @@ def main():
         verbosity += 1
 
     if options.clear:
-        for filename in GlobDirectoryWalker(options.include, '*.pyc'):
-            os.remove(filename)
-        for basedir in options.base:
-            for filename in GlobDirectoryWalker(basedir, '*.pyc'):
+        for includedir in options.include:
+            for filename in GlobDirectoryWalker(includedir, '*.py[co]'):
                 os.remove(filename)
-        for filename in GlobDirectoryWalker(options.include, '*.pyo'):
-            os.remove(filename)
         for basedir in options.base:
-            for filename in GlobDirectoryWalker(basedir, '*.pyo'):
+            for filename in GlobDirectoryWalker(basedir, '*.py[co]'):
                 os.remove(filename)
 
     # Do the actual run
@@ -431,7 +471,12 @@ def main():
             t.addPath(i, dostats)
     else:
         t.addPath(".", dostats)
-
+    
+    # Generate coverage on all modules, not those that are loaded
+    if dostats:
+        for i in options.include:
+            t.addCoveragePath(i)
+        
     if options.debug:
         t.debug()
     elif dostats:
@@ -450,7 +495,10 @@ def main():
         t.coverageSummary()
 
     if options.annotate:
-        t.pageAnnotations()
+        logDir = options.logdir
+        t.logAnnotations(logDir)
+        print
+        print "           (Annotation logs saved in %s)" % logDir
 
 if __name__ == "__main__":
     main()

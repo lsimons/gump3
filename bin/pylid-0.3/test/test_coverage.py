@@ -179,7 +179,15 @@ class uCoverage(unittest.TestCase):
         self.failUnlessEqual(len(ann), 1)
         self.failUnlessEqual(ann[os.path.abspath("./testUnit/getAnnotation.py")], annotatedFile)
 
+    def test_singleCoveragePath(self):
+        cov = pylid.Coverage("./testUnit")
+        self.assert_(os.path.abspath("./testUnit") in cov.coveragePaths)
 
+    def test_multipleCoveragePaths(self):
+        cov = pylid.Coverage(["./testUnit", "blah", "./testUnit/blah/blah"])
+        self.assert_(os.path.abspath("./testUnit") in cov.coveragePaths)
+        self.assert_(os.path.abspath("blah") in cov.coveragePaths)
+        self.assert_(os.path.abspath("./testUnit/blah/blah") in cov.coveragePaths)
 
 def makeSuite():
     suite = unittest.makeSuite(uCoverage)
