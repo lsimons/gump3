@@ -14,7 +14,7 @@ def foo(on):
         1
     if on:
         1
-    elif 1:
+    elif 1 == 1:
         1
     class bug:
         def __init__(self):
