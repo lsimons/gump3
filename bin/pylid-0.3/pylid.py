@@ -248,15 +248,20 @@ class Coverage:
 
 
 class Tester:
-    def __init__(self, baseDirs, include, exclude):
+    def __init__(self, baseDir, include, exclude):
         """
             Takes the project base directories. These directories are inserted into
             our path so that unit tests can import files/modules from there. 
         """
         # We want to be able to import from the current dir
         self.cov = Coverage(include, exclude)
-        for baseDir in baseDirs:
+        if(isinstance(baseDir, str)):
+            # support for old calling convention for Tester with just a single basedir...
             sys.path.insert(0, baseDir)
+        else:
+            # the new way passes in an array
+            for dir in baseDir:
+                sys.path.insert(0, dir)
 
         # We also insert the current directory, to make sure we can import
         # source files in our test directory.
@@ -377,10 +382,10 @@ def main():
                       help="Verbose.")
 
     group = OptionGroup(parser, "Controlling Coverage Paths",
-                        "If a project is structured correctly, these options will rarely be required.")
+                        "These options are only necessary if your project layout deviates from what pylid expects.")
     group.add_option("-b", "--base",
-                      action="store", type="string", dest="base", default="..", metavar="DIR",
-                      help='Project base directories, seperated by colons. (Default: "..")')
+                      action="append", type="string", dest="base", metavar="DIR",
+                      help='Project base directory. Can be passed multiple times. (Default: "..")')
     group.add_option("-e", "--exclude",
                       action="append", type="string", dest="exclude", metavar="DIR",
                       help='Exclude path from coverage analysis. Can be passed multiple times. (Default: ".")')
@@ -393,6 +398,8 @@ def main():
     (options, args) = parser.parse_args()
 
 
+    if not options.base:
+        options.base = [".."]
     if not options.exclude:
         options.exclude = ["."]
 
@@ -405,17 +412,17 @@ def main():
     if options.clear:
         for filename in GlobDirectoryWalker(options.include, '*.pyc'):
             os.remove(filename)
-        for basedir in options.base.split(':'):
+        for basedir in options.base:
             for filename in GlobDirectoryWalker(basedir, '*.pyc'):
                 os.remove(filename)
         for filename in GlobDirectoryWalker(options.include, '*.pyo'):
             os.remove(filename)
-        for basedir in options.base.split(':'):
+        for basedir in options.base:
             for filename in GlobDirectoryWalker(basedir, '*.pyo'):
                 os.remove(filename)
 
     # Do the actual run
-    t = Tester(options.base.split(':'), options.include, options.exclude)
+    t = Tester(options.base, options.include, options.exclude)
 
     dostats = options.stats or options.annotate
 
