@@ -49,4 +49,10 @@
     <Set name="defaultsDescriptor">tools/jetty/conf/webdefaults.xml</Set>
   </Call>
 
+  <Call name="addWebApplication">
+    <Arg>/gump3/</Arg>
+    <Arg><SystemProperty name="webapp" default="."/></Arg>
+    <Set name="defaultsDescriptor">tools/jetty/conf/webdefaults.xml</Set>
+  </Call>
+
 </Configure>
