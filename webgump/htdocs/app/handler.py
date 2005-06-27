@@ -12,6 +12,9 @@ from webgump.util.log import Logger
 #DEBUG = True
 DEBUG = False
 
+class SecurityError(Exception):
+    pass
+
 class Handler:
     def __init__(self, req):
         """A new handler is created by mod_python on every request."""
@@ -31,6 +34,10 @@ class Handler:
             self._settings()
             action = self._get_action()
             self.status = action(self.req, self.settings)
+        except SecurityError, msg:
+            #self.req.write("<p style=\"color: red\"><strong>%s</strong></p>" % msg)
+            self.log.exception("Naughty client!", doNotLogToWebPage=True)
+            raise apache.SERVER_RETURN, apache.HTTP_BAD_REQUEST
         except IOError:
             self.req = None
             self.log.error("Client is gone.")
@@ -72,6 +79,8 @@ class Handler:
         query_vars = util.parse_qs(self.req.subprocess_env["QUERY_STRING"])
         self.settings['HTTP_GET_VARS'] = query_vars
         for key,val in query_vars.items():
+            if key in self.settings:
+                raise SecurityError, "Illegal query parameter '%s'!" % key
             val.reverse()
             self.settings[key] = val[0]
             val.reverse()

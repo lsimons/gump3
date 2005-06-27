@@ -33,9 +33,9 @@ class Logger:
         self.name = name
 
 
-    def log(self, level, msg):
+    def log(self, level, msg, doNotLogToWebPage=False):
         try:
-            logToWebPage = self.req and level <= self.printLevel
+            logToWebPage = self.req and level <= self.printLevel and not doNotLogToWebPage
             if logToWebPage: self.req.write("<pre>\n")
             
             if self.name:
@@ -52,31 +52,31 @@ class Logger:
             # probably a client is "gone"
             pass
     
-    def debug(self, msg):
+    def debug(self, msg, doNotLogToWebPage=False):
         if self.level >= DEBUG:
-            self.log(DEBUG, msg);
+            self.log(DEBUG, msg, doNotLogToWebPage);
     
-    def info(self, msg):
+    def info(self, msg, doNotLogToWebPage=False):
         if self.level >= INFO:
-            self.log(INFO, msg);
+            self.log(INFO, msg, doNotLogToWebPage);
     
-    def warning(self, msg):
+    def warning(self, msg, doNotLogToWebPage=False):
         if self.level >= WARNING:
-            self.log(WARNING, msg);
+            self.log(WARNING, msg, doNotLogToWebPage);
     
-    def error(self, msg):
+    def error(self, msg, doNotLogToWebPage=False):
         if self.level >= ERROR:
-            self.log(ERROR, msg);
+            self.log(ERROR, msg, doNotLogToWebPage);
     
-    def exception(self, msg):
+    def exception(self, msg, doNotLogToWebPage=False):
         info = sys.exc_info()
         import traceback
         from StringIO import StringIO
         buf = StringIO()
         traceback.print_exception( info[0], info[1], info[2], file=buf)
-        self.error("%s\n%s" % (msg, buf.getvalue()))
+        self.error("%s\n%s" % (msg, buf.getvalue()), doNotLogToWebPage)
 
-    def critical(self, msg):
+    def critical(self, msg, doNotLogToWebPage=False):
         if self.level >= CRITICAL:
-            self.log(CRITICAL, msg);
+            self.log(CRITICAL, msg, doNotLogToWebPage);
 

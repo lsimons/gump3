@@ -138,7 +138,7 @@ Run pygump.
 
       The available actions are:
 "
-      ls -1 webgump/bin
+      ls -1 $GUMP_HOME/webgump/bin
       echo "
       If no action is specified, gump passes debug as the action to
       execute."
