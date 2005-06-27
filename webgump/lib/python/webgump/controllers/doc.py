@@ -37,10 +37,11 @@ def view(req, settings):
     try:
         try:
             lastmodified = os.path.getmtime(pagepath)
-            #req.headers_out['Last-Modified'] = formatdate(lastmodified)
             req.mtime = lastmodified
-            #req.headers_out['X-Webgump'] = 'Test'
             req.content_type = "text/html"
+            
+            #TODO: implement fancy templating, xml transformation, and other other
+            # stuff here. Maybe even interface with cocoon :-). Hahahah.
         
             f = open(pagepath, mode='r')
             for line in f:
