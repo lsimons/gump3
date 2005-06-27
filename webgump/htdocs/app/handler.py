@@ -8,12 +8,12 @@ from mod_python import util
 
 from webgump.util import log
 from webgump.util.log import Logger
+from webgump.util import bust_cache
 
-#DEBUG = True
-DEBUG = False
+import webgump
 
-class SecurityError(Exception):
-    pass
+DEBUG = True
+#DEBUG = False
 
 class Handler:
     def __init__(self, req):
@@ -34,10 +34,20 @@ class Handler:
             self._settings()
             action = self._get_action()
             self.status = action(self.req, self.settings)
-        except SecurityError, msg:
-            #self.req.write("<p style=\"color: red\"><strong>%s</strong></p>" % msg)
+        except webgump.SecurityError, msg:
+            self.req.status = apache.HTTP_BAD_REQUEST
+            bust_cache(self.req)
+
+            self.req.write("<p style=\"color: red\"><strong>%s</strong></p>" % msg)
             self.log.exception("Naughty client!", doNotLogToWebPage=True)
-            raise apache.SERVER_RETURN, apache.HTTP_BAD_REQUEST
+            return apache.OK
+        except webgump.Error, msg:
+            self.req.status = apache.HTTP_INTERNAL_SERVER_ERROR
+            bust_cache(self.req)
+
+            self.req.write("<p><strong>%s</strong></p>" % msg)
+            self.log.exception("Internal error!", doNotLogToWebPage=True)
+            return apache.OK
         except IOError:
             self.req = None
             self.log.error("Client is gone.")
@@ -50,11 +60,8 @@ class Handler:
                 self.log.exception("Uncaught exception!")
             except:
                 pass
-        #try:
-        #    if DEBUG:
-        #        self._debug_info()
-        #except:
-        #    pass
+        
+        #self._debug_info()
     
         if self.status:
             return self.status
@@ -76,18 +83,19 @@ class Handler:
         for key,val in self.req.subprocess_env.items():
             self.settings[key] = val
 
+        self.settings['TEMPLATE_ROOT'] = \
+            os.path.abspath(os.path.join(self.settings['DOCUMENT_ROOT'], "../templates"))
+        self.settings['DOCUMENTATION_ROOT'] = \
+            os.path.abspath(os.path.join(self.settings['DOCUMENT_ROOT'], "../xdocs"))
+
         query_vars = util.parse_qs(self.req.subprocess_env["QUERY_STRING"])
         self.settings['HTTP_GET_VARS'] = query_vars
         for key,val in query_vars.items():
             if key in self.settings:
-                raise SecurityError, "Illegal query parameter '%s'!" % key
+                raise webgump.SecurityError, "Illegal query parameter '%s'!" % key
             val.reverse()
             self.settings[key] = val[0]
             val.reverse()
-
-        self.settings['TEMPLATE_ROOT'] = \
-            os.path.abspath(os.path.join(self.settings['DOCUMENT_ROOT'], "../templates"))
-
     
     def _get_action(self):
         """Determine the controller to fire up."""
@@ -109,13 +117,17 @@ class Handler:
         else:
             raise "No action '%s' available in controller '%s'" % (action, controller)   
         
-    #def _debug_info(self):
-    #    """Write basic environment information to the web page."""
-    #    self.req.write("<hr/><p><strong>DEBUG INFO</strong></p>\n")
-    #    self.req.write("<p><em>Webapp Settings</em></p>\n<pre>")
-    #    for (key,val) in self.settings.items():
-    #        self.req.write("%s: %s\n" % (key,val))
-    #    self.req.write("</pre>")
+    def _debug_info(self):
+        """Write basic environment information to the web page."""
+        try:
+            if DEBUG:
+                self.req.write("<hr/><p><strong>DEBUG INFO</strong></p>\n")
+                self.req.write("<p><em>Webapp Settings</em></p>\n<pre>")
+                for (key,val) in self.settings.items():
+                    self.req.write("%s: %s\n" % (key,val))
+                self.req.write("</pre>")
+        except:
+            pass
 
 
 def _find_controller_module(controller):

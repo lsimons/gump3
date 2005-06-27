@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<html>
+   <title>Home</title>
+   <body>
+     <h1>Welcome to Apache Gump!</h1>
+<p>Gump is Apache's continuous integration tool. It is written in
+python
+and fully supports Apache Ant, Apache Maven and other build tools. Gump
+is unique in that it builds and compiles software against the latest
+development versions of those projects. This allows gump to detect
+potentially incompatible changes to that software just a few hours
+after those changes are checked into the version control system.
+Notifications are sent to the project team as soon as such a change is
+detected, referencing more detailed reports available online.</p>
+<p>You can set up and run Gump on your own machine and run it on your
+own
+projects, however it is currently most famous for building most of
+Apache's java-based projects and their dependencies (which constitutes
+several million lines of code split up into hundreds of projects). For
+this purpose, the gump project maintains its own dedicated server.
+</p>
+
+<h1>Build results</h1>
+<p>Apache dedicates a complete machine to running gump. The
+<a href="results/">Build results</a> page provides a view of the data
+gump generates for apache.</p>
+
+<h1>Documentation</h1>
+<p>We're working on a <a href="docs/">new set of documentation</a>. A
+lot of material is still available on
+<a href="http://gump.apache.org/">our main website</a> only. Also make
+sure to take a look at the <a href="http://wiki.apache.org/gump">wiki</a>.</p>
+   </body>
+</html>

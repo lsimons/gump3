@@ -1,10 +1,15 @@
 #!/usr/bin/env python
-from webgump.util.template import TemplateEngine
-from gump.util.mysql import Database
+
 from webgump.util.log import Logger
+from webgump.util.template import TemplateEngine
+from webgump.util import bust_cache
+
+from gump.util.mysql import Database
 
 def view(req, settings):
     req.content_type = "text/html"
+    bust_cache(req)
+    req.send_http_header()
     
     dblog = Logger(req, name="webgump.db")
     db = Database(dblog,settings["db_host"], settings["db_user"],
