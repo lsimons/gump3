@@ -1,0 +1,44 @@
+--- mod_python-3.1.4/src/requestobject.c	2005-01-29 22:25:28.000000000 +0100
++++ mod_python-3.1.4.fixed/src/requestobject.c	2005-06-27 22:36:30.865602472 +0200
+@@ -1058,7 +1058,6 @@
+ 
+ static int setreq_recmbr(requestobject *self, PyObject *val, void *name) 
+ {
+-
+     if (strcmp(name, "content_type") == 0) {
+         if (! PyString_Check(val)) {
+             PyErr_SetString(PyExc_TypeError, "content_type must be a string");
+@@ -1088,6 +1087,15 @@
+             apr_pstrdup(self->request_rec->pool, PyString_AsString(val));
+         return 0;
+     }
++    else if (strcmp(name, "mtime") == 0) {
++        if (!PyInt_Check(val)) {
++            PyErr_SetString(PyExc_TypeError, "mtime must be an integer");
++            return -1;
++        }
++        self->request_rec->mtime = (apr_time_t)(PyLong_AsLongLong(val) * 1000000); /* python has seconds, apr microseconds */
++        ap_set_last_modified(self->request_rec); /* updates the last-modified header to sync with mtime */
++        return 0;
++    }
+     
+     return PyMember_SetOne((char*)self->request_rec, 
+                            find_memberdef(request_rec_mbrs, (char*)name),
+@@ -1105,7 +1113,7 @@
+     PyMemberDef *md = find_memberdef(request_rec_mbrs, name);
+     char *addr = (char *)self->request_rec + md->offset;
+     apr_time_t time = *(apr_time_t*)addr;
+-    return PyFloat_FromDouble(time*0.000001);
++    return PyFloat_FromDouble(time*0.000001); /* python has seconds, apr microseconds */
+ }
+ 
+ /**
+@@ -1256,7 +1264,7 @@
+     {"allowed_methods", (getter)getreq_rec_ml, NULL, "Allowed methods", "allowed_methods"},
+     {"sent_bodyct",  (getter)getreq_recmbr_off, NULL, "Byte count in stream for body", "sent_bodyct"},
+     {"bytes_sent",   (getter)getreq_recmbr_off, NULL, "Bytes sent", "bytes_sent"},
+-    {"mtime",        (getter)getreq_recmbr_time, NULL, "Time resource was last modified", "mtime"},
++    {"mtime",        (getter)getreq_recmbr_time, (setter)setreq_recmbr, "Time resource was last modified", "mtime"},
+     {"chunked",      (getter)getreq_recmbr, NULL, "Sending chunked transfer-coding", "chunked"},
+     {"boundary",     (getter)getreq_recmbr, NULL, "Multipart/byteranges boundary", "boundary"},
+     {"range",        (getter)getreq_recmbr, NULL, "The Range: header", "range"},
