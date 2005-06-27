@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+for i in `ipcs -s | grep $USER | sed -r -e 's/0x00000000 ([0-9]+).*/\1/g'`; do
+  ipcrm -s $i;
+done
+
