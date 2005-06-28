@@ -144,15 +144,16 @@ def get_plugins(config):
      
            
     if config.irc:        
-        # Parse here, allowing input errors to be thrown
-        from gump.plugins.irc import parseAddressInfo
+        # Since one does not need to put --irc onto the command line,
+        # bew pretty strict. Fail if there config is in error, or if
+        # IRCLIB is not available.
+        from gump.plugins.irc import parseAddressInfo, IrcBotPlugin
+        
+        # Parse the input format to extract addressing
         (channel,nickname,server,port)=parseAddressInfo(config.irc)
-        try:      
-            # Load here, ignoring if libirc not present
-            from gump.plugins.irc import IrcBotPlugin      
-            plugins.append(IrcBotPlugin(log,config.debug,channel,nickname,server,port))
-        except Exception,details:
-            log.warn('Failed to load IRC bot for %s: %s' % (config.irc, details), exc_info=1)
+        
+        # Add the plugin, based upon this configuration information.
+        plugins.append(IrcBotPlugin(log,config.debug,channel,nickname,server,port))
         
     plugins.append(TimerPlugin("work_end"))
 

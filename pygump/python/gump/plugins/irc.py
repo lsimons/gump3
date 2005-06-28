@@ -58,8 +58,7 @@ def parseAddressInfo(data):
         try:
             port = int(s[1])
         except ValueError:
-            if not 2 == len(s): 
-                raise Error, 'Unable to extract port for %s from %s' % (CONFIG_FORMAT, data)
+            raise Error, 'Unable to extract port for %s from %s using %s' % (CONFIG_FORMAT, data, s[1])
     else:
         port = DEFAULT_IRC_PORT
 
