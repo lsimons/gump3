@@ -141,7 +141,19 @@ def get_plugins(config):
         plugins.append(ClasspathPlugin(config.paths_work,buildlog))
         from gump.plugins.java.builder import AntPlugin
         plugins.append(AntPlugin(config.paths_work,buildlog))
-    
+     
+           
+    if config.irc:        
+        # Parse here, allowing input errors to be thrown
+        from gump.plugins.irc import parseAddressInfo
+        (channel,nickname,server,port)=parseAddressInfo(config.irc)
+        try:      
+            # Load here, ignoring if libirc not present
+            from gump.plugins.irc import IrcBotPlugin      
+            plugins.append(IrcBotPlugin(log,config.debug,channel,nickname,server,port))
+        except Exception,details:
+            log.warn('Failed to load IRC bot for %s: %s' % (config.irc, details), exc_info=1)
+        
     plugins.append(TimerPlugin("work_end"))
 
     post_process_plugins = []
@@ -159,9 +171,8 @@ def get_plugins(config):
     post_process_plugins.append(OutputLogReporterPlugin(reportlog))
 
     from gump.plugins.logreporter import ResultLogReporterPlugin
-    post_process_plugins.append(ResultLogReporterPlugin(reportlog))
-        
-    
+    post_process_plugins.append(ResultLogReporterPlugin(reportlog))        
+     
     # Give us an insight to what we have cooking...
     for plugin in pre_process_plugins: log.debug("Preprocessor : %s " % `plugin`)
     for plugin in plugins: log.debug("Processor    : %s " % `plugin`)

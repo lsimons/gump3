@@ -145,6 +145,11 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       dest="enable_colors",
                       default=False,
                       help="write log output using ansi color codes")
+    parser.add_option("--irc",
+                      action="store",
+                      dest="irc",
+                      default=False,
+                      help="enable an IRCbot during this run using nickname@irc.freenode.net/channel")
                       
     return parser
 

@@ -9,3 +9,5 @@ else
   export JAVA_HOME=/usr/lib/j2se/1.4
 fi
 
+export PYTHONPATH=$PYTHONPATH:/cygdrive/f/apps/python-irclib-0.4.5/
+
