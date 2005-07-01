@@ -54,6 +54,7 @@ class BuilderTestCase(MockTestCase):
                 scriptfile.write("""echo off
 echo RESULT
 """)
+                scriptfile.close()
             else:
                 scriptpath = join(mpath,"dobuild")
                 scriptfile = open(scriptpath, mode='w')
