@@ -116,10 +116,10 @@ class AbstractPlugin:
         if not callable(self.visit_project): return        
         self.visit_project(project)
 
-    def _finalize(self):
+    def _finalize(self, workspace):
         if not hasattr(self,'finalize'): return        
         if not callable(self.finalize): return        
-        self.finalize()
+        self.finalize(workspace)
     
     def __str__(self):
         return self.__class__.__name__
@@ -144,6 +144,6 @@ class LoggingPlugin(AbstractPlugin):
     def visit_project(self, project):
         self.log.debug("Visiting project '%s'." % project.name)
 
-    def finalize(self):
+    def finalize(self, workspace):
         self.log.debug("Finishing up...")
     

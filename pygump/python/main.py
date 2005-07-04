@@ -454,7 +454,7 @@ def main():
             log.debug("No projects to build set, defaulting to 'all'")
             options.projects = ["all"]
         if not os.path.exists(options.workspace):
-            log.error("Workspace not found : %s." % options.workspace)
+            log.error("Workspace not found : %s.\n       Maybe you need to specify --workspace=/absolute/path/to/some/workspace/file.xml?" % options.workspace)
             sys.exit(1)
         
         # get some more options from the workspace

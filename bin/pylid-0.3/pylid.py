@@ -280,6 +280,7 @@ class Tester:
         dirName, fileName = os.path.split(path)
         sys.path.insert(0, dirName)
         modname = os.path.splitext(os.path.basename(fileName))[0]
+        modname = modname.replace(os.path.sep, ".")
         if coverage:
             self.cov.start()
         module = __import__(modname)
@@ -312,6 +313,10 @@ class Tester:
         if(fileName.startswith(os.path.sep)):
             fileName = fileName[1:]
         modname = os.path.splitext(fileName)[0]
+        modname = modname.replace(os.path.sep, ".")
+        pidx = modname.rfind(".")
+        if pidx != -1:
+          __import__(modname[:pidx])
         self.cov.start()
         module = __import__(modname)
         self.cov.stop()

@@ -471,6 +471,7 @@ function check_environment
   check_pylib "MySQLdb" "http://sourceforge.net/projects/mysql-python"
   check_pylib "pmock" "http://pmock.sourceforge.net/"
   check_pylib "subprocess" "http://www.lysator.liu.se/~astrand/popen5/"
+  #check_pylib "irclib" "http://sourceforge.net/projects/python-irclib"
 }
 
 # create a .pid file
@@ -664,8 +665,8 @@ function test
       `cygpath -w $GUMP_HOME/pygump/python/gump/test` $@
   else
     $GUMP_PYTHON $GUMP_HOME/bin/pylid-0.3/pylid.py -c -v \
-      -b $GUMP_HOME/pygump -b $GUMP_HOME/pygump/python \
-      -i $GUMP_HOME/pygump -i $GUMP_HOME/pygump/python \
+      -b $GUMP_HOME/pygump/python \
+      -i $GUMP_HOME/pygump/python \
       -e $GUMP_HOME/pygump/python/gump/test \
       $GUMP_HOME/pygump/python/gump/test $@
   fi

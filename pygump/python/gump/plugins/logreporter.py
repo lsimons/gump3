@@ -90,7 +90,7 @@ class OutputLogReporterPlugin(AbstractPlugin):
         for command in project.commands:
             self._do_log_printing_visit(command,project)
             
-    def finalize(self):
+    def finalize(self, workspace):
         self.log.debug('  Finished outputting all log data.')
         self.log.debug('-----------------------------------')
 
@@ -220,7 +220,7 @@ class ResultLogReporterPlugin(AbstractPlugin):
                         
                     indent += "  "
                     
-    def finalize(self):
+    def finalize(self, workspace):
         self.wr('  ==========================================================================')
         
         self.buffer.flush()

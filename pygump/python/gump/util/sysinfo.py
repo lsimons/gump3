@@ -27,7 +27,7 @@ from subprocess import PIPE
 def amount_of_memory():
     """Returning an integer giving the amount of RAM memory in the system,
     in megabytes. Returns 0 if the amount of RAM cannot be determined."""
-    if sys.platform == "win32":
+    if sys.platform != "linux":
         return 0
     amount = 0 # i.e., we don't know
     cat = Popen(["cat", "/proc/meminfo"], stdout=PIPE)
@@ -45,7 +45,7 @@ def amount_of_memory():
 def amount_of_cpu_mhz():
     """Returning an integer giving the processor speed for this system,
     in MHz. Returns 0 if the processor speed cannot be determined."""
-    if sys.platform == "win32":
+    if sys.platform != "linux":
         return 0
     amount = 0 # i.e., we don't know
     cat = Popen(["cat", "/proc/cpuinfo"], stdout=PIPE)
@@ -66,7 +66,7 @@ def amount_of_cpu_mhz():
 def number_of_cpus():
     """Returning an integer giving the number of CPUs in the system.
     Returns 0 if the number of CPUs cannot be determined."""
-    if sys.platform == "win32":
+    if sys.platform != "linux":
         return 0
     amount = 0 # i.e., we don't know
     cat = Popen(["cat", "/proc/cpuinfo"], stdout=PIPE)

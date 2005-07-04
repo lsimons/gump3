@@ -46,19 +46,40 @@ class DynagumperTestCase(MockTestCase):
 
     def test_visit_workspace(self):
         #TODO
-        dynagumper = Dynagumper(self.db,self.log)
-        dynagumper.visit_workspace("blah")
+        class w:
+          def __init__(self, n, d):
+            self.name = n
+            self.description = d
+            
+        wi = w("blah", "blah blah")
+        db = self.mock()
+        db.expects(once()).method("execute").will(raise_exception(RuntimeError('bla')))
+        dynagumper = Dynagumper(db,self.log)
+        self.assertRaises(RuntimeError, dynagumper.visit_workspace, wi)
     
     def test_visit_module(self):
         #TODO
+        class m:
+          def __init__(self, n, d, u):
+            self.name = n
+            self.description = d
+            self.url = u
+            
+        mi = m("blah", "blah blah", "http://example.com")
         dynagumper = Dynagumper(self.db,self.log)
-        dynagumper.visit_module("blah")
+        db = self.mock()
+        db.expects(once()).method("execute").will(raise_exception(RuntimeError('bla')))
+        dynagumper = Dynagumper(db,self.log)
+        self.assertRaises(RuntimeError, dynagumper.visit_module, mi)
     
     def test_visit_project(self):
         #TODO
-        dynagumper = Dynagumper(self.db,self.log)
+        db = self.mock()
+        db.expects(once()).method("execute").will(raise_exception(RuntimeError('bla')))
+        dynagumper = Dynagumper(db,self.log)
         self.project = self.mock()
         self.project.name = "blah"
         self.project.startdate = "21 June 2005"
         self.project.enddate = "22 June 2005"
-        dynagumper.visit_project(self.project)
+        
+        self.assertRaises(RuntimeError, dynagumper.visit_project, self.project)

@@ -54,26 +54,7 @@ class MysqlUtilTestCase(pmock.MockTestCase):
         d.rollback()
         
         try:
-            c = d.cursor()
-            self.assertNotEqual(None, c)
-            c = None
-            (rows, result) = d.execute("DROP TABLE IF EXISTS gump_unit_test;")
-            self.assertEqual(0, rows)
-            
-            (rows, result) = d.execute("CREATE TABLE gump_unit_test (id INT);")
-            self.assertEqual(0, rows)
-            self.assertEqual(None, result)
-            
-            (rows, result) = d.execute("INSERT INTO gump_unit_test (id) VALUES (10);")
-            self.assertEqual(1, rows)
-            self.assertEqual(None, result)
-            
-            (rows, result) = d.execute("SELECT * FROM gump_unit_test;")
-            self.assertEqual(1, rows)
-            self.assertEqual(10, result[0]["id"])
-            
-            (rows, result) = d.execute("DROP TABLE gump_unit_test;")
-            self.assertEqual(0, rows)
+            (rows, result) = d.execute("SHOW TABLES;")
         except Exception:
             if not os.environ.has_key("GUMP_TEST_NO_MYSQL"):
                 print """
@@ -84,5 +65,25 @@ You can avoid seeing this error by setting the environment variable
   GUMP_TEST_NO_MYSQL
 prior to running this test.
 """
-                raise
+            return
 
+        c = d.cursor()
+        self.assertNotEqual(None, c)
+        c = None
+        (rows, result) = d.execute("DROP TABLE IF EXISTS gump_unit_test;")
+        self.assertEqual(0, rows)
+        
+        (rows, result) = d.execute("CREATE TABLE gump_unit_test (id INT);")
+        self.assertEqual(0, rows)
+        self.assertEqual(None, result)
+        
+        (rows, result) = d.execute("INSERT INTO gump_unit_test (id) VALUES (10);")
+        self.assertEqual(1, rows)
+        self.assertEqual(None, result)
+        
+        (rows, result) = d.execute("SELECT * FROM gump_unit_test;")
+        self.assertEqual(1, rows)
+        self.assertEqual(10, result[0]["id"])
+        
+        (rows, result) = d.execute("DROP TABLE gump_unit_test;")
+        self.assertEqual(0, rows)

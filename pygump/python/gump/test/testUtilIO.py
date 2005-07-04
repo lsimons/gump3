@@ -124,7 +124,6 @@ class IOUtilTestCase(TestCase):
 The testcase for the VFS utility needs a live internet connection. It seems
 that is currently not available. This is likely a non-critical problem.
 """
-            raise
         
         try:
             os.rmdir(base)

@@ -75,7 +75,7 @@ class Walker:
             visited_projects.append(project)
         
         self.log.debug('Visitor %s finalize, on %s walk.' % (`visitor`, description))
-        visitor._finalize()
+        visitor._finalize(workspace)
         return (visited_repositories, visited_modules, visited_projects)
     
     def _topsort_projects(self, workspace):

@@ -147,3 +147,13 @@ def mark_whether_module_was_updated(module):
             lines = log.split('\n')
             if len(lines) > 1:
                 module.was_updated = True
+
+def check_module_update_failure(module):
+    """Determine whether a module "update" "failed"."""
+    return getattr(module, "update_exit_status", False)
+
+def store_exception(model_element, type, value, traceback):
+    """Save exception information with a model element."""
+    if not hasattr(model_object, 'exceptions'):
+        model_object.exceptions = []
+    model_object.exceptions.append(ExceptionInfo(type, value, traceback))

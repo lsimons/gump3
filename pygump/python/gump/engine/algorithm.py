@@ -35,20 +35,13 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 import sys
 
 from gump.util import ansicolor
-from gump.model import ModelObject, CvsModule
+from gump.model import ModelObject, CvsModule, ExceptionInfo, Jar
 from gump.model.util import mark_failure, check_failure, mark_skip, check_skip
 from gump.model.util import mark_whether_module_was_updated
+from gump.model.util import check_module_update_failure
+from gump.model.util import store_exception
 
 from gump.model.util import UPDATE_TYPE_CHECKOUT, UPDATE_TYPE_UPDATE
-
-class ExceptionInfo(ModelObject):
-    def __init__(self, type, value, traceback):
-        self.type = type
-        self.value = value
-        self.traceback = traceback
-    
-    def __str__(self):
-        return "<%s:%s>" % (self.type, self.value)
 
 class BaseErrorHandler:
     """Base error handler for use with the various algorithms.
@@ -66,11 +59,15 @@ class LoggingErrorHandler:
     This handler logs then just re-raises a caught error.
     """
     def __init__(self, log):
+        assert hasattr(log, "exception")
+        assert callable(log.exception)
+        
         self.log = log
 
     def handle(self, visitor, visited_model_object, type, value, traceback):
-        """Override this method to be able to swallow exceptions."""
-        self.log.exception("%s threw an exception while visiting %s!" % (visitor, visited_model_object))
+        """Log the exception, then re-raise it."""
+        self.log.exception("%s threw an exception while visiting %s!" % \
+                           (visitor, visited_model_object))
         raise type, value
 
 class OptimisticLoggingErrorHandler:
@@ -79,19 +76,34 @@ class OptimisticLoggingErrorHandler:
     This handler logs a caught error then stores it on the model.
     """
     def __init__(self, log):
+        assert hasattr(log, "exception")
+        assert callable(log.exception)
+        
         self.log = log
 
     def handle(self, visitor, visited_model_object, type, value, traceback):
-        """Override this method to be able to swallow exceptions."""
-        self.log.exception("%s%s threw an exception while visiting %s!%s" % (ansicolor.Bright_Red, visitor, visited_model_object, ansicolor.Black))
+        """Swallow the exception, storing it with the model."""
+        self.log.exception("%s%s threw an exception while visiting %s!%s" % \
+                (ansicolor.Bright_Red, visitor, visited_model_object, ansicolor.Black))
         if isinstance(visited_model_object, ModelObject):
-            if not hasattr(visited_model_object, 'exceptions'):
-                visited_model_object.exceptions = []
-            visited_model_object.exceptions.append( ExceptionInfo(type, value, traceback) )
+            store_exception(type, value, traceback)
 
 class DumbAlgorithm:
     """"Core" algorithm that simply redirects all visit_XXX calls to other plugins."""
     def __init__(self, plugin_list, error_handler=BaseErrorHandler()):
+        assert isinstance(plugin_list, list)
+        for visitor in plugin_list:
+            assert hasattr(visitor, "_initialize")
+            assert callable(visitor._initialize)
+            assert hasattr(visitor, "_visit_workspace")
+            assert callable(visitor._visit_workspace)
+            assert hasattr(visitor, "_visit_repository")
+            assert callable(visitor._visit_repository)
+            assert hasattr(visitor, "_visit_module")
+            assert callable(visitor._visit_module)
+            assert hasattr(visitor, "_visit_project")
+            assert callable(visitor._visit_project)
+            
         self.list = plugin_list
         self.error_handler = error_handler
     
@@ -100,7 +112,8 @@ class DumbAlgorithm:
             try: visitor._initialize()
             except:
                 (type, value, traceback) = sys.exc_info()
-                self.error_handler.handle(visitor, "{{{initialization stage}}}", type, value, traceback)
+                self.error_handler.handle(visitor, \
+                        "{{{initialization stage}}}", type, value, traceback)
 
     def _visit_workspace(self, workspace):
         for visitor in self.list:
@@ -130,12 +143,24 @@ class DumbAlgorithm:
                 (type, value, traceback) = sys.exc_info()
                 self.error_handler.handle(visitor, project, type, value, traceback)
 
-    def _finalize(self):
+    def _finalize(self, workspace):
         for visitor in self.list:
-            try: visitor._finalize()
+            try:
+                visitor._finalize(workspace)
             except:
                 (type, value, traceback) = sys.exc_info()
-                self.error_handler.handle(visitor, "{{{finalization stage}}}", type, value, traceback)
+                self.error_handler.handle(visitor, \
+                        "{{{finalization stage}}}", type, value, traceback)
+
+class NoopPersistenceHelper:
+    def use_previous_build(self, arg):
+        pass
+    
+    def has_previous_build(self, arg):
+        pass
+    
+    def stop_using_previous_build(self, arg):
+        pass
 
 class MoreEfficientAlgorithm(DumbAlgorithm):
     """Algorithm that implements a more efficient build algorithm.
@@ -153,6 +178,14 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
     array named "failure_cause" will be created pointing to the elements that
     "caused" them to fail.
     """
+    def __init__(self, plugin_list, error_handler=BaseErrorHandler(), persistence_helper=NoopPersistenceHelper()):
+        DumbAlgorithm.__init__(self, plugin_list, error_handler)
+        
+        if persistence_helper != None:
+          assert hasattr(persistence_helper, "use_previous_build")
+          assert callable(persistence_helper.use_previous_build)
+          self.persistence_helper = persistence_helper
+        
     def _visit_module(self, module):
         # run the delegates
         try:
@@ -164,7 +197,7 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
             mark_failure(module, module.exceptions[len(module.exceptions)-1])
         
         # check for update errors
-        if getattr(module, "update_exit_status", False):
+        if check_module_update_failure(module):
             mark_failure(module, module)
             # if module update failed, don't try and attempt to build contained
             # projects either.
@@ -183,7 +216,12 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
         # check for dependencies that failed to build
         for relationship in project.dependencies:
             if check_failure(relationship.dependency):
-                mark_failure(project, relationship)
+                # if there is a "last successful build", we'll use that
+                if self.persistence_helper.has_previous_build(project):
+                    self.persistence_helper.use_previous_build(relationship.dependency)
+                else:
+                    # otherwise, we're doomed!
+                    mark_failure(project, relationship)
 
         # don't build if its not going to do any good
         if not check_failure(project) and not check_skip(project):
@@ -198,5 +236,8 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
             # blame commands that went awry
             for command in project.commands:
                 if getattr(command, "build_exit_status", False):
-                    #mark_failure(command, command)
                     mark_failure(project, command)
+    
+    def _finalize(self, workspace):
+        DumbAlgorithm._finalize(self, workspace)
+        self.persistence_helper.stop_using_previous_build(workspace)

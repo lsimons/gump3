@@ -36,6 +36,21 @@ class ModelObject:
             return "<%s>" % typerep
 
 
+class ExceptionInfo(ModelObject):
+    """Model an exception.
+
+    Basically we're saving an exception tuple (ie what is
+    returned by sys.exc_info()) inside something that's also
+    a "ModelObject"."""
+    def __init__(self, type, value, traceback):
+        self.type = type
+        self.value = value
+        self.traceback = traceback
+    
+    def __str__(self):
+        return "<%s:%s>" % (self.type, self.value)
+
+
 class Workspace(ModelObject):
     """Model gump workspace and profile.
 
