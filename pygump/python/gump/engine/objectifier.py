@@ -33,6 +33,25 @@ from gump.engine import EngineError
 from gump.engine.modeller import _find_element_text
 
 ###
+### Utility
+###
+def _extract_path(workdir, project, element):
+    """ Extract directory relative to module or project, based
+        upon which attribute (parent or nested) is present."""
+    parent = element.getAttribute("parent")
+    nested = element.getAttribute("nested")
+    
+    path = None
+    if parent:
+        path = os.path.join(get_module_directory(workdir, project.module), parent)
+    elif nested:
+        path = os.path.join(get_project_directory(workdir, project), nested)
+    else:
+        raise Error, "Unknown relative path entry (no parent or nested): %s" % (element)
+    return path
+
+
+###
 ### Creation
 ###
 def _create_workspace(workspace_definition):
@@ -170,11 +189,16 @@ def _create_local_module(repository, name, url, description, module_definition):
     return LocalModule(repository, name, url, description)
 
 
-def _create_project(module, project_definition):
+def _create_project(module, project_definition, workdir):
     name = project_definition.getAttribute("name")
     path = project_definition.getAttribute("path")
     
     project = Project(module, name, path)
+
+    homes = project_definition.getElementsByTagName("home")
+    if homes.length > 0:
+        project.homedir = _extract_path(workdir, project, homes.item(0))
+
     return project
 
 
@@ -221,42 +245,21 @@ def _create_ant_commands(project, project_definition):
         target = cmd.getAttribute("target")
             
         project.add_command(Ant(project, name, target, buildfile))
-        #TODO 
 
-def _extract_relative_item(project, element):
-    """ Extract directory relative to module or project, based
-        upon which attribute  (parent or nested) is present."""
-    parent=element.getAttribute("parent")    
-    nested=element.getAttribute("nested")
-        
-    if parent:
-        rel_item=RelativePath(project.module,parent)
-    elif nested:
-        rel_item=RelativePath(project,nested)
-    else:
-        raise Error, "Unknown relative path entry (no parent or nested): %s" % (element)
-    
-    return rel_item
-        
-def _create_artifacts(project, project_definition):    
-    
-    # Work Items
+def _create_outputs(project, project_definition, workdir):    
+    # Working directories for this project (containing java classes)
     works = project_definition.getElementsByTagName("work")
     for work in works:
-        project.add_output(WorkItem(project,_extract_relative_item(project,work)))
+        path = _extract_path(workdir, project_definition, work)
+        project.add_output(Classdir(project, path))
 
-    # Home Directory (outputs are relative to this)
-    homes = project_definition.getElementsByTagName("home")
-    if homes.length > 0:
-        project.homedir = _extract_relative_item(project,homes.item(0))
-    
-    # Outputs
+    # Jars
     jars = project_definition.getElementsByTagName("jar")
     for jar in jars:
         name = jar.getAttribute("name")
         id = jar.getAttribute("id")
         add_to_bootclass_path = jar.getAttribute("type") == "boot"
-        project.add_output(Jar(project,name,id,add_to_bootclass_path))
+        project.add_output(Jar(project, name, id, add_to_bootclass_path))
     
     #TODO more outputs
 
@@ -354,9 +357,10 @@ class Objectifier:
     intermediate results during parsing as properties for convenience.
     """
     
-    def __init__(self, log):
+    def __init__(self, log, workdir):
         """Store all settings and dependencies as properties."""
         self.log = log
+        self.workdir = workdir
 
     def get_workspace(self, domtree):
         """Transforms a workspace xml document into object form."""
@@ -430,12 +434,12 @@ class Objectifier:
             self.log.debug("Converting project definition '%s' into object form." % name)
             try:
                 module = self._find_module_for_project(workspace, project_definition)
-                project = _create_project(module, project_definition)
+                project = _create_project(module, project_definition, self.workdir)
                 project.module.projects[project.name] = project
                 workspace.projects[project.name] = project
     
                 _create_commands(project, project_definition)
-                _create_artifacts(project, project_definition)
+                _create_outputs(project, project_definition, self.workdir)
             except:
                 # TODO: the name of the failing element and ideally the source xml file should be
                 #       reported somewhere and e.g. e-mailed to the gump admins

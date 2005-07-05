@@ -21,11 +21,21 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 from os.path import abspath
 from os.path import join
+import os
 
-from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, ExceptionInfo
+from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, ExceptionInfo, Classdir, Jar
+
 
 UPDATE_TYPE_CHECKOUT="checkout"
 UPDATE_TYPE_UPDATE="update"
+
+def get_jar_path(workdir, jar):
+    """Determine the path to a Jar."""
+    return join(get_project_home_directory(workdir, jar.project),jar.name)
+
+def get_project_home_directory(workdir, project):
+    """Determine the home directory for a project."""
+    return join(get_project_directory(workdir, project),project.homedir)
 
 def get_project_directory(workdir, project):
     """Determine the base directory for a project."""
@@ -157,3 +167,79 @@ def store_exception(model_object, type, value, traceback):
     if not hasattr(model_object, 'exceptions'):
         model_object.exceptions = []
     model_object.exceptions.append(ExceptionInfo(type, value, traceback))
+
+        
+def calculate_classpath(workdir, project, recurse=True, runtimeonly=False):
+    """This ugly beast of a method looks at a project and its dependencies and
+    builds a classpath and a bootclasspath based on its <work/> directives
+    and its <depend/> directives."""
+    classpath = []
+    bootclasspath = []
+
+    # Ant requires to be told about a compiler
+    if os.environ.has_key('JAVA_HOME'):
+        classpath.append(os.path.join(os.environ['JAVA_HOME'],'lib','tools.jar'))
+    
+    # Any internal build outputs
+    for classdir in [output for output in project.outputs if isinstance(output, Classdir)]:
+        classpath.append(classdir.path)
+    
+    # Build outputs from dependencies
+    for relationship in project.dependencies:
+        dependency = relationship.dependency
+        
+        # keep track of visited outputs so we don't
+        # process them twice
+        visited_outputs = []
+        
+        for info in relationship.dependencyInfo:
+            if runtimeonly and not info.runtime:
+                continue
+
+            filter_by_id = info.specific_output_ids and len(info.specific_output_ids) > 0
+        
+            for output in [o for o in dependency.outputs if o not in visited_outputs]:
+                visited_outputs.append(o)
+                
+                # exclude unspecified outputs
+                if filter_by_id and not output.id in info.specific_output_ids:
+                        continue
+
+                # calculate path to this output
+                path = None
+                if isinstance(output, Classdir):
+                    path = output.path
+                if isinstance(output, Jar):
+                    path = get_jar_path(workdir,output)
+                
+                # actually add the path
+                if output.add_to_bootclass_path:
+                    bootclasspath.append(path)
+                else:
+                    classpath.append(path)
+                    
+                # now the fun begins. If we're doing inheritance, we're
+                # going to recurse. If we're not doing "jars" or "outputs"
+                # inheritance, we're going to do it once. Otherwise, we'll
+                # keep doing it until we're no longer doing "jars"
+                # inheritance. Sheesh!
+                # Oh, and finally, there's another special case for inheriting
+                # only the "runtime" dependencies.
+                if recurse:
+                    if info.inherit == DEPENDENCY_INHERIT_ALL or info.inherit == DEPENDENCY_INHERIT_HARD:
+                        (inheritedclasspath, inheritedbootclasspath) = get_classpath(workdir, dependency, recurse=False)
+                        classpath.extend(inheritedclasspath)
+                        bootclasspath.extend(inheritedbootclasspath)
+                    
+                    if info.inherit == DEPENDENCY_INHERIT_JARS:
+                        (inheritedclasspath, inheritedbootclasspath) = get_classpath(workdir, dependency, recurse=True)
+                        classpath.extend(inheritedclasspath)
+                        bootclasspath.extend(inheritedbootclasspath)
+                    
+                    if info.inherit == DEPENDENCY_INHERIT_RUNTIME:
+                        (inheritedclasspath, inheritedbootclasspath) = get_classpath(workdir, dependency, recurse=False, runtimeonly=True)
+                        classpath.extend(inheritedclasspath)
+                        bootclasspath.extend(inheritedbootclasspath)
+                        
+    
+    return (classpath, bootclasspath)

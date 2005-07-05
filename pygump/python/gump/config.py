@@ -285,10 +285,10 @@ def get_modeller_normalizer(log):
     return Normalizer(log)
 
 
-def get_modeller_objectifier(log):
+def get_modeller_objectifier(config, log):
     """Provide a Objectifier implementation."""
     from gump.engine.objectifier import Objectifier
-    return Objectifier(log)
+    return Objectifier(log, config.paths_work)
 
 
 def get_modeller_verifier(config, walker):

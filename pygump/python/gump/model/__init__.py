@@ -311,36 +311,35 @@ class Project(ModelObject):
         - module       -- the containing module
         - name         -- per-run unique identifier
         - path         -- directory path within the containing module
+        - homedir      -- directory path within this project relative to which
+                          all other directory paths are to be resolved. Defaults
+                          to ".", the project base directory
         - dependencies -- list of Dependency instances describing what other
                           projects this project depends upon
         - dependees    -- list of Dependency instances describing what other
                           projects depend on this project
         - commands     -- ordered list of Commands instances that need to be
                           executed to build this project
-        - homedir      -- None or a ResolvablePath (outputs are relative to this)
         - outputs      -- list of Output instances describing what results a
                           build of this project results in
-        - workitems    -- list of WorkItem instances describing what directories/files
-                          are used during the build of this project.
     """
     #TODO nice string representations of the entire model
     #def __str__(self):
     #    return "<Project: %s>" % self.name
 
-    def __init__(self, module, name, path="."):
+    def __init__(self, module, name, path=".", homedir="."):
         assert isinstance(module, Module)
         assert isinstance(name, basestring)
         
         self.module = module
         self.name   = name
         self.path   = path
-        self.homedir = None
+        self.homedir = homedir
         
         self.dependencies=[]
         self.dependees=[]
         self.commands=[]
         self.outputs=[]
-        self.workitems=[]
     
     def add_dependency(self, relationship):
         assert isinstance(relationship, Dependency)
@@ -388,10 +387,6 @@ class Project(ModelObject):
     def add_output(self, output):
         assert isinstance(output, Output)
         self.outputs.append(output)
-        
-    def add_work(self,work):
-        assert isinstance(work,WorkItem)
-        selfd.works.append(work)
 
 DEPENDENCY_INHERIT_NONE          = "none"
 DEPENDENCY_INHERIT_RUNTIME       = "runtime"
@@ -570,43 +565,6 @@ class Ant(Command):
 
 #TODO: more Commands
 
-class RelativePath(ModelObject):
-    def __init__(self,model,path):
-        assert isinstance(model, ModelObject)
-        assert isinstance(path, basestring)
-        self.model = model
-        self.path  = path
-        
-    def resolve(self,workdir):
-        from gump.model.util import get_module_directory,get_project_directory
-        if isinstance(self.model,Module):
-            base=get_module_directory(workdir,self.model)
-        elif isinstance(self.model,Project):
-            base=get_project_directory(workdir,self.model)
-        else:
-            pass #TODO Raise?
-        import os.path
-        return os.path.join(base,self.path)
-    
-    def __str__(self):
-        return "RelativePath:%s:%s" % (self.model,self.path)
-
-class WorkItem(ModelObject):
-    """Model a directory containing stuff that can be used by other projects.
-
-    Has the following properties:
-
-        - project -- the containing project.
-        - path -- the path to the directory or file.
-    """
-    def __init__(self, project, path):
-        assert isinstance(path, RelativePath)
-        self.project = project
-        self.path = path
-    
-    def __str__(self):
-        return "<WorkItem:%s>" % (self.path)
-
 class Output(ModelObject):
     """Model an output, something a successful project build will yield.
 
@@ -626,18 +584,35 @@ class Output(ModelObject):
     def __str__(self):
         return "<Output:%s>" % self.id
     
+class Classdir(Output):
+    """Model a directory containing java classes that can be used by other projects.
+
+    Has the following properties:
+
+        - all the properties an Output has except for an 'id'
+        - project -- the containing project.
+        - path -- the *absolute* path to the directory or file.
+    """
+    def __init__(self, project, path):
+        assert isinstance(path, basestring)
+        Output.__init__(self, project)
+        self.path = path
+    
+    def __str__(self):
+        return "<Classdir:%s>" % (self.path)
+
 class Jar(Output):
     """Model a java archive that can be used by other projects.
 
     Has the following properties:
 
         - all the properties an Output has
-        - name -- the path to the jar relative to the project is home
+        - name -- the path to the jar relative to the project its home
                 directory.
         - add_to_bootclass_path -- flag specifying if this jar should be
-                added 
+                added to the bootclasspath
     """
-    def __init__(self, project, name, id = None, add_to_bootclass_path = False ):
+    def __init__(self, project, name, id = None, add_to_bootclass_path = False):
         assert isinstance(name, basestring)
         Output.__init__(self, project, id)
         self.name = name

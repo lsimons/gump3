@@ -17,215 +17,29 @@
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
+"""Provides plugins for handling java-based Commands such as <ant/>."""
+
 import os
 import sys
 from os.path import abspath, join, isfile
 
-from gump.model import Script, Error, Project, Ant, Dependency, WorkItem, Jar
-from gump.model.util import get_project_directory,get_module_directory
+from gump.model import Script, Error, Project, Ant, Dependency, Classdir, Jar, DEPENDENCY_INHERIT_ALL, DEPENDENCY_INHERIT_HARD, DEPENDENCY_INHERIT_JARS
+from gump.model.util import get_project_directory,get_module_directory,get_jar_path,calculate_classpath
 from gump.plugins import AbstractPlugin
 from gump.plugins.builder import BuilderPlugin
 from gump.util.executor import Popen, PIPE, STDOUT
 
 
-
-class ArtifactPath(object):
-    """
-    Represents an artifact within a path
-    
-    Has the following properties:
-
-        - id -- the identifier for this artifact path.
-        - path -- the path to the file.
-        - description -- the description of this artifact path"""
-    def __init__(self,id,path,description=None):
-        self.id=id
-        self.path = path
-        self.description=description
-        
-    def __eq__(self,other):
-        return (self.path == other.path)
-    
-    def __str__(self):
-        return self.path
-        
-class Classpath(object):
-    """Represents a list of artifacts
-
-    Has the following properties:
-        
-        - id -- identifier
-        - parts -- an array of ArtifactPath objects
-        - state -- state of Artifacts:
-                    unknown
-                    complete
-                    stale (some from repository)
-                    incomplete (some missing)"""
-    def __init__(self, id):
-        self.id = id
-        self.parts = []
-        self.state='unknown'
-    
-    def __nonzero__(self) :
-        if self.parts: return True
-        return False
-    
-    def __len__(self):
-        return len(self.parts)
-    
-    def __add__(self,other):
-        if not isinstance(other,ArtifactPath):
-             other=ArtifactPath("Unknown",other,"Unspecified")
-        if not other in self.parts:
-            self.parts.append(other)
-        return self
-    
-    def __str__(self):
-        return self.join(os.pathsep)
-    
-    def join(self,sep):
-        import string
-        return string.join([ part.path for part in self.parts ], sep)
-    
 class ClasspathPlugin(BuilderPlugin):
-    """Generate build attributes (e.g. CLASSAPATH) for a builder."""
+    """Generate the java build attributes (e.g. CLASSPATH) for the Ant command."""
     def __init__(self, workdir, log):
-        BuilderPlugin.__init__(self, workdir, log, Ant, self._forge_classpaths)
+        BuilderPlugin.__init__(self, workdir, log, Ant, self.set_classpath)
         
-    def _forge_classpaths(self, project, ant):               
-
-        # Stub them out...
-        ant.classpath=Classpath('Standard')
-        ant.boot_classpath=Classpath('Boot')
-        
-        # Flesh them out...
-        self._calculateClasspaths(project,ant)
-
-    def _calculateClasspaths(self, project, ant):
-        """Generate the classpath lists"""
-        #TODO This ought be under "java & Ant" not under "Ant".        
-
-        # Ant requires to be told about a compiler, so (for now)
-        # we'll hardcode CLASSPATH to add $JAVA_HOME/lib/tools.jar
-        # IFF $JAVA_HOME exists.
-        if os.environ.has_key('JAVA_HOME'):
-            ant.classpath += ArtifactPath('Java Tools (e.g. Compiler)',os.path.join(os.environ['JAVA_HOME'],'lib','tools.jar'))
-        
-        # Any internal build artifacts
-        for work in project.workitems:
-            ant.classpath += ArtifactPath(work.name,output.path.resolve(self.workdir)) 
-            
-        # Recurse into dependencies
-        visited=[]
-        for dependency in project.dependencies:
-            self._calculateDependencyContributions(ant,dependency,1,visited)
-            
-    def _calculateDependencyContributions(self,ant,dependency,depth,visited):        
-        assert isinstance(dependency, Dependency)
-        
-        #TODO Check NO_CLASSPATH if dependency.dependencyInfo
-        if dependency in visited: return
-
-        # Access the players
-        project=dependency.dependency
-        projectpath=get_project_directory(self.workdir,project)
-        if project.homedir:
-            projectpath = project.homedir.resolve(self.workdir)
-        self.log.debug('Project HomeDir : %s' % projectpath)
-        
-        #TODO Do we need a filter here? Are all dependency infos
-        # appropriate, or not?
-        for info in [info for info in dependency.dependencyInfo]:           
-                    
-            # The dependency drivers...
-            #
-            # runtime (i.e. this is a runtime dependency)
-            # inherit (i.e. inherit stuff from a dependency)
-            # ids (i.e. what output ids to select)
-            #
-            runtime=info.runtime
-            inherit=info.inherit
-            ids=info.specific_output_ids
-      
-            # Explain..
-            depend_str=''
-            if inherit: 
-                if depend_str: depend_str += ', '
-                depend_str += 'Inherit:'+dependency.inherit
-            if runtime: 
-                if depend_str: depend_str += ', '
-                depend_str += 'Runtime'
-            
-            # Append Outputs for this project
-            #    (respect ids --- none means 'all)
-            project_ids=[]
-            for output in project.outputs:
-                # Store for double checking
-                if output.id: project_ids.append(output.id)
+    def set_classpath(self, project, command):
+        (classpath, bootclasspath) = calculate_classpath(self.workdir, project)
+        command.classpath = classpath
+        command.boot_classpath = bootclasspath
                 
-                # If 'all' or in ids list:
-                if (not ids) or (output.id in ids):   
-                    if ids: depend_str += ' ID = ' + output.id
-                    
-                    if isinstance(output,Jar):
-                        path = os.path.join(projectpath,output.name)
-                    else:
-                        raise Error, "Unknown Output Type for %s: %s" % (self.__class__.__name__, output.__class__.__name__)
-
-                    artifact_path=ArtifactPath(output.id,path,depend_str) 
-                    self.log.debug('Contribution : %s' % artifact_path)
-                    
-                    # Add to CLASSPATH (or BOOTCLASSPATH)
-                    if not isinstance(output,Jar) or not output.add_to_bootclass_path:
-                        ant.classpath += artifact_path
-                    else:
-                        ant.boot_classpath += artifact_path
-
-        # Double check IDs (to reduce stale IDs in metadata)
-        if ids:
-            for id in ids:
-                if not id in project_ids:
-                    self.log.warn("Invalid ID [" + id + "] for dependency on [" + project.name + "]")
-
-        visited.append(dependency)  
-        
-        # Append sub-projects outputs, if inherited
-        for subdependency in project.dependencies:        
-            #
-            # 	For the main project we working on, we care about it's request for inheritence
-            #	but we don't recursively inherit. (i.e. we only do this at recursion depth 1).
-            #
-            #   If the dependency is set to 'all' (or 'hard') we inherit all dependencies.
-            # 	If the dependency is set to 'runtime' we inherit all runtime dependencies.
-            #
-            #	INHERIT_OUTPUTS (aka INHERIT_JARS) is more sticky, and we track that down (and down, ...).
-            #
-            for subinfo in subdependency.dependencyInfo:
-                if   (  ( ( 1 == depth ) and \
-                        (inherit in [ 'all', 'hard' ]) \
-                    or \
-                          (inherit == 'runtime' and subdependency.isRuntime()) ) \
-                    or \
-                        ( inherit in [ 'outputs' ] ) ) :      
-                    self._calculateDependencyContributions(ant,subdependency,depth+1,visited)
-                    
-        
-class ArtifactPlugin(BuilderPlugin):
-    """Resolve all entries in the CLASSPATH|BOOT_CLASSPATH checking for existence. 
-    When absent see if recent copies can be acquired from a repository."""
-    def __init__(self,workdir, log):
-        BuilderPlugin.__init__(self, workdir, log, Ant, self._resolve_classpaths)
-        
-    def _resolve_classpaths(self, project, ant):                   
-        
-        self._resolve_classpath(ant.classpath)
-        self._resolve_classpath(ant.boot_classpath)
-        
-    def _resolve_classpath(classpath):        
-        for artifact_path in ant.classpath:
-            if not os.path.exists(artifact_path.path):
-                #TODO Go find from Repository...
-                classpath.state='incomplete'
         
 class AntPlugin(BuilderPlugin):
     """Execute all "ant" commands for all projects."""
@@ -239,8 +53,6 @@ class AntPlugin(BuilderPlugin):
     def _do_ant(self, project, ant):                
         projectpath = get_project_directory(self.workdir,project)
         
-        
-        #TODO get proper classpath
         self.log.debug('CLASSPATH %s' % ant.classpath)
         self.log.debug('BOOTCLASSPATH %s' % ant.boot_classpath)
         

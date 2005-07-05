@@ -97,7 +97,7 @@ def main(settings):
     modeller_log = get_logger(config, _MODELLER_LOGGER_NAME)
     modeller_loader = get_modeller_loader(modeller_log, vfs)
     modeller_normalizer = get_modeller_normalizer(modeller_log)
-    modeller_objectifier = get_modeller_objectifier(modeller_log)
+    modeller_objectifier = get_modeller_objectifier(config, modeller_log)
     modeller_verifier = get_modeller_verifier(config, walker)
     
     mergefile = os.path.join(config.paths_work, _MERGE_FILE_NAME)
