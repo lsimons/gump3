@@ -223,9 +223,9 @@ class Dynagumper(AbstractPlugin):
                 % (tablename, project.name, description, module_id, id)
         else:
             # Update
-            cmd = """UPDATE %s SET description='%s',module_id='%s',id='%s'
-                     WHERE name = '%s';""" \
-                % (tablename, description, module_id, id, project.name)
+            cmd = """UPDATE %s SET description='%s',module_id='%s',name='%s'
+                     WHERE id = '%s';""" \
+                % (tablename, description, module_id, project.name, id)
         self.db.execute(cmd)
     
     def _add_project_version_to_db(self, project):
