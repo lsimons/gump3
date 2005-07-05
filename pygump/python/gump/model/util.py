@@ -22,7 +22,7 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 from os.path import abspath
 from os.path import join
 
-from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule
+from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, ExceptionInfo
 
 UPDATE_TYPE_CHECKOUT="checkout"
 UPDATE_TYPE_UPDATE="update"
@@ -152,7 +152,7 @@ def check_module_update_failure(module):
     """Determine whether a module "update" "failed"."""
     return getattr(module, "update_exit_status", False)
 
-def store_exception(model_element, type, value, traceback):
+def store_exception(model_object, type, value, traceback):
     """Save exception information with a model element."""
     if not hasattr(model_object, 'exceptions'):
         model_object.exceptions = []
