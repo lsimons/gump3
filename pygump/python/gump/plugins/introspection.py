@@ -56,6 +56,15 @@ class IntrospectionPlugin(AbstractPlugin):
         msg += "\n\nAll possible project properties:\n   "
         msg += "\n   ".join(allproperties)
 
+        allproperties = []
+        for v in workspace.projects.values():
+            for c in v.commands:
+                properties = [prop for prop in dir(c) if not prop.startswith("__") and not prop in allproperties]
+                allproperties.extend(properties)
+        allproperties.sort()
+        msg += "\n\nAll possible command properties:\n   "
+        msg += "\n   ".join(allproperties)
+
         msg += "\n\nAll known repositories:\n"
         for k in workspace.repositories.keys():
             msg += "   %s\n" % k
@@ -81,4 +90,14 @@ class IntrospectionPlugin(AbstractPlugin):
         #    if callable(att):
         #        continue
         #    self.log.debug("XML-APIS attribute %s has value %s" % (prop, att))
+        
+        #bootstrapant = workspace.projects["bootstrap-ant"]
+        #for c in bootstrapant.commands:
+        #    from gump.model import Script
+        #    if isinstance(c, Script):
+        #        for p in dir(c):
+        #            att = getattr(c, p)
+        #            if callable(att):
+        #                continue
+        #            self.log.debug("BOOTSTRAP-ANT command attribute %s has value %s" % (p, att))
         
