@@ -21,9 +21,11 @@ import platform
 
 from gump.plugins import AbstractPlugin
 
+DEFAULT_TIME_FORMAT = '%d %b %Y %H:%M:%S'
+
 class TimerPlugin(AbstractPlugin):
     """Set a date property on each model object as it is visited."""
-    def __init__(self, propertyname, format='%d %b %Y %H:%M:%S'):
+    def __init__(self, propertyname, format=DEFAULT_TIME_FORMAT):
         self.format = format
         self.propertyname = propertyname
         
