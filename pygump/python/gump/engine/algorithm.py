@@ -86,7 +86,7 @@ class OptimisticLoggingErrorHandler:
         self.log.exception("%s%s threw an exception while visiting %s!%s" % \
                 (ansicolor.Bright_Red, visitor, visited_model_object, ansicolor.Black))
         if isinstance(visited_model_object, ModelObject):
-            store_exception(type, value, traceback)
+            store_exception(visited_model_object, type, value, traceback)
 
 class DumbAlgorithm:
     """"Core" algorithm that simply redirects all visit_XXX calls to other plugins."""
