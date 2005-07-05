@@ -198,7 +198,6 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
         
         # check for update errors
         if check_module_update_failure(module):
-            mark_failure(module, module)
             # if module update failed, don't try and attempt to build contained
             # projects either.
             for project in module.projects.values():
