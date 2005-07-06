@@ -277,7 +277,7 @@ class IrcBotPlugin(AbstractPlugin):
         
         if self.bot_runner.isAlive:
             self.bot_runner.join(60)
-            if sys.platform == 'win32' or True:
+            if sys.platform == 'win32':
                 import time
                 time.sleep(60)
             if self.bot_runner.isAlive:

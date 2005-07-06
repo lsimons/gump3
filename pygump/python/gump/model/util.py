@@ -23,8 +23,8 @@ from os.path import abspath
 from os.path import join
 import os
 
-from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, ExceptionInfo, Classdir, Jar
-
+from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, ExceptionInfo, Classdir, Jar, \
+     DEPENDENCY_INHERIT_ALL, DEPENDENCY_INHERIT_HARD, DEPENDENCY_INHERIT_JARS, DEPENDENCY_INHERIT_RUNTIME
 
 UPDATE_TYPE_CHECKOUT="checkout"
 UPDATE_TYPE_UPDATE="update"
