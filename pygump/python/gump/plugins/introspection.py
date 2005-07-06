@@ -100,4 +100,4 @@ class IntrospectionPlugin(AbstractPlugin):
         #            if callable(att):
         #                continue
         #            self.log.debug("BOOTSTRAP-ANT command attribute %s has value %s" % (p, att))
-        
+
