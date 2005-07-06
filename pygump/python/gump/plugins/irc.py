@@ -271,7 +271,7 @@ try:
       def visit_workspace(self,workspace):        
           self.bot_runner.put_message('Processing Workspace %s' % workspace.name)
           
-      def finalize(self):
+      def finalize(self,workspace):
           """ :TODO: Disconnect from the IRC service, allowing a graceful shutdown """  
           self.bot_runner.put_message('Gump signing out.')
           self.bot_runner.commands.put('shutdown')
