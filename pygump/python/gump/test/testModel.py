@@ -38,7 +38,6 @@ from gump.model import Output
 from gump.model import Mkdir
 from gump.model import Rmdir
 from gump.model import Script
-from gump.model import WorkItem
 from gump.model import Jar
 
 class ModelTestCase(TestCase):

@@ -18,9 +18,11 @@ __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import unittest
+import time
 from pmock import *
 
 from gump.plugins.dynagumper import Dynagumper
+from gump.plugins.dynagumper import DEFAULT_TIME_FORMAT
 
 from main import _Logger
 
@@ -42,7 +44,7 @@ class DynagumperTestCase(MockTestCase):
         db = self.mock()
         db.expects(at_least_once()).method("execute").will(return_value((0,None)))
         dynagumper = Dynagumper(db,self.log)
-        dynagumper.storeHost()
+        dynagumper.add_host_to_db()
 
     def test_visit_workspace(self):
         #TODO
@@ -58,14 +60,25 @@ class DynagumperTestCase(MockTestCase):
         self.assertRaises(RuntimeError, dynagumper.visit_workspace, wi)
     
     def test_visit_module(self):
-        #TODO
         class m:
-          def __init__(self, n, d, u):
+          def __init__(self, n, d, u, r):
             self.name = n
             self.description = d
             self.url = u
+            self.repository = r
+        
+        class r:
+          def __init__(self, workspace, name):
+            self.workspace       = workspace
+            self.name            = name
             
-        mi = m("blah", "blah blah", "http://example.com")
+        class w:
+          def __init__(self, name):
+            self.name            = name
+
+        wi = w("blah")
+        ri = r(wi, "blah")
+        mi = m("blah", "blah blah", "http://example.com", ri)
         dynagumper = Dynagumper(self.db,self.log)
         db = self.mock()
         db.expects(once()).method("execute").will(raise_exception(RuntimeError('bla')))
@@ -73,13 +86,35 @@ class DynagumperTestCase(MockTestCase):
         self.assertRaises(RuntimeError, dynagumper.visit_module, mi)
     
     def test_visit_project(self):
-        #TODO
+        class m:
+          def __init__(self, n, d, u, r):
+            self.name = n
+            self.description = d
+            self.url = u
+            self.repository = r
+        
+        class r:
+          def __init__(self, workspace, name):
+            self.workspace       = workspace
+            self.name            = name
+            
+        class w:
+          def __init__(self, name):
+            self.name            = name
+            self.run_start = time.strftime(DEFAULT_TIME_FORMAT)
+            self.run_end = self.run_start
+        
+        class p:
+          def __init__(self, module, name):
+            self.module = module
+            self.name = name
+
+        wi = w("blah")
+        ri = r(wi, "blah")
+        mi = m("blah", "blah blah", "http://example.com", ri)
+        pi = p(mi, "blah")
+
         db = self.mock()
         db.expects(once()).method("execute").will(raise_exception(RuntimeError('bla')))
         dynagumper = Dynagumper(db,self.log)
-        self.project = self.mock()
-        self.project.name = "blah"
-        self.project.startdate = "21 June 2005"
-        self.project.enddate = "22 June 2005"
-        
-        self.assertRaises(RuntimeError, dynagumper.visit_project, self.project)
+        self.assertRaises(RuntimeError, dynagumper.visit_project, pi)
