@@ -211,23 +211,25 @@ class Dynagumper(AbstractPlugin):
         cmd = "SELECT * FROM %s WHERE id = '%s';" % (tablename, id)
         (rows, result) = self.db.execute(cmd)
                 
-        # Gather data
-        description = None
-        if hasattr(project,'description'): description = project.description
-        
         # Store into database...
         if rows == 0:
             # Insert
-            cmd = """INSERT INTO %s (name, description, module_id, id)
-                     VALUES ('%s', '%s', '%s', '%s')""" \
-                % (tablename, project.name, description, module_id, id)
+            cmd = """INSERT INTO %s (name, module_id, id)
+                     VALUES ('%s', '%s', '%s')""" \
+                % (tablename, project.name, module_id, id)
         else:
             # Update
-            cmd = """UPDATE %s SET description='%s',module_id='%s',name='%s'
+            cmd = """UPDATE %s SET module_id='%s',name='%s'
                      WHERE id = '%s';""" \
-                % (tablename, description, module_id, project.name, id)
+                % (tablename, module_id, project.name, id)
         self.db.execute(cmd)
     
+        # Gather optional data
+        if hasattr(project,'description'):
+            description = project.description
+            cmd = """UPDATE %s SET description='%s' WHERE id = '%s';"""
+            self.db.execute(cmd)
+        
     def _add_project_version_to_db(self, project):
         tablename = "project_versions"
         
