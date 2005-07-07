@@ -25,6 +25,42 @@
 function usage
 {
   case $1 in
+    generate-reference)
+     shift
+     echo "= Command line options reference ="
+     echo "{{{"
+     usage help $@
+     echo  "}}}
+== Environment variables ==
+{{{"
+     usage variables $@
+     echo  "}}}
+== The 'run' command ==
+{{{"
+     usage run $@
+     echo  "}}}
+== The 'dynagump' command ==
+{{{"
+     usage dynagump $@
+     echo  "}}}
+== The 'debug' command ==
+{{{"
+     usage debug $@
+     echo  "}}}
+== The 'debug-with-wing' command ==
+{{{"
+     usage debug-with-wing $@
+     echo  "}}}
+== The 'test' command ==
+{{{"
+     usage test $@
+     echo "}}}"
+     local currentdate=`date`
+     echo " "
+     echo " "
+     echo "This document was last generated on $currentdate."
+     echo "It can be generated using the command 'gump help generate-reference'"
+     ;;
     variables)
       echo "
       Gump needs various other programs available in order to run. You
