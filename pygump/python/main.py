@@ -119,7 +119,13 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       action="store_true",
                       dest="do_build",
                       default=False, # Default to NOT. At least during initial development...
-                      help="run builders")
+                      help="run actual builds")
+    parser.add_option("-f",
+                      "--fill-database",
+                      action="store_true",
+                      dest="do_fill_database",
+                      default=False, # Default to NOT. At least during initial development...
+                      help="put build results into the mysql database")
     parser.add_option("--databaseserver",
                       action="store",
                       default=_databaseserver,

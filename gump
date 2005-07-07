@@ -118,7 +118,7 @@ function usage
       echo "
 Run pygump.
 "
-      do_run "from main import print_help; print_help()" $@
+      run -h
       ;;
     kill)
       echo "

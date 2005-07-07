@@ -163,11 +163,12 @@ def get_plugins(config):
     # TODO: append more plugins here...
     post_process_plugins.append(TimerPlugin("run_end"))
     
-    from gump.plugins.dynagumper import Dynagumper
-    dblog = get_logger(config, "util.db")
-    db = get_db(dblog,config)
-    dynagumplog = get_logger(config, "plugin.dynagumper")
-    post_process_plugins.append(Dynagumper(db, dynagumplog))
+    if config.do_fill_database:
+        from gump.plugins.dynagumper import Dynagumper
+        dblog = get_logger(config, "util.db")
+        db = get_db(dblog,config)
+        dynagumplog = get_logger(config, "plugin.dynagumper")
+        post_process_plugins.append(Dynagumper(db, dynagumplog))
     
     reportlog = get_logger(config, "plugin.logger")
     from gump.plugins.logreporter import OutputLogReporterPlugin
