@@ -42,7 +42,7 @@ from subprocess import STDOUT
 
 # for log messages...
 SEP = "------------------------------------------------------------------------------\n"
-GUMP_VERSION = '3.0-alpha-3'
+GUMP_VERSION = '3.0-alpha-4'
 
 # log levels
 DEBUG = 5
@@ -107,7 +107,7 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       "--workspace",
                       action="store",
                       default=_workspace,
-                      help="absolute path to the workspace gump will use")
+                      help="path to the workspace gump will use")
     parser.add_option("-u",
                       "--do-updates",
                       action="store_true",
@@ -488,8 +488,12 @@ def main():
             log.debug("No projects to build set, defaulting to 'all'")
             options.projects = ["all"]
         if not os.path.exists(options.workspace):
-            log.error("Workspace not found : %s.\n       Maybe you need to specify --workspace=/absolute/path/to/some/workspace/file.xml?" % options.workspace)
-            sys.exit(1)
+            abspath = os.path.join(options.homedir, options.workspace)
+            if os.path.exists(abspath):
+                options.workspace = abspath
+            else:
+                log.error("Workspace not found : %s.\n       Maybe you need to specify --workspace=/absolute/path/to/some/workspace/file.xml?" % options.workspace)
+                sys.exit(1)
         
         # get some more options from the workspace
         _parse_workspace(options.workspace, options)
