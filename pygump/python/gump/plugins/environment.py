@@ -34,6 +34,11 @@ def __set_env(self, env):
 def __del_env(self):
     del self.__env
 
+def set_env_property():
+    Project.env = property(__get_env, __set_env, __del_env,
+            "Environment dictionary for use with command execution")
+
+
 class EnvironmentPlugin(AbstractPlugin):
     """Set up lazily-initialized environment dictionary for use with executed commands."""
     
@@ -41,5 +46,4 @@ class EnvironmentPlugin(AbstractPlugin):
         pass
     
     def initialize(self):
-        Project.env = property(__get_env, __set_env, __del_env,
-            "Environment dictionary for use with command execution")
+        set_env_property()
