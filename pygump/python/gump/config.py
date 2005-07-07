@@ -106,6 +106,8 @@ def get_plugins(config):
     
     from gump.plugins.instrumentation import TimerPlugin
     pre_process_plugins.append(TimerPlugin("run_start"))
+    from gump.plugins.environment import EnvironmentPlugin
+    pre_process_plugins.append(EnvironmentPlugin())
     
     plugins = []
 

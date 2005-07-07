@@ -78,7 +78,7 @@ class ScriptBuilderPlugin(BuilderPlugin):
                 raise Error, "No script '%s' found!" % scriptfile
         
         args = [scriptfile] + script.args
-        cmd = Popen(args,shell=True,cwd=projectpath,stdout=PIPE,stderr=STDOUT)
+        cmd = Popen(args,shell=True,cwd=projectpath,stdout=PIPE,stderr=STDOUT,env=project.env)
         
         script.build_log = cmd.communicate()[0]
         script.build_exit_status = cmd.wait()

@@ -48,6 +48,7 @@ class BuilderTestCase(MockTestCase):
             mpath = join(basedir,w.name,r.name,m.name)
             mkdir(mpath)
             p = Project(m,"p")
+            p.env = os.environ
             if sys.platform == "win32":
                 scriptpath = join(mpath,"dobuild.bat")
                 scriptfile = open(scriptpath, mode='w')

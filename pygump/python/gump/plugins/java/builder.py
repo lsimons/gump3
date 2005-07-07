@@ -46,9 +46,6 @@ class AntPlugin(BuilderPlugin):
     def __init__(self, workdir, log, debug=False):
         BuilderPlugin.__init__(self, workdir, log, Ant, self._do_ant)
         self.debug = debug
-
-        # Clone the environment, so we can squirt CLASSPATH into it.
-        self.tmp_env = dict(os.environ)
         
     def _do_ant(self, project, ant):                
         projectpath = get_project_directory(self.workdir,project)
@@ -57,7 +54,7 @@ class AntPlugin(BuilderPlugin):
         self.log.debug('BOOTCLASSPATH %s' % ant.boot_classpath)
         
         # Create an Environment
-        self.tmp_env['CLASSPATH'] = str(ant.classpath)
+        project.env['CLASSPATH'] = str(ant.classpath)
         
         # TODO test this
         # TODO sysclasspath only
@@ -85,7 +82,7 @@ class AntPlugin(BuilderPlugin):
         self.log.debug("Command : %s " % (args))
         self.log.debug("        : %s " % ant.classpath)
         #self.log.debug("        : %s " % self.tmp_env)
-        cmd = Popen(args,shell=False,cwd=projectpath,stdout=PIPE,stderr=STDOUT,env=self.tmp_env)
+        cmd = Popen(args,shell=False,cwd=projectpath,stdout=PIPE,stderr=STDOUT,env=project.env)
 
         ant.build_log = cmd.communicate()[0]
         ant.build_exit_status = cmd.wait()
