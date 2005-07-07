@@ -647,7 +647,7 @@ function do_run
     fi
   fi
 
-  local command="$1"
+  local modulefile="$1"
   shift
   
   # run pygump
@@ -666,7 +666,7 @@ function do_run
   else
     cd "$GUMP_HOME/pygump"
   fi
-  $GUMP_PYTHON -c "$command" $@
+  $GUMP_PYTHON "$modulefile" $@
   if [[ ! -z "$GUMP_CYGWIN" ]]; then
     export GUMP_HOME=$old_gump_home
     export GUMP_WORKDIR=$old_gump_workdir
@@ -686,7 +686,7 @@ function do_run
 # Run pygump in normal mode
 function run
 {
-  do_run "from main import main; main()" $@
+  do_run $GUMP_HOME/pygump/python/main.py $@
 }
 
 # Run pygump in the debugger
@@ -704,11 +704,11 @@ function debug_with_wing
 # Run pydoc on the pygump codebase
 function pydoc
 {
-  do_run "from pydoc import cli; cli();" -p 1234 gump $@
+  do_run "pydoc" -p 1234 gump $@
 }
 
 # Prematurely shut down pygump
-function kill
+function do_kill
 {
   local pidfile="$GUMP_HOME/pygump/pygump.pid"
   if [[ ! -f "$pidfile" ]]; then
@@ -716,23 +716,29 @@ function kill
   fi
   
   local pid=`cat $pidfile`
-
-  local findpid=`ps -o pid --no-headers $pid | sed -e 's/ //g'`
+  rm $pidfile
+  
+  local findpid=`ps -o pid -p $pid | egrep '[0-9]+' | sed -e 's/ //g'`
   if [[ -z "$findpid" ]]; then
     error "Process ID specified in Pygump lockfile not found, no process to kill!"
   fi
   
   kill $pid
   
-  local findpid=`ps -o pid --no-headers $pid | sed -e 's/ //g'`
+  local findpid=`ps -o pid -p $pid | egrep '[0-9]+' | sed -e 's/ //g'`
   if [[ ! -z "$findpid" ]]; then
+    sleep 1
     kill -SIGKILL $pid
   fi
   
-  local findpid=`ps -o pid --no-headers $pid | sed -e 's/ //g'`
+  local findpid=`ps -o pid -p $pid | egrep '[0-9]+' | sed -e 's/ //g'`
   if [[ ! -z "$findpid" ]]; then
     error "Unable Process ID $pid. Do you have enough permissions to kill it?"
+    echo $pid > $pidfile
   fi
+  
+  echo "WARNING: you may still have some 'dangling' child processes"
+  echo "         look for processes named $GUMP_PYTHON"
 }
 
 # Run pygump unit tests
@@ -889,7 +895,7 @@ function delegate
       debug_with_wing $@
       ;;
     kill)
-      kill $@
+      do_kill $@
       ;;
     test)
       test $@
@@ -947,4 +953,7 @@ check_environment
 delegate $@
 
 # Attempt to clean up leftover commands
-#pkill -KILL -P $$
+trap 'exit 0' HUP
+trap 'kill -s HUP 0' EXIT
+trap 'kill -s TERM 0' TERM
+trap 'kill -s TERM 0' KILL

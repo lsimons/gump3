@@ -534,4 +534,9 @@ def main():
         except:
             pass
     
-    sys.exit(exitcode)
+    return exitcode
+
+if __name__ == "__main__":
+    result = main() or 0
+    sys.exit(result)
+
