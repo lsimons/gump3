@@ -54,6 +54,10 @@ function usage
 == The 'test' command ==
 {{{"
      usage test $@
+     echo  "}}}
+== The 'pydoc' command ==
+{{{"
+     usage pydoc $@
      echo "}}}"
      local currentdate=`date`
      echo " "
@@ -233,6 +237,16 @@ Run pygump.
       This command will fail if the specifed database already exists.
 "
       ;;
+    pydoc)
+      echo "
+      Runs a pydoc server on port 1234.
+
+      Usage:
+        $0 pydoc
+      
+      Visit http://localhost:1234/ to see the documentation it provides
+"
+        ;;
     pycompile)
       echo "
       Compiles all pygump source files.
@@ -687,6 +701,12 @@ function debug_with_wing
   run --attach-wingdb $@
 }
 
+# Run pydoc on the pygump codebase
+function pydoc
+{
+  do_run "from pydoc import cli; cli();" -p 1234 gump $@
+}
+
 # Prematurely shut down pygump
 function kill
 {
@@ -888,6 +908,9 @@ function delegate
       ;;
     pycompile)
       pycompile $@
+      ;;
+    pydoc)
+      pydoc $@
       ;;
     # this is short-circuited below because we don't really
     # want to load complain about missing environment settings
