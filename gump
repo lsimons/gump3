@@ -629,8 +629,6 @@ function pycompile
 # Run pygump using the specified python command
 function do_run
 {
-  lock
-
   # add pygump to python path
   local oldpythonpath="$PYTHONPATH"
   if [[ -z "$oldpythonpath" ]]; then
@@ -678,27 +676,31 @@ function do_run
   if [[ ! -z "$oldpythonpath" ]]; then
     export PYTHONPATH="$oldpythonpath"
   fi
-  
-  unlock
 }
 
 
 # Run pygump in normal mode
 function run
 {
+  lock
   do_run $GUMP_HOME/pygump/python/main.py $@
+  unlock
 }
 
 # Run pygump in the debugger
 function debug
 {
+  lock
   run --attach-pdb $@
+  unlock
 }
 
 # Run pygump in the Wing IDE debugger
 function debug_with_wing
 {
+  lock
   run --attach-wingdb $@
+  unlock
 }
 
 # Run pydoc on the pygump codebase
