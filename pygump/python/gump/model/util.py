@@ -227,17 +227,17 @@ def calculate_classpath(workdir, project, recurse=True, runtimeonly=False):
                 # only the "runtime" dependencies.
                 if recurse:
                     if info.inherit == DEPENDENCY_INHERIT_ALL or info.inherit == DEPENDENCY_INHERIT_HARD:
-                        (inheritedclasspath, inheritedbootclasspath) = get_classpath(workdir, dependency, recurse=False)
+                        (inheritedclasspath, inheritedbootclasspath) = calculate_classpath(workdir, dependency, recurse=False)
                         classpath.extend(inheritedclasspath)
                         bootclasspath.extend(inheritedbootclasspath)
                     
                     if info.inherit == DEPENDENCY_INHERIT_JARS:
-                        (inheritedclasspath, inheritedbootclasspath) = get_classpath(workdir, dependency, recurse=True)
+                        (inheritedclasspath, inheritedbootclasspath) = calculate_classpath(workdir, dependency, recurse=True)
                         classpath.extend(inheritedclasspath)
                         bootclasspath.extend(inheritedbootclasspath)
                     
                     if info.inherit == DEPENDENCY_INHERIT_RUNTIME:
-                        (inheritedclasspath, inheritedbootclasspath) = get_classpath(workdir, dependency, recurse=False, runtimeonly=True)
+                        (inheritedclasspath, inheritedbootclasspath) = calculate_classpath(workdir, dependency, recurse=False, runtimeonly=True)
                         classpath.extend(inheritedclasspath)
                         bootclasspath.extend(inheritedbootclasspath)
                         
