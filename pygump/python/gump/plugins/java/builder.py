@@ -54,14 +54,14 @@ class AntPlugin(BuilderPlugin):
         self.log.debug('BOOTCLASSPATH %s' % ant.boot_classpath)
         
         # Create an Environment
-        project.env['CLASSPATH'] = str(ant.classpath)
+        project.env['CLASSPATH'] = os.pathsep.join(ant.classpath)
         
         # TODO test this
         # TODO sysclasspath only
         # TODO more options
         
         # Build the command line.
-        args = ["java"]
+        args = [join(os.environ["JAVA_HOME"], "bin", "java")]
         
         # Allow bootclasspath
         if ant.boot_classpath:

@@ -66,6 +66,7 @@ class ScriptBuilderPlugin(BuilderPlugin):
         projectpath = get_project_directory(self.workdir,project)
         
         scriptfile = abspath(join(projectpath, script.name))
+        self.log.debug("Scriptfile seems to be %s" % scriptfile)
         
         # No extension is ok, otherwise guess at one, platform appropriately
         if not isfile(scriptfile):

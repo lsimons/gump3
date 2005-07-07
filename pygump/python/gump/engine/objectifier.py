@@ -230,9 +230,12 @@ def _create_script_commands(project, project_definition):
         name = cmd.getAttribute("name")
         args = []
         for arg in cmd.getElementsByTagName("arg"):
-            name = arg.getAttribute("name")
-            value = arg.getAttribute("value")
-            args.append((name, value))
+            argname = arg.getAttribute("name")
+            argvalue = arg.getAttribute("value")
+            if argname:
+                args.append(argname)
+            if argvalue:
+                args.append(argvalue)
             
         project.add_command(Script(project, name, args))
 
