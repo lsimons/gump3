@@ -18,15 +18,26 @@ java-based projects and their dependencies (which constitutes several million
 lines of code split up into hundreds of projects). For this purpose, the gump
 project maintains its own dedicated server.
 
+You are looking at the README for the in-development version of Gump, which
+we've after a lot of thinking decided to call "Gump3".
+
 == More Information ==
 
-Please see our website, http://gump.apache.org/, for more information.
+Please see our wiki,
+  http://wiki.apache.org/gump/
+
+for more information. In particular,
+
+  http://wiki.apache.org/gump/Gump3Installation
+
+has installation notes (though you may be able to do without them, installation
+isn't all that hard).
 
 == Command-Line Interface ==
 
 Gump has a command-based commandline interface. Run
 
-   ./gump help
+   bash gump help
 
 for more information on the available commands.
 
@@ -35,5 +46,5 @@ for more information on the available commands.
 Gump is available under the Apache License, version 2.0, which you can find in
 the LICENSE.txt file.
 
-The file bin/testrunner.py is available under Zope Public License, version 2.1,
-which you can find in the LICENSE.ZPL.txt file.
+The files under bin/pylid-0.3 are available under BSD License, which you can
+find in the bin/pylid-0.3/LICENSE.txt file.
