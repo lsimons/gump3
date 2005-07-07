@@ -826,15 +826,15 @@ function create_database
   
   # this will also ensure we don't delete an existing database since the
   # create command will fail
-  local mysqladminresult=`mysqladmin create "$db" $@`
+  echo command is mysqladmin create "$db" $@ '2>&1'
+  local mysqladminresult=`mysqladmin create "$db" $@ 2>&1`
   if [[ ! -z "$mysqladminresult" ]]; then
     error "Gump failed to create the database $db. mysqladmin said:
 
 $mysqladminresult"
   fi
   
-  local mysqlresult=`mysql create "$db" $@ <
-    $GUMP_HOME/gumpdb/src/sql/gump3-database-definition.sql`
+  local mysqlresult=`mysql $@ "$db" < $GUMP_HOME/gumpdb/src/sql/gump3-database-definition.sql`
   
   if [[ ! -z "$mysqlresult" ]]; then
     error "Gump failed to populate the database $db. mysql said:
