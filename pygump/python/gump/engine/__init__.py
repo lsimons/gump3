@@ -112,7 +112,77 @@ def main(settings):
                      dom_implementation,
                      pre_process_visitor, visitor, post_process_visitor,
                      config.paths_workspace, mergefile, dropfile)
-    
+
+    # Debugging sessions start right here
+    if settings.attach_wing:
+        print "=" * 78
+        print """
+!!!ENABLING WING IDE DEBUGGER!!!
+
+You are entering a WING IDE debug session. If you set up Wing correctly and
+specified the WINGHOME environment variable, wing should attach to gump in
+a moment.
+
+An overview of debugging external processes with Wing is at
+
+  http://wingware.com/doc/debug/debugging-externally-launched-code
+
+With the complete documentation for the Wing debugger at
+
+  http://wingware.com/doc/debug/index
+
+Note that you can get a free copy of the Wing IDE for open source development.
+Details are at
+
+  http://wingware.com/store/prices#discounts
+        """
+        print "=" * 78
+        import wingdbstub
+        wingdbstub.debugger.StartDebug(1)
+
+    if settings.attach_pdb:
+        print "=" * 78
+        print """
+!!!ENABLING COMMANDLINE DEBUGGER!!!
+
+You are entering a PDB debug session. If you didn't want this, simply type
+'continue' at the prompt that follows, then enter, then 'quit' when the
+prompt returns.
+
+Python's debugger is completely commmand-line based. An overview of
+the available commands is at
+
+  http://www.python.org/doc/current/lib/debugger-commands.html
+
+You get basic information on these commands by typing 'help'. It's a good
+idea to set some breakpoints within the run() method of the Engine class and
+some breakpoints within for example the Walker class and/or the Algorithm
+classes. Throughout the code, some useful spots to start debugging have been
+marked with "# DEBUG TIP". For example, the following sequence of commands may
+be useful for getting your feed wet (though note the line numbers are probably
+out-of-sync with the current layout of the sourcefiles):
+
+(Pdb) break gump/engine/__init__.py:235
+(Pdb) break gump/engine/__init__.py:259
+(Pdb) break gump/engine/algorithm.py:203
+(Pdb) break gump/engine/algorithm.py:230
+(Pdb) break gump/engine/walker.py:52
+(Pdb) break
+(Pdb) where
+(Pdb) continue
+(Pdb) where
+(Pdb) continue
+(Pdb) where
+(Pdb) continue
+(Pdb) where
+       ... (until you're bored)
+(Pdb) clear 1 2 3 4 5
+(Pdb) continue
+        """
+        print "=" * 78
+        import pdb
+        pdb.set_trace()
+
     # run it
     engine.run()
     
@@ -209,6 +279,7 @@ class _Engine:
     def run(self):
         """Perform a gump run. What actually goes on during a gump run is
         largely determined by the components we're using."""
+        # DEBUG TIP: good place to start debugging :-)
         try:
             # * merge workspace into big DOM tree
             (domtree, dropped_nodes) = self.workspace_loader.get_workspace_tree(self.workspace)
@@ -231,6 +302,7 @@ class _Engine:
             #   no circular dependencies)
             self.workspace_verifier.verify(workspace)
             
+            # DEBUG TIP: good place to look at the plugin flow control
             # * Pfew! All done. Now actually start *doing* stuff.
             self.walker.walk(workspace, self.pre_process_visitor, 'pre_process')
             # (visited_repositories, visited_modules, visited_projects) = \

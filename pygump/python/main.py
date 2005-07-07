@@ -150,6 +150,16 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       dest="irc",
                       default=False,
                       help="enable an IRCbot during this run using nickname@irc.freenode.net/channel")
+    parser.add_option("--attach-pdb",
+                      action="store_true",
+                      dest="attach_pdb",
+                      default=False,
+                      help="Run within the Python Debugger (PDB)")
+    parser.add_option("--attach-wingdb",
+                      action="store_true",
+                      dest="attach_wing",
+                      default=False,
+                      help="Run within the Wing IDE Debugger")
                       
     return parser
 
@@ -424,8 +434,19 @@ def main():
     
     options.version = GUMP_VERSION
     
+    # check for debug info
+    if options.attach_wing:
+        try:
+            winghome = os.environ["WINGHOME"]
+        except:
+            print "ERROR: debug environment not set up properly. Please set WINGHOME to the"
+            print "       directory containing your Wing IDE installation."  
+            sys.exit(2)
+
     # create logger
     log = _Logger(options.logdir)
+    
+    # fire it up!
     exitcode = 0
     try:
         if options.debug:

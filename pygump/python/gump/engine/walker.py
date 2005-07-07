@@ -47,6 +47,8 @@ class Walker:
         Returns a tuple containing the repositories visited, the modules
         visited, and the projects visited, in the order they were visited.
         """
+        # DEBUG TIP: This is a good function to monitor if you want to figure
+        #   out flow control
         visited_repositories = []
         visited_modules = []
         visited_projects = []

@@ -99,6 +99,25 @@ Run pygump.
       parameter. Using this command will actually start the command line
       debugger pdb to run gump in, whereas the '--debug' option customizes
       the log verbosity gump will use.
+      
+      This command otherwise accepts the same arguments as the 'run'
+      command.
+"
+      ;;
+    debug-with-wing)
+      echo "
+      Run pygump in debug mode.
+      
+      Usage:
+        $0 debug [gump.py-args ...]
+    
+      This is not the same as executing the 'run' command with a '--debug'
+      parameter. Using this command will actually start the debug connector
+      for the Wing IDE and attach it to the gump process, whereas the
+      '--debug' option customizes the log verbosity gump will use.
+
+      This command otherwise accepts the same arguments as the 'run'
+      command.
 "
       ;;
     test)
@@ -199,7 +218,8 @@ Run pygump.
       Available commands are:
      
         run             -- run pygump
-        debug           -- run pygump in debug mode
+        debug           -- run pygump in debug mode, attaching pdb
+        debug-with-wing -- run pygump in debug mode, attaching the Wing IDE
         test            -- run the pygump unit tests
         dynagump        -- run the dynagump web application server
         webgump         -- run the webgump application server
@@ -622,7 +642,13 @@ function run
 # Run pygump in the debugger
 function debug
 {
-  do_run "from main import main; import pdb; pdb.run('main()')" $@
+  run --attach-pdb $@
+}
+
+# Run pygump in the Wing IDE debugger
+function debug_with_wing
+{
+  run --attach-wingdb $@
 }
 
 # Prematurely shut down pygump
@@ -802,6 +828,9 @@ function delegate
       ;;
     debug)
       debug $@
+      ;;
+    debug-with-wing)
+      debug_with_wing $@
       ;;
     kill)
       kill $@

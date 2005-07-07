@@ -116,6 +116,8 @@ class DumbAlgorithm:
                         "{{{initialization stage}}}", type, value, traceback)
 
     def _visit_workspace(self, workspace):
+        # DEBUG TIP: This is a good function to monitor if you want to figure
+        #   out flow control
         for visitor in self.list:
             try: visitor._visit_workspace(workspace)
             except:
@@ -123,6 +125,8 @@ class DumbAlgorithm:
                 self.error_handler.handle(visitor, workspace, type, value, traceback)
 
     def _visit_repository(self, repository):
+        # DEBUG TIP: This is a good function to monitor if you want to figure
+        #   out flow control
         for visitor in self.list:
             try: visitor._visit_repository(repository)
             except:
@@ -130,6 +134,8 @@ class DumbAlgorithm:
                 self.error_handler.handle(visitor, repository, type, value, traceback)
 
     def _visit_module(self, module):
+        # DEBUG TIP: This is a good function to monitor if you want to figure
+        #   out flow control
         for visitor in self.list:
             try: visitor._visit_module(module)
             except:
@@ -137,6 +143,8 @@ class DumbAlgorithm:
                 self.error_handler.handle(visitor, module, type, value, traceback)
 
     def _visit_project(self, project):
+        # DEBUG TIP: This is a good function to monitor if you want to figure
+        #   out flow control
         for visitor in self.list:
             try: visitor._visit_project(project)
             except:
@@ -144,6 +152,8 @@ class DumbAlgorithm:
                 self.error_handler.handle(visitor, project, type, value, traceback)
 
     def _finalize(self, workspace):
+        # DEBUG TIP: This is a good function to monitor if you want to figure
+        #   out flow control
         for visitor in self.list:
             try:
                 visitor._finalize(workspace)
@@ -187,6 +197,8 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
           self.persistence_helper = persistence_helper
         
     def _visit_module(self, module):
+        # DEBUG TIP: This is a good function to monitor if you want to figure
+        #   out flow control
         # run the delegates
         try:
             for visitor in self.list:
@@ -212,6 +224,8 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
         #        mark_skip(project)
             
     def _visit_project(self, project):
+        # DEBUG TIP: This is a good function to monitor if you want to figure
+        #   out flow control
         # check for dependencies that failed to build
         for relationship in project.dependencies:
             if check_failure(relationship.dependency):
