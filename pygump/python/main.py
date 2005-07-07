@@ -436,12 +436,25 @@ def main():
     
     # check for debug info
     if options.attach_wing:
+        # look for WINGHOME
         try:
             winghome = os.environ["WINGHOME"]
         except:
             print "ERROR: debug environment not set up properly. Please set WINGHOME to the"
             print "       directory containing your Wing IDE installation."  
             sys.exit(2)
+        
+        # Copy over the dbstub if it isn't there already
+        try:
+            wingdbstubpath = os.path.join(options.homedir,"pygump","python","wingdbstub.py")
+            if not os.path.isfile(wingdbstubpath):
+                pathwithinwing = os.path.join(winghome, "wingdbstub.py")
+                import shutil
+                shutil.copyfile(pathwithinwing, wingdbstubpath)
+        except:
+            print "ERROR: debug environment not set up properly. Please add the windbstub.py"
+            print "       from WINGHOME to"
+            print "       %s" % wingdbstubpath
 
     # create logger
     log = _Logger(options.logdir)
