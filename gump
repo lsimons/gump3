@@ -645,7 +645,7 @@ function do_run
     fi
   fi
 
-  local modulefile="$1"
+  local module="$1"
   shift
   
   # run pygump
@@ -664,7 +664,7 @@ function do_run
   else
     cd "$GUMP_HOME/pygump"
   fi
-  $GUMP_PYTHON "$modulefile" $@
+  $GUMP_PYTHON -m "$module" $@
   if [[ ! -z "$GUMP_CYGWIN" ]]; then
     export GUMP_HOME=$old_gump_home
     export GUMP_WORKDIR=$old_gump_workdir
@@ -683,7 +683,7 @@ function do_run
 function run
 {
   lock
-  do_run $GUMP_HOME/pygump/python/main.py $@
+  do_run main $@
   unlock
 }
 
