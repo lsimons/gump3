@@ -37,6 +37,7 @@ class Database:
         self.password = password
         self.db = db
         self._conn = None
+        self.connect_failed = False
         
     def __del__(self):
         self.close()
@@ -77,6 +78,10 @@ class Database:
         rows affected and the result set as a tuple of tuples, if there was a
         result set, or None otherwise.
         """
+        if self.connect_failed:
+            self.log.error("        No connection, canned execute SQL statement:\n      %s%s...%s" % (ansicolor.Blue, statement[0:20], ansicolor.Black))
+            return (0, None)
+        
         cursor = None
         affected = 0
         try:
@@ -101,20 +106,24 @@ class Database:
         if not self._conn:
             import MySQLdb
             import MySQLdb.cursors
-            if self.password:
-                self._conn = MySQLdb.Connect(
-                    host=self.host, 
-                    user=self.user,
-                    passwd=self.password, 
-                    db=self.db,
-                    compress=1,
-                    cursorclass=MySQLdb.cursors.DictCursor)
-            else:
-                self._conn = MySQLdb.Connect(
-                    host=self.host, 
-                    user=self.user,
-                    db=self.db,
-                    compress=1,
-                    cursorclass=MySQLdb.cursors.DictCursor)
+            try:
+                if self.password:
+                    self._conn = MySQLdb.Connect(
+                        host=self.host, 
+                        user=self.user,
+                        passwd=self.password, 
+                        db=self.db,
+                        compress=1,
+                        cursorclass=MySQLdb.cursors.DictCursor)
+                else:
+                    self._conn = MySQLdb.Connect(
+                        host=self.host, 
+                        user=self.user,
+                        db=self.db,
+                        compress=1,
+                        cursorclass=MySQLdb.cursors.DictCursor)
+            except:
+                self.connect_failed = True
+                self.log.exception("Unable to get a connection to the database!")
         
         return self._conn
