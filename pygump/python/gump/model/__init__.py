@@ -556,12 +556,16 @@ class Ant(Command):
         - target -- the Ant target
         - buildfile -- the Ant build file
     """
-    def __init__(self, project, target, buildfile="build.xml"):
+    def __init__(self, project, target, buildfile="build.xml",basedir=None):
         assert isinstance(target, basestring)
         assert isinstance(buildfile, basestring)
+        if basedir != None:
+            assert isinstance(basedir, basestring)
+            
         Command.__init__(self, project)
         self.target = target
         self.buildfile = buildfile
+        self.basedir = basedir
 
     def __str__(self):
         return "<Ant:target=%s,buildfile=%s>" % (self.target, self.buildfile)
@@ -615,7 +619,7 @@ class Jar(Output):
         - add_to_bootclass_path -- flag specifying if this jar should be
                 added to the bootclasspath
     """
-    def __init__(self, project, name, id = None, add_to_bootclass_path = False):
+    def __init__(self, project, name, id=None, add_to_bootclass_path=False):
         assert isinstance(name, basestring)
         Output.__init__(self, project, id)
         self.name = name

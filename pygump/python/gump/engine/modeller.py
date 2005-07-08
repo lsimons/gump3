@@ -56,7 +56,6 @@ def _do_drop(to_remove, dropped_nodes=None):
 def _find_ancestor_by_tag(node, tagName):
     """Walk up the DOM hierarchy to locate an element of the specified tag."""
     parent = node 
-    print "Find %s starting with %s " % (tagName, node)
     while parent.nodeType == dom.Node.ELEMENT_NODE:
         if parent.tagName == tagName:
             return parent

@@ -31,9 +31,9 @@ from gump.util.executor import Popen, PIPE, STDOUT
 
 
 class ClasspathPlugin(BuilderPlugin):
-    """Generate the java build attributes (e.g. CLASSPATH) for the Ant command."""
-    def __init__(self, workdir, log):
-        BuilderPlugin.__init__(self, workdir, log, Ant, self.set_classpath)
+    """Generate the java build attributes (e.g. CLASSPATH) for the specified command."""
+    def __init__(self, workdir, log, CommandClazz):
+        BuilderPlugin.__init__(self, workdir, log, CommandClazz, self.set_classpath)
         
     def set_classpath(self, project, command):
         (classpath, bootclasspath) = calculate_classpath(self.workdir, project)
@@ -49,6 +49,8 @@ class AntPlugin(BuilderPlugin):
         
     def _do_ant(self, project, ant):                
         projectpath = get_project_directory(self.workdir,project)
+        if ant.basedir:
+            projectpath = os.path.join(projectpath, ant.basedir)
         
         self.log.debug('CLASSPATH %s' % ant.classpath)
         self.log.debug('BOOTCLASSPATH %s' % ant.boot_classpath)
@@ -65,7 +67,7 @@ class AntPlugin(BuilderPlugin):
         
         # Allow bootclasspath
         if ant.boot_classpath:
-            args += ['-X','bootclasspath/p',ant.boot_classpath.join(':')]
+            args += ['-X','bootclasspath/p',':'.join(ant.boot_classpath)]
 
         # Ant's entry point, and main options.
         args += ["org.apache.tools.ant.Main"]

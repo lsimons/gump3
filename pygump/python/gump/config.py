@@ -116,7 +116,8 @@ def get_plugins(config):
         from gump.plugins.builder import ScriptBuilderPlugin
         plugins.append(ScriptBuilderPlugin(config.paths_work,buildlog))
         from gump.plugins.java.builder import ClasspathPlugin
-        plugins.append(ClasspathPlugin(config.paths_work,buildlog))
+        from gump.model import Ant
+        plugins.append(ClasspathPlugin(config.paths_work,buildlog,Ant))
         from gump.plugins.java.builder import AntPlugin
         plugins.append(AntPlugin(config.paths_work,buildlog))
      

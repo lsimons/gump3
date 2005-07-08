@@ -214,8 +214,9 @@ def _create_ant_commands(project, project_definition):
     for cmd in ants:
         buildfile = cmd.getAttribute("buildfile")
         target = cmd.getAttribute("target")
+        basedir = cmd.getAttribute("basedir")
             
-        project.add_command(Ant(project, target, buildfile))
+        project.add_command(Ant(project, target, buildfile, basedir=basedir))
 
 def _create_outputs(project, project_definition, workdir):    
     # Working directories for this project (containing java classes)

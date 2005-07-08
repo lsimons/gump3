@@ -124,7 +124,7 @@
         <module name="xml-commons"/>
 
         <!-- commands -->
-        <ant basedir="java/external"/>
+        <ant basedir="java/external" target="jar"/>
 
         <!-- outputs -->
         <home nested="java/external/build"/>
