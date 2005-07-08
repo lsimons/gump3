@@ -36,9 +36,13 @@ class CustomConfig:
         return True
     
     def __getattr__(self, name):
+        if name == "paths_work":
+            return ConfigTestCase.wd
         return name
 
 class ConfigTestCase(MockTestCase):
+    wd = os.path.join(os.environ["GUMP_HOME"], "pygump", "unittest")
+
     def setUp(self):
         # replace various methods with mockup versions
         def newfileconfig(filename):
@@ -58,11 +62,18 @@ class ConfigTestCase(MockTestCase):
         
         self.old_shutdown = logging.shutdown
         logging.shutdown = new_shutdown_logging
-    
+
+        # set up working directory
+        if not os.path.isdir(self.wd):
+            os.makedirs(self.wd)
+
     def tearDown(self):
         logging.config.fileConfig = self.old_fileConfig
         logging.shutdown = self.old_shutdown
         gump.config.get_logger = self.old_get_logger
+        
+        import shutil
+        shutil.rmtree(self.wd)
     
     def get_mock_logger(self, config, name):
         self.failUnless(unittest.TestCase,

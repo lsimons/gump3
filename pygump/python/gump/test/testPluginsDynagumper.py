@@ -32,6 +32,7 @@ class DynagumperTestCase(MockTestCase):
         self.log.stubs().method("debug")
         self.log.stubs().method("info")
         self.log.stubs().method("warning")
+        self.log.stubs().method("warn")
         self.log.stubs().method("error")
         self.log.stubs().method("critical")
         self.log.stubs().method("log")
