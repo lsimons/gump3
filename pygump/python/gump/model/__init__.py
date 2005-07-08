@@ -463,8 +463,8 @@ class DependencyInfo(ModelObject):
         self.specific_output_ids = specific_output_ids
     
     def __str__(self):
-        return "<DependencyInfo:optional=%s,runtime=%s,inherit=%s,specific_output_ids=%s>" % \
-               (self.optional, self.runtime, self.inherit, self.specific_output_ids)
+        return "<DependencyInfo:%s:optional=%s,runtime=%s,inherit=%s,specific_output_ids=%s>" % \
+               (self.dependency, self.optional, self.runtime, self.inherit, self.specific_output_ids)
 
 class Command(ModelObject):
     """Model a command.
@@ -478,6 +478,9 @@ class Command(ModelObject):
     def __init__(self, project):
         assert isinstance(project, Project)
         self.project = project
+        
+    def __str__(self):
+        return "<Command:%s>" % self.project
         
 class Mkdir(Command):
     """Model a mkdir command.
@@ -528,14 +531,21 @@ class Script(Command):
                   where each element is a (name, value)
                   tuple
     """
-    def __init__(self, project, name, args=[]):
+    def __init__(self, project, name, args=None):
         assert isinstance(name, basestring)
-        assert isinstance(args, list)
-        for arg in args:
-            assert isinstance(arg, basestring)
+        if args != None:
+            assert isinstance(args, list)
+            for arg in args:
+                assert isinstance(arg, basestring)
+            self.args = args
+        else:
+            self.args = []
+            
         Command.__init__(self, project)
         self.name = name
-        self.args = args
+
+    def __str__(self):
+        return "<Script:%s,args=%s>" % (self.name, " ".join(self.args))
 
 class Ant(Command):
     """Command to run an Ant build.
@@ -543,21 +553,18 @@ class Ant(Command):
     Has the following properties:
         
         - all the properties a Command has
-        - name -- the name of the script to run
         - target -- the Ant target
         - buildfile -- the Ant build file
     """
-    def __init__(self, project, name, target, buildfile="build.xml"):
-        assert isinstance(name, basestring)
+    def __init__(self, project, target, buildfile="build.xml"):
         assert isinstance(target, basestring)
         assert isinstance(buildfile, basestring)
         Command.__init__(self, project)
-        self.name = name
         self.target = target
         self.buildfile = buildfile
 
     def __str__(self):
-        return "<Ant:%s,target=%s,buildfile=%s>" % (self.name, self.target, self.buildfile)
+        return "<Ant:target=%s,buildfile=%s>" % (self.target, self.buildfile)
 
 #TODO: more Commands
 

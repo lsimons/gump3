@@ -22,6 +22,7 @@ from unittest import TestCase
 
 from gump.model import Error
 from gump.model import ModelObject
+from gump.model import ExceptionInfo
 from gump.model import Workspace
 from gump.model import Repository
 from gump.model import Module
@@ -39,7 +40,9 @@ from gump.model import Output
 from gump.model import Mkdir
 from gump.model import Rmdir
 from gump.model import Script
+from gump.model import Ant
 from gump.model import Jar
+from gump.model import Classdir
 
 class ModelTestCase(TestCase):
     def test_error(self):
@@ -51,6 +54,27 @@ class ModelTestCase(TestCase):
     
     def test_model_object(self):
         m = ModelObject()
+        
+        string = m.__str__()
+        self.failUnless(string.find("ModelObject"))
+        
+        m.name = "blah"
+        string = m.__str__()
+        self.failUnless(string.find("blah") > 0)
+        
+    def test_exception_info(self):
+        type = "sometype"
+        value = "somevalue"
+        traceback = "tr"
+        
+        e = ExceptionInfo(type, value, traceback)
+        self.assertEqual(type, e.type)
+        self.assertEqual(value, e.value)
+        self.assertEqual(traceback, e.traceback)
+        
+        string = e.__str__()
+        self.failUnless(string.index(type) >= 0)
+        self.failUnless(string.index(value) >= 0)
     
     def test_workspace(self):
         name = "blah"
@@ -197,7 +221,11 @@ class ModelTestCase(TestCase):
         self.assertEqual(password, r.password)
         
         self.assertRaises(AssertionError, SvnRepository, w, name, w)
-    
+
+        url2 = url + "/"
+        r = SvnRepository(w,name,url2,title,home_page,cvsweb,redistributable,user,password)
+        self.assertEqual(r.url, url)
+
     def test_module(self):
         wname = "blah"
         w = Workspace(wname)
@@ -419,6 +447,7 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError, c.add_dependency, None)
         self.assertRaises(AssertionError, c.add_dependency, "blaaaa")
         self.assertRaises(AssertionError, c.add_dependency, b)
+        self.assertRaises(AssertionError, c.add_dependency, c)
         self.assertEqual(2,len(c.dependencies))
         self.assertEqual(0,len(c.dependees))
         
@@ -426,6 +455,41 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError,Dependency,c,None)
         self.assertRaises(AssertionError,Dependency,"B",c)
         self.assertRaises(AssertionError,Dependency,c,"B")
+        
+        # reset these vars
+        a = Project(m,"A")
+        b = Project(m,"B")
+        c = Project(m,"C")
+        
+        d1 = c.get_dependency_on_project(b) # c -> b
+        self.assertEqual(c, d1.dependee)
+        self.assertEqual(b, d1.dependency)
+        self.assertEqual(1, len(c.dependencies))
+        self.assertEqual(0, len(c.dependees))
+        self.assertEqual(0, len(b.dependencies))
+        self.assertEqual(1, len(b.dependees))
+        
+        d2 = c.get_dependency_on_project(a) # c -> a
+        d3 = b.get_dependency_on_project(a) # b -> a
+        
+        d4 = c.get_dependency_on_project(b)
+        self.assertEqual(c, d4.dependee)
+        self.assertEqual(b, d4.dependency)
+        self.assertEqual(2, len(c.dependencies))
+        self.assertEqual(0, len(c.dependees))
+        self.assertEqual(1, len(b.dependencies))
+        self.assertEqual(1, len(b.dependees))
+        self.assertEqual(d1, d4)
+        
+        c.add_dependency(d1) # c -> b
+        
+        x = Project(m,"someprojectname")
+        y = Project(m,"someotherprojectname")
+        d = Dependency(x,y)
+        string = d.__str__()
+        self.failUnless(string.find(x.name) >= 0)
+        self.failUnless(string.find(y.name) >= 0)
+        self.failUnless(string.find(y.name) < string.find(x.name))
     
     def test_dependency_info(self):
         wname = "blah"
@@ -479,7 +543,27 @@ class ModelTestCase(TestCase):
         self.assertEqual(di2,d1.dependencyInfo[1])
         
         self.assertRaises(AssertionError, d2.add_dependency_info, di2)  
-    
+
+        x = Project(m,"someproject")
+        y = Project(m,"someotherproject")
+        d = Dependency(x,y)
+        optional = True
+        runtime = True
+        inherit = DEPENDENCY_INHERIT_ALL
+        specific_output_id1 = "some-sub-project-jar"
+        di = DependencyInfo(d,optional,runtime,inherit,specific_output_id1)
+        
+        string = di.__str__()
+        xstring = x.__str__()
+        ystring = y.__str__()
+        
+        self.failUnless(string.find(xstring) >= 0)
+        self.failUnless(string.find(ystring) >= 0)
+        self.failUnless(string.find("True") >= 0)
+        self.failUnless(string.find("True") >= 0)
+        self.failUnless(string.find(DEPENDENCY_INHERIT_ALL) >= 0)
+        self.failUnless(string.find(specific_output_id1) >= 0)
+        
     def test_command(self):
         wname = "blah"
         w = Workspace(wname)
@@ -495,6 +579,9 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError,Command,None)
         self.assertRaises(AssertionError,Command,"someproject")
         
+        string = c.__str__()
+        self.failUnless(string.find(pname) >= 0)
+
     def test_mkdir(self):
         wname = "blah"
         w = Workspace(wname)
@@ -513,6 +600,9 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError,Mkdir,"someproject",c)
         self.assertRaises(AssertionError,Mkdir,p,None)
         self.assertRaises(AssertionError,Mkdir,p,p)
+        
+        string = c.__str__()
+        self.failUnless(string.find(dir) >= 0)
 
     def test_rmdir(self):
         wname = "blah"
@@ -533,6 +623,9 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError,Rmdir,p,None)
         self.assertRaises(AssertionError,Rmdir,p,p)
 
+        string = c.__str__()
+        self.failUnless(string.find(dir) >= 0)
+
     def test_script(self):
         wname = "blah"
         w = Workspace(wname)
@@ -551,13 +644,48 @@ class ModelTestCase(TestCase):
         c = Script(p,name)
         self.assertEqual(name,c.name)
         self.assertEqual([],c.args)
+        c = Script(p,name,None)
         
         self.assertRaises(AssertionError,Script,None,c)
         self.assertRaises(AssertionError,Script,"someproject",c)
         self.assertRaises(AssertionError,Script,p,None)
-        self.assertRaises(AssertionError,Script,p,name,None)
         self.assertRaises(AssertionError,Script,p,name,"blah")
         self.assertRaises(AssertionError,Script,p,name,[p])
+
+        c = Script(p,name, args)
+        self.assertEqual(args,c.args)
+
+        string = c.__str__()
+        self.failUnless(string.find(name) >= 0)
+        self.failUnless(string.find(args[0]) >= 0)
+        self.failUnless(string.find(args[1]) >= 0)
+
+    def test_ant(self):
+        wname = "blah"
+        w = Workspace(wname)
+        rname = "booh"
+        r = Repository(w,rname)
+        mname = "bweh"
+        m = Module(r,mname)
+        pname = "bwop"
+        p = Project(m,pname)
+        
+        target = "build"
+        buildfile = "build-gump.xml"
+        a = Ant(p, target, buildfile)
+        self.assertEqual(target, a.target)
+        self.assertEqual(buildfile, a.buildfile)
+        self.assertEqual(p, a.project)
+        
+        self.assertRaises(AssertionError,Ant,None,target)
+        self.assertRaises(AssertionError,Ant,"someproject",a)
+        self.assertRaises(AssertionError,Ant,p,None)
+        self.assertRaises(AssertionError,Ant,p,target,None)
+
+        a = Ant(p, target, buildfile)
+        string = a.__str__()
+        self.failUnless(string.find(target) >= 0)
+        self.failUnless(string.find(buildfile) >= 0)
 
     def test_output(self):
         wname = "blah"
@@ -574,6 +702,10 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError,Output,None)
         self.assertRaises(AssertionError,Output,"someproject")           
         
+        o = Output(p,"blah")
+        string = o.__str__()
+        self.failUnless(string.find("blah") >= 0)
+
     def test_jar(self):
         wname = "blah"
         w = Workspace(wname)
@@ -605,3 +737,30 @@ class ModelTestCase(TestCase):
         self.assertEqual(id,o.id)
         o = Jar(p, jar, add_to_bootclass_path=bootclass)
         self.assertEqual(bootclass,o.add_to_bootclass_path)
+
+        o = Jar(p, jar, id=id)
+        string = o.__str__()
+        self.failUnless(string.find(jar) >= 0)
+        self.failUnless(string.find(id) >= 0)
+
+    def test_classdir(self):
+        wname = "blah"
+        w = Workspace(wname)
+        rname = "booh"
+        r = Repository(w,rname)
+        mname = "bweh"
+        m = Module(r,mname)
+        pname = "bwop"
+        p = Project(m,pname)
+        
+        path = "my/path"
+        o = Classdir(p,path)
+        self.assertEqual(p,o.project)
+        self.assertEqual(path,o.path)
+        self.assertRaises(AssertionError,Classdir,None,path)
+        self.assertRaises(AssertionError,Classdir,"someproject",path)
+        self.assertRaises(AssertionError,Classdir,p,None)
+        self.assertRaises(AssertionError,Classdir,p,p)
+        
+        string = o.__str__()
+        self.failUnless(string.find(path) >= 0)

@@ -172,7 +172,6 @@
     </project>
     
     <project name="jaxp">
-        <module name="xml-commons"/>
         <!-- assumed to be provided by JDK -->
     </project>
 

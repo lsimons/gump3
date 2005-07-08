@@ -198,6 +198,7 @@ def _create_script_commands(project, project_definition):
         name = cmd.getAttribute("name")
         args = []
         for arg in cmd.getElementsByTagName("arg"):
+            # TODO parse "-", "--", etc
             argname = arg.getAttribute("name")
             argvalue = arg.getAttribute("value")
             if argname:
@@ -211,11 +212,10 @@ def _create_script_commands(project, project_definition):
 def _create_ant_commands(project, project_definition):
     ants = project_definition.getElementsByTagName("ant")
     for cmd in ants:
-        name = cmd.getAttribute("name")
         buildfile = cmd.getAttribute("buildfile")
         target = cmd.getAttribute("target")
             
-        project.add_command(Ant(project, name, target, buildfile))
+        project.add_command(Ant(project, target, buildfile))
 
 def _create_outputs(project, project_definition, workdir):    
     # Working directories for this project (containing java classes)
@@ -406,28 +406,31 @@ class Objectifier:
     def _create_projects(self, workspace, project_definitions):
         project_definitions = [p for p in project_definitions \
                 if p.nodeType == dom.Node.ELEMENT_NODE]
+        failures = []
         
         for project_definition in project_definitions:
             name = project_definition.getAttribute("name")
             if not name:
                 self.log.error("Can't convert project definition because it does not have a name!")
-                project_definitions.remove(project_definition)
+                failures.append(project_definition)
                 continue
             self.log.debug("Converting project definition '%s' into object form." % name)
             try:
                 module = self._find_module_for_project(workspace, project_definition)
                 project = _create_project(module, project_definition, self.workdir)
                 project.module.projects[project.name] = project
+                self.log.debug("Adding %s to workspace project list" % project.name)
                 workspace.projects[project.name] = project
     
                 _create_commands(project, project_definition)
                 _create_outputs(project, project_definition, self.workdir)
             except:
                 self.log.exception("Failed to convert project definition '%s' into object form." % name)
-                project_definitions.remove(project_definition)
-
+                failures.append(project_definition)
+        
         # wire up dependencies only after projects have been created
-        for project_definition in project_definitions:
+        for project_definition in [p for p in project_definitions \
+                if not p in failures]:
             try:
                 _create_dependencies(project_definition, workspace.projects)
             except:
@@ -437,5 +440,6 @@ class Objectifier:
                 cause = ExceptionInfo(type, value, traceback)
                 self.log.error(cause)
                 name = project_definition.getAttribute("name")
+                #self.log.exception("Failed to set up dependencies for project %s" % name)
                 project = workspace.projects[name]
                 mark_failure(project, cause)

@@ -37,6 +37,10 @@ from gump.model import Workspace
 
 class EngineObjectifierTestCase(MockTestCase):
     def setUp(self):
+        import logging
+        #logging.basicConfig()
+        #self.log = logging.getLogger("objectifier")
+        #self.log.level = logging.DEBUG
         self.log = self.mock()
         self.log.stubs().method("debug")
         self.log.stubs().method("info")
@@ -129,6 +133,14 @@ class EngineObjectifierTestCase(MockTestCase):
     
         <url href="http://xml.apache.org/xerces2-j/index.html"/>
         <description>Java XML Parser - the sequel with no equal</description>
+    </module>
+
+    <module>
+        <repository name="xml"/>
+        <!-- will be dropped because of the lacking name -->
+    </module>
+    <module name="demo">
+        <!-- will not be dropped despite lacking repository -->
     </module>
 </modules>
 
@@ -270,6 +282,20 @@ class EngineObjectifierTestCase(MockTestCase):
         <!-- outputs -->
         <home nested="java/tools"/>
         <jar name="bin/xjavac.jar"/>
+    </project>
+    
+    <project>
+        <module name="demo"/>
+        <!-- will be dropped because of the lacking name -->
+    </project>
+
+    <project name="demoproject">
+        <!-- will not be dropped despite lacking module -->
+    </project>
+
+    <project name="badworkdir">
+        <!-- will be dropped because of bad work directive -->
+        <work/>
     </project>
 
 </projects>
