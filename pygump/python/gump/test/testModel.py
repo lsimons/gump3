@@ -32,6 +32,7 @@ from gump.model import Project
 from gump.model import CvsModule
 from gump.model import SvnModule
 from gump.model import Dependency
+from gump.model import DependencyInfo
 from gump.model import DEPENDENCY_INHERIT_ALL
 from gump.model import Command
 from gump.model import Output
@@ -421,37 +422,63 @@ class ModelTestCase(TestCase):
         self.assertEqual(2,len(c.dependencies))
         self.assertEqual(0,len(c.dependees))
         
-        # TODO: test DependencyInfo
-        #optional = True
-        #runtime = True
-        #inherit = DEPENDENCY_INHERIT_ALL
-        #specific_output_id = "some-sub-project-jar"
-        #d = Dependency(c,b,optional,runtime,inherit,specific_output_id)
-        #self.assertEqual(c,d.dependency)
-        #self.assertEqual(b,d.dependee)
-        #self.assertEqual(optional,d.optional)
-        #self.assertEqual(inherit,d.inherit)
-        #self.assertEqual(specific_output_id,d.specific_output_id)
-        
-        #d = Dependency(dependency=c,dependee=b,optional=False)
-        #self.assertEqual(c,d.dependency)
-        #self.assertEqual(b,d.dependee)
-        #self.assertEqual(False,d.optional)
-        
-        #d = Dependency(dependency=c,dependee=b,inherit=False)
-        #self.assertEqual(c,d.dependency)
-        #self.assertEqual(b,d.dependee)
-        #self.assertEqual(False,d.inherit)
-        
-        #d = Dependency(dependency=c,dependee=b,specific_output_id="blah")
-        #self.assertEqual(c,d.dependency)
-        #self.assertEqual(b,d.dependee)
-        #self.assertEqual("blah",d.specific_output_id)
-        
         self.assertRaises(AssertionError,Dependency,None,c)
         self.assertRaises(AssertionError,Dependency,c,None)
         self.assertRaises(AssertionError,Dependency,"B",c)
         self.assertRaises(AssertionError,Dependency,c,"B")
+    
+    def test_dependency_info(self):
+        wname = "blah"
+        w = Workspace(wname)
+        rname = "booh"
+        r = Repository(w,rname)
+        mname = "bweh"
+        m = Module(r,mname)
+        #      A
+        #      ^
+        #      |
+        #     / \
+        #    B<--C
+        a = Project(m,"A")
+        b = Project(m,"B")
+        c = Project(m,"C")
+        
+        d1 = Dependency(b,c) # c -> b
+        d2 = Dependency(a,c) # c -> a
+        d3 = Dependency(a,b) # b -> a
+
+        optional = True
+        runtime = True
+        inherit = DEPENDENCY_INHERIT_ALL
+        specific_output_id1 = "some-sub-project-jar"
+        specific_output_id2 = "some-sub-project-jar2"
+
+        di1 = DependencyInfo(d1,optional,runtime,inherit,specific_output_id1)
+        
+        self.assertEqual(optional,di1.optional)
+        self.assertEqual(inherit,di1.inherit)
+        self.assertEqual(specific_output_id1,di1.specific_output_ids)
+
+        self.assertEqual(0,len(d1.dependencyInfo))
+        d1.add_dependency_info(di1)
+        self.assertEqual(1,len(d1.dependencyInfo))
+        self.assertEqual(di1,d1.dependencyInfo[0])
+        
+        di2 = DependencyInfo(d1,optional,runtime,inherit,specific_output_id2)
+        d1.add_dependency_info(di2)
+        self.assertEqual(2,len(d1.dependencyInfo))
+        self.assertEqual(di1,d1.dependencyInfo[0])
+        self.assertEqual(di2,d1.dependencyInfo[1])
+        
+        di3 = DependencyInfo(d2,optional)
+        d2.add_dependency_info(di3)
+        self.assertEqual(1,len(d2.dependencyInfo))
+        self.assertEqual(di3,d2.dependencyInfo[0])
+        self.assertEqual(2,len(d1.dependencyInfo))
+        self.assertEqual(di1,d1.dependencyInfo[0])
+        self.assertEqual(di2,d1.dependencyInfo[1])
+        
+        self.assertRaises(AssertionError, d2.add_dependency_info, di2)  
     
     def test_command(self):
         wname = "blah"

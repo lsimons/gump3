@@ -424,6 +424,7 @@ class Dependency(ModelObject):
     
     def add_dependency_info(self, info):
         assert isinstance(info, DependencyInfo)
+        assert self == info.dependency
         self.dependencyInfo.append(info)
     
     def __str__(self):
