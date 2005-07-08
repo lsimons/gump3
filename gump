@@ -258,6 +258,14 @@ Run pygump.
       at least compile.
 "
         ;;
+    new-unit-test)
+      echo "
+      Generates a new unit test.
+
+      Usage:
+        $0 new-unit-test -m module.to.test [-n nameoftest]
+"
+        ;;
     *)
       echo "
       Utility commandline interface for Gump.
@@ -868,6 +876,94 @@ to handle the update."
   cd $current
 }
 
+# Create a new unit test from a template
+function new_unit_test
+{
+  # defaults
+  local year=`date +"%Y"`
+  local testmodule=""
+  local testname=""
+
+  # parse CLI args
+  while getopts ":n:m:" opt; do
+    case $opt in
+      n)
+        testname="$OPTARG"
+        ;;
+      m)
+        testmodule="$OPTARG"
+        ;;
+      \?)
+        usage "new-unit-test"
+        exit 1
+        ;;
+    esac
+  done
+  shift $(($OPTIND - 1))
+  
+  if [[ -z "$testmodule" ]]; then
+    echo "ERROR: Please specify the module to test!"
+    usage "new-unit-test"
+    exit 1
+  fi
+  if [[ -z "$testname" ]]; then
+    testname="$testmodule"
+    testname="${testname#gump.}"
+    for i in a b c d e f g h i j k l m n o p q r s t u v w x y z; do
+      upper=`echo "$i" | tr [:lower:] [:upper:]`
+      testname="${testname//.$i/$upper}"
+    done
+  fi
+  
+  local testclassname=${testname}
+  local testclassnamechar1=${testname:0:1}
+  testclassnamechar1=`echo "$testclassnamechar1" | tr [:lower:] [:upper:]`
+  local testclassnamerest=${testname:1}
+  testclassname="${testclassnamechar1}${testclassnamerest}"
+  
+  local testfile="$GUMP_HOME/pygump/python/gump/test/test$testclassname.py"
+  if [[ -f "$testfile" ]]; then
+    error "ERROR: Test $testfile already exists!"
+  fi
+
+  cat > $testfile <<ENDTEST
+#!/usr/bin/env python
+
+# Copyright ${year} The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+__copyright__ = "Copyright (c) ${year} The Apache Software Foundation"
+__license__   = "http://www.apache.org/licenses/LICENSE-2.0"
+
+"""Tests for ${testmodule}"""
+
+import unittest
+from pmock import *
+
+from ${testmodule} import *
+
+class ${testclassname}TestCase(MockTestCase):
+    def setUp(self):
+        pass
+    
+    def test_something(self):
+        # TODO replace with something useful
+        pass
+ENDTEST
+  svn add ${testfile}
+}
+
 #############################################################################
 # Main
 #############################################################################
@@ -919,6 +1015,9 @@ function delegate
       ;;
     pydoc)
       pydoc $@
+      ;;
+    new-unit-test)
+      new_unit_test $@
       ;;
     # this is short-circuited below because we don't really
     # want to load complain about missing environment settings

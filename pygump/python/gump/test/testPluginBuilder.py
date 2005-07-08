@@ -66,7 +66,9 @@ echo RESULT
                 scriptfile.close()
                 os.chmod(scriptpath, 0755)
 
-            plugin = ScriptBuilderPlugin(basedir, self.mock())
+            log = self.mock()
+            log.stubs().method("debug")
+            plugin = ScriptBuilderPlugin(basedir, log)
 
             cmd = Script(p, "dobuild")
             plugin._do_script(cmd.project, cmd)

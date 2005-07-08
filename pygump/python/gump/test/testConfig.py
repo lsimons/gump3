@@ -17,31 +17,17 @@
 __copyright__ = "Copyright (c) 2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
-"""
-    This is an example of a testcase. Simply copy and rename this file
-    (the filename has to start with "test"), then rename the class below,
-    update the reference to the classname in the test_suite() method,
-    and write your test methods.
-    
-    See the documentation for the unittest package for more help with
-    tests. You can run all tests from the commandline using "./gump test".
-"""
+"""Tests for gump.config"""
 
 import unittest
-from unittest import TestCase
+from pmock import *
 
-class ExampleTestCase(TestCase):
+from gump.config import *
+
+class ConfigTestCase(MockTestCase):
     def setUp(self):
-        # initialize tests here
         pass
     
-    def tearDown(self):
-        # clean up after tests here
-        pass
-        
     def test_something(self):
-        # you can do anything inside a test
-        # use the assertXXX methods on TestCase
-        # to check conditions
-        self.assert_( True )
-        self.assertEquals( type({}), type({}) )
+        # TODO replace with something useful
+        pass
