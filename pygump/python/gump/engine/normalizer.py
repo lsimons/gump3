@@ -270,17 +270,17 @@ class Normalizer:
         projects = self._get_list_merged_by_name("project")
         exclude = ["project", "module", "repository"];
         for project in projects:
+            clone = project.cloneNode(True)
+            self._clean_out_by_tag( clone, exclude )
+
             module = self._find_module_for_project(project)
             if not module:
                 name = project.getAttribute("name")
-                self.log.warn("Dropping project '%s' because no corresponding module could be found!" % name)
-                continue
-            
-            clone = project.cloneNode(True)
-            self._clean_out_by_tag( clone, exclude )
-            moduleref = self.newdoc.createElement("module")
-            moduleref.setAttribute("name", module.getAttribute("name") )
-            clone.insertBefore(moduleref, clone.firstChild)
+                self.log.warn("Project '%s' does not have a corresponding module!" % name)
+            else:
+                moduleref = self.newdoc.createElement("module")
+                moduleref.setAttribute("name", module.getAttribute("name") )
+                clone.insertBefore(moduleref, clone.firstChild)
             
             self.projects.appendChild(clone)
     
