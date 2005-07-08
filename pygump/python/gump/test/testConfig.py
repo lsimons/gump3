@@ -29,6 +29,15 @@ from gump.plugins import AbstractPlugin
 import logging
 import logging.config
 
+class CustomConfig:
+    irc = "user@freenode.net/gump"
+    
+    def __hasattr__(self, name):
+        return True
+    
+    def __getattr__(self, name):
+        return name
+
 class ConfigTestCase(MockTestCase):
     def setUp(self):
         # replace various methods with mockup versions
@@ -42,13 +51,22 @@ class ConfigTestCase(MockTestCase):
             return self.get_mock_logger(config, name)
         self.old_get_logger = gump.config.get_logger
         gump.config.get_logger = new_get_logger
+        self.mock_log = self.get_mock_logger(CustomConfig(),"bla")
+        
+        def new_shutdown_logging():
+            pass
+        
+        self.old_shutdown = logging.shutdown
+        logging.shutdown = new_shutdown_logging
     
     def tearDown(self):
         logging.config.fileConfig = self.old_fileConfig
+        logging.shutdown = self.old_shutdown
         gump.config.get_logger = self.old_get_logger
     
     def get_mock_logger(self, config, name):
-        self.failUnless(unittest.TestCase, isinstance(config, Config))
+        self.failUnless(unittest.TestCase,
+                isinstance(config, Config) or isinstance(config, CustomConfig))
         self.failUnless(unittest.TestCase, isinstance(name, basestring))
     
         mock = self.mock()
@@ -62,6 +80,10 @@ class ConfigTestCase(MockTestCase):
         mock.stubs().method("exception")
         mock.stubs().method("close")
         return mock
+    
+    def test_get_logger(self):
+        logger = self.old_get_logger(CustomConfig(), "bla")
+        self.failUnless(isinstance(logger, logging.Logger))
 
     def test_run_config_hooks(self):
         class MockConfig:
@@ -96,18 +118,34 @@ class ConfigTestCase(MockTestCase):
             self.assertEqual(arg, value)
         self.assertEqual(c.log_level, logging.WARN)
         self.assertFalse(c.debug)
-
-    def test_get_plugins(self):
-        class Config:
-            irc = "user@freenode.net/gump"
-            
+        
+        class Settings2:
+            debug = False
+            quiet = False
             def __hasattr__(self, name):
+                if name == "paths_pygump" or name == "paths_metadata" or name == "do_mail":
+                    return False
                 return True
             
             def __getattr__(self, name):
+                if name == "paths_pygump" or name == "paths_metadata" or name == "do_mail":
+                    raise Exception
                 return name
+
+        s = Settings2()
+        c = get_config(s)
+        self.assertEqual(c.log_level, logging.INFO)
+
+        self.failUnless(c.paths_pygump.find("pygump") > 0)
+        self.failUnless(c.paths_metadata.find("metadata") > 0)
+        self.failUnless(c.do_mail)
         
-        conf = Config()
+        c = Config([])
+        self.assertRaises(AttributeError, getattr, c, "bla")
+        
+
+    def test_get_plugins(self):
+        conf = CustomConfig()
         (a,b,c) = get_plugins(conf)
         
         def test_results(a,b,c):
@@ -122,9 +160,61 @@ class ConfigTestCase(MockTestCase):
                 self.failUnless(isinstance(p,AbstractPlugin))
         test_results(a,b,c)
         
+        conf.irc = False
         conf.do_build = False
         conf.do_update = False
         conf.do_fill_database = False
         conf.debug = False
         (a,b,c) = get_plugins(conf)
         test_results(a,b,c)
+
+    def test_get_plugin(self):
+        (a,b,c) = get_plugin(CustomConfig())
+
+    def test_shutdown_logging(self):
+        shutdown_logging()
+
+    def test_get_error_handler(self):
+        conf = CustomConfig()
+        get_error_handler(conf)
+        
+    def test_get_db(self):
+        db = get_db(self.mock_log,CustomConfig())
+        self.failUnless(isinstance(db,gump.util.mysql.Database))
+    
+    def test_get_dom_implementation(self):
+        i = get_dom_implementation()
+        self.failIfEqual(i, None)
+    
+    def test_get_error_handler(self):
+        e = get_error_handler(CustomConfig())
+        self.failUnless(callable(e.handle))
+        
+    def test_get_engine_loader(self):
+        vfs = self.mock()
+        vfs.stubs().method("get_as_stream")
+        
+        l = get_engine_loader(self.mock_log, vfs)
+        self.failUnless(callable(l.get_workspace_tree))
+        l = get_engine_loader(self.mock_log)
+        self.failUnless(callable(l.get_workspace_tree))
+    
+    def test_get_engine_normalizer(self):
+        n = get_engine_normalizer(self.mock_log)
+        
+    def test_get_engine_objectifier(self):
+        o = get_engine_objectifier(CustomConfig(),self.mock_log)
+        
+    def test_get_engine_verifier(self):
+        v = get_engine_verifier(CustomConfig(), get_engine_walker(CustomConfig()))
+    
+    def test_get_engine_walker(self):
+        w = get_engine_walker(CustomConfig())
+
+    def test_get_vfs(self):
+        c = CustomConfig()
+        c.paths_work = os.path.join(os.environ["GUMP_HOME"], "work", "pygump", "unittests")
+        v = get_vfs(c)
+        self.failUnless(callable(v.get_as_stream))
+        import shutil
+        shutil.rmtree(c.paths_work)
