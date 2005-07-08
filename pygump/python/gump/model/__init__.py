@@ -350,12 +350,10 @@ class Project(ModelObject):
         # Project A is a dependee of Project B
         self.module.repository.workspace.dependencies.append(relationship)
         self.dependencies.append(relationship)
-        #print "%s is told %s depends on %s" % (self.name, self.name, relationship.dependency.name)
         
         # register Project A as a dependee of Project B
         # relationship.dependency is Project B
         # relationship.dependency.add_dependee() registers A with B
-        #print "%s is telling %s that %s depends on %s" % (self.name, relationship.dependency.name, self.name, relationship.dependency.name)
         if isinstance(relationship.dependency, Project): # might be a string for a bad
                                                             # dependency
             relationship.dependency.add_dependee(relationship)
@@ -377,7 +375,6 @@ class Project(ModelObject):
         return new_relationship
     
     def add_dependee(self, relationship):
-        #print "%s is told that %s is a dependee of %s" % (self.name, relationship.dependee.name, self.name)
         self.dependees.append(relationship)
     
     def add_command(self, command):
@@ -417,15 +414,13 @@ class Dependency(ModelObject):
     """
     def __init__(self,
                  dependency,
-                 dependee,
-                 dependencyInfo = []):
+                 dependee):
         assert isinstance(dependency, Project)
         assert isinstance(dependee, Project)
-        for info in dependencyInfo:
-            assert isinstance(info, DependencyInfo)
+
         self.dependency         = dependency
         self.dependee           = dependee
-        self.dependencyInfo     = dependencyInfo
+        self.dependencyInfo     = []
     
     def add_dependency_info(self, info):
         assert isinstance(info, DependencyInfo)

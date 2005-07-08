@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""This module reads, merges and converts gump xml metadata."""
+"""This module has common support utilities for reading, merging and converting gump xml metadata."""
 
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
@@ -34,11 +34,13 @@ from gump.engine import EngineError
 ###
 def _find_element_text(parent, element_name):
     """Retrieves the text contents of an element like <blah>text</blah>."""
-    elem = parent.getElementsByTagName(element_name).item(0).firstChild
-    if elem:
-        return elem.data
-    else:
-        return ""
+    item = parent.getElementsByTagName(element_name).item(0)
+    if not item: return None
+    
+    child = item.firstChild
+    if not child: return None
+
+    return child.data
 
 
 def _do_drop(to_remove, dropped_nodes=None):
@@ -143,13 +145,3 @@ class _TagNameFilter:
             return True
         
         return False
-
-##
-## These at bottom to closely mimick old format of this file where they were
-## defined right here
-##
-#TODO remove these
-#from gump.engine.loader import Loader
-#from gump.engine.normalizer import Normalizer
-#from gump.engine.objectifier import Objectifier
-#from gump.engine.verifier import Verifier

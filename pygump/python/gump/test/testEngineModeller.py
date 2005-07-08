@@ -105,7 +105,7 @@ class ModellerTestCase(TestCase):
         text = _find_element_text(root, "elem")
         self.assertEqual("contents", text)
         text = _find_element_text(root, "blah")
-        self.assertEqual("", text)
+        self.assertEqual(None, text)
         try:
             _find_element_text(root, "notthere")
         except:
@@ -179,42 +179,4 @@ class ModellerTestCase(TestCase):
     def test_engine_error(self):
         error = EngineError()
         self.assert_(isinstance(error, Exception))
-    
-    def test_loader_init(self):
-        log = MockLog()
-        vfs = MockVFS()
-        
-        loader = Loader(log,vfs)
-        loader = Loader(log,None)
-        
-        self.assertRaises(AssertionError, Loader, self, vfs)
-        self.assertRaises(AssertionError, Loader, log, self)
-        self.assertRaises(AssertionError, Loader, None, vfs)
-    
-    def test_loader_get_workspace_tree_simple(self):
-        log = MockLog()
-        vfs = MockVFS()
-        loader = Loader(log,vfs)
-        
-        (wsdom, dropped_nodes) = loader.get_workspace_tree(StringIO.StringIO(self.sampleworkspacestring))
-        # TODO check wsdom content validity
-        self.assertEqual(0, len(dropped_nodes))
-        self.assertEqual(type(self.sampleworkspace), type(wsdom))
-        self.assertEqual(None, log.msg)
-        self.assertEqual(None, vfs.href)
-    
-    # TODO test loader href resolution
-    # TODO test loader looping href resolution
-    # TODO test loader href resolution failure
-    # TODO test loader vfs exception
-        
-class MockLog:
-    msg = None
-    def warning(self,msg):
-        self.msg = msg
 
-class MockVFS:
-    href = None
-    def get_as_stream(href):
-        self.href = href
-        return StringIO.StringIO()

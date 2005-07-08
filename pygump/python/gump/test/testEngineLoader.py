@@ -22,12 +22,63 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 import unittest
 from pmock import *
 
-from gump.engine.loader import *
+from xml.dom import minidom
+import StringIO
+
+from gump.engine.loader import Loader
+from gump.engine import EngineError
 
 class EngineLoaderTestCase(MockTestCase):
     def setUp(self):
-        pass
+        self.sampleworkspacestring = """<?xml version="1.0"?>
+
+<workspace>
+  <newelem attr="yo">contents</newelem>
+  <module name="foo">
+    <project name="bar">
+      <blah/>
+    </project>
+  </module>
+  <newelem>ignore</newelem>
+</workspace>
+"""
+        self.sampleworkspace = minidom.parseString(self.sampleworkspacestring)
+   
+    def test_loader_init(self):
+        log = MockLog()
+        vfs = MockVFS()
+        
+        loader = Loader(log,vfs)
+        loader = Loader(log,None)
+        
+        self.assertRaises(AssertionError, Loader, self, vfs)
+        self.assertRaises(AssertionError, Loader, log, self)
+        self.assertRaises(AssertionError, Loader, None, vfs)
     
-    def test_something(self):
-        # TODO replace with something useful
-        pass
+    def test_loader_get_workspace_tree_simple(self):
+        log = MockLog()
+        vfs = MockVFS()
+        loader = Loader(log,vfs)
+        
+        (wsdom, dropped_nodes) = loader.get_workspace_tree(StringIO.StringIO(self.sampleworkspacestring))
+        # TODO check wsdom content validity
+        self.assertEqual(0, len(dropped_nodes))
+        self.assertEqual(type(self.sampleworkspace), type(wsdom))
+        self.assertEqual(None, log.msg)
+        self.assertEqual(None, vfs.href)
+    
+    # TODO test loader href resolution
+    # TODO test loader looping href resolution
+    # TODO test loader href resolution failure
+    # TODO test loader vfs exception
+        
+class MockLog:
+    msg = None
+    def warning(self,msg):
+        self.msg = msg
+
+class MockVFS:
+    href = None
+    def get_as_stream(href):
+        self.href = href
+        return StringIO.StringIO()

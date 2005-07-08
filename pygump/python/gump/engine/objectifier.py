@@ -32,6 +32,8 @@ from gump.model.util import *
 from gump.engine import EngineError
 from gump.engine.modeller import _find_element_text
 
+DEFAULT_GUMP_LOCAL_REPOSITORY_NAME = "DEFAULT_GUMP_LOCAL_REPOSITORY"
+DEFAULT_GUMP_LOCAL_MODULE_NAME = "DEFAULT_GUMP_LOCAL_MODULE"
 ###
 ### Utility
 ###
@@ -41,14 +43,12 @@ def _extract_path(workdir, project, element):
     parent = element.getAttribute("parent")
     nested = element.getAttribute("nested")
     
-    path = None
     if parent:
-        path = os.path.join(get_module_directory(workdir, project.module), parent)
+        return os.path.join(get_module_directory(workdir, project.module), parent)
     elif nested:
-        path = os.path.join(get_project_directory(workdir, project), nested)
+        return os.path.join(get_project_directory(workdir, project), nested)
     else:
         raise Error, "Unknown relative path entry (no parent or nested): %s" % (element)
-    return path
 
 
 ###
@@ -62,55 +62,33 @@ def _create_repository(workspace, repository_definition):
     name = repository_definition.getAttribute("name")
     
     # parse the attributes and elements common to all repositories
-    title = None
-    try: title = _find_element_text(repository_definition, "title")
-    except: pass #TODO don't catch everything
-    
-    home_page = None
-    try: home_page = _find_element_text(repository_definition, "home-page")
-    except: pass #TODO don't catch everything
-    
-    cvsweb = None
-    try: cvsweb = _find_element_text(repository_definition, "cvsweb")
-    except:
-        try: cvsweb = _find_element_text(repository_definition, "web")
-        except: pass #TODO don't catch everything
-    
-    redistributable = False
-    if repository_definition.getElementsByTagName("redistributable").length > 0:
-        redistributable = True
+    title = _find_element_text(repository_definition, "title")
+    home_page = _find_element_text(repository_definition, "home-page")
+    cvsweb = _find_element_text(repository_definition, "cvsweb")
+    if cvsweb == None:
+        cvsweb = _find_element_text(repository_definition, "web")
+    redistributable = repository_definition.getElementsByTagName("redistributable").length > 0
         
     # now delegate to _create methods for specific repositories to do the rest
-    repository = None
     type = repository_definition.getAttribute("type").upper()
     if type == "CVS":
-        repository = _create_cvs_repository(workspace, name, title, home_page, \
-                                            cvsweb, redistributable, repository_definition)
+        return _create_cvs_repository(workspace, name, title, home_page, \
+                                      cvsweb, redistributable, repository_definition)
     elif type == "SVN":
-        repository = _create_svn_repository(workspace, name, title, home_page, \
-                                            cvsweb, redistributable, repository_definition)
+        return _create_svn_repository(workspace, name, title, home_page, \
+                                      cvsweb, redistributable, repository_definition)
     else:
         raise EngineError, "Unknown repository type '%s' for repository '%s'" % (type, name)
     #TODO perforce support
-    
-    return repository
 
 
-def _create_cvs_repository(workspace, name, title, home_page, cvsweb, redistributable, repository_definition):
+def _create_cvs_repository(workspace, name, title, home_page, cvsweb, \
+                           redistributable, repository_definition):
     hostname = _find_element_text(repository_definition, "hostname")
     path = _find_element_text(repository_definition, "path")
-
-    method = CVS_METHOD_PSERVER
-    try: method = _find_element_text(repository_definition, "method")
-    except: pass
-    
-    user = None
-    try: user = _find_element_text(repository_definition, "user")
-    except: pass
-
-    password = None
-    try: password = _find_element_text(repository_definition, "password")
-    except: pass
+    method = _find_element_text(repository_definition, "method") or CVS_METHOD_PSERVER
+    user = _find_element_text(repository_definition, "user")
+    password = _find_element_text(repository_definition, "password")
     
     repository = CvsRepository(workspace,
                                name,
@@ -128,14 +106,8 @@ def _create_cvs_repository(workspace, name, title, home_page, cvsweb, redistribu
 
 def _create_svn_repository(workspace, name, title, home_page, cvsweb, redistributable, repository_definition):
     url = _find_element_text(repository_definition, "url")
-
-    user = None
-    try: user = _find_element_text(repository_definition, "user")
-    except: pass
-
-    password = None
-    try: password = _find_element_text(repository_definition, "password")
-    except: pass
+    user = _find_element_text(repository_definition, "user")
+    password = _find_element_text(repository_definition, "password")
     
     repository = SvnRepository(workspace,
                                name,
@@ -153,24 +125,20 @@ def _create_module(repository, module_definition):
     name = module_definition.getAttribute("name")
     
     # parse the attributes and elements common to all modules
-    url = None
-    try: url = _find_element_text(module_definition, "url")
-    except: pass
-    
-    description = None
-    try: description = _find_element_text(module_definition, "description")
-    except: pass
+    url = _find_element_text(module_definition, "url")
+    description = _find_element_text(module_definition, "description")
     
     # now delegate to _create methods for specific modules to do the rest
-    module = None
     if isinstance(repository, CvsRepository):
-        module = _create_cvs_module(repository, name, url, description, module_definition)
+        return _create_cvs_module(repository, name, url, description, module_definition)
     elif isinstance(repository, SvnRepository):
-        module = _create_svn_module(repository, name, url, description, module_definition)
+        return _create_svn_module(repository, name, url, description, module_definition)
     elif isinstance(repository, LocalRepository):
-        module = _create_local_module(repository, name, url, description, module_definition)
+        return _create_local_module(repository, name, url, description, module_definition)
     else:
-        raise EngineError, "Unknown repository type '%s' referenced by module '%s'" % (repository.__class__,name)
+        raise EngineError, \
+              "Unknown repository type '%s' referenced by module '%s'" % \
+              (repository.__class__,name)
     #TODO perforce support
     return module
 
@@ -295,43 +263,37 @@ def _add_dependency(project, dependency, projectlist):
         ids=[]
     
     relationship = project.get_dependency_on_project(dependency_project)
-    relationship.add_dependency_info(DependencyInfo(relationship,optional,runtime,inherit,ids))
+    info = DependencyInfo(relationship,optional,runtime,inherit,ids)
+    relationship.add_dependency_info(info)
 
 ###
 ### Searching
 ###
-def _find_repository_definitions(root):
-    """Retrieves a list of <repository/> elements."""
+def _find_child_definitions(root, parent_element_name):
+    """Retrieves a list of elements that have a particular parent."""
     children = root.childNodes
 
-    for child in children:
-        if not child.nodeType == dom.Node.ELEMENT_NODE: continue
-        if child.tagName == "repositories":
+    for child in [c for c in children \
+            if c.nodeType == dom.Node.ELEMENT_NODE]:
+        if child.tagName == parent_element_name:
             return child.childNodes
         
-    raise EngineError, "No <repository/> found!"
+    raise EngineError, "No <%s/> found!" % parent_element_name
+    
+
+def _find_repository_definitions(root):
+    """Retrieves a list of <repository/> elements."""
+    return _find_child_definitions(root, "repositories")
 
 
 def _find_module_definitions(root):
     """Retrieve a list of <module/> elements."""
-    children = root.childNodes
-    for child in children:
-        if not child.nodeType == dom.Node.ELEMENT_NODE: continue
-        if child.tagName == "modules":
-            return child.childNodes
-    
-    raise EngineError, "No <module/> found!"
+    return _find_child_definitions(root, "modules")
 
 
 def _find_project_definitions(root):
     """Retrieve a list of <project/> elements."""
-    children = root.childNodes
-    for child in children:
-        if not child.nodeType == dom.Node.ELEMENT_NODE: continue
-        if child.tagName == "projects":
-            return child.childNodes
-
-    raise EngineError, "No <project/> found!"
+    return _find_child_definitions(root, "projects")
 
 
 ###
@@ -346,7 +308,6 @@ class MissingDependencyError(EngineError):
     def __str__(self):
         return "Dependency '%s' specified by '%s' cannot be found!" % (self.dependency_name, self.project)
 
-DEFAULT_GUMP_LOCAL_REPOSITORY_NAME = "DEFAULT_GUMP_LOCAL_REPOSITORY"
 
 class Objectifier:
     """Turns a *normalized* gump DOM workspace into a pythonified workspace.
@@ -370,10 +331,9 @@ class Objectifier:
 
     def get_workspace(self, domtree):
         """Transforms a workspace xml document into object form."""
-        
         root = domtree.documentElement
-
         workspace = _create_workspace(root)
+
         self._create_repositories(workspace, _find_repository_definitions(root))
         self._create_modules(workspace, _find_module_definitions(root))
         self._create_projects(workspace, _find_project_definitions(root))
@@ -388,17 +348,16 @@ class Objectifier:
         repository = LocalRepository(workspace, DEFAULT_GUMP_LOCAL_REPOSITORY_NAME)
         workspace.repositories[repository.name] = repository
 
-        for repository_definition in repository_definitions:
-            if not repository_definition.nodeType == dom.Node.ELEMENT_NODE: continue
+        for repository_definition in [r for r in repository_definitions \
+                if r.nodeType == dom.Node.ELEMENT_NODE]:
             name = repository_definition.getAttribute("name")
             self.log.debug("Converting repository definition '%s' into object form." % name)
             try:
                 repository = _create_repository(workspace, repository_definition)
                 workspace.repositories[repository.name] = repository
             except:
-                # TODO: the name of the failing element and ideally the source xml file should be
-                #       reported somewhere and e.g. e-mailed to the gump admins
-                self.log.exception("Failed to convert repository definition '%s' into object form." % name)
+                self.log.exception(
+                    "Failed to convert repository definition '%s' into object form." % name)
     
     def _find_repository_for_module(self, workspace, module_definition):
         try:
@@ -413,8 +372,15 @@ class Objectifier:
             return workspace.repositories[DEFAULT_GUMP_LOCAL_REPOSITORY_NAME]
 
     def _create_modules(self, workspace, module_definitions):
-        for module_definition in module_definitions:
-            if not module_definition.nodeType == dom.Node.ELEMENT_NODE: continue
+        # Create a "default module" for projects that don't actually live in
+        # version control (aka installed packages)
+        repository = workspace.repositories[DEFAULT_GUMP_LOCAL_REPOSITORY_NAME]
+        module = LocalModule(repository, DEFAULT_GUMP_LOCAL_MODULE_NAME)
+        repository.add_module(module)
+        workspace.modules[module.name] = module
+
+        for module_definition in [m for m in module_definitions \
+                if m.nodeType == dom.Node.ELEMENT_NODE]:
             name = module_definition.getAttribute("name")
             self.log.debug("Converting module definition '%s' into object form." % name)
             try:
@@ -423,22 +389,30 @@ class Objectifier:
                 module.repository.modules[module.name] = module
                 workspace.modules[module.name] = module
             except:
-                # TODO: the name of the failing element and ideally the source xml file should be
-                #       reported somewhere and e.g. e-mailed to the gump admins
                 self.log.exception("Failed to convert module definition '%s' into object form." % name)
         
     def _find_module_for_project(self, workspace, project_definition):
-        name = project_definition.getAttribute("name")
-        module_name = project_definition.getElementsByTagName("module").item(0).getAttribute("name")
-        module = workspace.modules[module_name]
-        return module
+        try:
+            name = project_definition.getAttribute("name")
+            module_name = project_definition.getElementsByTagName("module").item(0).getAttribute("name")
+            module = workspace.modules[module_name]
+            return module
+        except:
+            # If we can't find a module, then we're dealing with an installed
+            # package
+            self.log.debug("It seems that the project '%s' is an installed package" % name)
+            return workspace.modules[DEFAULT_GUMP_LOCAL_MODULE_NAME]
 
     def _create_projects(self, workspace, project_definitions):
-        problems = []
+        project_definitions = [p for p in project_definitions \
+                if p.nodeType == dom.Node.ELEMENT_NODE]
         
         for project_definition in project_definitions:
-            if not project_definition.nodeType == dom.Node.ELEMENT_NODE: continue
             name = project_definition.getAttribute("name")
+            if not name:
+                self.log.error("Can't convert project definition because it does not have a name!")
+                project_definitions.remove(project_definition)
+                continue
             self.log.debug("Converting project definition '%s' into object form." % name)
             try:
                 module = self._find_module_for_project(workspace, project_definition)
@@ -450,11 +424,10 @@ class Objectifier:
                 _create_outputs(project, project_definition, self.workdir)
             except:
                 self.log.exception("Failed to convert project definition '%s' into object form." % name)
-                problems.append(name)
+                project_definitions.remove(project_definition)
 
         # wire up dependencies only after projects have been created
         for project_definition in project_definitions:
-            if not project_definition.nodeType == dom.Node.ELEMENT_NODE: continue
             try:
                 _create_dependencies(project_definition, workspace.projects)
             except:
@@ -464,6 +437,5 @@ class Objectifier:
                 cause = ExceptionInfo(type, value, traceback)
                 self.log.error(cause)
                 name = project_definition.getAttribute("name")
-                if name and not name in problems:
-                    project = workspace.projects[name]
-                    mark_failure(project, cause)
+                project = workspace.projects[name]
+                mark_failure(project, cause)
