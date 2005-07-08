@@ -57,6 +57,28 @@ class DirBuilderTestCase(TestCase):
             plugin._do_rmdir(cmd.project, cmd.directory)
             self.assertFalse(isdir(join(ppath,cmd.directory)))
             self.assert_(isdir(join(ppath)))
+
+            makedirs(join(ppath, cmd.directory, "nested", "stuff", "here"))
+            makedirs(join(ppath, "somedir2", "nested", "stuff", "here"))
+            makedirs(join(ppath, "elsewhere", "nested", "stuff", "here"))
+
+            p.add_command(cmd)
+            cmd2 = Rmdir(p,"somedir2")
+            p.add_command(cmd2)
+            cmd3 = Rmdir(p,"elsewhere")
+            p.add_command(cmd3)
+            plugin.visit_project(p)
+
+            # failure on bad path
+            cmd = Rmdir(p,join("..", "..", "..", "somedir"))
+            self.assertRaises(Error, plugin._do_rmdir, cmd.project, cmd.directory)
+
+            # failure on bad file
+            cmd = Rmdir(p,"somedir")
+            file = open(join(ppath,cmd.directory),"w")
+            file.write("blah")
+            file.close()
+            self.assertRaises(Error, plugin._do_rmdir, cmd.project, cmd.directory)
         finally:
             rmtree(basedir)
         
