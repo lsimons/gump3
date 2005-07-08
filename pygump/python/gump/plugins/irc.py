@@ -37,12 +37,12 @@ def parseAddressInfo(data):
     # Extract nickname@ from front...
     s = string.split(data,'@',1)
     if not 2 == len(s): 
-        raise Error, 'Unable to extract nickname for %s from %s' % (CONFIG_FORMAT, data)
+        raise Exception, 'Unable to extract nickname for %s from %s' % (CONFIG_FORMAT, data)
     nickname=s[0]
     
     s = string.split(s[1], '/', 1)    
     if not 2 == len(s): 
-        raise Error, 'Unable to extract channel for %s from %s' % (CONFIG_FORMAT, data)
+        raise Exception, 'Unable to extract channel for %s from %s' % (CONFIG_FORMAT, data)
     
     channel=s[1]    
     s = string.split(s[0], ":", 1)
@@ -51,7 +51,7 @@ def parseAddressInfo(data):
         try:
             port = int(s[1])
         except ValueError:
-            raise Error, 'Unable to extract port for %s from %s using %s' % (CONFIG_FORMAT, data, s[1])
+            raise Exception, 'Unable to extract port for %s from %s using %s' % (CONFIG_FORMAT, data, s[1])
     else:
         port = DEFAULT_IRC_PORT
 
