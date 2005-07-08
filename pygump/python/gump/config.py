@@ -52,32 +52,8 @@ def get_config(settings):
     else:
         config.log_level       = logging.INFO
     if settings.quiet:
-        settings.debug = False
+        config.debug = False
         config.log_level = logging.WARN
-    
-    # TODO: change main.py to do it like this
-    config.paths_home      = settings.homedir
-    config.paths_work      = settings.workdir
-    config.paths_logs      = settings.logdir
-    config.paths_workspace = settings.workspace
-    # resolve hrefs relative to workspace xml file
-    config.paths_metadata  = os.path.dirname(config.paths_workspace)
-    config.start_time      = settings.starttimeutc
-    
-    config.projects        = settings.projects
-    
-    config.mail_server     = settings.mailserver
-    config.mail_server_port = settings.mailport
-    config.mail_to         = settings.mailto
-    config.mail_from       = settings.mailfrom
-    
-    config.database_server = "localhost"
-    config.database_server = settings.databaseserver
-    config.database_port   = 3306
-    config.database_port = settings.databaseport
-    config.database_name = settings.databasename
-    config.database_user = settings.databaseuser
-    config.database_password = settings.databasepassword
     
     # set up other stuff
     run_config_hooks(config)

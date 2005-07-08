@@ -77,6 +77,7 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
     usage = "gump run [options ...]"
 
     parser = OptionParser(usage=usage)
+
     parser.add_option("-d",
                       "--debug",
                       action="store_true",
@@ -89,6 +90,7 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       help="print as little information as possible (overrides --debug)")
     parser.add_option("--homedir",
                       action="store",
+                      dest="paths_home",
                       default=_homedir,
                       help="the base directory for gump")
     parser.add_option("--hostname",
@@ -97,15 +99,18 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       help="the hostname gump will use")
     parser.add_option("--workdir",
                       action="store",
+                      dest="paths_work",
                       default=_workdir,
                       help="the working directory gump will use")
     parser.add_option("--logdir",
                       action="store",
+                      dest="paths_logs",
                       default=_logdir,
                       help="the directory gump will write logs to")
     parser.add_option("-w",
                       "--workspace",
                       action="store",
+                      dest="paths_workspace",
                       default=_workspace,
                       help="path to the workspace gump will use")
     parser.add_option("-u",
@@ -128,22 +133,27 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       help="put build results into the mysql database")
     parser.add_option("--databaseserver",
                       action="store",
+                      dest="database_server",
                       default=_databaseserver,
                       help="hostname of the database server gump will connect to")
     parser.add_option("--databaseport",
                       action="store",
+                      dest="database_port",
                       default=_databaseport,
                       help="port of the database server gump will connect to")
     parser.add_option("--databasename",
                       action="store",
+                      dest="database_name",
                       default=_databasename,
                       help="name of the database gump will connect to")
     parser.add_option("--databaseuser",
                       action="store",
+                      dest="database_user",
                       default=_databaseuser,
                       help="username gump will use to connect to the database")
     parser.add_option("--databasepassword",
                       action="store",
+                      dest="database_password",
                       default=_databasepassword,
                       help="password gump will use to connect to the database")
     parser.add_option("--color",
@@ -294,10 +304,10 @@ def _parse_workspace(filename, options):
 
     # Mail reporting
     # unused options.private     = w.getAttribute('private')
-    options.mailserver  = w.getAttribute('mailserver') or 'localhost'
-    options.mailport    = w.getAttribute('mailport') or 25
-    options.mailto      = w.getAttribute('administrator') 
-    options.mailfrom    = w.getAttribute('email') or "%s@%s" % (user, options.hostname)
+    options.mail_server  = w.getAttribute('mailserver') or 'localhost'
+    options.mail_server_port    = w.getAttribute('mailport') or 25
+    options.mail_to      = w.getAttribute('administrator') 
+    options.mail_from    = w.getAttribute('email') or "%s@%s" % (user, options.hostname)
 
     # log (site) location(s)
     options.logurl      = w.getAttribute('logurl') 
@@ -339,7 +349,7 @@ def _send_email(toaddr,fromaddr,subject,data,server,port=25):
 
 def send_error_email(Exception,details,options,log):
     """Send an error report by e-mail."""
-    if options.mailserver and options.mailport and options.mailto and options.mailfrom:
+    if options.mail_server and options.mail_server_port and options.mail_to and options.mail_from:
         subject="Fatal error during pygump run [%s: %s]" % (options.hostname, options.name)
         body="""An unexpected error occurred during the pygump run on
 %s (start time: %s, workspace: %s).
@@ -382,8 +392,8 @@ The full run log of this run:
                        Exception, details, options.logurl, logbody)
         
         # send it off
-        _send_email(options.mailfrom, options.mailto, subject, body, options.mailserver,
-                   options.mailport)
+        _send_email(options.mail_from, options.mail_to, subject, body, options.mail_server,
+                   options.mail_server_port)
     else:
         raise Error, "Insufficient information in the workspace for sending e-mail."
 
@@ -435,9 +445,9 @@ def main():
     parser = get_parser(_homedir, _hostname, _projects, _workdir, _logdir, _workspace)
     options, args = parser.parse_args()
     
-    options.starttime = time.strftime('%d %b %Y %H:%M:%S', time.localtime())
-    options.starttimeutc = time.strftime('%d %b %Y %H:%M:%S', time.gmtime())
-    
+    options.starttime  = time.strftime('%d %b %Y %H:%M:%S', time.localtime())
+    options.start_time = time.strftime('%d %b %Y %H:%M:%S', time.gmtime())
+
     options.version = GUMP_VERSION
     
     # check for debug info
@@ -463,7 +473,7 @@ def main():
             print "       %s" % wingdbstubpath
 
     # create logger
-    log = _Logger(options.logdir)
+    log = _Logger(options.paths_logs)
     
     # fire it up!
     exitcode = 0
@@ -476,9 +486,9 @@ def main():
         log.debug("Pygump version %s starting..." % (options.version) )
         log.debug("  (the detailed log is written to %s)" % (log.filename) )
         log.debug('  - hostname           : ' + options.hostname)
-        log.debug('  - homedir            : ' + options.homedir)
+        log.debug('  - homedir            : ' + options.paths_home)
         log.debug('  - current time       : ' + options.starttime)
-        log.debug('  - current time (UTC) : ' + options.starttimeutc)
+        log.debug('  - current time (UTC) : ' + options.start_time)
         log.debug('  - python version     : ' + sys.version)
         log.debug('  - python command     : ' + pythoncmd)
         
@@ -493,16 +503,16 @@ def main():
         if not hasattr(options, "projects"):
             log.debug("No projects to build set, defaulting to 'all'")
             options.projects = ["all"]
-        if not os.path.exists(options.workspace):
-            abspath = os.path.join(options.homedir, options.workspace)
+        if not os.path.exists(options.paths_workspace):
+            abspath = os.path.join(options.paths_home, options.paths_workspace)
             if os.path.exists(abspath):
-                options.workspace = abspath
+                options.paths_workspace = abspath
             else:
                 log.error("Workspace not found : %s.\n       Maybe you need to specify --workspace=/absolute/path/to/some/workspace/file.xml?" % options.workspace)
                 sys.exit(1)
         
         # get some more options from the workspace
-        _parse_workspace(options.workspace, options)
+        _parse_workspace(options.paths_workspace, options)
 
         try:
             # self-update

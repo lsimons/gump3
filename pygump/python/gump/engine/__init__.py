@@ -39,11 +39,22 @@ __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 import logging
-
+import os
 from xml import dom
 from xml.dom import minidom
 
-from gump.config import *
+from gump.config import get_config
+from gump.config import get_logger
+from gump.config import get_vfs
+from gump.config import get_walker
+from gump.config import get_modeller_loader
+from gump.config import get_modeller_normalizer
+from gump.config import get_modeller_objectifier
+from gump.config import get_modeller_verifier
+from gump.config import get_dom_implementation
+from gump.config import get_plugin
+from gump.config import shutdown_logging
+
 from gump.util.io import open_file_or_stream
 from gump.util import ansicolor
 
