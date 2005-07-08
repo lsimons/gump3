@@ -362,6 +362,9 @@ class Objectifier:
     
     def __init__(self, log, workdir):
         """Store all settings and dependencies as properties."""
+        assert hasattr(log,"debug") and callable(log.debug)
+        assert os.path.isdir(workdir)
+        
         self.log = log
         self.workdir = workdir
 
@@ -431,6 +434,8 @@ class Objectifier:
         return module
 
     def _create_projects(self, workspace, project_definitions):
+        problems = []
+        
         for project_definition in project_definitions:
             if not project_definition.nodeType == dom.Node.ELEMENT_NODE: continue
             name = project_definition.getAttribute("name")
@@ -444,9 +449,8 @@ class Objectifier:
                 _create_commands(project, project_definition)
                 _create_outputs(project, project_definition, self.workdir)
             except:
-                # TODO: the name of the failing element and ideally the source xml file should be
-                #       reported somewhere and e.g. e-mailed to the gump admins
                 self.log.exception("Failed to convert project definition '%s' into object form." % name)
+                problems.append(name)
 
         # wire up dependencies only after projects have been created
         for project_definition in project_definitions:
@@ -454,12 +458,12 @@ class Objectifier:
             try:
                 _create_dependencies(project_definition, workspace.projects)
             except:
-                # TODO this is introducing a dependency on the engine
-                # algorithm. Need to move the "failure" logic closer to
-                # the "core" model.
                 from gump.model.util import mark_failure
                 from gump.engine.algorithm import ExceptionInfo
                 (type, value, traceback) = sys.exc_info()
                 cause = ExceptionInfo(type, value, traceback)
-                mark_failure(project, cause)
                 self.log.error(cause)
+                name = project_definition.getAttribute("name")
+                if name and not name in problems:
+                    project = workspace.projects[name]
+                    mark_failure(project, cause)
