@@ -346,7 +346,7 @@ class ColoredTextTestRunner(unittest.TextTestRunner):
                 self.stream.write("%serrors=%d%s" % (Bright_Red, errored, Red))
             self.stream.writeln(")" + Black)
         else:
-            self.stream.writeln(Bright_Green + "OK" + Bright_Red)
+            self.stream.writeln(Bright_Green + "OK" + Black)
         return result
     
 class Tester:
