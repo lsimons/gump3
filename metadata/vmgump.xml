@@ -88,6 +88,14 @@
         <url href="http://xml.apache.org/xerces2-j/index.html"/>
         <description>Java XML Parser - the sequel with no equal</description>
     </module>
+
+    <module name="xml-xalan">
+        <repository name="xml"/>
+    
+        <url href="http://xml.apache.org/xalan-j/index.html"/>
+        <description>Release 2.x of the Xalan-Java XSLT processor</description>
+
+    </module>
 </modules>
 
 <projects>
@@ -139,20 +147,20 @@
         <module name="xml-commons"/>
         
         <!-- commands -->
-        <ant basedir="java" buildfile="which.xml" target="jar" />
+        <ant basedir="java" buildfile="which.xml" target="jar"/>
 
         <!-- outputs -->
         <home nested="java/build"/>
         <jar name="which.jar" id="which"/>
         
         <!-- dependencies -->
-        <depend project="xml-xerces" />
+        <depend project="xml-xerces"/>
         <depend project="bootstrap-ant"/>
     </project>
 
     <project name="xml-commons-resolver">
         <module name="xml-commons"/>
-        <depend project="xml-resolver" inherit="jars" />
+        <depend project="xml-resolver" inherit="jars"/>
     </project>
 
     <project name="xml-resolver">
@@ -198,29 +206,11 @@
         <!-- outputs -->
         <home nested="java/build"/>
         <jar name="xercesImpl.jar" id="xercesImpl"/>
-        <license name="java/LICENSE"/>
 
         <!-- dependencies -->
         <depend project="xml-xerces"/>
     </project>
     
-    <project name="dist-xerces">
-        <module name="xml-xerces"/>
-
-        <!-- commands -->
-        <ant basedir="java" target="pack-bin">
-            <sysproperty name="build.clonevm" value="true"/>
-        </ant>
-        
-        <!-- dependencies -->
-        <depend project="ant" inherit="runtime"/>
-        <depend project="xjavac"/>
-        <depend project="xalan"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-stylebook2"/>
-        <depend project="xml-site"/>
-    </project>
-        
     <project name="xjavac">
         <module name="xml-xerces"/>
         
@@ -229,5 +219,63 @@
         <jar name="bin/xjavac.jar"/>
     </project>
 
+    <project name="xalan">
+        <module name="xml"/>
+        
+        <!-- commands -->
+        <ant basedir="java" target="unbundledjar">
+             <!-- todo: support properties -->
+             <property name="build.sysclasspath" value="last"/>
+        </ant>
+        
+        <!-- outputs -->
+        <work nested="java/build/classes"/>
+        <work nested="java/build/serializer"/>
+        <home nested="java/build"/>
+        <jar name="xalan-unbundled.jar" type="boot" id="xalan"/>
+        <jar name="serializer.jar" id="serializer" type="boot"/>
+        
+        <!-- dependencies -->
+        <depend project="bootstrap-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="java_cup" runtime="true"/>
+        <depend project="jlex" runtime="true"/>
+        <depend project="bcel" runtime="true"/>
+        <depend project="xml-apis"/>
+        <depend project="jaxp"/>
+    </project>
+
+    <project name="xsltc">
+        <!-- commands -->
+        <ant basedir="java" target="xsltc.unbundledjar"/>
+
+        <!-- outputs -->
+        <work nested="java/build/classes"/>
+        <work nested="java/build/serializer"/>
+        <home nested="java/build"/>
+        <jar name="xsltc.jar" type="boot" id="xsltc"/>
+        <jar name="serializer.jar" id="serializer" type="boot"/>
+
+        <!-- dependencies -->
+        <depend project="bootstrap-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="java_cup" runtime="true"/>
+        <depend project="jlex" runtime="true"/>
+        <depend project="bcel" runtime="true"/>
+        <depend project="xml-apis"/>
+    </project>
+
+    <project name="java_cup">
+        <!-- outputs -->
+        <home nested="java"/>
+        <jar name="bin/java_cup.jar"/>
+        <jar name="bin/runtime.jar"/>
+    </project>
+
+    <project name="jlex">
+        <!-- outputs -->
+        <home nested="java"/>
+        <jar name="bin/JLex.jar"/>
+    </project>
 </projects>
 </workspace>

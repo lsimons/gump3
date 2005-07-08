@@ -66,7 +66,6 @@ class ScriptBuilderPlugin(BuilderPlugin):
         projectpath = get_project_directory(self.workdir,project)
         
         scriptfile = abspath(join(projectpath, script.name))
-        self.log.debug("Scriptfile seems to be %s" % scriptfile)
         
         # No extension is ok, otherwise guess at one, platform appropriately
         if not isfile(scriptfile):
@@ -78,7 +77,10 @@ class ScriptBuilderPlugin(BuilderPlugin):
             if not isfile(scriptfile):
                 raise Error, "No script '%s' found!" % scriptfile
         
-        args = [scriptfile] + script.args
+        self.log.debug("Scriptfile seems to be %s" % scriptfile)
+        args = []
+        args.append(scriptfile)
+        args.extend(script.args)
         cmd = Popen(args,shell=True,cwd=projectpath,stdout=PIPE,stderr=STDOUT,env=project.env)
         
         script.build_log = cmd.communicate()[0]

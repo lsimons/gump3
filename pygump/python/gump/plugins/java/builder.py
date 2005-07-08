@@ -67,7 +67,7 @@ class AntPlugin(BuilderPlugin):
         
         # Allow bootclasspath
         if ant.boot_classpath:
-            args += ['-X','bootclasspath/p',':'.join(ant.boot_classpath)]
+            args += ['-Xbootclasspath/p',':'.join(ant.boot_classpath)]
 
         # Ant's entry point, and main options.
         args += ["org.apache.tools.ant.Main"]

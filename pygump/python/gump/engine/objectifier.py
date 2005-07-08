@@ -222,7 +222,7 @@ def _create_outputs(project, project_definition, workdir):
     # Working directories for this project (containing java classes)
     works = project_definition.getElementsByTagName("work")
     for work in works:
-        path = _extract_path(workdir, project_definition, work)
+        path = _extract_path(workdir, project, work)
         project.add_output(Classdir(project, path))
 
     # Jars

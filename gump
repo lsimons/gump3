@@ -1037,6 +1037,8 @@ function delegate
 # Load environment variables
 setup_env
 
+echo Executing command: $1
+
 # short circuit the help function because we don't really
 # want to load complain about missing environment settings
 # when the user is asking for help...
