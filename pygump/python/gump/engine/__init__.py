@@ -46,11 +46,11 @@ from xml.dom import minidom
 from gump.config import get_config
 from gump.config import get_logger
 from gump.config import get_vfs
-from gump.config import get_walker
-from gump.config import get_modeller_loader
-from gump.config import get_modeller_normalizer
-from gump.config import get_modeller_objectifier
-from gump.config import get_modeller_verifier
+from gump.config import get_engine_walker
+from gump.config import get_engine_loader
+from gump.config import get_engine_normalizer
+from gump.config import get_engine_objectifier
+from gump.config import get_engine_verifier
 from gump.config import get_dom_implementation
 from gump.config import get_plugin
 from gump.config import shutdown_logging
@@ -59,7 +59,7 @@ from gump.util.io import open_file_or_stream
 from gump.util import ansicolor
 
 _ENGINE_LOGGER_NAME = "engine"
-_MODELLER_LOGGER_NAME = "modeller"
+_ENGINE_HELPER_LOGGER_NAME = "modeller"
 _MERGE_FILE_NAME = "merge.xml"
 _DROPPED_FILE_NAME = "dropped.xml"
 
@@ -104,12 +104,12 @@ def main(settings):
     log = get_logger(config, _ENGINE_LOGGER_NAME)
     
     vfs = get_vfs(config)
-    walker = get_walker(config)
-    modeller_log = get_logger(config, _MODELLER_LOGGER_NAME)
-    modeller_loader = get_modeller_loader(modeller_log, vfs)
-    modeller_normalizer = get_modeller_normalizer(modeller_log)
-    modeller_objectifier = get_modeller_objectifier(config, modeller_log)
-    modeller_verifier = get_modeller_verifier(config, walker)
+    engine_walker = get_engine_walker(config)
+    engine_log = get_logger(config, _ENGINE_HELPER_LOGGER_NAME)
+    engine_loader = get_engine_loader(engine_log, vfs)
+    engine_normalizer = get_engine_normalizer(engine_log)
+    engine_objectifier = get_engine_objectifier(config, engine_log)
+    engine_verifier = get_engine_verifier(config, engine_walker)
     
     mergefile = os.path.join(config.paths_work, _MERGE_FILE_NAME)
     dropfile = os.path.join(config.paths_work, _DROPPED_FILE_NAME)
@@ -118,8 +118,8 @@ def main(settings):
     (pre_process_visitor, visitor, post_process_visitor) = get_plugin(config)
     
     # create engine
-    engine = _Engine(log, modeller_loader, modeller_normalizer,
-                     modeller_objectifier, modeller_verifier, walker,
+    engine = _Engine(log, engine_loader, engine_normalizer,
+                     engine_objectifier, engine_verifier, engine_walker,
                      dom_implementation,
                      pre_process_visitor, visitor, post_process_visitor,
                      config.paths_workspace, mergefile, dropfile)

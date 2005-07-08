@@ -177,9 +177,6 @@ def get_error_handler(config):
     The config argument provided is an instance of the _Config class that is
     returned from the get_config method below.
     """
-
-    # TODO: implement an error handler that does actual recovery...
-    
     #from gump.plugins import LoggingErrorHandler
     from gump.engine.algorithm import OptimisticLoggingErrorHandler
     log = get_logger(config, "plugin.error-handler")
@@ -248,36 +245,36 @@ def get_vfs(config):
 
     cache_dir = os.path.join(config.paths_work, _VFS_CACHE_DIR_NAME)
     if not os.path.isdir(cache_dir):
-        os.mkdir(cache_dir);
+        os.makedirs(cache_dir);
     return VFS(config.paths_metadata, cache_dir)
 
 
-def get_modeller_loader(log, vfs=None):
+def get_engine_loader(log, vfs=None):
     """Provide a Loader implementation."""
     from gump.engine.loader import Loader
     return Loader(log, vfs)
 
 
-def get_modeller_normalizer(log):
+def get_engine_normalizer(log):
     """Provide a Normalizer implementation."""
     from gump.engine.normalizer import Normalizer
     return Normalizer(log)
 
 
-def get_modeller_objectifier(config, log):
+def get_engine_objectifier(config, log):
     """Provide a Objectifier implementation."""
     from gump.engine.objectifier import Objectifier
     return Objectifier(log, config.paths_work)
 
 
-def get_modeller_verifier(config, walker):
+def get_engine_verifier(config, walker):
     """Provide a Verifier implementation."""
     from gump.engine.verifier import Verifier, LoggingErrorHandler
     log = get_logger(config, "verifier")
     return Verifier(walker, LoggingErrorHandler(log))
 
 
-def get_walker(config):
+def get_engine_walker(config):
     """Provide a Walker implementation."""
     from gump.engine.walker import Walker
     
