@@ -34,7 +34,8 @@ class AnsiColor:
     Bright_Purple =    ''
     Bright_Cyan   =    ''
     
-    Black         =    ''
+    Reset         =    ''
+    Black         =    Reset
     Grey          =    ''
     Bright_Grey   =    ''
     White         =    ''
@@ -54,7 +55,9 @@ class AnsiColor:
         self.Bright_Purple =    '\033[1;35m'
         self.Bright_Cyan   =    '\033[1;36m'
         
-        self.Black         =    '\033[0;30m'
+        self.Reset         =    '\033[0m'
+        #self.Black         =    '\033[0;30m'
+        self.Black         =    self.Reset
         self.Grey          =    '\033[0;37m'
         self.Bright_Grey   =    '\033[1;30m'
         self.White         =    '\033[1;37m'
