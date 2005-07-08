@@ -32,6 +32,29 @@ import sys, parser, token, symbol, copy, getopt, unittest, os, fnmatch, os.path,
 
 UNIT_TEST_FILE_NAME_GLOB = 'test*.py' # 'test_*.py'
 
+# ASCII COLORS
+Red           =    '\033[0;31m'
+Green         =    '\033[0;32m'
+Yellow        =    '\033[0;33m'
+Blue          =    '\033[0;34m'
+Purple        =    '\033[0;35m'
+Cyan          =    '\033[0;36m'
+        
+Bright_Red    =    '\033[1;31m'
+Bright_Green  =    '\033[1;32m'
+Bright_Yellow =    '\033[1;33m'
+Bright_Blue   =    '\033[1;34m'
+Bright_Purple =    '\033[1;35m'
+Bright_Cyan   =    '\033[1;36m'
+        
+Reset         =    '\033[0m'
+#Black         =    '\033[0;30m'
+Black         =    Reset
+Grey          =    '\033[0;37m'
+Bright_Grey   =    '\033[1;30m'
+White         =    '\033[1;37m'
+
+
 def isPathContained(outer, inner):
     """
        Does inner lie "within" outer?
@@ -253,9 +276,81 @@ class Coverage:
                 annotations[fileName] = lines
         return annotations
 
+        
+class ColoredTextTestResult(unittest._TextTestResult):
+    """Provides ASCII colored console output. Heavily based on the unittest module."""
+    def getDescription(self, test):
+        if self.descriptions:
+            desc = test.shortDescription() or str(test)
+            return Blue + desc + Black
+        else:
+            return Blue + str(test) + Black
 
+    def addSuccess(self, test):
+        unittest.TestResult.addSuccess(self, test)
+        if self.showAll:
+            self.stream.writeln(Bright_Green + "ok" + Black)
+        elif self.dots:
+            self.stream.write(Bright_Green + '.' + Black)
+
+    def addError(self, test, err):
+        unittest.TestResult.addError(self, test, err)
+        if self.showAll:
+            self.stream.writeln(Bright_Red + "ERROR" + Black)
+        elif self.dots:
+            self.stream.write(Bright_Red + 'E' + Black)
+
+    def addFailure(self, test, err):
+        unittest.TestResult.addFailure(self, test, err)
+        if self.showAll:
+            self.stream.writeln(Red + "FAIL" + Black)
+        elif self.dots:
+            self.stream.write(Red + 'F' + Black)
+
+    def printErrorList(self, flavour, errors):
+        for test, err in errors:
+            self.stream.writeln(self.separator1)
+            if flavour == 'ERROR':
+                self.stream.writeln("%s%s: %s%s" % (Bright_Red,flavour,self.getDescription(test),Black))
+            else:
+                self.stream.writeln("%s%s: %s%s" % (Red,flavour,self.getDescription(test),Black))
+                
+            self.stream.writeln(self.separator2)
+            self.stream.writeln("%s%s%s" % (Red, err, Black))
+
+class ColoredTextTestRunner(unittest.TextTestRunner):
+    """Provides ASCII colored console output. Heavily based on the unittest module."""
+    def _makeResult(self):
+        return ColoredTextTestResult(self.stream, self.descriptions, self.verbosity)
+
+    def run(self, test):
+        "Run the given test case or test suite."
+        result = self._makeResult()
+        startTime = time.time()
+        test(result)
+        stopTime = time.time()
+        timeTaken = stopTime - startTime
+        result.printErrors()
+        self.stream.writeln(result.separator2)
+        run = result.testsRun
+        self.stream.writeln("Ran %s%d%s test%s in %s%.3fs%s" %
+                            (Blue, run, Black, run != 1 and "s" or "", Blue, timeTaken, Black))
+        self.stream.writeln()
+        if not result.wasSuccessful():
+            self.stream.write(Red + "FAILED (")
+            failed, errored = map(len, (result.failures, result.errors))
+            if failed:
+                self.stream.write("failures=%d" % failed)
+            if errored:
+                if failed: self.stream.write(", ")
+                self.stream.write("%serrors=%d%s" % (Bright_Red, errored, Red))
+            self.stream.writeln(")" + Black)
+        else:
+            self.stream.writeln(Bright_Green + "OK" + Bright_Red)
+        return result
+    
 class Tester:
-    def __init__(self, baseDir, include, exclude):
+    def __init__(self, baseDir, include, exclude, color=False):
         """
             Takes the project base directories. These directories are inserted into
             our path so that unit tests can import files/modules from there. 
@@ -275,6 +370,7 @@ class Tester:
         sys.path.insert(0, ".")
         self.suite = unittest.TestSuite()
         self.coverage = 0
+        self.color = color
 
     def _addFile(self, path, coverage):
         dirName, fileName = os.path.split(path)
@@ -343,12 +439,21 @@ class Tester:
             "include" is a directory that should be included in the coverage analysis.
             "exclude" is a set of directories that should be explicitly excluded. 
         """
-        self.cov.start()
-        unittest.TextTestRunner(verbosity=verbosity).run(self.suite)
-        self.cov.stop()
+        if not self.color:
+            self.cov.start()
+            unittest.TextTestRunner(verbosity=verbosity).run(self.suite)
+            self.cov.stop()
+        else:
+            self.cov.start()
+            ColoredTextTestRunner(verbosity=verbosity).run(self.suite)
+            self.cov.stop()
+            
 
     def run(self, verbosity=0):
-        unittest.TextTestRunner(verbosity=verbosity).run(self.suite)
+        if not self.color:
+            unittest.TextTestRunner(verbosity=verbosity).run(self.suite)
+        else:
+            ColoredTextTestRunner(verbosity=verbosity).run(self.suite)
 
     def debug(self):
         self.suite.debug()
@@ -423,6 +528,9 @@ def main():
     parser.add_option("-v", "--verbose",
                       action="store_true", dest="verbose",
                       help="Verbose.")
+    parser.add_option("--color",
+                      action="store_true", dest="color",
+                      help="Colored output")
 
     parser.add_option("-l", "--logdir",
                       action="store", dest="logdir", default="logs/",
@@ -467,7 +575,7 @@ def main():
                 os.remove(filename)
 
     # Do the actual run
-    t = Tester(options.base, options.include, options.exclude)
+    t = Tester(options.base, options.include, options.exclude, color=options.color)
 
     dostats = options.stats or options.annotate
 
@@ -487,7 +595,7 @@ def main():
     elif dostats:
         t.coverageRun(verbosity=verbosity)
     else:
-        t.run(verbosity)
+        t.run(verbosity=verbosity)
 
     # Report the results
     if options.stats:
