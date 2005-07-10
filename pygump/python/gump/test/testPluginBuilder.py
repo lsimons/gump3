@@ -40,7 +40,7 @@ class BuilderTestCase(MockTestCase):
     def test_do_script(self):
         basedir = abspath(mkdtemp())
         try:
-            w = Workspace("w")
+            w = Workspace("w", basedir)
             mkdir(join(basedir,w.name))
             r = Repository(w,"r")
             mkdir(join(basedir,w.name,r.name))
@@ -68,7 +68,8 @@ echo RESULT
 
             log = self.mock()
             log.stubs().method("debug")
-            plugin = ScriptBuilderPlugin(basedir, log)
+            plugin = ScriptBuilderPlugin(log)
+            plugin.initialize()
 
             cmd = Script(p, "dobuild")
             plugin._do_script(cmd.project, cmd)
@@ -78,4 +79,7 @@ echo RESULT
             cmd = Script(p, "nosuchscript")
             self.assertRaises(Error, plugin._do_script, cmd.project, cmd)
         finally:
+            if plugin:
+                try: plugin.finalize(w)
+                except: pass
             rmtree(basedir)        

@@ -82,8 +82,6 @@ def get_plugins(config):
     
     from gump.plugins.instrumentation import TimerPlugin
     pre_process_plugins.append(TimerPlugin("run_start"))
-    from gump.plugins.environment import EnvironmentPlugin
-    pre_process_plugins.append(EnvironmentPlugin())
     
     plugins = []
 
@@ -100,26 +98,30 @@ def get_plugins(config):
     if config.do_update:    
         plugins.append(TimerPlugin("update_start"))
         from gump.plugins.updater import CvsUpdater, SvnUpdater
-        plugins.append(CvsUpdater(config.paths_work))
-        plugins.append(SvnUpdater(config.paths_work))
+        plugins.append(CvsUpdater())
+        plugins.append(SvnUpdater())
         plugins.append(TimerPlugin("update_end"))
+    else:
+        log.info("Not running updates! (pass --do-updates to enable them)")
         
     if config.do_build:
         # by contract, rmdir always needs to go before mkdir!
         from gump.plugins.dirbuilder import RmdirBuilderPlugin
-        plugins.append(RmdirBuilderPlugin(config.paths_work))
+        plugins.append(RmdirBuilderPlugin())
         from gump.plugins.dirbuilder import MkdirBuilderPlugin
-        plugins.append(MkdirBuilderPlugin(config.paths_work))
+        plugins.append(MkdirBuilderPlugin())
     
         buildlog = get_logger(config, "plugin.builder")
     
         from gump.plugins.builder import ScriptBuilderPlugin
-        plugins.append(ScriptBuilderPlugin(config.paths_work,buildlog))
+        plugins.append(ScriptBuilderPlugin(buildlog))
         from gump.plugins.java.builder import ClasspathPlugin
         from gump.model import Ant
-        plugins.append(ClasspathPlugin(config.paths_work,buildlog,Ant))
+        plugins.append(ClasspathPlugin(buildlog,Ant))
         from gump.plugins.java.builder import AntPlugin
-        plugins.append(AntPlugin(config.paths_work,buildlog))
+        plugins.append(AntPlugin(buildlog))
+    else:
+        log.info("Not running builds! (pass --do-builds to enable them)")
      
            
     if config.irc:        
@@ -133,6 +135,8 @@ def get_plugins(config):
         
         # Add the plugin, based upon this configuration information.
         plugins.append(IrcBotPlugin(log,config.debug,channel,nickname,server,port))
+    else:
+        log.info("Not talking on irc! (pass --irc to enable)")
         
     plugins.append(TimerPlugin("work_end"))
 
@@ -146,6 +150,8 @@ def get_plugins(config):
         db = get_db(dblog,config)
         dynagumplog = get_logger(config, "plugin.dynagumper")
         post_process_plugins.append(Dynagumper(db, dynagumplog))
+    else:
+        log.info("Not filling database! (pass --fill-database to enable)")
     
     reportlog = get_logger(config, "plugin.logger")
     from gump.plugins.logreporter import OutputLogReporterPlugin

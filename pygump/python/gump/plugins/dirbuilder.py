@@ -28,11 +28,11 @@ import shutil
 
 class MkdirBuilderPlugin(AbstractPlugin):
     """Execute all "mkdir" commands for all projects."""
-    def __init__(self, workdir):
-        self.workdir = workdir
+    def __init__(self):
+        pass
         
     def _do_mkdir(self, project, directory):
-        projectpath = get_project_directory(self.workdir,project)
+        projectpath = get_project_directory(project)
         dirpath = os.path.abspath(os.path.join(projectpath,directory))
         if not dirpath.startswith(projectpath):
             raise Error, "Directory '%s' to be created not within project path '%s'!" % (directory, projectpath)
@@ -49,11 +49,11 @@ class MkdirBuilderPlugin(AbstractPlugin):
 
 class RmdirBuilderPlugin(AbstractPlugin):
     """Execute all "rmdir" commands for all projects."""
-    def __init__(self, workdir):
-        self.workdir = workdir
+    def __init__(self):
+        pass
         
     def _do_rmdir(self, project, directory):
-        projectpath = get_project_directory(self.workdir,project)
+        projectpath = get_project_directory(project)
         dirpath = os.path.abspath(os.path.join(projectpath,directory))
         if not dirpath.startswith(projectpath):
             raise Error, "Directory '%s' to be deleted not within project path '%s'!" % (directory, projectpath)

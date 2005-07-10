@@ -194,20 +194,29 @@ class ResultLogReporterPlugin(AbstractPlugin):
         if not check_failure(project):
             self.wr('  %s%s: OK%s' % (ansicolor.Green, project, ansicolor.Black))
         else:
-            self.wr('  %s%s: FAIL%s' % (ansicolor.Red, project, ansicolor.Black+ansicolor.Black))
+            firsterror = '  %s%s: FAIL%s' % (ansicolor.Red, project, ansicolor.Black+ansicolor.Black)
 
             causes = get_failure_causes(project)
+            
+            if len(causes) > 0:
+                cause = causes[0]
+                if isinstance(cause, Dependency) or isinstance(cause, Project) or isinstance(cause, Module):
+                    firsterror = '  %s%s: SKIPPED%s' % (ansicolor.Yellow, project, ansicolor.Black+ansicolor.Black)
+            self.wr(firsterror)
+            
             for cause in causes:
+                seconderror = "      %sUNKNOWN FAILURE (%s)%s" % (ansicolor.Bright_Red, cause, ansicolor.Black)
                 if isinstance(cause, ExceptionInfo):
-                    self.wr("      %sMETADATA FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
+                    seconderror = "      %sMETADATA FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black)
                 if isinstance(cause, Command):
-                    self.wr("      %sBUILD FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
+                    seconderror = "      %sBUILD FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black)
                 if isinstance(cause, Dependency):
-                    self.wr("      %sPREREQ FAILURE (%s)%s" % (ansicolor.Red, cause.dependency, ansicolor.Black))
+                    seconderror = "      %sPREREQ FAILURE (%s)%s" % (ansicolor.Yellow, cause.dependency, ansicolor.Black)
                 if isinstance(cause, Project):
-                    self.wr("      %sPREREQ FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
+                    seconderror = "      %sPREREQ FAILURE (%s)%s" % (ansicolor.Yellow, cause, ansicolor.Black)
                 if isinstance(cause, Module):
-                    self.wr("      %sUPDATE FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black))
+                    seconderror = "      %sUPDATE FAILURE (%s)%s" % (ansicolor.Red, cause, ansicolor.Black)
+                self.wr(seconderror)
                 
                 indent =    "       "
                 for trace_elem in get_root_cause(cause):

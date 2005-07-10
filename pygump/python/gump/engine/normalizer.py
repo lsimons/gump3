@@ -244,7 +244,8 @@ class Normalizer:
             repository = self._find_repository_for_module(module)
             if not repository:
                 name = module.getAttribute("name")
-                self.log.warn("Module '%s' does not have a corresponding repository!" % name)
+                # we inform about this later
+                #self.log.warn("Module '%s' does not have a corresponding repository!" % name)
                 # its okay to have a module without associated repository, its
                 # then an "installed package"
                 #continue
@@ -276,7 +277,8 @@ class Normalizer:
             module = self._find_module_for_project(project)
             if not module:
                 name = project.getAttribute("name")
-                self.log.warn("Project '%s' does not have a corresponding module!" % name)
+                # we inform about this later
+                #self.log.warn("Project '%s' does not have a corresponding module!" % name)
             else:
                 moduleref = self.newdoc.createElement("module")
                 moduleref.setAttribute("name", module.getAttribute("name") )

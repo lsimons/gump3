@@ -101,8 +101,14 @@
 <projects>
     <project name="gump-unit-tests">
         <module name="gump"/>
-        <script name="gump">
+        
+        <!-- commands -->
+        <script name="gump" shell="bash">
             <arg name="" value="test"/>
+            <env name="GUMP_HOME" value="."/>
+            <env name="PYTHONPATH"/>
+            <env name="GUMP_WORKDIR"/>
+            <env name="GUMP_HOSTNAME"/>
         </script> 
     </project>
     

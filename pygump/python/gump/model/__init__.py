@@ -19,6 +19,7 @@
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
+import os
         
 class Error(Exception):
     """Generic error thrown for all internal model module exceptions."""
@@ -57,15 +58,22 @@ class Workspace(ModelObject):
     Has the following properties:
         
         - name     -- per-host unique identifier
+        - workdir  -- working directory for gump data and files
         - repositories -- dictionary of contained repositories
         - modules -- dictionary of contained modules
         - projects -- dictionary of contained projects
         - dependencies -- list of all dependencies between projects
     """
-    def __init__(self, name):
+    def __init__(self, name, workdir):
         assert isinstance(name, basestring)
+        assert isinstance(workdir, basestring)
+        if not os.path.isdir(workdir):
+            if os.path.exists(workdir):
+                raise Error, "Workspace %s working directory '%s' can't be created because a file is in the way!" % (name, workdir)
+            os.makedirs(workdir)
     
         self.name = name
+        self.workdir = workdir
         self.repositories = {}
         self.modules = {}
         self.projects = {}
@@ -475,9 +483,19 @@ class Command(ModelObject):
         
         - project -- the containing project
     """
-    def __init__(self, project):
+    def __init__(self, project, basedir=None, shell=None):
         assert isinstance(project, Project)
+
+        if basedir != None:
+            assert isinstance(basedir, basestring)
+
+        if shell != None:
+            assert isinstance(shell, basestring)
+            
         self.project = project
+        self.basedir = basedir
+        self.shell = shell
+        self.env = dict(os.environ)
         
     def __str__(self):
         return "<Command:%s>" % self.project
@@ -530,8 +548,10 @@ class Script(Command):
         - args -- a list of arguments to the command,
                   where each element is a (name, value)
                   tuple
+        - basedir -- directory relative to project home in which to run
+        - shell -- the shell in which to execute the script
     """
-    def __init__(self, project, name, args=None):
+    def __init__(self, project, name, args=None, basedir=None, shell=None):
         assert isinstance(name, basestring)
         if args != None:
             assert isinstance(args, list)
@@ -540,12 +560,12 @@ class Script(Command):
             self.args = args
         else:
             self.args = []
-            
-        Command.__init__(self, project)
+
+        Command.__init__(self, project, basedir=basedir, shell=shell)
         self.name = name
 
     def __str__(self):
-        return "<Script:%s,args=%s>" % (self.name, " ".join(self.args))
+        return "<Script:%s,args=%s,shell=%s,basedir=%s>" % (self.name, " ".join(self.args), self.shell, self.basedir)
 
 class Ant(Command):
     """Command to run an Ant build.
@@ -555,20 +575,18 @@ class Ant(Command):
         - all the properties a Command has
         - target -- the Ant target
         - buildfile -- the Ant build file
+        - basedir -- directory relative to project home in which to run
     """
     def __init__(self, project, target, buildfile="build.xml",basedir=None):
         assert isinstance(target, basestring)
         assert isinstance(buildfile, basestring)
-        if basedir != None:
-            assert isinstance(basedir, basestring)
             
-        Command.__init__(self, project)
+        Command.__init__(self, project, basedir)
         self.target = target
         self.buildfile = buildfile
-        self.basedir = basedir
 
     def __str__(self):
-        return "<Ant:target=%s,buildfile=%s>" % (self.target, self.buildfile)
+        return "<Ant:target=%s,buildfile=%s,basedir=%s>" % (self.target, self.buildfile, self.basedir)
 
 #TODO: more Commands
 

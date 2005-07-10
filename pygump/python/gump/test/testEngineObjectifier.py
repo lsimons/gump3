@@ -340,7 +340,7 @@ class EngineObjectifierTestCase(MockTestCase):
             def getAttribute(self, name):
                 return getattr(self, name, None)
         
-        w = Workspace("bla")
+        w = Workspace("bla", self.workdir)
         r = Repository(w, "blabla")
         m = Module(r, "blablabla")
         bla_project = Project(m, "blablablabla")

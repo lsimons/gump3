@@ -38,7 +38,7 @@ class DirBuilderTestCase(TestCase):
     def test_do_rmdir(self):
         basedir = abspath(mkdtemp())
         try:
-            w = Workspace("w")
+            w = Workspace("w", basedir)
             mkdir(join(basedir,w.name))
             r = Repository(w,"r")
             mkdir(join(basedir,w.name,r.name))
@@ -51,7 +51,7 @@ class DirBuilderTestCase(TestCase):
 
             cmd = Rmdir(p,"somedir")
 
-            plugin = RmdirBuilderPlugin(basedir)
+            plugin = RmdirBuilderPlugin()
             
             makedirs(join(ppath, cmd.directory, "nested", "stuff", "here"))
             plugin._do_rmdir(cmd.project, cmd.directory)
@@ -85,7 +85,7 @@ class DirBuilderTestCase(TestCase):
     def test_do_mkdir(self):
         basedir = abspath(mkdtemp())
         try:
-            w = Workspace("w")
+            w = Workspace("w", basedir)
             mkdir(join(basedir,w.name))
             r = Repository(w,"r")
             mkdir(join(basedir,w.name,r.name))
@@ -98,7 +98,7 @@ class DirBuilderTestCase(TestCase):
 
             cmd = Mkdir(p,"somedir")
         
-            plugin = MkdirBuilderPlugin(basedir)
+            plugin = MkdirBuilderPlugin()
             
             plugin._do_mkdir(cmd.project, cmd.directory)
             self.assert_(isdir(join(ppath,cmd.directory)))

@@ -34,22 +34,22 @@ from gump.util.executor import STDOUT
 from gump.model.util import UPDATE_TYPE_CHECKOUT, UPDATE_TYPE_UPDATE
 
 class ModuleUpdater(AbstractPlugin):
-    def __init__(self, workdir):
-        self.workdir = workdir
+    def __init__(self):
+        pass
 
     def visit_repository(self, repository):
-        repopath = get_repository_directory(self.workdir, repository)
+        repopath = get_repository_directory(repository)
         if not os.path.exists(repopath):
             os.makedirs(repopath)
 
     def visit_module(self, module):
-        modulepath = get_module_directory(self.workdir, module)
+        modulepath = get_module_directory(module)
         if not os.path.exists(modulepath):
             os.makedirs(modulepath)
 
 class CvsUpdater(ModuleUpdater):
-    def __init__(self, workdir):
-        ModuleUpdater.__init__(self, workdir)
+    def __init__(self):
+        ModuleUpdater.__init__(self)
     
     def visit_repository(self, repository):
         if isinstance(repository, CvsRepository):
@@ -60,7 +60,7 @@ class CvsUpdater(ModuleUpdater):
 
         ModuleUpdater.visit_module(self, module)
 
-        repopath = get_repository_directory(self.workdir, module.repository)
+        repopath = get_repository_directory(module.repository)
         current = os.path.curdir
         modulepath = os.path.join(repopath, module.name)
         cvsdir = os.path.join(modulepath, 'CVS')
@@ -89,8 +89,8 @@ class CvsUpdater(ModuleUpdater):
         module.update_type = UPDATE_TYPE_UPDATE
 
 class SvnUpdater(ModuleUpdater):
-    def __init__(self, workdir):
-        ModuleUpdater.__init__(self, workdir)
+    def __init__(self):
+        ModuleUpdater.__init__(self)
     
     def visit_repository(self, repository):
         if isinstance(repository, SvnRepository):
@@ -101,7 +101,7 @@ class SvnUpdater(ModuleUpdater):
 
         ModuleUpdater.visit_module(self, module)
 
-        modulepath = get_module_directory(self.workdir, module)
+        modulepath = get_module_directory(module)
         current = os.path.curdir
         os.chdir(modulepath)
         svndir = os.path.join(modulepath, '.svn')

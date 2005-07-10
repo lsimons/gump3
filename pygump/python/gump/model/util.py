@@ -29,29 +29,29 @@ from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, Exc
 UPDATE_TYPE_CHECKOUT="checkout"
 UPDATE_TYPE_UPDATE="update"
 
-def get_jar_path(workdir, jar):
+def get_jar_path(jar):
     """Determine the path to a Jar."""
-    return join(get_project_home_directory(workdir, jar.project),jar.name)
+    return join(get_project_home_directory(jar.project),jar.name)
 
-def get_project_home_directory(workdir, project):
+def get_project_home_directory(project):
     """Determine the home directory for a project."""
-    return join(get_project_directory(workdir, project),project.homedir)
+    return join(get_project_directory(project),project.homedir)
 
-def get_project_directory(workdir, project):
+def get_project_directory(project):
     """Determine the base directory for a project."""
-    return join(get_module_directory(workdir, project.module),project.path)
+    return join(get_module_directory(project.module),project.path)
 
-def get_module_directory(workdir, module):
+def get_module_directory(module):
     """Determine the base directory for a module."""
-    return join(get_repository_directory(workdir,module.repository),module.name)
+    return join(get_repository_directory(module.repository),module.name)
 
-def get_repository_directory(workdir, repository):
+def get_repository_directory(repository):
     """Determine the base directory for a repository."""
-    return join(get_workspace_directory(workdir,repository.workspace),repository.name)
+    return join(get_workspace_directory(repository.workspace),repository.name)
 
-def get_workspace_directory(workdir, workspace):
+def get_workspace_directory(workspace):
     """Determine the base directory for a workspace."""
-    return abspath(join(workdir,workspace.name))
+    return abspath(join(workspace.workdir,workspace.name))
 
 def mark_failure(model_element, cause):
     """Mark a model element as "failed"."""
@@ -169,7 +169,7 @@ def store_exception(model_object, type, value, traceback):
     model_object.exceptions.append(ExceptionInfo(type, value, traceback))
 
         
-def calculate_classpath(workdir, project, recurse=True, runtimeonly=False):
+def calculate_classpath(project, recurse=True, runtimeonly=False):
     """This ugly beast of a method looks at a project and its dependencies and
     builds a classpath and a bootclasspath based on its <work/> directives
     and its <depend/> directives."""
@@ -210,7 +210,7 @@ def calculate_classpath(workdir, project, recurse=True, runtimeonly=False):
                 if isinstance(output, Classdir):
                     path = output.path
                 if isinstance(output, Jar):
-                    path = get_jar_path(workdir,output)
+                    path = get_jar_path(output)
                 
                 # actually add the path
                 if output.add_to_bootclass_path:
@@ -227,17 +227,17 @@ def calculate_classpath(workdir, project, recurse=True, runtimeonly=False):
                 # only the "runtime" dependencies.
                 if recurse:
                     if info.inherit == DEPENDENCY_INHERIT_ALL or info.inherit == DEPENDENCY_INHERIT_HARD:
-                        (inheritedclasspath, inheritedbootclasspath) = calculate_classpath(workdir, dependency, recurse=False)
+                        (inheritedclasspath, inheritedbootclasspath) = calculate_classpath(dependency, recurse=False)
                         classpath.extend(inheritedclasspath)
                         bootclasspath.extend(inheritedbootclasspath)
                     
                     if info.inherit == DEPENDENCY_INHERIT_JARS:
-                        (inheritedclasspath, inheritedbootclasspath) = calculate_classpath(workdir, dependency, recurse=True)
+                        (inheritedclasspath, inheritedbootclasspath) = calculate_classpath(dependency, recurse=True)
                         classpath.extend(inheritedclasspath)
                         bootclasspath.extend(inheritedbootclasspath)
                     
                     if info.inherit == DEPENDENCY_INHERIT_RUNTIME:
-                        (inheritedclasspath, inheritedbootclasspath) = calculate_classpath(workdir, dependency, recurse=False, runtimeonly=True)
+                        (inheritedclasspath, inheritedbootclasspath) = calculate_classpath(dependency, recurse=False, runtimeonly=True)
                         classpath.extend(inheritedclasspath)
                         bootclasspath.extend(inheritedbootclasspath)
                         

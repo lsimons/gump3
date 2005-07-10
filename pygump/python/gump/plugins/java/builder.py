@@ -28,63 +28,47 @@ from gump.model.util import get_project_directory,get_module_directory,get_jar_p
 from gump.plugins import AbstractPlugin
 from gump.plugins.builder import BuilderPlugin
 from gump.util.executor import Popen, PIPE, STDOUT
-
+from gump.util import ansicolor
 
 class ClasspathPlugin(BuilderPlugin):
     """Generate the java build attributes (e.g. CLASSPATH) for the specified command."""
-    def __init__(self, workdir, log, CommandClazz):
-        BuilderPlugin.__init__(self, workdir, log, CommandClazz, self.set_classpath)
+    def __init__(self, log, CommandClazz):
+        BuilderPlugin.__init__(self, log, CommandClazz, self.set_classpath)
         
     def set_classpath(self, project, command):
-        (classpath, bootclasspath) = calculate_classpath(self.workdir, project)
+        (classpath, bootclasspath) = calculate_classpath(project)
         command.classpath = classpath
         command.boot_classpath = bootclasspath
                 
         
 class AntPlugin(BuilderPlugin):
     """Execute all "ant" commands for all projects."""
-    def __init__(self, workdir, log, debug=False):
-        BuilderPlugin.__init__(self, workdir, log, Ant, self._do_ant)
+    def __init__(self, log, debug=False):
+        BuilderPlugin.__init__(self, log, Ant, self._do_ant)
         self.debug = debug
         
     def _do_ant(self, project, ant):                
-        projectpath = get_project_directory(self.workdir,project)
+        # environment
+        self.log.debug("        CLASSPATH is '%s%s%s'" % \
+                       (ansicolor.Blue, ":".join(ant.classpath), ansicolor.Black))
+        ant.env['CLASSPATH'] = os.pathsep.join(ant.classpath)
+        
+        # working directory
+        projectpath = get_project_directory(project)
         if ant.basedir:
             projectpath = os.path.join(projectpath, ant.basedir)
         
-        self.log.debug('CLASSPATH %s' % ant.classpath)
-        self.log.debug('BOOTCLASSPATH %s' % ant.boot_classpath)
+        # command line
+        args = [join(ant.env["JAVA_HOME"], "bin", "java")]
         
-        # Create an Environment
-        project.env['CLASSPATH'] = os.pathsep.join(ant.classpath)
-        
-        # TODO test this
-        # TODO sysclasspath only
-        # TODO more options
-        
-        # Build the command line.
-        args = [join(os.environ["JAVA_HOME"], "bin", "java")]
-        
-        # Allow bootclasspath
-        if ant.boot_classpath:
-            args += ['-Xbootclasspath/p',':'.join(ant.boot_classpath)]
+        if ant.boot_classpath and len(ant.boot_classpath) > 0:
+            args.append('-Xbootclasspath/p:' + ':'.join(ant.boot_classpath))
 
-        # Ant's entry point, and main options.
         args += ["org.apache.tools.ant.Main"]
-                 
-        # Specify a build file.
         if ant.buildfile: args += ["-buildfile",ant.buildfile]
-
-        # Override the default target
         if ant.target: args += [ant.target]
-        
-        # Allow debugging
         if self.debug: args += ["-debug"]
         
-        self.log.debug("Command : %s " % (args))
-        self.log.debug("        : %s " % ant.classpath)
-        #self.log.debug("        : %s " % self.tmp_env)
-        cmd = Popen(args,shell=False,cwd=projectpath,stdout=PIPE,stderr=STDOUT,env=project.env)
-
-        ant.build_log = cmd.communicate()[0]
-        ant.build_exit_status = cmd.wait()
+        # run it
+        self._do_run_command(ant, args, projectpath)
+        

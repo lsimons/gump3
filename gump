@@ -1037,8 +1037,6 @@ function delegate
 # Load environment variables
 setup_env
 
-echo Executing command: $1
-
 # short circuit the help function because we don't really
 # want to load complain about missing environment settings
 # when the user is asking for help...
@@ -1054,9 +1052,3 @@ check_environment
 
 # Figure out the action to take then run the appropriate function
 delegate $@
-
-# Attempt to clean up leftover commands
-trap 'exit 0' HUP
-trap 'kill -s HUP 0' EXIT
-trap 'kill -s TERM 0' TERM
-trap 'kill -s TERM 0' KILL

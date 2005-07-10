@@ -20,6 +20,8 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 import unittest
 from pmock import MockTestCase
 
+import os
+
 from gump.engine.walker import Walker
 
 class MockWorkspace:
@@ -50,6 +52,11 @@ class WalkerTestCase(MockTestCase):
         self.w = w
         
         self.walker = Walker(self.log)
+    
+    def tearDown(self):
+        if os.path.exists("bla"):
+            import shutil
+            shutil.rmtree("bla")
 
     def test_constructor(self):
         Walker(self.log)
@@ -102,7 +109,7 @@ class WalkerTestCase(MockTestCase):
         from gump.model import Project
         from gump.model import Dependency
         
-        w = Workspace("ws")
+        w = Workspace("ws", "bla")
         r = Repository(w,"repo")
         m = Module(r,"mod")
         

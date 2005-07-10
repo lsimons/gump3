@@ -20,6 +20,8 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 import unittest
 from unittest import TestCase
 
+import os
+
 from gump.model import Error
 from gump.model import ModelObject
 from gump.model import ExceptionInfo
@@ -45,6 +47,11 @@ from gump.model import Jar
 from gump.model import Classdir
 
 class ModelTestCase(TestCase):
+    def tearDown(self):
+        if os.path.exists("bla"):
+            import shutil
+            shutil.rmtree("bla")
+
     def test_error(self):
         e = Error()
         try:
@@ -78,15 +85,15 @@ class ModelTestCase(TestCase):
     
     def test_workspace(self):
         name = "blah"
-        w = Workspace(name)
+        w = Workspace(name, "bla")
         self.assertEqual(name, w.name)
         self.assertEqual({}, w.repositories)
         self.assertEqual({}, w.modules)
         self.assertEqual({}, w.projects)
         self.assertEqual([], w.dependencies)
         
-        self.assertRaises(AssertionError, Workspace, None)
-        Workspace(unicode("blah")) # unicode is okay too...
+        self.assertRaises(AssertionError, Workspace, None, "blah")
+        Workspace(unicode("blah"), "bla") # unicode is okay too...
         
         r = Repository(w, "booh")
         w.add_repository(r)
@@ -98,13 +105,13 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError, w.add_repository, "blah")
         self.assertEqual(1, len(w.repositories))
         
-        w2 = Workspace("blah2")
+        w2 = Workspace("blah2", "bla")
         r2 = Repository(w2, "booh2")
         self.assertRaises(AssertionError,w.add_repository,r2)
     
     def test_repository(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         name = "booh"
         title = "t"
         home_page = "h"
@@ -150,7 +157,7 @@ class ModelTestCase(TestCase):
     
     def test_cvs_repository(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         name = "booh"
         hostname = "cvs.somewhere.org"
         path = "/some/cvs/location"
@@ -193,7 +200,7 @@ class ModelTestCase(TestCase):
 
     def test_svn_repository(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         name = "booh"
         url = "http://svn.somewhere.org/some/svn/repo"
         title = "t"
@@ -228,7 +235,7 @@ class ModelTestCase(TestCase):
 
     def test_module(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         
@@ -268,7 +275,7 @@ class ModelTestCase(TestCase):
     
     def test_module_is_added_to_workspace_by_repository(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         r2name = "booh2"
@@ -292,7 +299,7 @@ class ModelTestCase(TestCase):
         
     def test_cvs_module(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         
@@ -314,7 +321,7 @@ class ModelTestCase(TestCase):
 
     def test_svn_module(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         
@@ -333,7 +340,7 @@ class ModelTestCase(TestCase):
         
     def test_project(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"
@@ -380,7 +387,7 @@ class ModelTestCase(TestCase):
         
     def test_project_is_added_to_workspace_by_module(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         url = "http://www.somewhere.org/bweh/"
@@ -402,7 +409,7 @@ class ModelTestCase(TestCase):
         
     def test_dependencies(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"
@@ -493,7 +500,7 @@ class ModelTestCase(TestCase):
     
     def test_dependency_info(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"
@@ -566,7 +573,7 @@ class ModelTestCase(TestCase):
         
     def test_command(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"
@@ -584,7 +591,7 @@ class ModelTestCase(TestCase):
 
     def test_mkdir(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"
@@ -606,7 +613,7 @@ class ModelTestCase(TestCase):
 
     def test_rmdir(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"
@@ -628,7 +635,7 @@ class ModelTestCase(TestCase):
 
     def test_script(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"
@@ -662,7 +669,7 @@ class ModelTestCase(TestCase):
 
     def test_ant(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"
@@ -689,7 +696,7 @@ class ModelTestCase(TestCase):
 
     def test_output(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"
@@ -708,7 +715,7 @@ class ModelTestCase(TestCase):
 
     def test_jar(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"
@@ -745,7 +752,7 @@ class ModelTestCase(TestCase):
 
     def test_classdir(self):
         wname = "blah"
-        w = Workspace(wname)
+        w = Workspace(wname, "bla")
         rname = "booh"
         r = Repository(w,rname)
         mname = "bweh"

@@ -32,21 +32,23 @@ from gump.model.util import *
 from gump.engine import EngineError
 from gump.engine.modeller import _find_element_text
 
+from gump.util import ansicolor
+
 DEFAULT_GUMP_LOCAL_REPOSITORY_NAME = "DEFAULT_GUMP_LOCAL_REPOSITORY"
 DEFAULT_GUMP_LOCAL_MODULE_NAME = "DEFAULT_GUMP_LOCAL_MODULE"
 ###
 ### Utility
 ###
-def _extract_path(workdir, project, element):
+def _extract_path(project, element):
     """ Extract directory relative to module or project, based
         upon which attribute (parent or nested) is present."""
     parent = element.getAttribute("parent")
     nested = element.getAttribute("nested")
     
     if parent:
-        return os.path.join(get_module_directory(workdir, project.module), parent)
+        return os.path.join(get_module_directory(project.module), parent)
     elif nested:
-        return os.path.join(get_project_directory(workdir, project), nested)
+        return os.path.join(get_project_directory(project), nested)
     else:
         raise Error, "Unknown relative path entry (no parent or nested): %s" % (element)
 
@@ -54,8 +56,8 @@ def _extract_path(workdir, project, element):
 ###
 ### Creation
 ###
-def _create_workspace(workspace_definition):
-    return Workspace(workspace_definition.getAttribute('name'))
+def _create_workspace(workspace_definition, workdir):
+    return Workspace(workspace_definition.getAttribute('name'), workdir)
 
 
 def _create_repository(workspace, repository_definition):
@@ -157,7 +159,7 @@ def _create_local_module(repository, name, url, description, module_definition):
     return LocalModule(repository, name, url, description)
 
 
-def _create_project(module, project_definition, workdir):
+def _create_project(module, project_definition):
     name = project_definition.getAttribute("name")
     path = project_definition.getAttribute("path")
     
@@ -165,7 +167,7 @@ def _create_project(module, project_definition, workdir):
 
     homes = project_definition.getElementsByTagName("home")
     if homes.length > 0:
-        project.homedir = _extract_path(workdir, project, homes.item(0))
+        project.homedir = _extract_path(project, homes.item(0))
 
     return project
 
@@ -176,6 +178,45 @@ def _create_commands(project, project_definition):
     _create_script_commands(project, project_definition)
     _create_ant_commands(project, project_definition)
     #TODO more commands
+
+ENV_DELETION_MARKER="gumpobjectifierdeletethisvariableplease"
+def _create_env_vars(command, cmd):
+    env = {}
+    for env in cmd.getElementsByTagName("env"):
+        envname = env.getAttribute("name")
+        envvalue = env.getAttribute("value")
+        if not envname:
+            continue
+        if envvalue:
+            command.env[envname] = envvalue
+        else:
+            if command.env.has_key(envname):
+                command.env.pop(envname)
+
+
+def _get_args(cmd):
+    args = []
+    for arg in cmd.getElementsByTagName("arg"):
+        argname = arg.getAttribute("name")
+        argvalue = arg.getAttribute("value")
+        if argname:
+            if argname.startswith("--"):
+                if argvalue:
+                    args.append("%s=%s" % (argname, argvalue))
+                else:
+                    args.append(argname)
+            elif argname.startswith("-"):
+                args.append(argname)
+                if argvalue:
+                    args.append(argvalue)
+            else:
+                args.append(argname)
+                if argvalue:
+                    args.append(argvalue)
+        else:
+            if argvalue:
+                args.append(argvalue)
+    return args
 
 
 def _create_rmdir_commands(project, project_definition):
@@ -196,17 +237,13 @@ def _create_script_commands(project, project_definition):
     scripts = project_definition.getElementsByTagName("script")
     for cmd in scripts:
         name = cmd.getAttribute("name")
-        args = []
-        for arg in cmd.getElementsByTagName("arg"):
-            # TODO parse "-", "--", etc
-            argname = arg.getAttribute("name")
-            argvalue = arg.getAttribute("value")
-            if argname:
-                args.append(argname)
-            if argvalue:
-                args.append(argvalue)
-            
-        project.add_command(Script(project, name, args))
+        shell = cmd.getAttribute("shell")
+        basedir = cmd.getAttribute("basedir")
+        args = _get_args(cmd)
+        command = Script(project, name, args, shell=shell, basedir=basedir)
+        _create_env_vars(command, cmd)
+        
+        project.add_command(command)
 
 
 def _create_ant_commands(project, project_definition):
@@ -218,11 +255,12 @@ def _create_ant_commands(project, project_definition):
             
         project.add_command(Ant(project, target, buildfile, basedir=basedir))
 
-def _create_outputs(project, project_definition, workdir):    
+
+def _create_outputs(project, project_definition):    
     # Working directories for this project (containing java classes)
     works = project_definition.getElementsByTagName("work")
     for work in works:
-        path = _extract_path(workdir, project, work)
+        path = _extract_path(project, work)
         project.add_output(Classdir(project, path))
 
     # Jars
@@ -307,7 +345,8 @@ class MissingDependencyError(EngineError):
         self.dependency_name = dependency_name
     
     def __str__(self):
-        return "Dependency '%s' specified by '%s' cannot be found!" % (self.dependency_name, self.project)
+        return "%sDependency '%s' specified by '%s' cannot be found!%s" % \
+               (ansicolor.Red, self.dependency_name, self.project, ansicolor.Black)
 
 
 class Objectifier:
@@ -333,7 +372,7 @@ class Objectifier:
     def get_workspace(self, domtree):
         """Transforms a workspace xml document into object form."""
         root = domtree.documentElement
-        workspace = _create_workspace(root)
+        workspace = _create_workspace(root, self.workdir)
 
         self._create_repositories(workspace, _find_repository_definitions(root))
         self._create_modules(workspace, _find_module_definitions(root))
@@ -352,13 +391,14 @@ class Objectifier:
         for repository_definition in [r for r in repository_definitions \
                 if r.nodeType == dom.Node.ELEMENT_NODE]:
             name = repository_definition.getAttribute("name")
-            self.log.debug("Converting repository definition '%s' into object form." % name)
+            #self.log.debug("Converting repository definition '%s' into object form." % name)
             try:
                 repository = _create_repository(workspace, repository_definition)
                 workspace.repositories[repository.name] = repository
             except:
                 self.log.exception(
-                    "Failed to convert repository definition '%s' into object form." % name)
+                    "%sFailed to convert repository definition '%s' into object form.%s" % \
+                    (ansicolor.Bright_Red, name, ansicolor.Black))
     
     def _find_repository_for_module(self, workspace, module_definition):
         try:
@@ -369,7 +409,8 @@ class Objectifier:
         except:
             # If we can't find a repository, then we're dealing with an installed
             # package
-            self.log.debug("It seems that the module '%s' is an installed package" % name)
+            self.log.warn("Could not find a corresponding repository, so %smodule '%s' will be treated as an installed package%s" % \
+                          (ansicolor.Yellow, name, ansicolor.Black))
             return workspace.repositories[DEFAULT_GUMP_LOCAL_REPOSITORY_NAME]
 
     def _create_modules(self, workspace, module_definitions):
@@ -383,14 +424,15 @@ class Objectifier:
         for module_definition in [m for m in module_definitions \
                 if m.nodeType == dom.Node.ELEMENT_NODE]:
             name = module_definition.getAttribute("name")
-            self.log.debug("Converting module definition '%s' into object form." % name)
+            #self.log.debug("Converting module definition '%s' into object form." % name)
             try:
                 repository = self._find_repository_for_module(workspace, module_definition)
                 module = _create_module(repository, module_definition)
                 module.repository.modules[module.name] = module
                 workspace.modules[module.name] = module
             except:
-                self.log.exception("Failed to convert module definition '%s' into object form." % name)
+                self.log.exception("%sFailed to convert module definition '%s' into object form.%s" % \
+                                   (ansicolor.Bright_Red, name, ansicolor.Black))
         
     def _find_module_for_project(self, workspace, project_definition):
         try:
@@ -401,7 +443,8 @@ class Objectifier:
         except:
             # If we can't find a module, then we're dealing with an installed
             # package
-            self.log.debug("It seems that the project '%s' is an installed package" % name)
+            self.log.warn("Could not find a corresponding module, so %sproject '%s' will be treated as an installed package%s" % \
+                          (ansicolor.Yellow, name, ansicolor.Black))
             return workspace.modules[DEFAULT_GUMP_LOCAL_MODULE_NAME]
 
     def _create_projects(self, workspace, project_definitions):
@@ -412,21 +455,22 @@ class Objectifier:
         for project_definition in project_definitions:
             name = project_definition.getAttribute("name")
             if not name:
-                self.log.error("Can't convert project definition because it does not have a name!")
+                self.log.error("%sCan't convert project definition because it does not have a name!%s" % \
+                               (ansicolor.Bright_Red, ansicolor.Black))
                 failures.append(project_definition)
                 continue
-            self.log.debug("Converting project definition '%s' into object form." % name)
+            #self.log.debug("Converting project definition '%s' into object form." % name)
             try:
                 module = self._find_module_for_project(workspace, project_definition)
-                project = _create_project(module, project_definition, self.workdir)
+                project = _create_project(module, project_definition)
                 project.module.projects[project.name] = project
-                self.log.debug("Adding %s to workspace project list" % project.name)
                 workspace.projects[project.name] = project
     
                 _create_commands(project, project_definition)
-                _create_outputs(project, project_definition, self.workdir)
+                _create_outputs(project, project_definition)
             except:
-                self.log.exception("Failed to convert project definition '%s' into object form." % name)
+                self.log.exception("%sFailed to convert project definition '%s' into object form.%s" % \
+                                   (ansicolor.Bright_Red, name, ansicolor.Black))
                 failures.append(project_definition)
         
         # wire up dependencies only after projects have been created
