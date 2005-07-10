@@ -39,9 +39,12 @@ from gump.model import Workspace, Repository, Module, Project, Script, Error
 class BuilderTestCase(MockTestCase):
     def test_do_script(self):
         basedir = abspath(mkdtemp())
+        plugin = False
+        w = None
         try:
-            w = Workspace("w", basedir)
-            mkdir(join(basedir,w.name))
+            wd = join(basedir,"w")
+            mkdir(wd)
+            w = Workspace("w", wd)
             r = Repository(w,"r")
             mkdir(join(basedir,w.name,r.name))
             m = Module(r,"m")

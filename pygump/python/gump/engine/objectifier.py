@@ -57,7 +57,13 @@ def _extract_path(project, element):
 ### Creation
 ###
 def _create_workspace(workspace_definition, workdir):
-    return Workspace(workspace_definition.getAttribute('name'), workdir)
+    name = workspace_definition.getAttribute('name')
+    assert isinstance(name, basestring)
+    
+    wd = os.path.join(workdir, name)
+    if not os.path.exists(wd):
+        os.makedirs(wd)
+    return Workspace(name, wd)
 
 
 def _create_repository(workspace, repository_definition):

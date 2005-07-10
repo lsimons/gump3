@@ -47,6 +47,10 @@ from gump.model import Jar
 from gump.model import Classdir
 
 class ModelTestCase(TestCase):
+    def setUp(self):
+        if not os.path.exists("bla"):
+            os.makedirs("bla")
+        
     def tearDown(self):
         if os.path.exists("bla"):
             import shutil

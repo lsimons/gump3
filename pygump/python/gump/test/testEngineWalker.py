@@ -40,6 +40,9 @@ class MockProject:
 
 class WalkerTestCase(MockTestCase):
     def setUp(self):
+        if not os.path.exists("bla"):
+            os.makedirs("bla")
+            
         self.log = self.mock()
         self.log.stubs().method("debug")
 

@@ -38,8 +38,9 @@ class DirBuilderTestCase(TestCase):
     def test_do_rmdir(self):
         basedir = abspath(mkdtemp())
         try:
-            w = Workspace("w", basedir)
-            mkdir(join(basedir,w.name))
+            wd = join(basedir,"w")
+            mkdir(wd)
+            w = Workspace("w", wd)
             r = Repository(w,"r")
             mkdir(join(basedir,w.name,r.name))
             m = Module(r,"m")
@@ -85,8 +86,9 @@ class DirBuilderTestCase(TestCase):
     def test_do_mkdir(self):
         basedir = abspath(mkdtemp())
         try:
-            w = Workspace("w", basedir)
-            mkdir(join(basedir,w.name))
+            wd = join(basedir,"w")
+            mkdir(wd)
+            w = Workspace("w", wd)
             r = Repository(w,"r")
             mkdir(join(basedir,w.name,r.name))
             m = Module(r,"m")

@@ -67,10 +67,7 @@ class Workspace(ModelObject):
     def __init__(self, name, workdir):
         assert isinstance(name, basestring)
         assert isinstance(workdir, basestring)
-        if not os.path.isdir(workdir):
-            if os.path.exists(workdir):
-                raise Error, "Workspace %s working directory '%s' can't be created because a file is in the way!" % (name, workdir)
-            os.makedirs(workdir)
+        assert os.path.isdir(workdir)
     
         self.name = name
         self.workdir = workdir

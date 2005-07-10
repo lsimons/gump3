@@ -51,7 +51,9 @@ def get_repository_directory(repository):
 
 def get_workspace_directory(workspace):
     """Determine the base directory for a workspace."""
-    return abspath(join(workspace.workdir,workspace.name))
+    # the below join() now happens in objectifier._create_workspace!
+    #return abspath(join(workspace.workdir,workspace.name))
+    return abspath(workspace.workdir)
 
 def mark_failure(model_element, cause):
     """Mark a model element as "failed"."""
