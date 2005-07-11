@@ -178,62 +178,136 @@ def _create_project(module, project_definition):
     return project
 
 
-def _create_commands(project, project_definition):
+def _create_commands(project, project_definition, log=None):
     _create_rmdir_commands(project, project_definition)
     _create_mkdir_commands(project, project_definition)
-    _create_script_commands(project, project_definition)
-    _create_ant_commands(project, project_definition)
+    _create_script_commands(project, project_definition, log=log)
+    _create_ant_commands(project, project_definition, log=log)
     #TODO more commands
 
+
+def _get_property(command, prop):
+    name = prop.getAttribute("name")
+    propvalue = None
+
+    value = prop.getAttribute("value")
+    project = prop.getAttribute("project")
+    reference = prop.getAttribute("reference")
+    path = prop.getAttribute("path")
+    id = prop.getAttribute("id")
+    
+    # The horrendous piece of logic below is dictated by
+    #   http://gump.apache.org/metadata/builder.html#property%2Farg
+    if not name:
+        raise Error, "Need to specify a name for property of command %s" % command
+    if project:
+        if value:
+            raise Error, "Can't specify both a value an a project for property %s of command %s" (name, command)
+        if reference and path:
+            raise Error, "Can't specify both a reference and a path for property %s of command %s" (name, command)
+        if not reference and not path:
+            raise Error, "Must specify either a reference or a path for property %s of command %s referencing project %s" (name, command, project)
+        if id and not (reference == "jar" or reference == "jarpath"):
+            raise Error, "Can't specify an id %s for property %s of command %s unless reference is 'jar', instead of '%s'" (id, name, command, reference)
+        
+        if not project in command.project.module.repository.workspace.projects.keys():
+            raise Error, "Can't reference non-existent project '%s' from property %s of command %s" (project, name, command)
+    #else:
+    #    if not value:
+    #        raise Error, "Must specify either a project or a value for property %s of command %s" (name, command)
+            
+    if project:
+        referenced_project = command.project.module.repository.workspace.projects[project]
+        
+        if not has_dependency_on(dependee=command.project, dependency=referenced_project):
+            raise Error, "Can't refer to project %s from property %s of command %s because that is not a declared dependency" % (referenced_project, name, command)
+        
+        if path:
+            propvalue = os.path.join(get_project_directory, path)
+        else:
+            if reference == "jar" or reference == "jarpath":
+                if id:
+                    for jar in [o for o in referenced_project.outputs if isinstance(o, Jar)]:
+                        if jar.id == id:
+                            propvalue = jar
+                    
+                    if not propvalue:
+                        raise Error, "Project %s does not export jar with id %s referenced in property %s of command %s" % (project, id, name, command)
+                else:
+                    jars = [o for o in referenced_project.outputs if isinstance(o, Jar)]
+                    if len(jars) > 1:
+                        raise Error, "Project %s exports more than one jar but property %s of command %s does not specify an id" % (project, name, command)
+                    if len(jars) < 1:
+                        raise Error, "Project %s exports does not export a jar but property %s of command %s tries to reference them" % (project, name, command)
+                    
+                    propvalue = jars[0]
+                
+                if reference == "jarpath":
+                    propvalue = get_jar_path(propvalue)
+                else:
+                    propvalue = jar.name
+            elif reference == "home":
+                propvalue = get_project_home_directory(referenced_project)
+            elif reference == "srcdir":
+                propvalue = get_project_directory(referenced_project)
+            else:
+                raise Error, "Command %s has a property %s with an unknown reference type of %s" % (command, name, reference)
+    else:
+        propvalue = value
+
+    return (name, propvalue)
+
 ENV_DELETION_MARKER="gumpobjectifierdeletethisvariableplease"
-def _create_env_vars(command, cmd):
+def _create_env_vars(command, cmd, log=None):
     env = {}
     for env in cmd.getElementsByTagName("env"):
-        envname = env.getAttribute("name")
-        envvalue = env.getAttribute("value")
-        if not envname:
-            continue
-        if envvalue:
-            command.env[envname] = envvalue
+        (name, value) = _get_property(command, env)
+        if log: log.debug("Environment variable %s = '%s' for command %s" % (name, value, command))
+        if value:
+            command.env[name] = value
         else:
-            if command.env.has_key(envname):
-                command.env.pop(envname)
+            if command.env.has_key(name):
+                command.env.pop(name)
 
 
-def _create_properties(command, cmd):
-    command.properties = {}
+def _create_properties(command, cmd, log=None):
+    properties = {}
     for prop in cmd.getElementsByTagName("property"):
-        propname = prop.getAttribute("name")
-        propvalue = prop.getAttribute("value")
-        if not propname or not propvalue:
-            continue
-        
-        command.properties[propname] = propvalue
+        (name, value) = _get_property(command, prop)
+        if log: log.debug("Property %s = '%s' for command %s" % (name, value, command))
+        properties[name] = value
+    command.properties = properties
                 
-                
-def _get_args(cmd):
+def _create_args(command, cmd, log=None):
     args = []
     for arg in cmd.getElementsByTagName("arg"):
-        argname = arg.getAttribute("name")
-        argvalue = arg.getAttribute("value")
-        if argname:
-            if argname.startswith("--"):
-                if argvalue:
-                    args.append("%s=%s" % (argname, argvalue))
+        (name, value) = _get_property(command, arg)
+        if log: log.debug("Argument %s = '%s' for command %s" % (name, value, command))
+        if name:
+            if name.startswith("--"):
+                if value:
+                    args.append("%s=%s" % (name, value))
                 else:
-                    args.append(argname)
-            elif argname.startswith("-"):
-                args.append(argname)
-                if argvalue:
-                    args.append(argvalue)
+                    args.append(name)
+            elif name.startswith("-"):
+                args.append(name)
+                if value:
+                    args.append(value)
             else:
-                args.append(argname)
-                if argvalue:
-                    args.append(argvalue)
+                args.append(name)
+                if value:
+                    args.append(value)
         else:
-            if argvalue:
-                args.append(argvalue)
-    return args
+            if value:
+                args.append(value)
+    command.args = args
+
+
+def _enable_debug(command, cmd):
+    if cmd.getAttribute("debug"):
+        command.debug = True
+    else:
+        command.debug = False
 
 
 def _create_rmdir_commands(project, project_definition):
@@ -250,27 +324,28 @@ def _create_mkdir_commands(project, project_definition):
         project.add_command(Mkdir(project, dir))
 
 
-def _create_script_commands(project, project_definition):
+def _create_script_commands(project, project_definition, log=None):
     scripts = project_definition.getElementsByTagName("script")
     for cmd in scripts:
         name = cmd.getAttribute("name")
         shell = cmd.getAttribute("shell")
         basedir = cmd.getAttribute("basedir")
-        args = _get_args(cmd)
-        command = Script(project, name, args, shell=shell, basedir=basedir)
-        _create_env_vars(command, cmd)
+        command = Script(project, name, shell=shell, basedir=basedir)
+        _create_args(command, cmd, log=log)
+        _create_env_vars(command, cmd, log=log)
         
         project.add_command(command)
 
 
-def _create_ant_commands(project, project_definition):
+def _create_ant_commands(project, project_definition, log=None):
     ants = project_definition.getElementsByTagName("ant")
     for cmd in ants:
         buildfile = cmd.getAttribute("buildfile")
         target = cmd.getAttribute("target")
         basedir = cmd.getAttribute("basedir")
-        command = Ant(project, target, buildfile, basedir=basedir)
-        _create_properties(command, cmd)
+        command = Ant(project, target, buildfile=buildfile, basedir=basedir)
+        _create_properties(command, cmd, log=log)
+        _enable_debug(command, cmd)
 
         project.add_command(command)
 
@@ -395,7 +470,7 @@ class Objectifier:
 
         self._create_repositories(workspace, _find_repository_definitions(root))
         self._create_modules(workspace, _find_module_definitions(root))
-        self._create_projects(workspace, _find_project_definitions(root))
+        self._create_projects(workspace, _find_project_definitions(root), log=self.log)
 
         return workspace
     
@@ -466,7 +541,7 @@ class Objectifier:
                           (ansicolor.Yellow, name, ansicolor.Black))
             return workspace.modules[DEFAULT_GUMP_LOCAL_MODULE_NAME]
 
-    def _create_projects(self, workspace, project_definitions):
+    def _create_projects(self, workspace, project_definitions, log=None):
         project_definitions = [p for p in project_definitions \
                 if p.nodeType == dom.Node.ELEMENT_NODE]
         failures = []
@@ -483,10 +558,9 @@ class Objectifier:
                 module = self._find_module_for_project(workspace, project_definition)
                 project = _create_project(module, project_definition)
                 project.module.projects[project.name] = project
-                workspace.projects[project.name] = project
-    
-                _create_commands(project, project_definition)
                 _create_outputs(project, project_definition)
+
+                workspace.projects[project.name] = project
             except:
                 self.log.exception("%sFailed to convert project definition '%s' into object form.%s" % \
                                    (ansicolor.Bright_Red, name, ansicolor.Black))
@@ -498,6 +572,8 @@ class Objectifier:
             try:
                 _create_dependencies(project_definition, workspace.projects)
             except:
+                failures.append(project_definition)
+                
                 from gump.model.util import mark_failure
                 from gump.engine.algorithm import ExceptionInfo
                 (type, value, traceback) = sys.exc_info()
@@ -507,3 +583,11 @@ class Objectifier:
                 #self.log.exception("Failed to set up dependencies for project %s" % name)
                 project = workspace.projects[name]
                 mark_failure(project, cause)
+                
+        # wire up properties only after dependencies are fully set up
+        for project_definition in [p for p in project_definitions \
+                if not p in failures]:
+            name = project_definition.getAttribute("name")
+            project = workspace.projects[name]
+            _create_commands(project, project_definition, log=log)
+

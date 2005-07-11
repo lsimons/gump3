@@ -125,12 +125,15 @@
         
         <!-- commands -->
         <script name="gump" shell="bash">
-            <arg name="" value="test"/>
+            <arg name="test"/>
             <env name="GUMP_HOME" value="."/>
             <env name="PYTHONPATH"/>
             <env name="GUMP_WORKDIR"/>
             <env name="GUMP_HOSTNAME"/>
+            <arg name="bla" reference="home" project="bootstrap-ant"/>
         </script> 
+        
+        <depend project="bootstrap-ant"/>
     </project>
     
     <project name="bootstrap-ant">
@@ -241,7 +244,6 @@
         
         <!-- commands -->
         <ant basedir="java" target="unbundledjar">
-             <!-- todo: support properties -->
              <property name="build.sysclasspath" value="last"/>
         </ant>
         

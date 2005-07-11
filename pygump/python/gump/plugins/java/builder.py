@@ -67,7 +67,7 @@ class AntPlugin(BuilderPlugin):
         args += ["org.apache.tools.ant.Main"]
         if ant.buildfile: args += ["-buildfile",ant.buildfile]
         if ant.target: args += [ant.target]
-        if self.debug: args += ["-debug"]
+        if self.debug or ant.debug: args += ["-debug"]
 
         for k,v in ant.properties.iteritems():
             args.append("-D%s=%s" % (k,v))

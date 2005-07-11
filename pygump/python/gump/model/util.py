@@ -23,7 +23,7 @@ from os.path import abspath
 from os.path import join
 import os
 
-from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, ExceptionInfo, Classdir, Jar, \
+from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, Project, ExceptionInfo, Classdir, Jar, \
      DEPENDENCY_INHERIT_ALL, DEPENDENCY_INHERIT_HARD, DEPENDENCY_INHERIT_JARS, DEPENDENCY_INHERIT_RUNTIME
 
 UPDATE_TYPE_CHECKOUT="checkout"
@@ -164,6 +164,7 @@ def check_module_update_failure(module):
     """Determine whether a module "update" "failed"."""
     return getattr(module, "update_exit_status", False)
 
+
 def store_exception(model_object, type, value, traceback):
     """Save exception information with a model element."""
     if not hasattr(model_object, 'exceptions'):
@@ -171,6 +172,17 @@ def store_exception(model_object, type, value, traceback):
     model_object.exceptions.append(ExceptionInfo(type, value, traceback))
 
         
+def has_dependency_on(dependee=None, dependency=None):
+    assert isinstance(dependee, Project)
+    assert isinstance(dependency, Project)
+    
+    for rel in dependee.dependencies:
+        if rel.dependency == dependency:
+            return True
+    
+    return False
+    
+
 def calculate_classpath(project, recurse=True, runtimeonly=False):
     """This ugly beast of a method looks at a project and its dependencies and
     builds a classpath and a bootclasspath based on its <work/> directives

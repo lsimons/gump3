@@ -557,9 +557,7 @@ class Script(Command):
         
         - all the properties a Command has
         - name -- the name of the script to run
-        - args -- a list of arguments to the command,
-                  where each element is a (name, value)
-                  tuple
+        - args -- a list of arguments to the command
         - basedir -- directory relative to project home in which to run
         - shell -- the shell in which to execute the script
     """
@@ -586,14 +584,24 @@ class Ant(Command):
         
         - all the properties a Command has
         - target -- the Ant target
+        - properties -- a dictionary of properties to pass on to ant
         - buildfile -- the Ant build file
         - basedir -- directory relative to project home in which to run
     """
-    def __init__(self, project, target, buildfile="build.xml",basedir=None):
+    def __init__(self, project, target, properties=None, buildfile="build.xml",basedir=None):
         assert isinstance(target, basestring)
         assert isinstance(buildfile, basestring)
             
         Command.__init__(self, project, basedir)
+        if properties != None:
+            assert isinstance(properties, dict)
+            for k,v in properties.iteritems():
+                assert isinstance(k, basestring)
+                assert isinstance(v, basestring)
+            self.properties = properties
+        else:
+            self.properties = {}
+
         self.target = target
         self.buildfile = buildfile
 
