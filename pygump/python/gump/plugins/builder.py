@@ -26,9 +26,10 @@ from tempfile import mkdtemp
 import shutil
 
 from gump.model import Script, Error, Project, Ant, Dependency
-from gump.model.util import get_project_directory
+from gump.model.util import get_project_directory, calculate_path
 from gump.plugins import AbstractPlugin
 from gump.util.executor import Popen, PIPE, STDOUT
+from gump.util import ansicolor
 
 #DEFAULT_SCRIPT_SHELL = "sh"
 if sys.platform == "win32":
@@ -118,12 +119,28 @@ class BuilderPlugin(AbstractPlugin):
         try: shutil.rmtree(self.tempdir)
         except: pass
 
+
+class PathPlugin(BuilderPlugin):
+    """Generate the PATH to be used with the specified command."""
+    def __init__(self, log, CommandClazz):
+        BuilderPlugin.__init__(self, log, CommandClazz, self.set_path)
+        
+    def set_path(self, project, command):
+        path = calculate_path(project)
+        command.path = path
+
+
 class ScriptBuilderPlugin(BuilderPlugin):
     """Execute all "script" commands for all projects."""
     def __init__(self, log):
         BuilderPlugin.__init__(self, log, Script, self._do_script)
         
     def _do_script(self, project, script):
+        # environment
+        script.env['PATH'] = script.path
+        self.log.debug("        PATH is '%s%s%s'" % \
+                       (ansicolor.Blue, script.env['PATH'], ansicolor.Black))
+        
         # working directory
         projectpath = get_project_directory(project)
         if script.basedir:

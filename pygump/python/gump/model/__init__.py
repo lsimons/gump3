@@ -666,4 +666,50 @@ class Jar(Output):
     def __str__(self):
         return "<Jar:%s,id=%s,add_to_bootclass_path=%s>" % (self.name, self.id, self.add_to_bootclass_path)
 
+class Path(Output):
+    """Model a directory containing things of use to other projects.
+
+    Has the following properties:
+
+        - all the properties an Output has
+        - name -- the path to the directory relative to the project its home
+                  directory.
+    """
+    def __init__(self, project, name, id=None):
+        assert isinstance(name, basestring)
+        Output.__init__(self, project, id)
+        self.name = name
+    
+    def __str__(self):
+        return "<Path:%s,id=%s>" % (self.name, self.id)
+
+class BinariesPath(Path):
+    """Model a directory containing scripts and/or binaries that can be run
+       by other projects..
+
+    Has the following properties:
+
+        - all the properties a Directory has
+    """
+    def __init__(self, project, name, id=None):
+        Path.__init__(self, project, name, id)
+    
+    def __str__(self):
+        return "<BinariesPath:%s,id=%s>" % (self.name, self.id)
+
+class IncludesPath(Path):
+    """Model a directory containing header files that can be linked against by
+       other projects.
+
+    Has the following properties:
+
+        - all the properties a Directory has
+    """
+    def __init__(self, project, name, id=None):
+        Path.__init__(self, project, name, id)
+    
+    def __str__(self):
+        return "<IncludesPath:%s,id=%s>" % (self.name, self.id)
+
+
 #TODO: more outputs

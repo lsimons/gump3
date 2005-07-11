@@ -105,6 +105,9 @@ def get_plugins(config):
         log.info("Not running updates! (pass --do-updates to enable them)")
         
     if config.do_build:
+        from gump.model import Ant
+        from gump.model import Script
+
         # by contract, rmdir always needs to go before mkdir!
         from gump.plugins.dirbuilder import RmdirBuilderPlugin
         plugins.append(RmdirBuilderPlugin())
@@ -113,10 +116,12 @@ def get_plugins(config):
     
         buildlog = get_logger(config, "plugin.builder")
     
+        from gump.plugins.builder import PathPlugin
+        plugins.append(PathPlugin(buildlog, Ant))
+        plugins.append(PathPlugin(buildlog, Script))
         from gump.plugins.builder import ScriptBuilderPlugin
         plugins.append(ScriptBuilderPlugin(buildlog))
         from gump.plugins.java.builder import ClasspathPlugin
-        from gump.model import Ant
         plugins.append(ClasspathPlugin(buildlog,Ant))
         from gump.plugins.java.builder import AntPlugin
         plugins.append(AntPlugin(buildlog))

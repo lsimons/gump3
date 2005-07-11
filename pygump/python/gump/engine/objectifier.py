@@ -351,21 +351,43 @@ def _create_ant_commands(project, project_definition, log=None):
 
 
 def _create_outputs(project, project_definition):    
-    # Working directories for this project (containing java classes)
+    _create_work_outputs(project, project_definition)
+    _create_jar_outputs(project, project_definition)
+    _create_binary_path_outputs(project, project_definition)
+    _create_includes_path_outputs(project, project_definition)
+    #TODO more outputs
+
+
+def _create_work_outputs(project, project_definition):
     works = project_definition.getElementsByTagName("work")
     for work in works:
         path = _extract_path(project, work)
         project.add_output(Classdir(project, path))
 
-    # Jars
+
+def _create_jar_outputs(project, project_definition):
     jars = project_definition.getElementsByTagName("jar")
     for jar in jars:
         name = jar.getAttribute("name")
         id = jar.getAttribute("id")
         add_to_bootclass_path = jar.getAttribute("type") == "boot"
         project.add_output(Jar(project, name, id, add_to_bootclass_path))
-    
-    #TODO more outputs
+
+
+def _create_binary_path_outputs(project, project_definition):
+    paths = project_definition.getElementsByTagName("path")
+    for path in paths:
+        name = path.getAttribute("name")
+        id = path.getAttribute("id")
+        project.add_output(BinariesPath(project, name, id=id))
+
+
+def _create_includes_path_outputs(project, project_definition):
+    paths = project_definition.getElementsByTagName("includes")
+    for path in paths:
+        name = path.getAttribute("name")
+        id = path.getAttribute("id")
+        project.add_output(IncludesPath(project, name, id=id))
 
 
 def _create_dependencies(project_definition, projectlist):

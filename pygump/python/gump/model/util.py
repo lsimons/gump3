@@ -23,7 +23,8 @@ from os.path import abspath
 from os.path import join
 import os
 
-from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, Project, ExceptionInfo, Classdir, Jar, \
+from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, Project, ExceptionInfo, BinariesPath, \
+     Classdir, Jar, \
      DEPENDENCY_INHERIT_ALL, DEPENDENCY_INHERIT_HARD, DEPENDENCY_INHERIT_JARS, DEPENDENCY_INHERIT_RUNTIME
 
 UPDATE_TYPE_CHECKOUT="checkout"
@@ -183,6 +184,23 @@ def has_dependency_on(dependee=None, dependency=None):
     return False
     
 
+def calculate_path(project):
+    """This method looks at a a project and builds a PATH based on the <path/>
+       directives of its dependencies."""
+    path = ""
+    for rel in project.dependencies:
+        for p in [output for output in rel.dependency.outputs if isinstance(output, BinariesPath)]:
+            path += os.path.join(get_project_directory(rel.dependency),p.name) + os.pathsep
+
+    if os.environ.has_key('PATH'):
+        path = path + os.environ['PATH']
+    else:
+        path = path[:-1] # get rid of ':'
+
+    return path     
+    
+
+
 def calculate_classpath(project, recurse=True, runtimeonly=False):
     """This ugly beast of a method looks at a project and its dependencies and
     builds a classpath and a bootclasspath based on its <work/> directives
@@ -212,7 +230,8 @@ def calculate_classpath(project, recurse=True, runtimeonly=False):
 
             filter_by_id = info.specific_output_ids and len(info.specific_output_ids) > 0
         
-            for output in [o for o in dependency.outputs if o not in visited_outputs]:
+            for output in [o for o in dependency.outputs if o not in visited_outputs
+                           and (isinstance(o, Jar) or isinstance(o, Classdir))]:
                 visited_outputs.append(o)
                 
                 # exclude unspecified outputs

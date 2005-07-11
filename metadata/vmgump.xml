@@ -120,6 +120,27 @@
 </modules>
 
 <projects>
+    <project name="jdk" path="jdk">
+        <!-- installed package -->
+        <!-- outputs -->
+        <path name="bin"/>
+        <includes name="include"/>
+        <jar name="lib/tools.jar" id="tools"/>
+    </project>
+
+    <project name="jaxp" path="jaxp-1_3-20050622-gump-20050710">
+        <!-- installed package -->
+        <!-- outputs -->
+        <jar name="jaxp-api.jar" id="jaxp-api" type="boot"/>
+        <jar name="dom.jar" id="dom" type="boot"/>
+        <jar name="sax.jar" id="sax" type="boot"/>
+        <jar name="xercesImpl.jar" id="xml-parser" type="boot"/>
+        <jar name="xalan.jar" id="xalan" type="boot"/>
+        
+        <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
+    </project>
+
     <project name="gump-unit-tests">
         <module name="gump"/>
         
@@ -130,10 +151,7 @@
             <env name="PYTHONPATH"/>
             <env name="GUMP_WORKDIR"/>
             <env name="GUMP_HOSTNAME"/>
-            <arg name="bla" reference="home" project="bootstrap-ant"/>
         </script> 
-        
-        <depend project="bootstrap-ant"/>
     </project>
     
     <project name="bootstrap-ant">
@@ -146,6 +164,9 @@
         <home nested="bootstrap"/>
         <jar name="lib/ant.jar"/>
         <jar name="lib/ant-launcher.jar" id="ant-launcher"/>
+
+        <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
     </project>
     
     <project name="ant">
@@ -155,6 +176,7 @@
         <ant/>
         
         <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
         <depend project="bootstrap-ant"/>
     </project>
 
@@ -169,6 +191,7 @@
         <jar name="xml-apis.jar" type="boot"/>
         
         <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
         <depend project="bootstrap-ant"/>
         <depend project="jaxp"/>
     </project>
@@ -184,6 +207,7 @@
         <jar name="which.jar" id="which"/>
         
         <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
         <depend project="xml-apis"/>
         <depend project="xml-xerces"/>
         <depend project="bootstrap-ant"/>
@@ -200,21 +224,12 @@
         <jar name="resolver.jar"/>
 
         <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
         <depend project="jaxp"/>
         <depend project="xml-apis"/>
         <depend project="bootstrap-ant" inherit="runtime"/>
     </project>
     
-    <project name="jaxp" path="jaxp-1_3-20050622-gump-20050710">
-        <!-- installed package -->
-        <!-- outputs -->
-        <jar name="jaxp-api.jar" id="jaxp-api" type="boot"/>
-        <jar name="dom.jar" id="dom" type="boot"/>
-        <jar name="sax.jar" id="sax" type="boot"/>
-        <jar name="xercesImpl.jar" id="xml-parser" type="boot"/>
-        <jar name="xalan.jar" id="xalan" type="boot"/>
-    </project>
-
     <project name="xml-xerces">
         <module name="xml-xerces"/>
         
@@ -226,6 +241,7 @@
         <jar name="xercesImpl.jar" id="xml-parser" type="boot"/>
         
         <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
         <depend project="bootstrap-ant"/>
         <depend project="xjavac"/>
         <depend project="xml-commons-resolver"/>
@@ -255,6 +271,7 @@
         <jar name="serializer.jar" id="serializer" type="boot"/>
         
         <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
         <depend project="bootstrap-ant"/>
         <depend project="xml-xerces"/>
         <depend project="java_cup" runtime="true"/>
@@ -278,6 +295,7 @@
         <jar name="serializer.jar" id="serializer" type="boot"/>
 
         <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
         <depend project="bootstrap-ant"/>
         <depend project="xml-xerces"/>
         <depend project="java_cup" runtime="true"/>
@@ -288,19 +306,27 @@
 
     <project name="java_cup">
         <module name="xml-xalan"/>
+        <!-- per-module installed package -->
         
         <!-- outputs -->
         <home nested="java"/>
         <jar name="bin/java_cup.jar"/>
         <jar name="bin/runtime.jar"/>
+        
+        <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
     </project>
 
     <project name="jlex">
         <module name="xml-xalan"/>
+        <!-- per-module installed package -->
         
         <!-- outputs -->
         <home nested="java"/>
         <jar name="bin/JLex.jar"/>
+
+        <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
     </project>
     
     <project name="bcel">
@@ -313,6 +339,7 @@
         <jar name="bin/bcel.jar"/>
 
         <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
         <depend project="bootstrap-ant" inherit="runtime"/>
         <depend project="xml-apis"/>
         <depend project="xml-xerces"/>
@@ -333,6 +360,7 @@
         <jar name="jakarta-regexp-1.4-dev.jar" id="regexp"/>
         
         <!-- dependencies -->
+        <depend project="jdk" runtime="true"/>
         <depend project="bootstrap-ant" inherit="runtime"/>
         <depend project="xml-apis"/>
         <depend project="xml-xerces"/>

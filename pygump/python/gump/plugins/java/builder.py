@@ -49,9 +49,13 @@ class AntPlugin(BuilderPlugin):
         
     def _do_ant(self, project, ant):                
         # environment
-        self.log.debug("        CLASSPATH is '%s%s%s'" % \
-                       (ansicolor.Blue, ":".join(ant.classpath), ansicolor.Black))
         ant.env['CLASSPATH'] = os.pathsep.join(ant.classpath)
+        self.log.debug("        CLASSPATH is '%s%s%s'" % \
+                       (ansicolor.Blue, ant.env['CLASSPATH'], ansicolor.Black))
+
+        ant.env['PATH'] = ant.path
+        self.log.debug("        PATH is '%s%s%s'" % \
+                       (ansicolor.Blue, ant.env['PATH'], ansicolor.Black))
         
         # working directory
         projectpath = get_project_directory(project)
@@ -59,7 +63,7 @@ class AntPlugin(BuilderPlugin):
             projectpath = os.path.join(projectpath, ant.basedir)
         
         # command line
-        args = [join(ant.env["JAVA_HOME"], "bin", "java")]
+        args = ["java"]
         
         if ant.boot_classpath and len(ant.boot_classpath) > 0:
             args.append('-Xbootclasspath/p:' + ':'.join(ant.boot_classpath))
