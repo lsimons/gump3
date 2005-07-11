@@ -158,7 +158,7 @@ class ResultLogReporterPlugin(AbstractPlugin):
             self.wr('      Total | %sFailed%s | %sPrereq Failed%s | %sSkipped%s | %sSuccess%s | %sCyclic Dependency%s' % \
                     (ansicolor.Red, ansicolor.Black,
                      ansicolor.Yellow, ansicolor.Black,
-                     ansicolor.Yellow, ansicolor.Black,
+                     ansicolor.Blue, ansicolor.Black,
                      ansicolor.Green, ansicolor.Black,
                      ansicolor.Bright_Red,
                      ansicolor.Black))
@@ -166,14 +166,14 @@ class ResultLogReporterPlugin(AbstractPlugin):
             self.wr('      %5u | %s%6u%s | %s%13u%s | %s%7u%s | %s%7u%s | %s%17u%s' % (total,
                      ansicolor.Red, failed, ansicolor.Black, 
                      ansicolor.Yellow, prereq_failed, ansicolor.Black,
-                     ansicolor.Yellow, skipped, ansicolor.Black, 
+                     ansicolor.Blue, skipped, ansicolor.Black, 
                      ansicolor.Green, success, ansicolor.Black, 
                      ansicolor.Bright_Red, cycled,
                      ansicolor.Black))
             self.wr('     %5.0f%% |%s%6.1f%%%s |%s%13.1f%%%s |%s%7.1f%%%s |%s%7.1f%%%s |%s%17.1f%%%s' % (total_percent,
                      ansicolor.Red, failed_percent, ansicolor.Black, 
                      ansicolor.Yellow, prereq_failed_percent, ansicolor.Black,
-                     ansicolor.Yellow, skipped_percent, ansicolor.Black, 
+                     ansicolor.Blue, skipped_percent, ansicolor.Black, 
                      ansicolor.Green, success_percent, ansicolor.Black, 
                      ansicolor.Bright_Red, cycled_percent,
                      ansicolor.Black))
@@ -201,7 +201,7 @@ class ResultLogReporterPlugin(AbstractPlugin):
             if len(causes) > 0:
                 cause = causes[0]
                 if isinstance(cause, Dependency) or isinstance(cause, Project) or isinstance(cause, Module):
-                    firsterror = '  %s%s: SKIPPED%s' % (ansicolor.Yellow, project, ansicolor.Black+ansicolor.Black)
+                    firsterror = '  %s%s: PREREQ FAILURE%s' % (ansicolor.Yellow, project, ansicolor.Black+ansicolor.Black)
             self.wr(firsterror)
             
             for cause in causes:
