@@ -196,7 +196,7 @@ def get_at_variable_dictionary(config):
     
     dictionary = {}
     dictionary["GUMP_VERSION"] = config.version
-    dictionary["DATE"] = time.strftime("%Y%m%d%h%M")
+    dictionary["DATE"] = time.strftime("%Y%m%d%H%M")
     
     return dictionary
 

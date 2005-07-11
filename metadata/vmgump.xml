@@ -322,12 +322,12 @@
         
         <!-- commands -->
         <ant target="jar">
-            <!-- TODO <property name="version" value="@@DATE@@"/>-->
+            <property name="version" value="@@DATE@@"/>
         </ant>
         
         <!-- ouputs -->
         <home nested="build"/>
-        <!-- TODO <jar name="jakarta-regexp-@@DATE@@.jar" id="regexp"/>-->
+        <jar name="jakarta-regexp-@@DATE@@.jar" id="regexp"/>
         <jar name="jakarta-regexp-1.4-dev.jar" id="regexp"/>
         
         <!-- dependencies -->

@@ -68,9 +68,9 @@ class AntPlugin(BuilderPlugin):
         if ant.buildfile: args += ["-buildfile",ant.buildfile]
         if ant.target: args += [ant.target]
         if self.debug: args += ["-debug"]
-        
-        # TODO properties
-        # TODO parse @@DATE@@ from properties
+
+        for k,v in ant.properties.iteritems():
+            args.append("-D%s=%s" % (k,v))
         
         # run it
         #

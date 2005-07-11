@@ -200,6 +200,17 @@ def _create_env_vars(command, cmd):
                 command.env.pop(envname)
 
 
+def _create_properties(command, cmd):
+    command.properties = {}
+    for prop in cmd.getElementsByTagName("property"):
+        propname = prop.getAttribute("name")
+        propvalue = prop.getAttribute("value")
+        if not propname or not propvalue:
+            continue
+        
+        command.properties[propname] = propvalue
+                
+                
 def _get_args(cmd):
     args = []
     for arg in cmd.getElementsByTagName("arg"):
@@ -258,8 +269,10 @@ def _create_ant_commands(project, project_definition):
         buildfile = cmd.getAttribute("buildfile")
         target = cmd.getAttribute("target")
         basedir = cmd.getAttribute("basedir")
-            
-        project.add_command(Ant(project, target, buildfile, basedir=basedir))
+        command = Ant(project, target, buildfile, basedir=basedir)
+        _create_properties(command, cmd)
+
+        project.add_command(command)
 
 
 def _create_outputs(project, project_definition):    
