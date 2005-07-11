@@ -31,23 +31,23 @@ UPDATE_TYPE_UPDATE="update"
 
 def get_jar_path(jar):
     """Determine the path to a Jar."""
-    return join(get_project_home_directory(jar.project),jar.name)
+    return abspath(join(get_project_home_directory(jar.project),jar.name))
 
 def get_project_home_directory(project):
     """Determine the home directory for a project."""
-    return join(get_project_directory(project),project.homedir)
+    return abspath(join(get_project_directory(project),project.homedir))
 
 def get_project_directory(project):
     """Determine the base directory for a project."""
-    return join(get_module_directory(project.module),project.path)
+    return abspath(join(get_module_directory(project.module),project.path))
 
 def get_module_directory(module):
     """Determine the base directory for a module."""
-    return join(get_repository_directory(module.repository),module.name)
+    return abspath(join(get_repository_directory(module.repository),module.name))
 
 def get_repository_directory(repository):
     """Determine the base directory for a repository."""
-    return join(get_workspace_directory(repository.workspace),repository.name)
+    return abspath(join(get_workspace_directory(repository.workspace),repository.name))
 
 def get_workspace_directory(workspace):
     """Determine the base directory for a workspace."""
