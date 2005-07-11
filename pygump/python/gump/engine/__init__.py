@@ -49,6 +49,7 @@ from gump.config import get_vfs
 from gump.config import get_engine_walker
 from gump.config import get_engine_loader
 from gump.config import get_engine_normalizer
+from gump.config import get_engine_at_parser
 from gump.config import get_engine_objectifier
 from gump.config import get_engine_verifier
 from gump.config import get_dom_implementation
@@ -108,6 +109,7 @@ def main(settings):
     engine_log = get_logger(config, _ENGINE_HELPER_LOGGER_NAME)
     engine_loader = get_engine_loader(engine_log, vfs)
     engine_normalizer = get_engine_normalizer(engine_log)
+    engine_at_parser = get_engine_at_parser(config)
     engine_objectifier = get_engine_objectifier(config, engine_log)
     engine_verifier = get_engine_verifier(config, engine_walker)
     
@@ -118,7 +120,7 @@ def main(settings):
     (pre_process_visitor, visitor, post_process_visitor) = get_plugin(config)
     
     # create engine
-    engine = _Engine(log, engine_loader, engine_normalizer,
+    engine = _Engine(log, engine_loader, engine_normalizer, engine_at_parser,
                      engine_objectifier, engine_verifier, engine_walker,
                      dom_implementation,
                      pre_process_visitor, visitor, post_process_visitor,
@@ -222,6 +224,7 @@ class _Engine:
     xml into an object model and let loose plugins on that model."""
     
     def __init__(self, log, workspace_loader, workspace_normalizer,
+                 workspace_at_parser,
                  workspace_objectifier, workspace_verifier, walker,
                  dom_implementation,
                  pre_process_visitor, visitor, post_process_visitor,
@@ -234,6 +237,8 @@ class _Engine:
             - workspace_loader -- the component providing the dom tree.
             - workspace_normalizer -- the component transforming the dom tree
                 into a standard format
+            - workspace_at_parser -- the component transforming the dom tree
+                replacing all the '@@VARIABLE@@' strings
             - workspace_objectifier -- the component transforming the dom into
                 object form
             - workspace_verifier -- the component making sure the object model
@@ -261,6 +266,8 @@ class _Engine:
         assert callable(workspace_loader.get_workspace_tree)
         assert hasattr(workspace_normalizer, "normalize")
         assert callable(workspace_normalizer.normalize)
+        assert hasattr(workspace_at_parser, "parse")
+        assert callable(workspace_at_parser.parse)
         assert hasattr(workspace_objectifier, "get_workspace")
         assert callable(workspace_objectifier.get_workspace)
         assert hasattr(workspace_verifier, "verify")
@@ -274,6 +281,7 @@ class _Engine:
         self.log = log
         self.workspace_loader = workspace_loader
         self.workspace_normalizer = workspace_normalizer
+        self.workspace_at_parser = workspace_at_parser
         self.workspace_objectifier = workspace_objectifier
         self.workspace_verifier = workspace_verifier
         self.walker = walker
@@ -297,6 +305,9 @@ class _Engine:
             
             # * clean it up and structure it properly
             domtree = self.workspace_normalizer.normalize(domtree)
+            
+            # * replace @@VARIABLE@@ sequences
+            domtree = self.workspace_at_parser.parse(domtree)
             
             # * write the merged, normalized tree out to a new xml file
             self._write_merge_files(domtree, dropped_nodes)

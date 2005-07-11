@@ -19,6 +19,21 @@
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
+# DEVELOPMENT NOTES:
+# The gump.model package is supposed to be completely "passive", eg
+# instantiating or modifying any of the classes in this package should be
+# completely free of "side effects" such as database calls or directory
+# creation.
+#
+# These side effects should be dealt with in other parts of the codebase, such
+# as the gump.engine or the gump.plugins.
+#
+# In addition, the gump.model package is supposed to be devoid of any "logic"
+# that goes above and beyond simple model integrity validation (eg basic
+# assert statements for validating arguments).
+#
+# Model-related logic should go into gump.model.util.
+
 import os
         
 class Error(Exception):

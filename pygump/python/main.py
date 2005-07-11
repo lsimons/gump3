@@ -176,6 +176,22 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       dest="attach_wing",
                       default=False,
                       help="Run within the Wing IDE Debugger")
+    parser.add_option("--local-repository-name",
+                      action="store",
+                      dest="local_repository_name",
+                      default=None,
+                      help="Repository name for 'installed packages'")
+    parser.add_option("--local-module-name",
+                      action="store",
+                      dest="local_module_name",
+                      default=None,
+                      help="Module name for 'installed packages'")
+                      
+    parser.add_option("-p",
+                      "--project",
+                      action="append",
+                      dest="project_name",
+                      help="Specify a regular expression specifying project(s) to be updated&built\n           Can be provided multiple times.")
                       
     return parser
 
@@ -461,6 +477,7 @@ def main():
             sys.exit(2)
         
         # Copy over the dbstub if it isn't there already
+        wingdbstubpath = None
         try:
             wingdbstubpath = os.path.join(options.homedir,"pygump","python","wingdbstub.py")
             if not os.path.isfile(wingdbstubpath):
@@ -500,9 +517,6 @@ def main():
         log.debug('      %s' % (sys.argv))
     
         # validate options and arguments
-        if not hasattr(options, "projects"):
-            log.debug("No projects to build set, defaulting to 'all'")
-            options.projects = ["all"]
         if not os.path.exists(options.paths_workspace):
             abspath = os.path.join(options.paths_home, options.paths_workspace)
             if os.path.exists(abspath):

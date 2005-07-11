@@ -120,6 +120,7 @@ def get_plugins(config):
         plugins.append(ClasspathPlugin(buildlog,Ant))
         from gump.plugins.java.builder import AntPlugin
         plugins.append(AntPlugin(buildlog))
+        #plugins.append(AntPlugin(buildlog, debug=True))
     else:
         log.info("Not running builds! (pass --do-builds to enable them)")
      
@@ -188,6 +189,16 @@ def get_error_handler(config):
     from gump.engine.algorithm import OptimisticLoggingErrorHandler
     log = get_logger(config, "plugin.error-handler")
     return OptimisticLoggingErrorHandler(log)
+
+
+def get_at_variable_dictionary(config):
+    import time
+    
+    dictionary = {}
+    dictionary["GUMP_VERSION"] = config.version
+    dictionary["DATE"] = time.strftime("%Y%m%d%h%M")
+    
+    return dictionary
 
 ###
 ### Changing anything below this line is for advanced gump hackers only!
@@ -268,6 +279,13 @@ def get_engine_normalizer(log):
     return Normalizer(log)
 
 
+def get_engine_at_parser(config):
+    """Provide a AtParser implementation."""
+    from gump.engine.at_parser import AtParser
+    
+    return AtParser(get_at_variable_dictionary(config))
+
+
 def get_engine_objectifier(config, log):
     """Provide a Objectifier implementation."""
     from gump.engine.objectifier import Objectifier
@@ -304,9 +322,13 @@ def get_plugin(config):
     (pre_process_plugins, plugins, post_process_plugins) = get_plugins(config)
     error_handler = get_error_handler(config)
     
+    if getattr(config, "project_name", False):
+        mainalgorithm = MoreEfficientAlgorithm(plugins, error_handler, project_list=config.project_name)
+    else:
+        mainalgorithm = MoreEfficientAlgorithm(plugins, error_handler)
+    
     return (DumbAlgorithm(pre_process_plugins, error_handler),
-            MoreEfficientAlgorithm(plugins, error_handler),
-            #DumbAlgorithm(plugins, error_handler),
+            mainalgorithm, #DumbAlgorithm(plugins, error_handler)
             DumbAlgorithm(post_process_plugins, error_handler))
 
 #
@@ -330,3 +352,11 @@ def run_config_hooks(config):
     # this will make Popen log all invocations
     import gump.util.executor
     gump.util.executor._log = get_logger(config, "util.executor")
+    
+    # set up gump.engine.objectifier module
+    # this will change where we look for installed packages
+    import gump.engine.objectifier
+    if config.local_repository_name:
+        gump.engine.objectifier.DEFAULT_GUMP_LOCAL_REPOSITORY_NAME = config.local_repository_name
+    if config.local_module_name:
+        gump.engine.objectifier.DEFAULT_GUMP_LOCAL_MODULE_NAME = config.local_module_name

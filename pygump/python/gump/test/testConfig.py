@@ -100,6 +100,8 @@ class ConfigTestCase(MockTestCase):
         class MockConfig:
             debug = False
             quiet = False
+            local_repository_name = False
+            local_module_name = False
         
         mock = MockConfig()
         run_config_hooks(mock)
@@ -108,6 +110,12 @@ class ConfigTestCase(MockTestCase):
         run_config_hooks(mock)
         
         mock.debug = True
+        run_config_hooks(mock)
+        
+        mock.local_repository_name = "test"
+        run_config_hooks(mock)
+        
+        mock.local_module_name = "test"
         run_config_hooks(mock)
 
     def test_get_config(self):

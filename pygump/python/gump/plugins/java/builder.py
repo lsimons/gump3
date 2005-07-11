@@ -69,6 +69,18 @@ class AntPlugin(BuilderPlugin):
         if ant.target: args += [ant.target]
         if self.debug: args += ["-debug"]
         
+        # TODO properties
+        # TODO parse @@DATE@@ from properties
+        
         # run it
-        self._do_run_command(ant, args, projectpath)
+        #
+        # Setting the process group id (os.setpgrp()) as we do in
+        # gump.util.executor sometimes causes a deadlock problem when ant
+        # is forking off new java processes. This is because of problems with
+        # Runtime.exec() (there are a few it seems, for example
+        #   http://bugs.sun.com/bugdatabase/view_bug.do;:YfiG?bug_id=4052517)
+        # Our (rather insane!) workaround is to not set the process group id,
+        # which means our "get rid of all children" algorithm is disabled for
+        # all ant-based builds.
+        self._do_run_command(ant, args, projectpath, no_cleanup=True)
         

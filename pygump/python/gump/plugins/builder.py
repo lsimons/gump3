@@ -64,7 +64,7 @@ class BuilderPlugin(AbstractPlugin):
             self.log.debug("Perform %s on %s" % (command, project))
             self.method(project, command)
     
-    def _do_run_command(self, command, args, workdir, shell=False):
+    def _do_run_command(self, command, args, workdir, shell=False, no_cleanup=False):
         """Utility method for actually executing commands and storing their
            results within the model.
         
@@ -74,6 +74,9 @@ class BuilderPlugin(AbstractPlugin):
           - args    -- the action to take (including, for example, a script
                        name)
         """
+        # see gump.plugins.java.builder.AntPlugin for information on the
+        # no_cleanup flag
+        
         # running subprocess.Popen with shell=True results in "sh -c", which is
         # not what we want, since our shell=True indicates we're actually running
         # a shell script, and potentially using a different shell!
@@ -94,13 +97,15 @@ class BuilderPlugin(AbstractPlugin):
         outputfile = None
         try:
             outputfile = open(outputfilename,'wb')
-            cmd = Popen(myargs,shell=False,cwd=workdir,stdout=outputfile,stderr=STDOUT,env=command.env)
+            cmd = Popen(myargs,shell=False,cwd=workdir,stdout=outputfile,stderr=STDOUT,env=command.env, no_cleanup=no_cleanup)
             #command.build_log = cmd.communicate()[0]
             command.build_exit_status = cmd.wait()
 
             outputfile.close()
             outputfile = open(outputfilename,'rb')
-            command.build_log = outputfile.read()
+            # we need to avoid Unicode errors when people put in 'fancy characters'
+            # into build outputs
+            command.build_log = unicode(outputfile.read(), 'iso-8859-1')
         finally:
             if outputfile:
                 try: outputfile.close()

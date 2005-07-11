@@ -34,7 +34,6 @@
     <repository name="gump" type="svn">
         <title>Gump</title>
         <home-page>http://gump.apache.org/</home-page>
-        <web>http://cvs.apache.org/viewcvs.cgi/gump/?root=Apache-SVN</web>
         <url>http://svn.apache.org/repos/asf/gump/branches/Gump3</url>
         <redistributable/>
     </repository>
@@ -50,6 +49,14 @@
         <path>/home/cvspublic</path>
         <user>anoncvs</user>
         <password>anoncvs</password>
+    </repository>
+
+    <repository name="jakarta-svn" type="svn">
+        <title>Apache Jakarta</title>
+        <home-page>http://jakarta.apache.org</home-page>
+        <cvsweb>http://cvs.apache.org/viewcvs.cgi/jakarta/?root=Apache-SVN</cvsweb>
+        <url>http://svn.apache.org/repos/asf/jakarta</url>
+        <redistributable/>
     </repository>
 </repositories>
     
@@ -95,6 +102,20 @@
         <url href="http://xml.apache.org/xalan-j/index.html"/>
         <description>Release 2.x of the Xalan-Java XSLT processor</description>
 
+    </module>
+
+    <module name="jakarta-bcel" path="bcel/trunk">
+        <repository name="jakarta-svn"/>
+
+        <url href="http://jakarta.apache.org/bcel"/>
+        <description>Byte Code Engineering Library</description>
+    </module>
+
+    <module name="jakarta-regexp" path="regexp/trunk">
+        <repository name="jakarta-svn"/>
+
+        <url href="http://jakarta.apache.org/regexp/index.html"/>
+        <description>Java Regular Expression package</description>
     </module>
 </modules>
 
@@ -160,16 +181,12 @@
         <jar name="which.jar" id="which"/>
         
         <!-- dependencies -->
+        <depend project="xml-apis"/>
         <depend project="xml-xerces"/>
         <depend project="bootstrap-ant"/>
     </project>
 
     <project name="xml-commons-resolver">
-        <module name="xml-commons"/>
-        <depend project="xml-resolver" inherit="jars"/>
-    </project>
-
-    <project name="xml-resolver">
         <module name="xml-commons"/>
 
         <!-- commands -->
@@ -185,8 +202,14 @@
         <depend project="bootstrap-ant" inherit="runtime"/>
     </project>
     
-    <project name="jaxp">
-        <!-- assumed to be provided by JDK -->
+    <project name="jaxp" path="jaxp-1_3-20050622-gump-20050710">
+        <!-- installed package -->
+        <!-- outputs -->
+        <jar name="jaxp-api.jar" id="jaxp-api" type="boot"/>
+        <jar name="dom.jar" id="dom" type="boot"/>
+        <jar name="sax.jar" id="sax" type="boot"/>
+        <jar name="xercesImpl.jar" id="xml-parser" type="boot"/>
+        <jar name="xalan.jar" id="xalan" type="boot"/>
     </project>
 
     <project name="xml-xerces">
@@ -203,18 +226,6 @@
         <depend project="bootstrap-ant"/>
         <depend project="xjavac"/>
         <depend project="xml-commons-resolver"/>
-        <option project="jaxp" ids="jaxp-api dom sax"/>
-    </project>
-    
-    <project name="xml-xercesImpl">
-        <module name="xml-xerces"/>
-
-        <!-- outputs -->
-        <home nested="java/build"/>
-        <jar name="xercesImpl.jar" id="xercesImpl"/>
-
-        <!-- dependencies -->
-        <depend project="xml-xerces"/>
     </project>
     
     <project name="xjavac">
@@ -226,7 +237,7 @@
     </project>
 
     <project name="xalan">
-        <module name="xml"/>
+        <module name="xml-xalan"/>
         
         <!-- commands -->
         <ant basedir="java" target="unbundledjar">
@@ -252,6 +263,8 @@
     </project>
 
     <project name="xsltc">
+        <module name="xml-xalan"/>
+        
         <!-- commands -->
         <ant basedir="java" target="xsltc.unbundledjar"/>
 
@@ -272,6 +285,8 @@
     </project>
 
     <project name="java_cup">
+        <module name="xml-xalan"/>
+        
         <!-- outputs -->
         <home nested="java"/>
         <jar name="bin/java_cup.jar"/>
@@ -279,9 +294,47 @@
     </project>
 
     <project name="jlex">
+        <module name="xml-xalan"/>
+        
         <!-- outputs -->
         <home nested="java"/>
         <jar name="bin/JLex.jar"/>
     </project>
+    
+    <project name="bcel">
+        <module name="jakarta-bcel"/>
+        
+        <!-- commands -->
+        <ant/>
+
+        <!-- outputs -->
+        <jar name="bin/bcel.jar"/>
+
+        <!-- dependencies -->
+        <depend project="bootstrap-ant" inherit="runtime"/>
+        <depend project="xml-apis"/>
+        <depend project="xml-xerces"/>
+        <depend project="jakarta-regexp" runtime="true"/>
+    </project>
+
+    <project name="jakarta-regexp">
+        <module name="jakarta-regexp"/>
+        
+        <!-- commands -->
+        <ant target="jar">
+            <!-- TODO <property name="version" value="@@DATE@@"/>-->
+        </ant>
+        
+        <!-- ouputs -->
+        <home nested="build"/>
+        <!-- TODO <jar name="jakarta-regexp-@@DATE@@.jar" id="regexp"/>-->
+        <jar name="jakarta-regexp-1.4-dev.jar" id="regexp"/>
+        
+        <!-- dependencies -->
+        <depend project="bootstrap-ant" inherit="runtime"/>
+        <depend project="xml-apis"/>
+        <depend project="xml-xerces"/>
+  </project>
+
 </projects>
 </workspace>

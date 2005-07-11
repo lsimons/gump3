@@ -48,8 +48,25 @@ _log = None
 if sys.platform == "win32":
     from subprocess import PIPE
     from subprocess import STDOUT
-    from subprocess import Popen
+    import subprocess
     
+    class Popen(subprocess.Popen):
+        """This is a thin wrapper around subprocess.Popen which does fancy logging."""
+        def __init__(self, args, bufsize=0, executable=None,
+                     stdin=None, stdout=None, stderr=None,
+                     preexec_fn=None, close_fds=False, shell=False,
+                     cwd=None, env=None, universal_newlines=False,
+                     startupinfo=None, creationflags=0, no_cleanup=False):
+            # a logger can be set for this module to make us log commands
+            if _log:
+                _log.info("        Executing command:\n      %s'%s'%s\n       in directory '%s'" % (ansicolor.Blue, " ".join(args), ansicolor.Black, os.path.abspath(cwd or os.curdir)))
+
+            subprocess.Popen.__init__(self, args, bufsize=bufsize, executable=executable,
+                         stdin=stdin, stdout=stdout, stderr=stderr,
+                         preexec_fn=preexec_fn, close_fds=close_fds, shell=shell,
+                         cwd=cwd, env=env, universal_newlines=universal_newlines,
+                         startupinfo=startupinfo, creationflags=creationflags)
+
     def clean_up_processes(timeout):
         """This function can be called prior to program exit to attempt to
         kill all our running children that were created using this module.
@@ -62,41 +79,27 @@ else:
     import subprocess
     import signal
     import errno
+    import tempfile
     from subprocess import PIPE
     from subprocess import STDOUT
 
-    def _get_new_process_group():
-        """Get us an unused (or so we hope) process group."""
-        pid = os.fork()
-        gid = pid # that *should* be correct. However, let's actually
-                  # create something in that group.
-        if pid == 0:
-            # Child
-            
-            # ensure a process group is created
-            os.setpgrp()
-            
-            # sleep for ten days to keep the process group around
-            # for "a while"
-            import time
-            time.sleep(10*24*60*60)
-            os._exit(0)
-        else:
-            # Parent
-    
-            # wait for child a little so it can set its group
-            import time
-            time.sleep(1)
-            
-            # get the gid for the child
-            gid = os.getpgid(pid)
-        
-        return gid
+    temp_dir = tempfile.mkdtemp("gump_util_executor")
+    process_list_filename = os.path.join(temp_dir, "processlist.pids")
 
-    # This is the group we chuck our children in. We don't just want to
-    # use our own group since we don't want to kill ourselves prematurely!
-    _our_process_group = _get_new_process_group()
-
+    def savepgid(filename):
+        """Function called from Popen child process to create new process groups."""
+        os.setpgrp()
+        f = None
+        try:
+            grp = os.getpgrp()
+            f = open(filename,'a+')
+            f.write("%d" % grp)
+            f.write('\n')
+        finally:
+            if f:
+                try: f.close()
+                except: pass
+            
     class Popen(subprocess.Popen):
         """This is a thin wrapper around subprocess.Popen which handles
         process group management. The gump.util.executor.clean_up_processes()
@@ -106,35 +109,67 @@ else:
                      stdin=None, stdout=None, stderr=None,
                      preexec_fn=None, close_fds=False, shell=False,
                      cwd=None, env=None, universal_newlines=False,
-                     startupinfo=None, creationflags=0):
-            """Create a new Popen instance that delegates to the
-            subprocess Popen."""
-            if not preexec_fn:
-                # setpgid to the gump process group inside the child
-                pre_exec_function = lambda: os.setpgid(0, _our_process_group)
-            else:
-                # The below has a "stupid lambda trick" that makes the lambda
-                # evaluate a tuple of functions. This sticks our own function
-                # call in there while still supporting the originally provided
-                # function
-                pre_exec_function = lambda: (preexec_fn(),os.setpgid(0, _our_process_group))
-            
+                     startupinfo=None, creationflags=0, no_cleanup=False):
+            # see gump.plugins.java.builder.AntPlugin for information on the
+            # no_cleanup flag
+
             # a logger can be set for this module to make us log commands
             if _log:
                 _log.info("        Executing command:\n      %s'%s'%s\n       in directory '%s'" % (ansicolor.Blue, " ".join(args), ansicolor.Black, os.path.abspath(cwd or os.curdir)))
-            
-            subprocess.Popen.__init__(self, args, bufsize=bufsize, executable=executable,
-                     stdin=stdin, stdout=stdout, stderr=stderr,
-                     # note our custom function in there...
-                     preexec_fn=pre_exec_function, close_fds=close_fds, shell=shell,
-                     cwd=cwd, env=env, universal_newlines=universal_newlines,
-                     startupinfo=startupinfo, creationflags=creationflags)
+
+            if not no_cleanup:
+                global process_list_filename
+                """Create a new Popen instance that delegates to the
+                subprocess Popen."""
+                if not preexec_fn:
+                    # setpgid to the gump process group inside the child
+                    pre_exec_function = lambda: savepgid(process_list_filename)
+                else:
+                    # The below has a "stupid lambda trick" that makes the lambda
+                    # evaluate a tuple of functions. This sticks our own function
+                    # call in there while still supporting the originally provided
+                    # function
+                    pre_exec_function = lambda: (preexec_fn(),savepgid(process_list_filename))
+                
+                
+                subprocess.Popen.__init__(self, args, bufsize=bufsize, executable=executable,
+                         stdin=stdin, stdout=stdout, stderr=stderr,
+                         # note our custom function in there...
+                         preexec_fn=pre_exec_function, close_fds=close_fds, shell=shell,
+                         cwd=cwd, env=env, universal_newlines=universal_newlines,
+                         startupinfo=startupinfo, creationflags=creationflags)
+            else:
+                subprocess.Popen.__init__(self, args, bufsize=bufsize, executable=executable,
+                         stdin=stdin, stdout=stdout, stderr=stderr,
+                         # note our custom function is *not* in there...
+                         preexec_fn=preexec_fn, close_fds=close_fds, shell=shell,
+                         cwd=cwd, env=env, universal_newlines=universal_newlines,
+                         startupinfo=startupinfo, creationflags=creationflags)
+                
 
     def clean_up_processes(timeout=300):
         """This function can be called prior to program exit to attempt to
         kill all our running children that were created using this module."""
     
-        pgrp_list = [_our_process_group]
+        global process_list_filename
+        global temp_dir
+
+        pgrp_list = []
+
+        f = None
+        try:
+            f = open(process_list_filename, 'r')
+            pgrp_list = [int(line) for line in f.read().splitlines()]
+        except:
+            if f: 
+                try: f.close()
+                except: pass
+        try:
+            import shutil
+            shutil.rmtree(temp_dir)
+        except:
+            pass
+        
         # send SIGTERM to everything, and update pgrp_list to just those
         # process groups which have processes in them.
         _kill_groups(pgrp_list, signal.SIGTERM)
