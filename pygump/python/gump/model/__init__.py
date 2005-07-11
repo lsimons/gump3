@@ -577,6 +577,55 @@ class Script(Command):
     def __str__(self):
         return "<Script:%s,args=%s,shell=%s,basedir=%s>" % (self.name, " ".join(self.args), self.shell, self.basedir)
 
+
+class SpecificScript(Script):
+    """Command for executing a specific command.
+
+    Has the following properties:
+        - all the properties a Script has
+    """
+    def __init__(self, project, name, executable, args=None, basedir=None, shell=None):
+        assert isinstance(executable, basestring)
+        Script.__init__(self, project, name, args, basedir, shell)
+        self.args = [executable] + args
+
+    def __str__(self):
+        typerep = str(self.__class__).split('.').pop()
+        return "<%s:%s,args=%s,shell=%s,basedir=%s>" % \
+               (typerep, self.name, " ".join(self.args), self.shell, self.basedir)
+
+
+class Configure(SpecificScript):
+    def __init__(self, project, name, args=None, basedir=None, shell=None):
+        SpecificScript.__init__(self, project, name, "./configure", args, basedir, shell)
+
+
+class Make(SpecificScript):
+    def __init__(self, project, name, makefile=None, targets=None, args=None, basedir=None, shell=None):
+        if not makefile:
+            usemakefile = "Makefile"
+        else:
+            assert isinstance(makefile, basestring)
+            usemakefile = makefile
+
+        Script.__init__(self, project, name, "make", args, basedir, shell)
+        self.args = ["make", "-f", usemakefile]
+        self.args.extend(args)
+        if targets:
+            assert isinstance(targets, list)
+        self.args.extend(targets)
+
+
+class Autoconf(SpecificScript):
+    def __init__(self, project, name, args=None, basedir=None, shell=None):
+        SpecificScript.__init__(self, project, name, "autoconf", args, basedir, shell)
+
+
+class Automake(SpecificScript):
+    def __init__(self, project, name, args=None, basedir=None, shell=None):
+        SpecificScript.__init__(self, project, name, "automake", args, basedir, shell)
+
+
 class Ant(Command):
     """Command to run an Ant build.
 

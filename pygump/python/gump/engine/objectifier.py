@@ -182,6 +182,10 @@ def _create_commands(project, project_definition, log=None):
     _create_rmdir_commands(project, project_definition)
     _create_mkdir_commands(project, project_definition)
     _create_script_commands(project, project_definition, log=log)
+    _create_specific_script_commands(project, project_definition, "configure", Configure, log=log)
+    _create_make_commands(project, project_definition, log=log)
+    _create_specific_script_commands(project, project_definition, "autoconf", Autoconf, log=log)
+    _create_specific_script_commands(project, project_definition, "automake", Automake, log=log)
     _create_ant_commands(project, project_definition, log=log)
     #TODO more commands
 
@@ -300,7 +304,7 @@ def _create_args(command, cmd, log=None):
         else:
             if value:
                 args.append(value)
-    command.args = args
+    command.args = command.args + args
 
 
 def _enable_debug(command, cmd):
@@ -331,6 +335,36 @@ def _create_script_commands(project, project_definition, log=None):
         shell = cmd.getAttribute("shell")
         basedir = cmd.getAttribute("basedir")
         command = Script(project, name, shell=shell, basedir=basedir)
+        _create_args(command, cmd, log=log)
+        _create_env_vars(command, cmd, log=log)
+        
+        project.add_command(command)
+
+
+def _create_specific_script_commands(project, project_definition, element_name, class_name, log=None):
+    scripts = project_definition.getElementsByTagName(element_name)
+    for cmd in scripts:
+        name = cmd.getAttribute("name")
+        shell = cmd.getAttribute("shell")
+        basedir = cmd.getAttribute("basedir")
+        command = class_name(project, name, shell=shell, basedir=basedir)
+        _create_args(command, cmd, log=log)
+        _create_env_vars(command, cmd, log=log)
+        
+        project.add_command(command)
+
+
+def _create_make_commands(project, project_definition, log=None):
+    scripts = project_definition.getElementsByTagName("make")
+    for cmd in scripts:
+        name = cmd.getAttribute("name")
+        shell = cmd.getAttribute("shell")
+        basedir = cmd.getAttribute("basedir")
+        makefile = cmd.getAttribute("makefile")
+        targets = cmd.getAttribute("makefile")
+        if targets:
+            targets = targets.split(",")
+        command = Make(project, name, makefile=makefile, targets=targets, shell=shell, basedir=basedir)
         _create_args(command, cmd, log=log)
         _create_env_vars(command, cmd, log=log)
         
