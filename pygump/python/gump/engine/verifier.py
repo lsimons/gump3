@@ -44,15 +44,14 @@ class CyclicDependencyError(VerificationError):
     pass
 
 def print_cyclic_trace(cycles, handler):
-    for cycle in cycles: # isn't there a level of nesting too much here???
-        for chain in cycle:
-            msg = ""
-            indent = "  "
-            for project in chain:
-                msg += "%s%s -->\n" % (indent, project.name)
-                indent += "  "
-            msg = ansicolor.Bright_Red + msg[:-5] + ansicolor.Black
-            handler(msg)
+    for chain in cycles:
+        msg = ""
+        indent = "  "
+        for project in chain:
+            msg += "%s%s -->\n" % (indent, project.name)
+            indent += "  "
+        msg = ansicolor.Bright_Red + msg[:-5] + ansicolor.Black
+        handler(msg)
     
 class AbstractErrorHandler:
     """Base class for supporting configurable error recovery. Instead of
@@ -79,7 +78,7 @@ class LoggingErrorHandler(AbstractErrorHandler):
     def handleError(self):
         errorType = sys.exc_info()[0]
         if errorType is CyclicDependencyError:
-            errorValue = sys.exc_info()[1]
+            errorValue = sys.exc_info()[1][0]
             self.log.error("The following cyclic dependencies were found:")
             print_cyclic_trace(errorValue, self.log.error)
             self.log.error("The projects involved will not be built!")
@@ -96,6 +95,8 @@ class Verifier:
     def __init__(self, walker, errorHandler=AbstractErrorHandler()):
         assert hasattr(walker, "walk")
         assert callable(walker.walk)
+        assert hasattr(errorHandler, "_handleError")
+        assert callable(errorHandler._handleError)
         
         self.walker = walker
         self.errorHandler = errorHandler
@@ -160,10 +161,12 @@ class Verifier:
             stack.append(dependency)
             if dependency == needle: # cycle involving needle!
                 cycles.append(stack[:])
-                visited.append(dependency)
+                # no need for this, its already in there visited.append(dependency)
             else:
                 if not dependency in visited:
-                    self._visit(dependency,visited,stack,needle,cycles)
+                    # note we duplicate the visited[] array here. There may be
+                    # multiple cycles involving this project. We want them all.
+                    self._visit(dependency,visited[:],stack,needle,cycles)
 
             stack.pop() # get rid of this dependency, we'll be looking
                         # at the next dependency in the next iteration of
