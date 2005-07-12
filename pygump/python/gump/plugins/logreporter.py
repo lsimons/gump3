@@ -19,13 +19,13 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 from gump.plugins import AbstractPlugin
 from gump.model import Module, Project, Dependency, Command
-from gump.model.util import check_skip, check_failure, get_failure_causes, get_root_cause
+from gump.model.util import check_skip, check_failure, check_installed_package, get_failure_causes, get_root_cause
 from gump.engine.algorithm import ExceptionInfo
 from gump.util import ansicolor
 
 from StringIO import StringIO
 
-hr = '  --------------------------------------------------------------------------'
+hr = '  --------------------------------------------------------------------------------------'
 
 class DebugLogReporterPlugin(AbstractPlugin):
     """Outputs debug messages as it visits model elements."""
@@ -107,7 +107,7 @@ class ResultLogReporterPlugin(AbstractPlugin):
     
     def initialize(self):
         self.wr(hr)
-        self.wr('                              %sBUILD RESULTS%s' % (ansicolor.Bright_Blue, ansicolor.Black))
+        self.wr('                                  %sBUILD RESULTS%s' % (ansicolor.Bright_Blue, ansicolor.Black))
         self.wr(hr)
     
     def visit_workspace(self, workspace):
@@ -119,6 +119,7 @@ class ResultLogReporterPlugin(AbstractPlugin):
         failed        = 0
         prereq_failed = 0
         skipped       = 0
+        packaged      = 0
         success       = 0
         cycled        = 0
         total = len(workspace.projects)
@@ -137,6 +138,9 @@ class ResultLogReporterPlugin(AbstractPlugin):
             if check_skip(project):
                 skipped += 1
                 continue
+            if check_installed_package(project):
+                packaged += 1
+                continue
             if hasattr(workspace, "unvisited"):
                 if project in workspace.unvisited:
                     cycled += 1
@@ -150,37 +154,41 @@ class ResultLogReporterPlugin(AbstractPlugin):
             failed_percent = (1.0 * failed / total) * total_percent
             prereq_failed_percent = (1.0 * prereq_failed / total) * total_percent
             skipped_percent = (1.0 * skipped / total) * total_percent
+            packaged_precent = (1.0 * packaged / total) * total_percent
             success_percent = (1.0 * success / total) * total_percent
             cycled_percent = (1.0 * cycled / total) * total_percent
         
             self.wr('  Project build statistics')
-            self.wr('  ==========================================================================')
-            self.wr('      Total | %sFailed%s | %sPrereq Failed%s | %sSkipped%s | %sSuccess%s | %sCyclic Dependency%s' % \
+            self.wr('  ======================================================================================')
+            self.wr('      Total | %sFailed%s | %sPrereq Failed%s | %sSkipped%s | %sPackaged%s | %sSuccess%s | %sCyclic Dependency%s' % \
                     (ansicolor.Red, ansicolor.Black,
                      ansicolor.Yellow, ansicolor.Black,
                      ansicolor.Blue, ansicolor.Black,
+                     ansicolor.Purple, ansicolor.Black,
                      ansicolor.Green, ansicolor.Black,
                      ansicolor.Bright_Red,
                      ansicolor.Black))
-            self.wr('      ------|--------|---------------|---------|---------|------------------')
-            self.wr('      %5u | %s%6u%s | %s%13u%s | %s%7u%s | %s%7u%s | %s%17u%s' % (total,
+            self.wr('      ------|--------|---------------|---------|----------|---------|------------------')
+            self.wr('      %5u | %s%6u%s | %s%13u%s | %s%7u%s | %s%8u%s | %s%7u%s | %s%17u%s' % (total,
                      ansicolor.Red, failed, ansicolor.Black, 
                      ansicolor.Yellow, prereq_failed, ansicolor.Black,
-                     ansicolor.Blue, skipped, ansicolor.Black, 
+                     ansicolor.Blue, skipped, ansicolor.Black,
+                     ansicolor.Purple, packaged, ansicolor.Black,
                      ansicolor.Green, success, ansicolor.Black, 
                      ansicolor.Bright_Red, cycled,
                      ansicolor.Black))
-            self.wr('     %5.0f%% |%s%6.1f%%%s |%s%13.1f%%%s |%s%7.1f%%%s |%s%7.1f%%%s |%s%17.1f%%%s' % (total_percent,
+            self.wr('     %5.0f%% |%s%6.1f%%%s |%s%13.1f%%%s |%s%7.1f%%%s |%s%8.1f%%%s |%s%7.1f%%%s |%s%17.1f%%%s' % (total_percent,
                      ansicolor.Red, failed_percent, ansicolor.Black, 
                      ansicolor.Yellow, prereq_failed_percent, ansicolor.Black,
-                     ansicolor.Blue, skipped_percent, ansicolor.Black, 
+                     ansicolor.Blue, skipped_percent, ansicolor.Black,
+                     ansicolor.Purple, packaged_precent, ansicolor.Black,
                      ansicolor.Green, success_percent, ansicolor.Black, 
                      ansicolor.Bright_Red, cycled_percent,
                      ansicolor.Black))
-            self.wr('  ==========================================================================')
+            self.wr('  ======================================================================================')
             self.wr('')
             self.wr('  Project build log')
-            self.wr('  ==========================================================================')
+            self.wr('  ======================================================================================')
         
         if hasattr(workspace, "unvisited"):
             for project in workspace.unvisited:
@@ -189,6 +197,10 @@ class ResultLogReporterPlugin(AbstractPlugin):
     def visit_project(self, project):
         if check_skip(project):
             self.wr('  %s%s: SKIPPED%s' % (ansicolor.Blue, project, ansicolor.Black))
+            return
+        
+        if check_installed_package(project):
+            self.wr('  %s%s: PACKAGED%s' % (ansicolor.Purple, project, ansicolor.Black))
             return
         
         if not check_failure(project):
@@ -230,7 +242,7 @@ class ResultLogReporterPlugin(AbstractPlugin):
                     indent += "  "
                     
     def finalize(self, workspace):
-        self.wr('  ==========================================================================')
+        self.wr('  ======================================================================================')
         
         self.buffer.flush()
         self.log.info(self.buffer.getvalue())

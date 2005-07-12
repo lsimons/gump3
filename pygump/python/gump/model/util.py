@@ -24,7 +24,7 @@ from os.path import join
 import os
 
 from gump.model import ModelObject, Error, Dependency, CvsModule, SvnModule, Project, ExceptionInfo, BinariesPath, \
-     Classdir, Jar, \
+     Classdir, Jar, LocalModule, LocalRepository, \
      DEPENDENCY_INHERIT_ALL, DEPENDENCY_INHERIT_HARD, DEPENDENCY_INHERIT_JARS, DEPENDENCY_INHERIT_RUNTIME
 
 UPDATE_TYPE_CHECKOUT="checkout"
@@ -276,3 +276,11 @@ def calculate_classpath(project, recurse=True, runtimeonly=False):
                         
     
     return (classpath, bootclasspath)
+
+def check_installed_package(project):
+    assert isinstance(project, Project)
+    
+    return isinstance(project.module, LocalModule) or \
+       isinstance(project.module.repository, LocalRepository) or \
+       len(project.commands) == 0
+        
