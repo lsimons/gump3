@@ -46,6 +46,7 @@ class EngineTestCase(MockTestCase):
         
         self.workspace_loader = self.mock()
         self.workspace_normalizer = self.mock()
+        self.workspace_at_parser = self.mock()
         self.workspace_objectifier = self.mock()
         self.workspace_verifier = self.mock()
         self.walker = self.mock()
@@ -61,6 +62,7 @@ class EngineTestCase(MockTestCase):
         e = _Engine(self.log,
                     self.workspace_loader,
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     self.workspace_verifier,
                     self.walker,
@@ -75,6 +77,7 @@ class EngineTestCase(MockTestCase):
                     "blah",
                     self.workspace_loader,
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     self.workspace_verifier,
                     self.walker,
@@ -89,6 +92,7 @@ class EngineTestCase(MockTestCase):
                     self.log,
                     "blah",
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     self.workspace_verifier,
                     self.walker,
@@ -103,6 +107,7 @@ class EngineTestCase(MockTestCase):
                     self.log,
                     self.workspace_loader,
                     "blah",
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     self.workspace_verifier,
                     self.walker,
@@ -117,6 +122,7 @@ class EngineTestCase(MockTestCase):
                     self.log,
                     self.workspace_loader,
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     "blah",
                     self.workspace_verifier,
                     self.walker,
@@ -131,6 +137,7 @@ class EngineTestCase(MockTestCase):
                     self.log,
                     self.workspace_loader,
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     "blah",
                     self.walker,
@@ -145,6 +152,7 @@ class EngineTestCase(MockTestCase):
                     self.log,
                     self.workspace_loader,
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     self.workspace_verifier,
                     "blah",
@@ -159,6 +167,7 @@ class EngineTestCase(MockTestCase):
                     self.log,
                     self.workspace_loader,
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     self.workspace_verifier,
                     self.walker,
@@ -173,6 +182,7 @@ class EngineTestCase(MockTestCase):
                     self.log,
                     self.workspace_loader,
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     self.workspace_verifier,
                     self.walker,
@@ -187,6 +197,7 @@ class EngineTestCase(MockTestCase):
                     self.log,
                     self.workspace_loader,
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     self.workspace_verifier,
                     self.walker,
@@ -201,6 +212,7 @@ class EngineTestCase(MockTestCase):
                     self.log,
                     self.workspace_loader,
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     self.workspace_verifier,
                     self.walker,
@@ -221,6 +233,7 @@ class EngineTestCase(MockTestCase):
         objectws = "Blah"
         self.workspace_loader.expects(once()).get_workspace_tree(same(ws)).will(return_value(passaroundobj))
         self.workspace_normalizer.expects(once()).normalize(same(domtree)).will(return_value(domtree))
+        self.workspace_at_parser.expects(once()).parse(same(domtree)).will(return_value(domtree))
         self.workspace_objectifier.expects(once()).get_workspace(same(domtree)).will(return_value(objectws))
         self.walker.expects(once()).walk(same(objectws),same(self.pre_process_visitor), same('pre_process'))
         self.walker.expects(once()).walk(same(objectws),same(self.visitor), same('process'))
@@ -229,6 +242,7 @@ class EngineTestCase(MockTestCase):
                     MockLog(),
                     self.workspace_loader,
                     self.workspace_normalizer,
+                    self.workspace_at_parser,
                     self.workspace_objectifier,
                     MockVerifier(objectws, self),
                     self.walker,

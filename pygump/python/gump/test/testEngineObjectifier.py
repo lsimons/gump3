@@ -148,7 +148,7 @@ class EngineObjectifierTestCase(MockTestCase):
     <project name="gump-unit-tests">
         <module name="gump"/>
         <script name="gump">
-            <arg name="" value="test"/>
+            <arg name="test"/>
         </script> 
     </project>
     

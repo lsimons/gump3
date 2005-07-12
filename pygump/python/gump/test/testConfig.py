@@ -38,6 +38,9 @@ class CustomConfig:
     def __getattr__(self, name):
         if name == "paths_work":
             return ConfigTestCase.wd
+        
+        if name == "project_name":
+            return []
         return name
 
 class ConfigTestCase(MockTestCase):

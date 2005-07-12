@@ -649,7 +649,7 @@ class ModelTestCase(TestCase):
         
         name = "build"
         args = ["-d", "some/dir"]
-        c = Script(p,name, args)
+        c = Script(p,name, args=args)
         self.assertEqual(name,c.name)
         self.assertEqual(args,c.args)
         c = Script(p,name)
@@ -660,10 +660,10 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError,Script,None,c)
         self.assertRaises(AssertionError,Script,"someproject",c)
         self.assertRaises(AssertionError,Script,p,None)
-        self.assertRaises(AssertionError,Script,p,name,"blah")
+        self.assertRaises(AssertionError,Script,p,name,args="blah")
         self.assertRaises(AssertionError,Script,p,name,[p])
 
-        c = Script(p,name, args)
+        c = Script(p,name, args=args)
         self.assertEqual(args,c.args)
 
         string = c.__str__()
@@ -683,7 +683,7 @@ class ModelTestCase(TestCase):
         
         target = "build"
         buildfile = "build-gump.xml"
-        a = Ant(p, target, buildfile)
+        a = Ant(p, target, buildfile=buildfile)
         self.assertEqual(target, a.target)
         self.assertEqual(buildfile, a.buildfile)
         self.assertEqual(p, a.project)
@@ -693,7 +693,7 @@ class ModelTestCase(TestCase):
         self.assertRaises(AssertionError,Ant,p,None)
         self.assertRaises(AssertionError,Ant,p,target,None)
 
-        a = Ant(p, target, buildfile)
+        a = Ant(p, target, buildfile=buildfile)
         string = a.__str__()
         self.failUnless(string.find(target) >= 0)
         self.failUnless(string.find(buildfile) >= 0)

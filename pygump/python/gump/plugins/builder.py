@@ -137,9 +137,10 @@ class ScriptBuilderPlugin(BuilderPlugin):
         
     def _do_script(self, project, script):
         # environment
-        script.env['PATH'] = script.path
+        if script.path:
+            script.env['PATH'] = script.path
         self.log.debug("        PATH is '%s%s%s'" % \
-                       (ansicolor.Blue, script.env['PATH'], ansicolor.Black))
+                (ansicolor.Blue, script.env['PATH'], ansicolor.Black))
         
         # working directory
         projectpath = get_project_directory(project)

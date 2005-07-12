@@ -561,7 +561,7 @@ class Script(Command):
         - basedir -- directory relative to project home in which to run
         - shell -- the shell in which to execute the script
     """
-    def __init__(self, project, name, args=None, basedir=None, shell=None):
+    def __init__(self, project, name, basedir=None, shell=None, args=None):
         assert isinstance(name, basestring)
         if args != None:
             assert isinstance(args, list)
@@ -573,6 +573,8 @@ class Script(Command):
 
         Command.__init__(self, project, basedir=basedir, shell=shell)
         self.name = name
+        self.path = None
+        self.classpath = None
 
     def __str__(self):
         return "<Script:%s,args=%s,shell=%s,basedir=%s>" % (self.name, " ".join(self.args), self.shell, self.basedir)
@@ -584,9 +586,9 @@ class SpecificScript(Script):
     Has the following properties:
         - all the properties a Script has
     """
-    def __init__(self, project, name, executable, args=None, basedir=None, shell=None):
+    def __init__(self, project, name, executable, basedir=None, shell=None, args=None):
         assert isinstance(executable, basestring)
-        Script.__init__(self, project, name, args, basedir, shell)
+        Script.__init__(self, project, name, args=args, basedir=basedir, shell=shell)
         self.args = [executable] + args
 
     def __str__(self):
@@ -596,19 +598,19 @@ class SpecificScript(Script):
 
 
 class Configure(SpecificScript):
-    def __init__(self, project, name, args=None, basedir=None, shell=None):
-        SpecificScript.__init__(self, project, name, "./configure", args, basedir, shell)
+    def __init__(self, project, name, basedir=None, shell=None, args=None):
+        SpecificScript.__init__(self, project, name, "./configure", args=args, basedir=basedir, shell=shell)
 
 
 class Make(SpecificScript):
-    def __init__(self, project, name, makefile=None, targets=None, args=None, basedir=None, shell=None):
+    def __init__(self, project, name, makefile=None, targets=None, basedir=None, shell=None, args=None):
         if not makefile:
             usemakefile = "Makefile"
         else:
             assert isinstance(makefile, basestring)
             usemakefile = makefile
 
-        Script.__init__(self, project, name, "make", args, basedir, shell)
+        Script.__init__(self, project, name, "make", args=args, basedir=basedir, shell=shell)
         self.args = ["make", "-f", usemakefile]
         self.args.extend(args)
         if targets:
@@ -617,13 +619,13 @@ class Make(SpecificScript):
 
 
 class Autoconf(SpecificScript):
-    def __init__(self, project, name, args=None, basedir=None, shell=None):
-        SpecificScript.__init__(self, project, name, "autoconf", args, basedir, shell)
+    def __init__(self, project, name, basedir=None, shell=None, args=None):
+        SpecificScript.__init__(self, project, name, "autoconf", args=args, basedir=basedir, shell=shell)
 
 
 class Automake(SpecificScript):
-    def __init__(self, project, name, args=None, basedir=None, shell=None):
-        SpecificScript.__init__(self, project, name, "automake", args, basedir, shell)
+    def __init__(self, project, name, basedir=None, shell=None, args=None):
+        SpecificScript.__init__(self, project, name, "automake", args=args, basedir=basedir, shell=shell)
 
 
 class Ant(Command):
@@ -637,7 +639,7 @@ class Ant(Command):
         - buildfile -- the Ant build file
         - basedir -- directory relative to project home in which to run
     """
-    def __init__(self, project, target, properties=None, buildfile="build.xml",basedir=None):
+    def __init__(self, project, target, buildfile="build.xml", basedir=None, properties=None):
         assert isinstance(target, basestring)
         assert isinstance(buildfile, basestring)
             
