@@ -283,4 +283,3 @@ def check_installed_package(project):
     return isinstance(project.module, LocalModule) or \
        isinstance(project.module.repository, LocalRepository) or \
        len(project.commands) == 0
-        
