@@ -18,6 +18,22 @@
         name="gump3-test">
 
 <repositories>
+    <repository name="apr" type="svn">
+        <title>Apache Portable Runtime</title>
+        <home-page>http://apr.apache.org/</home-page>
+        <cvsweb>http://cvs.apache.org/viewcvs.cgi/apr/?root=Apache-SVN</cvsweb>
+        <url>http://svn.apache.org/repos/asf/apr/</url>
+        <redistributable/>
+    </repository>
+
+    <repository name="apache-httpd" type="svn">
+        <title>Apache HTTP Server</title>
+        <home-page>http://httpd.apache.org/</home-page>
+        <cvsweb>http://cvs.apache.org/viewcvs.cgi/httpd/?root=Apache-SVN</cvsweb>
+        <url>http://svn.apache.org/repos/asf/httpd/</url>
+        <redistributable/>
+    </repository>
+
     <repository name="ant" type="cvs">
         <title>Ant</title>
         <home-page>http://ant.apache.org/</home-page>
@@ -61,6 +77,27 @@
 </repositories>
     
 <modules>
+    <module name="apr" path="apr/trunk">
+        <repository name="apr"/>
+
+        <url href="http://apr.apache.org/"/>
+        <description>Apache Portable Runtime</description>
+    </module>
+
+    <module name="apr-util" path="apr-util/trunk">
+        <repository name="apr"/>
+
+        <url href="http://apr.apache.org/"/>
+        <description>Apache Portable Runtime Utilities</description>
+    </module>
+
+    <module name="apache-httpd" path="httpd/trunk">
+        <repository name="apache-httpd"/>
+
+        <url href="http://httpd.apache.org/"/>
+        <description>Apache HTTP Server</description>
+    </module>
+
     <module name="ant">
         <repository name="ant"/>
         
@@ -120,6 +157,83 @@
 </modules>
 
 <projects>
+    <project name="apr">
+        <module name="apr"/>
+        
+        <!-- commands -->
+        <script name="buildconf"/>
+        <configure>
+            <arg name="--prefix" path="dest-GUMP"/>
+        </configure>
+        <make/>
+        <make target="install"/>
+        
+        <!-- outputs -->
+        <home nested="dest-GUMP"/>
+        <path name="bin"/>
+        <includes name="include"/>
+        <dynamic-libraries name="lib"/>
+        
+        <!-- dependencies -->
+    </project>
+
+    <project name="apr-util">
+        <module name="apr-util"/>
+        
+        <!-- commands -->
+        <script name="buildconf">
+            <arg name="--with-apr" project="apr"
+                    reference="srcdir"/>
+        </script>
+        <configure>
+            <arg name="--prefix" path="dest-GUMP"/>
+            <arg name="--with-apr" project="apr"
+                    reference="home"/>
+        </configure>
+        <make/>
+        <make target="install"/>
+        
+        <!-- outputs -->
+        <home nested="dest-GUMP"/>
+        <path name="bin"/>
+        <includes name="include"/>
+        <dynamic-libraries name="lib"/>
+        
+        <!-- dependencies -->
+        <depend project="apr" runtime="true"/>
+    </project>
+
+    <project name="apache-httpd">
+        <module name="apache-httpd"/>
+        
+        <!-- commands -->
+        <script name="buildconf">
+            <arg name="--with-apr" project="apr"
+                    reference="srcdir"/>
+            <arg name="--with-apr-util" project="apr-util"
+                    reference="srcdir"/>
+        </script>
+        <configure>
+            <arg name="--prefix" path="dest-GUMP"/>
+            <arg name="--with-apr" project="apr"
+                    reference="home"/>
+            <arg name="--with-apr-util" project="apr-util"
+                    reference="home"/>
+        </configure>
+        <make/>
+        <make target="install"/>
+        
+        <!-- outputs -->
+        <home nested="dest-GUMP"/>
+        <path name="bin"/>
+        <includes name="include"/>
+        <dynamic-libraries name="lib"/>
+        
+        <!-- dependencies -->
+        <depend project="apr" runtime="true"/>
+        <depend project="apr-util" runtime="true"/>
+    </project>
+
     <project name="jdk" path="jdk">
         <!-- installed package -->
         <!-- outputs -->

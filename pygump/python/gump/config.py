@@ -166,9 +166,9 @@ def get_plugins(config):
     from gump.plugins.logreporter import ResultLogReporterPlugin
     post_process_plugins.append(ResultLogReporterPlugin(reportlog))
     
-    if config.debug:
-        from gump.plugins.introspection import IntrospectionPlugin
-        post_process_plugins.append(IntrospectionPlugin(reportlog))
+    #if config.debug:
+    #    from gump.plugins.introspection import IntrospectionPlugin
+    #    post_process_plugins.append(IntrospectionPlugin(reportlog))
     
     # Give us an insight to what we have cooking...
     for plugin in pre_process_plugins: log.debug("Preprocessor : %s " % `plugin`)

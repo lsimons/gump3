@@ -586,10 +586,8 @@ class SpecificScript(Script):
     Has the following properties:
         - all the properties a Script has
     """
-    def __init__(self, project, name, executable, basedir=None, shell=None, args=None):
-        assert isinstance(executable, basestring)
+    def __init__(self, project, name, basedir=None, shell=None, args=None):
         Script.__init__(self, project, name, args=args, basedir=basedir, shell=shell)
-        self.args = [executable] + args
 
     def __str__(self):
         typerep = str(self.__class__).split('.').pop()
@@ -598,34 +596,35 @@ class SpecificScript(Script):
 
 
 class Configure(SpecificScript):
-    def __init__(self, project, name, basedir=None, shell=None, args=None):
-        SpecificScript.__init__(self, project, name, "./configure", args=args, basedir=basedir, shell=shell)
+    def __init__(self, project, basedir=None, shell=None, args=None):
+        SpecificScript.__init__(self, project, "./configure", args=args, basedir=basedir, shell=shell)
 
 
 class Make(SpecificScript):
-    def __init__(self, project, name, makefile=None, targets=None, basedir=None, shell=None, args=None):
+    def __init__(self, project, makefile=None, targets=None, basedir=None, shell=None, args=None):
         if not makefile:
             usemakefile = "Makefile"
         else:
             assert isinstance(makefile, basestring)
             usemakefile = makefile
 
-        Script.__init__(self, project, name, "make", args=args, basedir=basedir, shell=shell)
-        self.args = ["make", "-f", usemakefile]
-        self.args.extend(args)
+        SpecificScript.__init__(self, project, "make", args=args, basedir=basedir, shell=shell)
+        self.args = ["-f", usemakefile]
+        if args:
+            self.args.extend(args)
         if targets:
             assert isinstance(targets, list)
         self.args.extend(targets)
 
 
 class Autoconf(SpecificScript):
-    def __init__(self, project, name, basedir=None, shell=None, args=None):
-        SpecificScript.__init__(self, project, name, "autoconf", args=args, basedir=basedir, shell=shell)
+    def __init__(self, project, basedir=None, shell=None, args=None):
+        SpecificScript.__init__(self, project, "autoconf", args=args, basedir=basedir, shell=shell)
 
 
 class Automake(SpecificScript):
-    def __init__(self, project, name, basedir=None, shell=None, args=None):
-        SpecificScript.__init__(self, project, name, "automake", args=args, basedir=basedir, shell=shell)
+    def __init__(self, project, basedir=None, shell=None, args=None):
+        SpecificScript.__init__(self, project, "automake", args=args, basedir=basedir, shell=shell)
 
 
 class Ant(Command):
@@ -732,35 +731,24 @@ class Path(Output):
         self.name = name
     
     def __str__(self):
-        return "<Path:%s,id=%s>" % (self.name, self.id)
+        typerep = str(self.__class__).split('.').pop()
+        return "<%s:%s,name=%s,id=%s>" % \
+               (typerep, self.name, self.id)
+
 
 class BinariesPath(Path):
-    """Model a directory containing scripts and/or binaries that can be run
-       by other projects..
-
-    Has the following properties:
-
-        - all the properties a Directory has
-    """
     def __init__(self, project, name, id=None):
         Path.__init__(self, project, name, id)
-    
-    def __str__(self):
-        return "<BinariesPath:%s,id=%s>" % (self.name, self.id)
+
 
 class IncludesPath(Path):
-    """Model a directory containing header files that can be linked against by
-       other projects.
-
-    Has the following properties:
-
-        - all the properties a Directory has
-    """
     def __init__(self, project, name, id=None):
         Path.__init__(self, project, name, id)
-    
-    def __str__(self):
-        return "<IncludesPath:%s,id=%s>" % (self.name, self.id)
+
+
+class DynamicLibrariesPath(Path):
+    def __init__(self, project, name, id=None):
+        Path.__init__(self, project, name, id)
 
 
 #TODO: more outputs

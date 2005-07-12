@@ -25,7 +25,7 @@ from os.path import abspath, join, isfile
 from tempfile import mkdtemp
 import shutil
 
-from gump.model import Script, Error, Project, Ant, Dependency
+from gump.model import Script, SpecificScript, Error, Project, Ant, Dependency
 from gump.model.util import get_project_directory, calculate_path
 from gump.plugins import AbstractPlugin
 from gump.util.executor import Popen, PIPE, STDOUT
@@ -136,6 +136,10 @@ class ScriptBuilderPlugin(BuilderPlugin):
         BuilderPlugin.__init__(self, log, Script, self._do_script)
         
     def _do_script(self, project, script):
+        if isinstance(script, SpecificScript):
+            self._do_specific_script(project, script)
+            return
+        
         # environment
         if script.path:
             script.env['PATH'] = script.path
@@ -166,3 +170,22 @@ class ScriptBuilderPlugin(BuilderPlugin):
         myargs.extend(script.args)
         # run it
         self._do_run_command(script, myargs, projectpath, shell=True)
+
+    def _do_specific_script(self, project, script):
+        # environment
+        if script.path:
+            script.env['PATH'] = script.path
+        self.log.debug("        PATH is '%s%s%s'" % \
+                (ansicolor.Blue, script.env['PATH'], ansicolor.Black))
+        
+        # working directory
+        projectpath = get_project_directory(project)
+        if script.basedir:
+            projectpath = os.path.join(projectpath, script.basedir)
+        
+        # command line
+        myargs = []
+        myargs.append(script.name)
+        myargs.extend(script.args)
+        # run it
+        self._do_run_command(script, myargs, projectpath, shell=False)

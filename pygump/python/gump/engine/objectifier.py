@@ -200,25 +200,27 @@ def _get_property(command, prop):
     path = prop.getAttribute("path")
     id = prop.getAttribute("id")
     
+    # TODO: *seriously* clean this up. Sheesh. Shame on whoever wrote it (me,
+    #   Leo Simons. I take full responsibility).
     # The horrendous piece of logic below is dictated by
     #   http://gump.apache.org/metadata/builder.html#property%2Farg
     if not name:
         raise Error, "Need to specify a name for property of command %s" % command
     if project:
         if value:
-            raise Error, "Can't specify both a value an a project for property %s of command %s" (name, command)
-        if reference and path:
-            raise Error, "Can't specify both a reference and a path for property %s of command %s" (name, command)
-        if not reference and not path:
-            raise Error, "Must specify either a reference or a path for property %s of command %s referencing project %s" (name, command, project)
+            raise Error, "Can't specify both a value and a project for property %s of command %s" % (name, command)
+        if path:
+            raise Error, "Can't specify both a path and a project for property %s of command %s" % (name, command)
+        if not reference:
+            raise Error, "Must specify either a reference or a path for property %s of command %s referencing project %s" % (name, command, project)
         if id and not (reference == "jar" or reference == "jarpath"):
-            raise Error, "Can't specify an id %s for property %s of command %s unless reference is 'jar', instead of '%s'" (id, name, command, reference)
+            raise Error, "Can't specify an id %s for property %s of command %s unless reference is 'jar', instead of '%s'" % (id, name, command, reference)
         
         if not project in command.project.module.repository.workspace.projects.keys():
-            raise Error, "Can't reference non-existent project '%s' from property %s of command %s" (project, name, command)
-    #else:
-    #    if not value:
-    #        raise Error, "Must specify either a project or a value for property %s of command %s" (name, command)
+            raise Error, "Can't reference non-existent project '%s' from property %s of command %s" % (project, name, command)
+    if path:
+        if value:
+            raise Error, "Can't specify both a value and a path for property %s of command %s" % (name, command)
             
     if project:
         referenced_project = command.project.module.repository.workspace.projects[project]
@@ -226,38 +228,70 @@ def _get_property(command, prop):
         if not has_dependency_on(dependee=command.project, dependency=referenced_project):
             raise Error, "Can't refer to project %s from property %s of command %s because that is not a declared dependency" % (referenced_project, name, command)
         
-        if path:
-            propvalue = os.path.join(get_project_directory, path)
-        else:
-            if reference == "jar" or reference == "jarpath":
-                if id:
-                    for jar in [o for o in referenced_project.outputs if isinstance(o, Jar)]:
-                        if jar.id == id:
-                            propvalue = jar
-                    
-                    if not propvalue:
-                        raise Error, "Project %s does not export jar with id %s referenced in property %s of command %s" % (project, id, name, command)
-                else:
-                    jars = [o for o in referenced_project.outputs if isinstance(o, Jar)]
-                    if len(jars) > 1:
-                        raise Error, "Project %s exports more than one jar but property %s of command %s does not specify an id" % (project, name, command)
-                    if len(jars) < 1:
-                        raise Error, "Project %s exports does not export a jar but property %s of command %s tries to reference them" % (project, name, command)
-                    
-                    propvalue = jars[0]
+        if reference == "jar" or reference == "jarpath":
+            jars = [o for o in referenced_project.outputs if isinstance(o, Jar)]
+            if id:
+                for jar in jars:
+                    if jar.id == id:
+                        propvalue = jar
                 
-                if reference == "jarpath":
-                    propvalue = get_jar_path(propvalue)
-                else:
-                    propvalue = jar.name
-            elif reference == "home":
-                propvalue = get_project_home_directory(referenced_project)
-            elif reference == "srcdir":
-                propvalue = get_project_directory(referenced_project)
+                if not propvalue:
+                    raise Error, "Project %s does not export jar with id %s referenced in property %s of command %s" % (project, id, name, command)
             else:
-                raise Error, "Command %s has a property %s with an unknown reference type of %s" % (command, name, reference)
-    else:
+                if len(jars) > 1:
+                    raise Error, "Project %s exports more than one jar but property %s of command %s does not specify an id" % (project, name, command)
+                if len(jars) < 1:
+                    raise Error, "Project %s exports does not export a jar but property %s of command %s tries to reference them" % (project, name, command)
+                
+                propvalue = jars[0]
+            
+            if reference == "jarpath":
+                propvalue = get_jar_path(propvalue)
+            else:
+                propvalue = jar.name
+        elif reference == "home":
+            propvalue = get_project_home_directory(referenced_project)
+        elif reference == "srcdir":
+            propvalue = get_project_directory(referenced_project)
+        elif reference == "path":
+            outputs = [o for o in referenced_project.outputs if isinstance(o, BinariesPath)]
+            if id:
+                for o in outputs:
+                    if o.id == id:
+                        propvalue = join(get_project_home_directory(referenced_project), o.name)
+            else:
+                if len(jars) > 1:
+                    raise Error, "Project %s exports more than one path containing binaries but property %s of command %s does not specify an id" % (project, name, command)
+                if len(jars) < 1:
+                    raise Error, "Project %s exports does not export a path containing binaries but property %s of command %s tries to reference them" % (project, name, command)
+        elif reference == "includes":
+            outputs = [o for o in referenced_project.outputs if isinstance(o, IncludesPath)]
+            if id:
+                for o in outputs:
+                    if o.id == id:
+                        propvalue = join(get_project_home_directory(referenced_project), o.name)
+            else:
+                if len(jars) > 1:
+                    raise Error, "Project %s exports more than one path containing header files but property %s of command %s does not specify an id" % (project, name, command)
+                if len(jars) < 1:
+                    raise Error, "Project %s exports does not export a path containing header files but property %s of command %s tries to reference them" % (project, name, command)
+        elif reference == "dynamic-libraries":
+            outputs = [o for o in referenced_project.outputs if isinstance(o, DynamicLibrariesPath)]
+            if id:
+                for o in outputs:
+                    if o.id == id:
+                        propvalue = join(get_project_home_directory(referenced_project), o.name)
+            else:
+                if len(jars) > 1:
+                    raise Error, "Project %s exports more than one path containing dynamic libraries but property %s of command %s does not specify an id" % (project, name, command)
+                if len(jars) < 1:
+                    raise Error, "Project %s exports does not export a path containing dynamic libraries but property %s of command %s tries to reference them" % (project, name, command)
+        else:
+            raise Error, "Command %s has a property %s with an unknown reference type of %s" % (command, name, reference)
+    elif value:
         propvalue = value
+    elif path:
+        propvalue = os.path.join(get_project_directory(command.project), path)
 
     return (name, propvalue)
 
@@ -344,10 +378,9 @@ def _create_script_commands(project, project_definition, log=None):
 def _create_specific_script_commands(project, project_definition, element_name, class_name, log=None):
     scripts = project_definition.getElementsByTagName(element_name)
     for cmd in scripts:
-        name = cmd.getAttribute("name")
         shell = cmd.getAttribute("shell")
         basedir = cmd.getAttribute("basedir")
-        command = class_name(project, name, shell=shell, basedir=basedir)
+        command = class_name(project, shell=shell, basedir=basedir)
         _create_args(command, cmd, log=log)
         _create_env_vars(command, cmd, log=log)
         
@@ -357,14 +390,13 @@ def _create_specific_script_commands(project, project_definition, element_name, 
 def _create_make_commands(project, project_definition, log=None):
     scripts = project_definition.getElementsByTagName("make")
     for cmd in scripts:
-        name = cmd.getAttribute("name")
         shell = cmd.getAttribute("shell")
         basedir = cmd.getAttribute("basedir")
         makefile = cmd.getAttribute("makefile")
-        targets = cmd.getAttribute("makefile")
+        targets = cmd.getAttribute("target")
         if targets:
             targets = targets.split(",")
-        command = Make(project, name, makefile=makefile, targets=targets, shell=shell, basedir=basedir)
+        command = Make(project, makefile=makefile, targets=targets, shell=shell, basedir=basedir)
         _create_args(command, cmd, log=log)
         _create_env_vars(command, cmd, log=log)
         
@@ -387,8 +419,9 @@ def _create_ant_commands(project, project_definition, log=None):
 def _create_outputs(project, project_definition):    
     _create_work_outputs(project, project_definition)
     _create_jar_outputs(project, project_definition)
-    _create_binary_path_outputs(project, project_definition)
-    _create_includes_path_outputs(project, project_definition)
+    _create_path_outputs(project, project_definition, "path", BinariesPath)
+    _create_path_outputs(project, project_definition, "include", IncludesPath)
+    _create_path_outputs(project, project_definition, "dynamic-libraries", DynamicLibrariesPath)
     #TODO more outputs
 
 
@@ -408,20 +441,12 @@ def _create_jar_outputs(project, project_definition):
         project.add_output(Jar(project, name, id, add_to_bootclass_path))
 
 
-def _create_binary_path_outputs(project, project_definition):
-    paths = project_definition.getElementsByTagName("path")
+def _create_path_outputs(project, project_definition, element_name, class_name):
+    paths = project_definition.getElementsByTagName(element_name)
     for path in paths:
         name = path.getAttribute("name")
         id = path.getAttribute("id")
-        project.add_output(BinariesPath(project, name, id=id))
-
-
-def _create_includes_path_outputs(project, project_definition):
-    paths = project_definition.getElementsByTagName("includes")
-    for path in paths:
-        name = path.getAttribute("name")
-        id = path.getAttribute("id")
-        project.add_output(IncludesPath(project, name, id=id))
+        project.add_output(class_name(project, name, id=id))
 
 
 def _create_dependencies(project_definition, projectlist):
@@ -602,6 +627,8 @@ class Objectifier:
                 if p.nodeType == dom.Node.ELEMENT_NODE]
         failures = []
         
+        # TODO rewrite this function. Its way ugly.
+        
         for project_definition in project_definitions:
             name = project_definition.getAttribute("name")
             if not name:
@@ -636,7 +663,6 @@ class Objectifier:
                 cause = ExceptionInfo(type, value, traceback)
                 self.log.error(cause)
                 name = project_definition.getAttribute("name")
-                #self.log.exception("Failed to set up dependencies for project %s" % name)
                 project = workspace.projects[name]
                 mark_failure(project, cause)
                 
@@ -645,5 +671,16 @@ class Objectifier:
                 if not p in failures]:
             name = project_definition.getAttribute("name")
             project = workspace.projects[name]
-            _create_commands(project, project_definition, log=log)
+            try:
+                _create_commands(project, project_definition, log=log)
+            except:
+                failures.append(project_definition)
 
+                from gump.model.util import mark_failure
+                from gump.engine.algorithm import ExceptionInfo
+                (type, value, traceback) = sys.exc_info()
+                cause = ExceptionInfo(type, value, traceback)
+                self.log.error(cause)
+                name = project_definition.getAttribute("name")
+                project = workspace.projects[name]
+                mark_failure(project, cause)
