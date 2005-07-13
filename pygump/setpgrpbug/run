@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Attempt to reproduce http://bugs.sun.com/bugdatabase/view_bug.do;:YfiG?bug_id=4052517
+
+JAVA_HOME=/usr/lib/j2se/1.4
+JAVACMD=$JAVA_HOME/bin/java
+JAVACCMD=$JAVA_HOME/bin/javac
+PYTHONCMD=`which python2.4`
+CLASSPATH=.
+SOURCEFILES=`ls *.java`
+CLASSFILES=`ls *.class`
+MAINCLASS="Main"
+
+for i in `ls *.jar`; do
+  CLASSPATH=$CLASSPATH:./$i
+done
+
+echo JAVACMD is $JAVACMD
+echo JAVACCMD is $JAVACCMD
+echo CLASSPATH is $CLASSPATH
+
+echo Compiling...
+rm -Rf $CLASSFILES
+$JAVACCMD $SOURCEFILES
+
+echo Running...
+$PYTHONCMD run.py $JAVACMD "$MAINCLASS" "$JAVA_HOME"
+echo '...done!'
