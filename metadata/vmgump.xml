@@ -261,6 +261,8 @@
         <!-- commands -->
         <script name="gump" shell="bash">
             <arg name="test"/>
+            <arg name="-s"/>
+            <arg name="-a"/>
             <env name="GUMP_HOME" value="."/>
             <env name="PYTHONPATH"/>
             <env name="GUMP_WORKDIR"/>
