@@ -1,6 +1,0 @@
-echo ap-adduser calls sudo (first password)
-echo ap-adduser then uses ssh to get into hermes (second password)
-echo environment stuff can be a problem, so make sure it is relatively
-echo    clean and use tcsh (*not* bash)
-
-ssh -t minotaur.apache.org /bin/tcsh
