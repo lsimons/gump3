@@ -1,0 +1,23 @@
+<hibernate-configuration>
+    <session-factory>
+        <property name="dialect">net.sf.hibernate.dialect.MySQLDialect</property>
+    <property name="connection.datasource">MySqlDS</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost/gump</property>
+        <property name="connection.username">root</property>
+
+        <property name="connection.password"></property>
+
+    <property name="transaction.factory_class">
+          net.sf.hibernate.transaction.JDBCTransactionFactory
+        </property>
+    <property name="transaction.manager_lookup_class">
+          net.sf.hibernate.transaction.JBossTransactionManagerLookup
+        </property>
+
+        <!-- Mapping files -->
+        <mapping resource="se/bluefish/jsf/example/dao/hibernate/UserImpl.hbm.xml"/>
+        <mapping resource="se/bluefish/jsf/example/dao/hibernate/SubscriptionImpl.hbm.xml"/>
+
+    </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app >
+   <distributable/>
+
+    <!--
+    To use non XDoclet filters, create a filters.xml file that
+    contains the additional filters (eg Sitemesh) and place it in your
+    project's merge dir.  Don't include filter-mappings in this file,
+    include them in a file called filter-mappings.xml and put that in
+    the same directory.
+    -->
+
+    <!--
+    To use non XDoclet filter-mappings, create a filter-mappings.xml file that
+    contains the additional filter-mappings and place it in your
+    project's merge dir.
+    -->
+
+    <!--
+    To use non XDoclet listeners, create a listeners.xml file that
+    contains the additional listeners and place it in your
+    project's merge dir.
+    -->
+
+ <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>detail</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+</servlet>
+
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.gump</url-pattern>
+ </servlet-mapping>
+
+   <!--
+   To specify mime mappings, create a file named mime-mappings.xml, put it in your project's mergedir.
+   Organize mime-mappings.xml following this DTD slice:
+
+   <!ELEMENT mime-mapping (extension, mime-type)>
+   -->
+
+     <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+   <!--
+   To specify error pages, create a file named error-pages.xml, put it in your project's mergedir.
+   Organize error-pages.xml following this DTD slice:
+
+   <!ELEMENT error-page ((error-code | exception-type), location)>
+   -->
+
+    <taglib>
+    <taglib-uri>/tags/struts-bean</taglib-uri>
+    <taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-html</taglib-uri>
+    <taglib-location>/WEB-INF/struts-html.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-logic</taglib-uri>
+    <taglib-location>/WEB-INF/struts-logic.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-nested</taglib-uri>
+    <taglib-location>/WEB-INF/struts-nested.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-tiles</taglib-uri>
+    <taglib-location>/WEB-INF/struts-tiles.tld</taglib-location>
+  </taglib>
+
+<!--       <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Secure Content</web-resource-name>
+            <url-pattern>/restricted/*</url-pattern>
+			<url-pattern>/Login.do</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+	<login-config> 
+		<auth-method>FORM</auth-method> 
+		<realm-name>servadmin</realm-name> 
+		<form-login-config> 
+			<form-login-page>/login.jsp</form-login-page> 
+			<form-error-page>/error.jsp</form-error-page> 
+		</form-login-config> 
+	</login-config>
+
+    <security-role>
+        <description>The admin role</description>
+        <role-name>admin</role-name>
+    </security-role>
+
+    <security-role>
+        <description>The user role</description>
+        <role-name>user</role-name>
+    </security-role>
+
+   <ejb-ref >
+      <description><![CDATA[Reference to the UserFacade EJB]]></description>
+      <ejb-ref-name>ejb/UserFacade</ejb-ref-name>
+      <ejb-ref-type>Session</ejb-ref-type>
+      <home>com.sysadmin.common.ejb.interfaces.UserFacadeHome</home>
+      <remote>com.sysadmin.common.ejb.interfaces.UserFacade</remote>
+   </ejb-ref>
+   <ejb-ref >
+      <description><![CDATA[Reference to the ConnectionFacade EJB]]></description>
+      <ejb-ref-name>ejb/ConnectionFacade</ejb-ref-name>
+      <ejb-ref-type>Session</ejb-ref-type>
+      <home>com.sysadmin.common.ejb.interfaces.ConnectionFacadeHome</home>
+      <remote>com.sysadmin.common.ejb.interfaces.ConnectionFacade</remote>
+   </ejb-ref>
+   <ejb-ref >
+      <description><![CDATA[Reference to the User EJB]]></description>
+      <ejb-ref-name>ejb/User</ejb-ref-name>
+      <ejb-ref-type>Entity</ejb-ref-type>
+      <home>com.sysadmin.common.ejb.interfaces.UserHome</home>
+      <remote></remote>
+   </ejb-ref>
+   <ejb-ref >
+      <description><![CDATA[Reference to the UserRole EJB]]></description>
+      <ejb-ref-name>ejb/UserRole</ejb-ref-name>
+      <ejb-ref-type>Entity</ejb-ref-type>
+      <home>com.sysadmin.common.ejb.interfaces.UserRoleHome</home>
+      <remote></remote>
+   </ejb-ref>
+   <ejb-ref >
+      <description><![CDATA[Reference to the Client EJB]]></description>
+      <ejb-ref-name>ejb/Client</ejb-ref-name>
+      <ejb-ref-type>Entity</ejb-ref-type>
+      <home>com.sysadmin.common.ejb.interfaces.ClientHome</home>
+      <remote></remote>
+   </ejb-ref> -->
+
+</web-app>

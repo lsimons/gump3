@@ -1,0 +1,35 @@
+.success{
+	background: #AAFFAA;
+	text-align: right;
+	width: 150px;
+}
+.success-left{
+	background: #AAFFAA;
+		width: 150px;
+
+}
+.stalled{
+	background: #FFEEAA;
+	text-align: right;
+	width: 150px;
+}
+.stalled-left{
+	background: #FFEEAA;
+	width: 150px;
+}
+.failure{
+	background: #FFAAAA;
+	text-align: right;
+	width: 150px;
+}
+.failure-left{
+	background: #FFAAAA;
+	width: 150px;
+}
+
+table{
+	border: solid 1px;	
+}
+th{
+	border: solid 1px;
+}

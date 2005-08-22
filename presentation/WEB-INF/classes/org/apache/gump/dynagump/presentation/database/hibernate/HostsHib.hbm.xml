@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+
+    <class name="org.apache.gump.dynagump.presentation.database.hibernate.HostsHib" table="hosts">
+        <id name="address" column="address" />
+ 
+        <property name="description" column="description"/>
+        <property name="cpuArch" column="cpu_arch"/>
+        <property name="cpuNumber" column="cpu_number"/>
+        <property name="cpuSpeed" column=" cpu_speed_Mhz"/>
+        <property name="memoryMb" column="memory_Mb"/>
+        <property name="diskGB" column="disk_Gb" not-null="false"/>
+        <property name="name" column="name"/>
+        <set name="workspace" inverse="true">
+            <key column="host"/>
+            <one-to-many class="org.apache.gump.dynagump.presentation.database.hibernate.WorkspaceHib"/>
+        </set>
+    </class>
+ 
+
+</hibernate-mapping>
+

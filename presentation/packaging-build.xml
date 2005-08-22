@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Packaging Generator" default="_packaging_generation_">
+<property name="sourcedir" value="${basedir}/WEB-INF/src"/>
+<property name="targetdir" value="${basedir}/WEB-INF/class"/>
+<property name="librarydir" value="${basedir}/WEB-INF/lib"/>
+
+ <path id="libraries">
+        <fileset dir="${librarydir}">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement location="/opt/JBoss/server/default/lib/javax.servlet.jar"/>
+        <pathelement location="/opt/JBoss/server/default/lib/jboss-j2ee.jar"/>
+    </path>
+    <target name="clean">
+        <delete dir="${targetdir}"/>
+        <mkdir dir="${targetdir}"/>
+    </target>
+
+   <target name="compile" depends="clean, copy-resources">
+      <javac srcdir="${sourcedir}"
+             destdir="${targetdir}"
+             classpathref="libraries"/>
+    </target>
+
+    <target name="copy-resources">
+        <copy todir="${targetdir}">
+            <fileset dir="${sourcedir}">
+                <exclude name="**/*.xml"/>
+            </fileset>
+        </copy>
+    </target>
+
+<target name="_packaging_generation_" depends="N65540"/>
+<target name="N65540" description="Gump3Present.war" depends="compile">
+<jar destfile="Gump3Present.war">
+<zipfileset dir="WEB-INF/classes" prefix="WEB-INF/classes" includes="**/*.class"/>
+<zipfileset dir="WEB-INF/lib" prefix="WEB-INF/lib"/>
+<zipfileset dir="WEB-INF" prefix="WEB-INF" includes="*.xml, *.tld"/>
+<zipfileset dir="pages" excludes="restricted/*.*"/>
+<zipfileset dir="pages/restricted" prefix="WEB-INF" includes="**"/>
+<zipfileset dir="WEB-INF/src" prefix="WEB-INF/classes" includes="**/*.xml"/>
+</jar>
+</target>
+</project>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+   <class name="org.apache.gump.dynagump.presentation.database.hibernate.RunsHib" table="runs">
+        <id name="id" column="id" />
+
+        <property name="startTime" column="start_time"/>
+        <property name="endTime" column="end_time"/>
+        <many-to-one name="workspaceId" column="workspace_id" class="org.apache.gump.dynagump.presentation.database.hibernate.WorkspaceHib"/>
+
+        <property name="name" column="name"/>
+
+    </class>
+ 
+
+
+
+</hibernate-mapping>
