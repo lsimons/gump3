@@ -187,6 +187,7 @@ def _create_commands(project, project_definition, log=None):
     _create_specific_script_commands(project, project_definition, "autoconf", Autoconf, log=log)
     _create_specific_script_commands(project, project_definition, "automake", Automake, log=log)
     _create_ant_commands(project, project_definition, log=log)
+    _create_maven_commands(project, project_definition, log=log)
     #TODO more commands
 
 
@@ -415,6 +416,16 @@ def _create_ant_commands(project, project_definition, log=None):
 
         project.add_command(command)
 
+def _create_maven_commands(project, project_definition, log=None):
+    mavens = project_definition.getElementsByTagName("maven")
+    for cmd in mavens:
+        buildfile = cmd.getAttribute("buildfile")
+        target = cmd.getAttribute("target")
+        basedir = cmd.getAttribute("basedir")
+        command = Maven(project, target, buildfile=buildfile, basedir=basedir)
+        _create_properties(command, cmd, log=log)
+        _enable_debug(command, cmd)
+	project.add_command(command)
 
 def _create_outputs(project, project_definition):    
     _create_work_outputs(project, project_definition)

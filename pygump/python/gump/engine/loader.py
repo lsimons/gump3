@@ -31,11 +31,12 @@ from gump.engine.modeller import _find_project_containing_node
 from gump.engine.modeller import _find_document_containing_node
 from gump.engine.modeller import _find_module_containing_node
 from gump.engine.modeller import _do_drop
+from gump.engine.mavenizer import _parse_maven_projects
 
 ###
 ### Helper methods
 ###
-def _resolve_hrefs_in_children(element, dropped_nodes, found_hrefs, download_func, error_func):
+def _resolve_hrefs_in_children(element, dropped_nodes, found_hrefs, download_func, error_func, get_vfs):
     """Recursively resolve all hrefs in all the children for a DOM node.
     
     The resolution is done in a resolve-then-recurse manner, so the end
@@ -58,15 +59,15 @@ def _resolve_hrefs_in_children(element, dropped_nodes, found_hrefs, download_fun
         if child.tagName == 'url': continue
         if child.hasAttribute('href'):
             # yep, this is one to load...
-            _resolve_href(child, dropped_nodes, found_hrefs, download_func, error_func)
+            _resolve_href(child, dropped_nodes, found_hrefs, download_func, error_func, get_vfs)
 
         # now recurse to resolve any hrefs within this child
         # note that we duplicate the found_hrefs array. This means that the
         # same file can be imported multiple times, as long as it is imported
         # by siblings, rather than as part of some parent<->child relation.
-        _resolve_hrefs_in_children(child, dropped_nodes, found_hrefs[:], download_func, error_func)
+        _resolve_hrefs_in_children(child, dropped_nodes, found_hrefs[:], download_func, error_func, get_vfs)
 
-def _resolve_href(node, dropped_nodes, found_hrefs, download_func, error_func):
+def _resolve_href(node, dropped_nodes, found_hrefs, download_func, error_func, get_vfs):
     """Resolve a href for the provided node.
 
     We merge in the referenced xml document into the provided node.
@@ -74,7 +75,10 @@ def _resolve_href(node, dropped_nodes, found_hrefs, download_func, error_func):
     succeeds. If the merge fails the provided node will be removed from
     its parent and appended to the dropped_nodes list.
     """
-    href = node.getAttribute('href')
+    if node.getAttribute('type') == 'maven':
+	href = _parse_maven_projects( node, download_func, get_vfs )
+    else:
+    	href = node.getAttribute('href')
     if href in found_hrefs:
         raise EngineError, \
               """Recursive inclusion because files refer to each other. This href leads to
@@ -183,7 +187,7 @@ class Loader:
         # resolve all hrefs in all elements, for example
         # <project href="blah.xml"/>; replaces that element with the
         # contents of blah.xml
-        _resolve_hrefs_in_children(ws, dropped_nodes, [], self.get_as_stream, self.handle_error)
+        _resolve_hrefs_in_children(ws, dropped_nodes, [], self.get_as_stream, self.handle_error, self.vfs.filesystem_root)
         
         # the combined results
         return (wsdom, dropped_nodes)

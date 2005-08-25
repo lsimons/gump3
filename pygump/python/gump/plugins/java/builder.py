@@ -23,7 +23,7 @@ import os
 import sys
 from os.path import abspath, join, isfile
 
-from gump.model import Script, Error, Project, Ant, Dependency, Classdir, Jar, DEPENDENCY_INHERIT_ALL, DEPENDENCY_INHERIT_HARD, DEPENDENCY_INHERIT_JARS
+from gump.model import Script, Error, Project, Maven, Ant, Dependency, Classdir, Jar, DEPENDENCY_INHERIT_ALL, DEPENDENCY_INHERIT_HARD, DEPENDENCY_INHERIT_JARS
 from gump.model.util import get_project_directory,get_module_directory,get_jar_path,calculate_classpath
 from gump.plugins import AbstractPlugin
 from gump.plugins.builder import BuilderPlugin
@@ -40,6 +40,30 @@ class ClasspathPlugin(BuilderPlugin):
         command.classpath = classpath
         command.boot_classpath = bootclasspath
                 
+class MavenPlugin(BuilderPlugin):
+    """Execute all "Maven" commands for all projects."""
+    def __init__(self, log, debug=False):
+        BuilderPlugin.__init__(self, log, Maven, self._do_maven)
+        self.debug = debug
+
+    def _do_maven(self, project, maven):
+	# pass
+	#environment
+        maven.env['CLASSPATH'] = os.pathsep.join(maven.classpath)
+        self.log.debug("        CLASSPATH is '%s%s%s'" % \
+                       (ansicolor.Blue, maven.env['CLASSPATH'], ansicolor.Black))
+
+        maven.env['PATH'] = maven.path
+        self.log.debug("        PATH is '%s%s%s'" % \
+                       (ansicolor.Blue, maven.env['PATH'], ansicolor.Black))
+	# working directory
+        projectpath = get_project_directory(project)
+        if maven.basedir:
+            projectpath = os.path.join(projectpath, maven.basedir)
+	#command line
+	args = ["maven"]
+	if maven.target: args += [maven.target] 
+        self._do_run_command(maven, args, projectpath, no_cleanup=True)
         
 class AntPlugin(BuilderPlugin):
     """Execute all "ant" commands for all projects."""

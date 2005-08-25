@@ -105,6 +105,7 @@ def get_plugins(config):
         log.info("Not running updates! (pass --do-updates to enable them)")
         
     if config.do_build:
+        from gump.model import Maven
         from gump.model import Ant
         from gump.model import Script
 
@@ -118,13 +119,17 @@ def get_plugins(config):
     
         from gump.plugins.builder import PathPlugin
         plugins.append(PathPlugin(buildlog, Ant))
+        plugins.append(PathPlugin(buildlog, Maven))
         plugins.append(PathPlugin(buildlog, Script))
         from gump.plugins.builder import ScriptBuilderPlugin
         plugins.append(ScriptBuilderPlugin(buildlog))
         from gump.plugins.java.builder import ClasspathPlugin
         plugins.append(ClasspathPlugin(buildlog,Ant))
+        plugins.append(ClasspathPlugin(buildlog,Maven))
         from gump.plugins.java.builder import AntPlugin
         plugins.append(AntPlugin(buildlog))
+        from gump.plugins.java.builder import MavenPlugin
+        plugins.append(MavenPlugin(buildlog))
         #plugins.append(AntPlugin(buildlog, debug=True))
     else:
         log.info("Not running builds! (pass --do-builds to enable them)")

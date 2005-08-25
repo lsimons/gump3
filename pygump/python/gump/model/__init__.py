@@ -658,6 +658,34 @@ class Ant(Command):
     def __str__(self):
         return "<Ant:target=%s,buildfile=%s,basedir=%s>" % (self.target, self.buildfile, self.basedir)
 
+class Maven(Command):
+    """Command to run an Maven build.
+
+    Has the following properties:
+        
+        - all the properties a Command has
+        - target -- the Maven target
+        - buildfile -- the Maven build file
+        - basedir -- directory relative to project home in which to run
+    """
+    def __init__(self, project, target, buildfile="", basedir=None, properties=None):
+        assert isinstance(target, basestring)
+            
+        Command.__init__(self, project, basedir)
+        if properties != None:
+            assert isinstance(properties, dict)
+            for k,v in properties.iteritems():
+                assert isinstance(k, basestring)
+                assert isinstance(v, basestring)
+            self.properties = properties
+        else:
+            self.properties = {}
+
+        self.target = target
+
+    def __str__(self):
+        return "<Maven:target=%s,basedir=%s>" % (self.target, self.basedir)
+
 #TODO: more Commands
 
 class Output(ModelObject):

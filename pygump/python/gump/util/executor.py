@@ -38,7 +38,7 @@ are!"""
 __copyright__ = "Copyright (c) 2004-2005 The Apache Software Foundation"
 __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
-import sys
+import sys, os
 from gump.util import ansicolor
 
 # set this to a logging-module-compatible logger to make this module log all
@@ -131,7 +131,7 @@ else:
                     # function
                     pre_exec_function = lambda: (preexec_fn(),savepgid(process_list_filename))
                 
-                
+
                 subprocess.Popen.__init__(self, args, bufsize=bufsize, executable=executable,
                          stdin=stdin, stdout=stdout, stderr=stderr,
                          # note our custom function in there...
