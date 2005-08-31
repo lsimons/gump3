@@ -4,6 +4,8 @@ from xml.dom import minidom
 from gump.engine.modeller import _find_element_text
 from gump.util.io import VFS
 
+slash = os.sep
+
 def _parse_maven_projects( module_node, download_func, get_vfs):
         """Looks for <project type="maven"> and converts those."""
         #create maven DOM
@@ -101,7 +103,7 @@ def _parse_maven_file( project, download_func, get_vfs, maven_build_goal ):
 	
 	#find root of metadata/ where data is coming from
 	home_dir = get_vfs
-	mavenfile = open("%s\\%s" % (home_dir, filename), "w")
+	mavenfile = open("%s%s%s" % (home_dir, slash, filename), "w")
 	mavenfile.write( '<?xml version="1.0" encoding="UTF-8"?> \n' )
 	mavenfile.write( license() )
 	mavenfile.write( '  <project name="%s">\n\n' % name)
@@ -135,6 +137,7 @@ def _parse_maven_file( project, download_func, get_vfs, maven_build_goal ):
 		if path:
 			mavenfile.write( '      <path>%s</path>\n' % path )
 		mavenfile.write( '    </repository>\n\n')
+	mavenfile.write( '    <depend project="maven"/>\n')
 	for dependency in dependencies:
 		depend = _find_element_text( dependency, "artifactId" )
 		if map:
@@ -164,7 +167,7 @@ def build_map_ID():
 	#open config file, set up dictonary
 	try:
 		mycwd = os.getcwd()
-		IDfile = open("%s\python\gump\util\mavenToGump.conf" % mycwd , "r")
+		IDfile = open("%s%spython%sgump%sutil%smavenToGump.conf" % (mycwd, slash, slash, slash, slash) , "r")
 		relation = IDfile.readline()
 		parts = relation.split(',')
 		IDmap = { parts[0]:parts[1][1:parts[1].index(':')] }
