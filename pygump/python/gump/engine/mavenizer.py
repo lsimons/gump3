@@ -22,8 +22,67 @@ def _parse_maven_projects( module_node, download_func, get_vfs):
         
     
 def _parse_maven_file( project, download_func, get_vfs, maven_build_goal ):
-        #TODO: implement this!
-	
+	"""
+	/****************************\
+	|   MAVEN PLUGIN FOR GUMP3   |
+	\****************************/
+
+	This version of gump will directly bootstrap maven so that a maven 
+	project file is added to the gump workspace.  There are still several
+	open issues in this project.
+
+
+	***setting up a maven project***
+
+	In your module description you need to add type=.maven. to the end of 
+	that tag.
+	EX:
+	<module name="db-torque">
+	  <url  href="http://db.apache.org/torque/"/>
+	  <description>
+	    Java based build tool
+	  </description>
+	  <project href="project.xml" type="maven"/> 
+	</module>
+	If any specific maven goals need to be added to the build a 
+	goal=.maven_goal. may also be added.
+	EX:
+	<project href="maven_test.xml" type="maven" goal=.jar./> 
+	Of course you will need ant and maven in the project build.
+
+
+	***Setting up maven gump id dependencies***
+
+	Currently there is a mismatch between maven and gump ids(see 
+	wiki.apache.org/gump).  The fix right now is a mapping between these 
+	mismatches that can be found in gump/util/mavenToGump.conf.  When new
+	mismatches are discovered they should be added to this file(follow 
+	format already in file).
+
+
+	***How it works***
+
+	When loader.py is creating the dom tree from the workspace, it checks 
+	for the type=.maven. flag.  If one is found mavenizer.py is called.  
+	First the maven file will be opened using _resolve_maven_imports.   
+	Once the dom is created, a check is made for any extend file included
+	in the maven project(maven projects may be defined over more than one 
+	project).  _parse_maven_file goes through the maven project descriptor 
+	gathering all the information needed/given to create a gump descriptor.
+	Once completed a new gumped_maven_project.xml file is created.  This 
+	may eventually be all internal but for now it is a visible file that 
+	you can check once the gump run is complete.  During the creation of 
+	this file any ID mismatch's are handled.  Once creation is complete the
+	file is saved and closed, with the file location being passed back to 
+	loader.py.  Loader.py then uses that file instead of the original maven
+	descriptor to create the gump tree.  When .do-builds is passed by 
+	command line the maven-plugin (similar to the ant plugin) is called to 
+	build any maven project.
+
+	*Note: mavenizer.py and the maven plugin for gump3 were originally 
+	implemented by Justin Merz as the Google 2005 summer of code project.
+	"""
+
 	#deal with extended maven projects
 	extend = 0;
 	hasExtend = _find_element_text(project, "extend")
