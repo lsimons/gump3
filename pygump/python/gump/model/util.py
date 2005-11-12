@@ -56,14 +56,6 @@ def get_workspace_directory(workspace):
     #return abspath(join(workspace.workdir,workspace.name))
     return abspath(workspace.workdir)
 
-def mark_failure(model_element, cause):
-    """Mark a model element as "failed"."""
-    assert isinstance(model_element, ModelObject)
-    model_element.failed = True
-    if not hasattr(model_element, "failure_cause"):
-        model_element.failure_cause = []
-    model_element.failure_cause.append(cause)
-
 def mark_stale_prereq(model_element, stale_prereq):
     """Mark a project with "stale prereq"."""
     assert isinstance(model_element, Project)
@@ -71,6 +63,24 @@ def mark_stale_prereq(model_element, stale_prereq):
     if not hasattr(model_element, "stale_prereqs"):
         model_element.stale_prereqs = []
     model_element.stale_prereqs.append(stale_prereq)
+    
+    # TODO staleness is really a recursive property much like failure...
+    # ...but this might break in the case of cyclic dependencies?
+    #for relationship in model_element.dependees:
+    #    mark_stale_prereq(relationship.dependee)
+
+def check_stale_prereq(model_element):
+    """Determine whether a project has a "stale prereq"."""
+    assert isinstance(model_element, Project)
+    return getattr(model_element, "has_stale_prereqs", False)
+
+def mark_failure(model_element, cause):
+    """Mark a model element as "failed"."""
+    assert isinstance(model_element, ModelObject)
+    model_element.failed = True
+    if not hasattr(model_element, "failure_cause"):
+        model_element.failure_cause = []
+    model_element.failure_cause.append(cause)
 
 def check_failure(model_element):
     """Determine whether a model element has "failed"."""

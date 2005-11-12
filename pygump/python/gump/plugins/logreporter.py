@@ -19,7 +19,8 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 from gump.plugins import AbstractPlugin
 from gump.model import Module, Project, Dependency, Command
-from gump.model.util import check_skip, check_failure, check_installed_package, get_failure_causes, get_root_cause
+from gump.model.util import check_skip, check_failure, check_installed_package
+from gump.model.util import check_stale_prereq, get_failure_causes, get_root_cause
 from gump.engine.algorithm import ExceptionInfo
 from gump.util import ansicolor
 
@@ -145,6 +146,9 @@ class ResultLogReporterPlugin(AbstractPlugin):
                 if project in workspace.unvisited:
                     cycled += 1
                     continue
+            if check_stale_prereq(project):
+                prereq_failed += 1
+                continue
             
             success += 1
         
@@ -204,7 +208,10 @@ class ResultLogReporterPlugin(AbstractPlugin):
             return
         
         if not check_failure(project):
-            self.wr('  %s%s: OK%s' % (ansicolor.Green, project, ansicolor.Black))
+            if check_stale_prereq(project):
+                self.wr('  %s%s: STALE PREREQ%s' % (ansicolor.Yellow, project, ansicolor.Black))
+            else:
+                self.wr('  %s%s: OK%s' % (ansicolor.Green, project, ansicolor.Black))
         else:
             firsterror = '  %s%s: FAIL%s' % (ansicolor.Red, project, ansicolor.Black+ansicolor.Black)
 

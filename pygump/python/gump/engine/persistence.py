@@ -147,7 +147,7 @@ class ShelfBasedPersistenceHelper:
             newproject.add_output(output)
         
         dontadd = ["module", "name", "path", "homedir", "dependencies", "dependees", "outputs", \
-                   "commands", "shelf_dependencies"]
+                   "commands", "shelf_dependencies", "has_stale_prereqs"]
         for x in [x for x in dir(oldproject) if not x in dontadd]:
             att = getattr(oldproject, x)
             if callable(att):
