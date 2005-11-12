@@ -324,6 +324,24 @@ def get_dom_implementation():
     return impl
 
 
+def get_persistence_helper(config):
+    """Provide a persistence helper."""
+    log = get_logger(config, "persister")
+    if config.enable_persistence:
+        log.info("""Enabling ***experimental*** persistence features!
+          Phooey...you're very on-the-edge at the moment!""")
+        import shelve
+        shelf = shelve.open(config.persistence_file)
+    
+        from gump.engine.persistence import ShelfBasedPersistenceHelper
+        helper = ShelfBasedPersistenceHelper(shelf, log)
+        return helper
+    else:
+        log.info("Not using persistence! (pass --enable-persistence to enable)")
+        from gump.engine.algorithm import NoopPersistenceHelper
+        return NoopPersistenceHelper()
+
+
 def get_plugin(config):
     """Provide a Plugin implementation."""
     from gump.engine.algorithm import DumbAlgorithm
@@ -331,11 +349,15 @@ def get_plugin(config):
     
     (pre_process_plugins, plugins, post_process_plugins) = get_plugins(config)
     error_handler = get_error_handler(config)
+    persistence_helper = get_persistence_helper(config)
     
     if getattr(config, "project_name", False):
-        mainalgorithm = MoreEfficientAlgorithm(plugins, error_handler, project_list=config.project_name)
+        mainalgorithm = MoreEfficientAlgorithm(plugins, error_handler,
+                                               persistence_helper=persistence_helper,
+                                               project_list=config.project_name)
     else:
-        mainalgorithm = MoreEfficientAlgorithm(plugins, error_handler)
+        mainalgorithm = MoreEfficientAlgorithm(plugins, error_handler,
+                                               persistence_helper=persistence_helper)
     
     return (DumbAlgorithm(pre_process_plugins, error_handler),
             mainalgorithm, #DumbAlgorithm(plugins, error_handler)

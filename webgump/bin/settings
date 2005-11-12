@@ -2,6 +2,19 @@ if [[ -z "$GUMP_HOME" ]]; then
   echo "ERROR: \$GUMP_HOME is not set!"
   exit 1
 fi
+
 APACHECTL=$GUMP_HOME/webgump/lib/apache2-install/current/bin/apachectl
+if [[ ! -f "$APACHECTL" ]]; then
+  echo "ERROR: Apache HTTPD not properly installed, see webgump/INSTALL.txt!"
+  exit 1
+fi
 APACHECMD=$GUMP_HOME/webgump/lib/apache2-install/current/bin/httpd
+if [[ ! -f "$APACHECMD" ]]; then
+  echo "ERROR: Apache HTTPD not properly installed, see webgump/INSTALL.txt!"
+  exit 1
+fi
 APACHECONF=$GUMP_HOME/webgump/conf/`hostname -s`.conf
+if [[ ! -f "$APACHECONF" ]]; then
+  echo "ERROR: You need to create the apache config file $APACHECONF, see webgump/INSTALL.txt!"
+  exit 1
+fi

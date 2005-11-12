@@ -39,6 +39,7 @@ from gump.util import ansicolor
 from gump.model import ModelObject, CvsModule, ExceptionInfo, Jar
 from gump.model.util import mark_failure, check_failure, mark_skip, check_skip
 from gump.model.util import mark_whether_module_was_updated
+from gump.model.util import mark_stale_prereq
 from gump.model.util import check_module_update_failure
 from gump.model.util import store_exception
 
@@ -164,13 +165,16 @@ class DumbAlgorithm:
                         "{{{finalization stage}}}", type, value, traceback)
 
 class NoopPersistenceHelper:
-    def use_previous_build(self, arg):
+    def store_previous_builds(self, *args):
         pass
     
-    def has_previous_build(self, arg):
+    def use_previous_build(self, *args):
         pass
     
-    def stop_using_previous_build(self, arg):
+    def has_previous_build(self, *args):
+        return False
+    
+    def stop_using_previous_build(self, *args):
         pass
 
 DEFAULT_PROJECT_REGEX = ".*"
@@ -187,7 +191,10 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
       - if a module fails to update, the projects it contains are not built
       - if there were no changes to the module since the previous run, the projects
         it contains are not built
-      - if a project fails to build, none of its dependees are built
+      - if a project fails to build
+        - if there is a "previous build"
+          - its dependees are flagged "failed prereq" and built against that
+        - otherwise none of its dependees are built
     
     If an element "fails", its "failed" property will be set to "True" and an
     array named "failure_cause" will be created pointing to the elements that
@@ -266,6 +273,7 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
                 # if there is a "last successful build", we'll use that
                 if self.persistence_helper.has_previous_build(project):
                     self.persistence_helper.use_previous_build(relationship.dependency)
+                    mark_stale_prereq(project, relationship.dependency)
                 else:
                     # otherwise, we're doomed!
                     mark_failure(project, relationship)
@@ -287,6 +295,8 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
     
     def _finalize(self, workspace):
         DumbAlgorithm._finalize(self, workspace)
-        self.persistence_helper.stop_using_previous_build(workspace)
+        for project in workspace.projects:
+            self.persistence_helper.stop_using_previous_build(project)
+        self.persistence_helper.store_previous_builds(workspace)
         self.project_model_list = []
         self.module_model_list = []

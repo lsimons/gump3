@@ -1,0 +1,17 @@
+In order to run webgump, you need to get and install
+
+  * Apache2
+  * mod_python
+
+into its directory tree. The following command might work
+if you're on unix:
+
+  cd $GUMP_HOME
+  ./gump webgump get-apache
+
+but its not really tested all that well, so be prepared to
+read the script
+
+  webgump/bin/get-apache
+
+and execute the equivalent steps manually. Good luck!

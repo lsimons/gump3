@@ -1,16 +1,22 @@
 #!/bin/bash
 # simple script to setup apache
 
-# Where are we?
-if [[ -z "$GUMP_HOME" ]]; then
-  echo "ERROR: \$GUMP_HOME not set!"
+function bail {
+  echo "ERROR:" "$@"
   exit 1
-fi
+}
+
+function warn {
+  echo "ERROR:" "$@"
+}
+
+# Where are we?
+[[ -z "$GUMP_HOME" ]] && bail "\$GUMP_HOME not set!"
 
 ###
 ### Settings
 ###
-APACHE_VERSION=2.0.53
+APACHE_VERSION=2.0.54
 APACHE_INSTALL=$GUMP_HOME/webgump/lib/apache2-install
 
 ###
@@ -20,23 +26,23 @@ if [[ ! -d "$APACHE_INSTALL/current" ]]; then
   mkdir $APACHE_INSTALL
   cd $APACHE_INSTALL
   if [[ ! -d "$APACHE_INSTALL/httpd-$APACHE_VERSION" ]]; then
-    wget http://apache.surfnet.nl/httpd/httpd-$APACHE_VERSION.tar.gz
-    tar zxf httpd-$APACHE_VERSION.tar.gz
+    wget http://apache.surfnet.nl/httpd/httpd-$APACHE_VERSION.tar.gz || bail "Downloading httpd-$APACHE_VERSION failed! maybe there is a new version? Change APACHE_VERSION in webgump/bin/get-apache as appropriate"
+    tar zxf httpd-$APACHE_VERSION.tar.gz || bail "Corrupt tarball?"
   fi
-  cd $APACHE_INSTALL/httpd-$APACHE_VERSION
-  ./configure --prefix=$APACHE_INSTALL/current --enable-mods-shared=most
-  make
-  make install
+  cd $APACHE_INSTALL/httpd-$APACHE_VERSION || bail
+  ./configure --prefix=$APACHE_INSTALL/current --enable-mods-shared=most || bail "Apache config failed!"
+  make || bail "Apache build failed!"
+  make install || bail "Apache build failed!"
 else
-  echo "WARNING appears apache is already installed at"
-  echo "WARNING   $APACHE_INSTALL/current"
-  echo "WARNING We won't attempt re-install"
+  warn "It appears apache is already installed at"
+  warn "   $APACHE_INSTALL/current"
+  warn "We won't attempt re-install"
 fi
 
 ###
 ### Install mod_python
 ###
-$GUMP_HOME/webgump/bin/get-mod-python
+$GUMP_HOME/webgump/bin/get-mod-python || bail "mod_python download failed!"
 
 ###
 ### Use our own config

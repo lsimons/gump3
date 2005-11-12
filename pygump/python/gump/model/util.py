@@ -64,6 +64,14 @@ def mark_failure(model_element, cause):
         model_element.failure_cause = []
     model_element.failure_cause.append(cause)
 
+def mark_stale_prereq(model_element, stale_prereq):
+    """Mark a project with "stale prereq"."""
+    assert isinstance(model_element, Project)
+    model_element.has_stale_prereqs = True
+    if not hasattr(model_element, "stale_prereqs"):
+        model_element.stale_prereqs = []
+    model_element.stale_prereqs.append(stale_prereq)
+
 def check_failure(model_element):
     """Determine whether a model element has "failed"."""
     assert isinstance(model_element, ModelObject)

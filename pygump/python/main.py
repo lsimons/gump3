@@ -58,7 +58,7 @@ def print_help(file=None):
 def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                _logdir=None, _workspace=None, _databaseserver="localhost",
                _databaseport=3306, _databasename="gump", _databaseuser="gump",
-               _databasepassword=None):
+               _databasepassword=None, _persistencefile="gumpshelf"):
     """Pygump uses the optparse package to provide the CLI.
     
     To add new options to pygump, change this method and document the changes
@@ -156,6 +156,16 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       dest="database_password",
                       default=_databasepassword,
                       help="password gump will use to connect to the database")
+    parser.add_option("--persistencefile",
+                      action="store",
+                      dest="persistence_file",
+                      default=_persistencefile,
+                      help="DBM file gump will use for persistence support")
+    parser.add_option("--enable-persistence",
+                      action="store_true",
+                      dest="enable_persistence",
+                      default=False, # Default to NOT. At least during initial development...
+                      help="enable ***experimental*** persistence support")
     parser.add_option("--color",
                       action="store_true",
                       dest="enable_colors",
