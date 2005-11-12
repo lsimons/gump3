@@ -76,9 +76,9 @@ def _resolve_href(node, dropped_nodes, found_hrefs, download_func, error_func, g
     its parent and appended to the dropped_nodes list.
     """
     if node.getAttribute('type') == 'maven':
-	href = _parse_maven_projects( node, download_func, get_vfs )
+        href = _parse_maven_projects( node, download_func, get_vfs )
     else:
-    	href = node.getAttribute('href')
+            href = node.getAttribute('href')
     if href in found_hrefs:
         raise EngineError, \
               """Recursive inclusion because files refer to each other. This href leads to

@@ -19,7 +19,7 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 from gump.plugins import AbstractPlugin
 from gump.model import Module, Project, Dependency, Command
-from gump.model.util import check_skip, check_failure, check_installed_package
+from gump.model.util import check_skip, check_failure, check_installed_package, check_previous_build
 from gump.model.util import check_stale_prereq, get_failure_causes, get_root_cause
 from gump.engine.algorithm import ExceptionInfo
 from gump.util import ansicolor
@@ -116,6 +116,8 @@ class ResultLogReporterPlugin(AbstractPlugin):
             self.wr('  Run started:  %s' % workspace.run_start)
             self.wr('  Run finished: %s' % workspace.run_end)
             self.wr('')
+            
+        unvisited = getattr(workspace, "unvisited", [])
         
         failed        = 0
         prereq_failed = 0
@@ -123,8 +125,11 @@ class ResultLogReporterPlugin(AbstractPlugin):
         packaged      = 0
         success       = 0
         cycled        = 0
-        total = len(workspace.projects)
+        total = len(workspace.projects) + len(unvisited)
         for project in workspace.projects.values():
+            if project in unvisited:
+                cycled += 1
+                continue
             if check_failure(project):
                 prereq_fail = False
                 for cause in get_failure_causes(project):
@@ -142,10 +147,6 @@ class ResultLogReporterPlugin(AbstractPlugin):
             if check_installed_package(project):
                 packaged += 1
                 continue
-            if hasattr(workspace, "unvisited"):
-                if project in workspace.unvisited:
-                    cycled += 1
-                    continue
             if check_stale_prereq(project):
                 prereq_failed += 1
                 continue
@@ -199,20 +200,10 @@ class ResultLogReporterPlugin(AbstractPlugin):
                 self.wr('  %s%s: CYCLIC DEPENDENCY%s' % (ansicolor.Bright_Red, project, ansicolor.Black))
  
     def visit_project(self, project):
-        if check_skip(project):
-            self.wr('  %s%s: SKIPPED%s' % (ansicolor.Blue, project, ansicolor.Black))
-            return
-        
-        if check_installed_package(project):
-            self.wr('  %s%s: PACKAGED%s' % (ansicolor.Purple, project, ansicolor.Black))
-            return
-        
-        if not check_failure(project):
-            if check_stale_prereq(project):
-                self.wr('  %s%s: STALE PREREQ%s' % (ansicolor.Yellow, project, ansicolor.Black))
-            else:
-                self.wr('  %s%s: OK%s' % (ansicolor.Green, project, ansicolor.Black))
-        else:
+        if check_failure(project):
+            if check_previous_build(project):
+                project = project.previous_buid
+
             firsterror = '  %s%s: FAIL%s' % (ansicolor.Red, project, ansicolor.Black+ansicolor.Black)
 
             causes = get_failure_causes(project)
@@ -247,6 +238,21 @@ class ResultLogReporterPlugin(AbstractPlugin):
                         self.wr("%s%s caused by %s%s" % (ansicolor.Yellow, indent, real_elem, ansicolor.Black))
                         
                     indent += "  "
+            return
+            
+        if check_skip(project) and not check_previous_build(project):
+            self.wr('  %s%s: SKIPPED%s' % (ansicolor.Blue, project, ansicolor.Black))
+            return
+        
+        if check_installed_package(project) and not check_previous_build(project):
+            self.wr('  %s%s: PACKAGED%s' % (ansicolor.Purple, project, ansicolor.Black))
+            return
+        
+        if check_stale_prereq(project):
+            self.wr('  %s%s: STALE PREREQ%s' % (ansicolor.Yellow, project, ansicolor.Black))
+            return
+        
+        self.wr('  %s%s: OK%s' % (ansicolor.Green, project, ansicolor.Black))
                     
     def finalize(self, workspace):
         self.wr('  ======================================================================================')

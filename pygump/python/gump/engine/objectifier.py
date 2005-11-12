@@ -425,7 +425,7 @@ def _create_maven_commands(project, project_definition, log=None):
         command = Maven(project, target, buildfile=buildfile, basedir=basedir)
         _create_properties(command, cmd, log=log)
         _enable_debug(command, cmd)
-	project.add_command(command)
+        project.add_command(command)
 
 def _create_outputs(project, project_definition):    
     _create_work_outputs(project, project_definition)

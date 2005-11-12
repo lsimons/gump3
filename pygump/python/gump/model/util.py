@@ -74,6 +74,16 @@ def check_stale_prereq(model_element):
     assert isinstance(model_element, Project)
     return getattr(model_element, "has_stale_prereqs", False)
 
+def mark_previous_build(model_element):
+    """MArk whether a project is a "previous build"."""
+    assert isinstance(model_element, Project)
+    setattr(model_element, "previous_build", True)
+
+def check_previous_build(model_element):
+    """Determine whether a project is a "previous build"."""
+    assert isinstance(model_element, Project)
+    return getattr(model_element, "previous_build", False)
+
 def mark_failure(model_element, cause):
     """Mark a model element as "failed"."""
     assert isinstance(model_element, ModelObject)
@@ -81,6 +91,14 @@ def mark_failure(model_element, cause):
     if not hasattr(model_element, "failure_cause"):
         model_element.failure_cause = []
     model_element.failure_cause.append(cause)
+
+def mark_stale_prereq(model_element, stale_prereq):
+    """Mark a project with "stale prereq"."""
+    assert isinstance(model_element, Project)
+    model_element.has_stale_prereqs = True
+    if not hasattr(model_element, "stale_prereqs"):
+        model_element.stale_prereqs = []
+    model_element.stale_prereqs.append(stale_prereq)
 
 def check_failure(model_element):
     """Determine whether a model element has "failed"."""

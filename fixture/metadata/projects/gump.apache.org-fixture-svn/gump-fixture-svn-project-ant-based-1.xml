@@ -21,6 +21,7 @@ limitations under the License.
     
     <ant target="gump" buildfile="ant.xml"/>
 
+    <depend project="ant" inherit="runtime"/>    
     <depend project="gump-fixture-svn-project-3"/>
     <depend project="gump-fixture-svn-project-dir-management-1"/>
 </project>

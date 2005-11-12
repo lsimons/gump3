@@ -64,6 +64,7 @@ directories). Ouch!
 
 from gump.model import Workspace, Repository, Module, Project, Jar, Path
 from gump.model.util import get_project_directory, check_failure, check_skip
+from gump.model.util import mark_previous_build
 import os
 import shutil
 import copy
@@ -89,10 +90,14 @@ class ShelfBasedPersistenceHelper:
         
     def store_previous_builds(self, workspace):
         for project in workspace.projects.values():
-            if not check_failure(project) and not check_skip(project):
-                self.log.debug(
+            if check_failure(project) or\
+               check_skip(project) or \
+               hasattr(project, "use_atts_when_stopping_to_use_previous_build"):
+                    continue
+                
+            self.log.debug(
 "Project %s built okay, storing as the new 'last successful build'..." % project)
-                self.store_previous_build(project)
+            self.store_previous_build(project)
     
     def store_previous_build(self, project):
         if getattr(project, "failed", False):
@@ -111,6 +116,7 @@ class ShelfBasedPersistenceHelper:
         # okay we can shelve this...
         self.log.debug("Storing previous build for %s..." % project)
         storeable_project = self.extract_storeable_project(project)
+        mark_previous_build(storeable_project)
         
         # save files...
         self.store_previous_build_files(storeable_project)
@@ -147,8 +153,14 @@ class ShelfBasedPersistenceHelper:
             newproject.add_output(output)
         
         dontadd = ["module", "name", "path", "homedir", "dependencies", "dependees", "outputs", \
-                   "commands", "shelf_dependencies", "has_stale_prereqs"]
-        for x in [x for x in dir(oldproject) if not x in dontadd]:
+                   "commands", "shelf_dependencies", "has_stale_prereqs", "failure_cause", "stale_prereqs"]
+        for x in dir(oldproject):
+            if x in dontadd:
+                continue
+            if x.startswith("_"):
+                continue
+            if self.is_special_previous_build_attr(x):
+                continue
             att = getattr(oldproject, x)
             if callable(att):
                 continue
@@ -177,22 +189,24 @@ class ShelfBasedPersistenceHelper:
         project.previous_build = self.shelf[str(project.name)]
         
         # and include in the "new" tree
-        project.previous_build.module = project.module
-        ws = project.repository.module.workspace
+        #project.previous_build.module = project.module
+        #ws = project.module.repository.workspace
         
+        # The below causes the topsort to fail -- the number of indegrees
+        # changes improperly. ouch!
         # and link up dependencies
-        for depname in project.previous_build.shelf_dependencies:
+        #for depname in project.previous_build.shelf_dependencies:
             # note we create a situation here where an "old" project seems to depend
             # on a "new" one. This can sort-of be detected by the dependee belonging
             # to a different workspace, except we just changed that, above! So, lets
             # flag this dependency as "one from the past", at least...
-            if ws.projects.has_key(depname):
-                project.previous_build.add_dependency(ws.projects[depname])
-                setattr(project.previous_build.dependencies[-1], "previous_build", True)
-            else:
-                self.log.warn(
-"Previous build %s depends on project %s, which no longer exists! We're going to try and ignore this..." % (
-    project.previous_build, depname))
+            #if ws.projects.has_key(depname):
+            #    project.previous_build.add_dependency(ws.projects[depname])
+            #    setattr(project.previous_build.dependencies[-1], "previous_build", True)
+            #else:
+            #    self.log.warn(
+#"Previous build %s depends on project %s, which no longer exists! We're going to try and ignore this..." % (
+    #project.previous_build, depname))
 
     def has_previous_build(self, project):
         """Determine if information from a previous build was stored for this project."""
@@ -208,6 +222,9 @@ class ShelfBasedPersistenceHelper:
         return name in ["delete_atts_when_stopping_to_use_previous_build",
                         "use_atts_when_stopping_to_use_previous_build",
                         "previous_build"]
+    
+    def is_not_a_previous_build_attr(self, name):
+        return name in ["module", "dependencies", "dependees"]
     
     def use_previous_build(self, project):
         # algorithm should check this!
@@ -230,35 +247,39 @@ class ShelfBasedPersistenceHelper:
     
         # we'll replace all current members with the "old" members
         import inspect
-        members = inspect.getmembers(project)
+        newmembers = inspect.getmembers(project)
         oldmembers = inspect.getmembers(project.previous_build)
         
         # remember...
-        project.use_atts_when_stopping_to_use_previous_build = members
+        project.use_atts_when_stopping_to_use_previous_build = newmembers
     
         # we'll delete all current members that weren't there before
         temporarily_delete_attrs = []
-        for (newname, newvalue) in members:
+        for (newname, newvalue) in newmembers:
+            if self.is_not_a_previous_build_attr(newname):
+                continue
             found_in_old = False
             for (oldname, oldvalue) in oldmembers:
                 if oldname == newname:
                     found_in_old = True
                     break
             
-            if not found_in_old and not is_special_previous_build_attr(attname):
-                delattr(project, attname)
+            if not found_in_old and not self.is_special_previous_build_attr(newname):
+                delattr(project, newname)
         
         # we'll have to remove the members on the old project but not
         # on the new one
         temporarily_add_attrs = []
         for (oldname, oldvalue) in oldmembers:
+            if self.is_not_a_previous_build_attr(newname):
+                continue
             found_in_new = False
             for (newname, newvalue) in newmembers:
                 if newname == oldname:
                     found_in_new = True
                     break
             
-            if not found_in_new and not is_special_previous_build_attr(attname):
+            if not found_in_new and not self.is_special_previous_build_attr(oldname):
                 temporarily_add_attrs += oldname
         
         # the "failed" member is a special case since we set it below
@@ -270,7 +291,9 @@ class ShelfBasedPersistenceHelper:
     
         # move all old project members to the new one
         for (name, value) in oldmembers:
-            if is_special_previous_build_attr(name):
+            if self.is_not_a_previous_build_attr(newname):
+                continue
+            if self.is_special_previous_build_attr(name):
                 continue
             setattr(project, name, value)
             

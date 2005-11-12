@@ -47,8 +47,8 @@ class MavenPlugin(BuilderPlugin):
         self.debug = debug
 
     def _do_maven(self, project, maven):
-	# pass
-	#environment
+        # pass
+        #environment
         maven.env['CLASSPATH'] = os.pathsep.join(maven.classpath)
         self.log.debug("        CLASSPATH is '%s%s%s'" % \
                        (ansicolor.Blue, maven.env['CLASSPATH'], ansicolor.Black))
@@ -56,13 +56,13 @@ class MavenPlugin(BuilderPlugin):
         maven.env['PATH'] = maven.path
         self.log.debug("        PATH is '%s%s%s'" % \
                        (ansicolor.Blue, maven.env['PATH'], ansicolor.Black))
-	# working directory
+        # working directory
         projectpath = get_project_directory(project)
         if maven.basedir:
             projectpath = os.path.join(projectpath, maven.basedir)
-	#command line
-	args = ["maven"]
-	if maven.target: args += [maven.target] 
+        #command line
+        args = ["maven"]
+        if maven.target: args += [maven.target] 
         self._do_run_command(maven, args, projectpath, no_cleanup=True)
         
 class AntPlugin(BuilderPlugin):

@@ -233,7 +233,8 @@ class Config:
         if name == 'paths_pygump':
             return os.path.join(self.paths_home, "pygump")
         if name == 'paths_metadata':
-            return os.path.join(self.paths_home, "metadata")
+            return os.path.dirname(self.paths_workspace)
+            # nononono....return os.path.join(self.paths_home, "metadata")
         if name == 'do_mail':
             return self.mail_server and self.mail_server_port and self.mail_to and self.mail_from
         
