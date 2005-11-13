@@ -98,8 +98,8 @@ def get_plugins(config):
     if config.do_update:    
         plugins.append(TimerPlugin("update_start"))
         from gump.plugins.updater import CvsUpdater, SvnUpdater
-        plugins.append(CvsUpdater())
-        plugins.append(SvnUpdater())
+        plugins.append(CvsUpdater(log=log, cleanup=config.repo_cleanup))
+        plugins.append(SvnUpdater(log=log, cleanup=config.repo_cleanup))
         plugins.append(TimerPlugin("update_end"))
     else:
         log.info("Not running updates! (pass --do-updates to enable them)")
@@ -235,6 +235,8 @@ class Config:
         if name == 'paths_metadata':
             return os.path.dirname(self.paths_workspace)
             # nononono....return os.path.join(self.paths_home, "metadata")
+        if name == 'repo_cleanup':
+            return False
         if name == 'do_mail':
             return self.mail_server and self.mail_server_port and self.mail_to and self.mail_from
         

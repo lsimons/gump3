@@ -42,19 +42,21 @@ def get_project_directory(project):
     """Determine the base directory for a project."""
     return abspath(join(get_module_directory(project.module),project.path))
 
-def get_module_directory(module):
+def get_module_directory(module, location="builds"):
     """Determine the base directory for a module."""
-    return abspath(join(get_repository_directory(module.repository),module.name))
+    return abspath(join(get_repository_directory(module.repository, location=location),module.name))
 
-def get_repository_directory(repository):
+def get_repository_directory(repository, location="builds"):
     """Determine the base directory for a repository."""
-    return abspath(join(get_workspace_directory(repository.workspace),repository.name))
+    return abspath(join(get_workspace_directory(repository.workspace, location=location),repository.name))
 
-def get_workspace_directory(workspace):
+def get_workspace_directory(workspace, location="builds"):
     """Determine the base directory for a workspace."""
     # the below join() now happens in objectifier._create_workspace!
     #return abspath(join(workspace.workdir,workspace.name))
-    return abspath(workspace.workdir)
+    if not location:
+        location = "builds"
+    return abspath(join(workspace.workdir, location))
 
 def mark_stale_prereq(model_element, stale_prereq):
     """Mark a project with "stale prereq"."""

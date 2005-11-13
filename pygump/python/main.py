@@ -119,6 +119,11 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       dest="do_update",
                       default=False, # Default to NOT. At least during initial development...
                       help="run cvs and svn updates")
+    parser.add_option("--do-repo-clean",
+                      action="store_true",
+                      dest="repo_cleanup",
+                      default=False,
+                      help="Get rid of the svn and cvs checkout directories (and so do fresh checkouts)")
     parser.add_option("-b",
                       "--do-builds",
                       action="store_true",
@@ -475,6 +480,11 @@ def main():
     options.start_time = time.strftime('%d %b %Y %H:%M:%S', time.gmtime())
 
     options.version = GUMP_VERSION
+    
+    if options.repo_cleanup and not options.do_update:
+        print "ERROR: don't clean out the repositories if you will not update!"
+        print "       re-run gump with the '-u' option set."
+        sys.exit(3)
     
     # check for debug info
     if options.attach_wing:

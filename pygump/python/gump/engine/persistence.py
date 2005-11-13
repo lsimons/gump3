@@ -53,36 +53,18 @@ algorithm.py functionality, and otherwise pretty much hacks into lots of bits in
 gump system. While the parts of this plugin that don't interact with the algorithm.py
 code very closely could be split off, keeping it "out" as a special case hopefully keeps
 the program flow a little more understandable.
-
-Note that the file-copying code is not very efficient. Ideally we can do something using
-hard links, falling back to efficient rsync. What we're doing here is doubling disk space
-usage. When using SVN and doing a 'keep local copy checked out and duplicate before build'
-(which gump2 does but gump3 does not at the moment), that means we have 3 checkouts of the
-same stuff, which means 6 times the disk space, since SVN keeps around the .svn
-directories). Ouch!
 """
 
 from gump.model import Workspace, Repository, Module, Project, Jar, Path
 from gump.model.util import get_project_directory, check_failure, check_skip
 from gump.model.util import mark_previous_build
+from gump.util.sync import smart_sync
 import os
 import shutil
 import copy
 
 GUMP_STORAGE_DIRNAME=".gump-persist"
 
-def copytree(source=None, target=None, excludes=[]):
-    """Naive non-performant copytree utility.
-    
-    TODO: replace with something efficient (like rsync.py from gump2)."""
-    if os.path.exists(target):
-        shutil.rmtree(target)
-    shutil.copytree(source, target)
-    for x in excludes:
-        fullpath = os.path.join(target, x)
-        if os.path.exists(fullpath):
-            shutil.rmtree(fullpath)
-        
 class ShelfBasedPersistenceHelper:
     def __init__(self, shelf, log):
         self.shelf = shelf
@@ -175,8 +157,8 @@ class ShelfBasedPersistenceHelper:
     
             self.log.debug("Saving %s files into %s..." % (project, storage_path))
             
-            copytree(source=currentpath, target=storage_path, excludes=[GUMP_STORAGE_DIRNAME])
-            
+            smart_sync(currentpath, storage_path, excludes=[GUMP_STORAGE_DIRNAME], cleanup=False)
+
             project.original_path = project.path
             project.path = os.path.join(project.path, GUMP_STORAGE_DIRNAME)
         else:
