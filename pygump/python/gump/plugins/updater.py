@@ -168,4 +168,4 @@ class SvnUpdater(ModuleUpdater):
         svn = Popen(['svn', 'up'], cwd=cwd, stdout=PIPE, stderr=STDOUT)
         module.update_log = svn.communicate()[0]
         module.update_exit_status = svn.wait()
-        module.update_type = UPDATE_TYPE_CHECKOUT
+        module.update_type = UPDATE_TYPE_UPDATE
