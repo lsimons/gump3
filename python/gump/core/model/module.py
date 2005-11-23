@@ -715,7 +715,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         if location:
             if location.startswith('http'): return location
             # :TODO: Make configurable
-            return 'http://cvs.apache.org/viewcvs.cgi/gump/' + location
+            return 'http://svn.apache.org/repos/asf/gump/metadata/' + location
         
     def isUpdatable(self):
         return self.hasCvs() or self.hasSvn() or self.hasArtifacts()

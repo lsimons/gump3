@@ -217,7 +217,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             location=self.metadata
             if location.startswith('http'): return location
             # :TODO: Make configurable
-            return 'http://cvs.apache.org/viewcvs.cgi/gump/' + location
+            return 'http://svn.apache.org/repos/asf/gump/metadata/' + location
         return self.getModule().getMetadataViewUrl()
                         
     def getViewUrl(self):
