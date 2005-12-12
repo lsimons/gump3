@@ -176,6 +176,9 @@ class NoopPersistenceHelper:
     
     def stop_using_previous_build(self, *args):
         pass
+    
+    def save_workspace(self, *args):
+        pass
 
 DEFAULT_PROJECT_REGEX = ".*"
 DEFAULT_PROJECT_LIST = []
@@ -298,5 +301,6 @@ class MoreEfficientAlgorithm(DumbAlgorithm):
         for project in workspace.projects:
             self.persistence_helper.stop_using_previous_build(project)
         self.persistence_helper.store_previous_builds(workspace)
+        self.persistence_helper.save_workspace(workspace)
         self.project_model_list = []
         self.module_model_list = []

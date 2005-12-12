@@ -335,9 +335,11 @@ def get_persistence_helper(config):
           Phooey...you're very on-the-edge at the moment!""")
         import shelve
         shelf = shelve.open(config.persistence_file)
+        
+        ws_shelf = shelve.open(config.turbogump_db)
     
         from gump.engine.persistence import ShelfBasedPersistenceHelper
-        helper = ShelfBasedPersistenceHelper(shelf, log)
+        helper = ShelfBasedPersistenceHelper(shelf, ws_shelf, log)
         return helper
     else:
         log.info("Not using persistence! (pass --enable-persistence to enable)")

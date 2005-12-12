@@ -58,7 +58,8 @@ def print_help(file=None):
 def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                _logdir=None, _workspace=None, _databaseserver="localhost",
                _databaseport=3306, _databasename="gump", _databaseuser="gump",
-               _databasepassword=None, _persistencefile="gumpshelf"):
+               _databasepassword=None, _persistencefile="gumpshelf",
+               _turbogumpdb="turbogumpdb"):
     """Pygump uses the optparse package to provide the CLI.
     
     To add new options to pygump, change this method and document the changes
@@ -170,6 +171,11 @@ def get_parser(_homedir=None, _hostname=None, _projects=None, _workdir=None,
                       action="store_true",
                       dest="enable_persistence",
                       default=False, # Default to NOT. At least during initial development...
+                      help="enable ***experimental*** persistence support")
+    parser.add_option("--turbogump-db",
+                      action="store",
+                      dest="turbogump_db",
+                      default=_turbogumpdb,
                       help="enable ***experimental*** persistence support")
     parser.add_option("--color",
                       action="store_true",

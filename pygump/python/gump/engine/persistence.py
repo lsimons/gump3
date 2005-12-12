@@ -59,18 +59,41 @@ from gump.model import Workspace, Repository, Module, Project, Jar, Path
 from gump.model.util import get_project_directory, check_failure, check_skip
 from gump.model.util import mark_previous_build
 from gump.util.sync import smart_sync
+from gump.util.autopickling import add_pickle_support
 import os
 import shutil
 import copy
 
 GUMP_STORAGE_DIRNAME=".gump-persist"
 
+PICKLEABLE_MODEL=False
+def ensure_pickleable_model():
+    global PICKLEABLE_MODEL
+    if PICKLEABLE_MODEL:
+        return
+    
+    PICKLEABLE_MODEL = True
+    classtype = type(Workspace)
+    import gump.model
+    for x in dir(gump.model):
+        v = getattr(gump.model, x)
+        if isinstance(v, type(classtype)):
+            add_pickle_support(v)
+
 class ShelfBasedPersistenceHelper:
-    def __init__(self, shelf, log):
+    def __init__(self, shelf, ws_shelf, log):
         self.shelf = shelf
+        self.ws_shelf = ws_shelf
         self.log = log
+    
+    def save_workspace(self, workspace):
+        ensure_pickleable_model()
+        import time
+        key = time.strftime('%Y%m%d-%H%M')
+        self.ws_shelf[key] = workspace
         
     def store_previous_builds(self, workspace):
+        ensure_pickleable_model()
         for project in workspace.projects.values():
             if check_failure(project) or\
                check_skip(project) or \
