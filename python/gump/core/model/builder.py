@@ -198,7 +198,11 @@ class Builder(ModelObject, PropertyContainer):
                                     self.getDomAttributeValue('basedir')))
         else:
             self.basedir=self.project.getBaseDirectory()
-                
+
+        # Check for debugging properties
+        self.setDebug(self.domAttributeIsTrue('debug'))
+        self.setVerbose(self.domAttributeIsTrue('verbose'))
+                        
         self.setComplete(True)
                     
     def dump(self, indent=0, output=sys.stdout):
