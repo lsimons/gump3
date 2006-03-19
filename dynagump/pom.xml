@@ -22,7 +22,7 @@
         <configuration>
           <scanIntervalSeconds>5</scanIntervalSeconds>
           <contextPath>/</contextPath>
-          <webAppSourceDirectory>.</webAppSourceDirectory>
+          <webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
         </configuration>
       </plugin>
       <!--plugin>
