@@ -6,12 +6,12 @@
 
 	<class name="org.apache.gump.dynagump.database.hibernate.BuildHib" table="builds">
     	<id name="buildId" column="id"/>
-	    <many-to-one name="runId" column="run_id" class="org.apache.gump.dynagump.presentation.database.hibernate.RunsHib"/>
+	    <many-to-one name="runId" column="run_id" class="org.apache.gump.dynagump.database.hibernate.RunsHib"/>
 
 	    <property name="startTime" column="start_time"/>
 	    	<property name="endTime" column="end_time"/>
     	
- 		<many-to-one name="result" column="result" class="org.apache.gump.dynagump.presentation.database.hibernate.ResultHib"/>
+ 		<many-to-one name="result" column="result" class="org.apache.gump.dynagump.database.hibernate.ResultHib"/>
 	    <property name="log" column="log"/>
  	    <many-to-one name="ProjectId" column="project_version_id" not-null="true"/>
 
