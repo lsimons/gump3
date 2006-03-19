@@ -18,41 +18,39 @@ import org.apache.struts.action.ActionMapping;
 
 public class ProjectListAction extends Action {
 
-	private static Log log = LogFactory.getLog(ProjectStatusAction.class);
-	
-	public ActionForward execute(ActionMapping mapping,ActionForm form,
-			HttpServletRequest request,HttpServletResponse response){
+    private static Log log = LogFactory.getLog(ProjectStatusAction.class);
 
-		boolean forward = true;
-		String errorMsg = null;
-		
-		try{
-			DBController db = DBHandler.getController();
-			List projects = db.getProjects();
-			request.getSession().setAttribute("projects", projects);
-		}catch(SQLException sqle){
-			log.error(sqle.getMessage());
-			sqle.getStackTrace();
-			errorMsg = sqle.getMessage();
-			forward = false;			
-		}catch(CouldNotFindDBException cnfdbe){
-			log.error(cnfdbe.getMessage());
-			cnfdbe.getStackTrace();
-			errorMsg = cnfdbe.getMessage();
-			forward = false;			
-		}catch(RuntimeException e){
-			log.error(e.getMessage());
-			e.getStackTrace();
-			errorMsg = e.getMessage();
-			forward = false;		
-		}
-		
-		if(forward == true){
-			return mapping.findForward("success");
-		}
-		else{
-			request.getSession().setAttribute("errorMsg",errorMsg);
-			return mapping.findForward("errorPriv");
-		}
-	}
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+
+        boolean forward = true;
+        String errorMsg = null;
+
+        try {
+            DBController db = DBHandler.getController();
+            List projects = db.getProjects();
+            request.getSession().setAttribute("projects", projects);
+        } catch (SQLException sqle) {
+            log.error(sqle.getMessage());
+            sqle.getStackTrace();
+            errorMsg = sqle.getMessage();
+            forward = false;
+        } catch (CouldNotFindDBException cnfdbe) {
+            log.error(cnfdbe.getMessage());
+            cnfdbe.getStackTrace();
+            errorMsg = cnfdbe.getMessage();
+            forward = false;
+        } catch (RuntimeException e) {
+            log.error(e.getMessage());
+            e.getStackTrace();
+            errorMsg = e.getMessage();
+            forward = false;
+        }
+
+        if (forward == true) {
+            return mapping.findForward("success");
+        } else {
+            request.getSession().setAttribute("errorMsg", errorMsg);
+            return mapping.findForward("errorPriv");
+        }
+    }
 }

@@ -18,41 +18,40 @@ import org.apache.struts.action.ActionMapping;
 
 /**
  * Action to get the workspaces from the database
+ * 
  * @author hodden
- *
+ * 
  */
-//TODO Change the name to workspaceAction
+// TODO Change the name to workspaceAction
 public class BuildsAction extends Action {
 
-	private static Log log = LogFactory.getLog(BuildsAction.class);
-	
-	public ActionForward execute(ActionMapping mapping,ActionForm form,
-			HttpServletRequest request,HttpServletResponse response){
+    private static Log log = LogFactory.getLog(BuildsAction.class);
 
-		boolean forward = true;
-		String errorMsg = null;
-		
-		try{
-			ModuleController mc = ModuleController.getController();
-			List<Host> li = mc.getHosts();
-			request.getSession().setAttribute("workspaces", li);
-		}catch(SQLException sqle){
-			log.error(sqle.getMessage());
-			errorMsg = sqle.getMessage();
-			forward = false;
-		}catch(CouldNotFindDBException cnfdbe){
-			log.error(cnfdbe.getMessage());
-			errorMsg = cnfdbe.getMessage();
-			forward = false;
-		}
-		
-		if(forward == true){
-			return mapping.findForward("success");
-		}
-		else{
-			request.getSession().setAttribute("errorMsg",errorMsg);
-			return mapping.findForward("errorPriv");
-		}
-	}
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+
+        boolean forward = true;
+        String errorMsg = null;
+
+        try {
+            ModuleController mc = ModuleController.getController();
+            List<Host> li = mc.getHosts();
+            request.getSession().setAttribute("workspaces", li);
+        } catch (SQLException sqle) {
+            log.error(sqle.getMessage());
+            errorMsg = sqle.getMessage();
+            forward = false;
+        } catch (CouldNotFindDBException cnfdbe) {
+            log.error(cnfdbe.getMessage());
+            errorMsg = cnfdbe.getMessage();
+            forward = false;
+        }
+
+        if (forward == true) {
+            return mapping.findForward("success");
+        } else {
+            request.getSession().setAttribute("errorMsg", errorMsg);
+            return mapping.findForward("errorPriv");
+        }
+    }
 
 }
