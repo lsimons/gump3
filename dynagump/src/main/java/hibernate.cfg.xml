@@ -25,17 +25,15 @@
         <!-- Drop and re-create the database schema on startup 
         <property name="hbm2ddl.auto">create</property>-->
 
-
-
-        <mapping resource="org/apache/gump/dynagump/presentation/database/hibernate/HostsHib.hbm.xml"/>
-        <mapping resource="org/apache/gump/dynagump/presentation/database/hibernate/RunsHib.hbm.xml"/>
-        <mapping resource="org/apache/gump/dynagump/presentation/database/hibernate/BuildHib.hbm.xml"/>        
-        <mapping resource="org/apache/gump/dynagump/presentation/database/hibernate/ResultHib.hbm.xml"/>
-        <mapping resource="org/apache/gump/dynagump/presentation/database/hibernate/ProjectHib.hbm.xml"/>
-        <mapping resource="org/apache/gump/dynagump/presentation/database/hibernate/ProjectVersionIdHib.hbm.xml"/>
-        <mapping resource="org/apache/gump/dynagump/presentation/database/hibernate/ModuleHib.hbm.xml"/>
-        <mapping resource="org/apache/gump/dynagump/presentation/database/hibernate/DependenciesHib.hbm.xml"/>
-        <mapping resource="org/apache/gump/dynagump/presentation/database/hibernate/WorkspaceHib.hbm.xml"/>
+        <mapping resource="org/apache/gump/dynagump/database/hibernate/HostsHib.hbm.xml"/>
+        <mapping resource="org/apache/gump/dynagump/database/hibernate/RunsHib.hbm.xml"/>
+        <mapping resource="org/apache/gump/dynagump/database/hibernate/BuildHib.hbm.xml"/>        
+        <mapping resource="org/apache/gump/dynagump/database/hibernate/ResultHib.hbm.xml"/>
+        <mapping resource="org/apache/gump/dynagump/database/hibernate/ProjectHib.hbm.xml"/>
+        <mapping resource="org/apache/gump/dynagump/database/hibernate/ProjectVersionIdHib.hbm.xml"/>
+        <mapping resource="org/apache/gump/dynagump/database/hibernate/ModuleHib.hbm.xml"/>
+        <mapping resource="org/apache/gump/dynagump/database/hibernate/DependenciesHib.hbm.xml"/>
+        <mapping resource="org/apache/gump/dynagump/database/hibernate/WorkspaceHib.hbm.xml"/>
     </session-factory>
 
 </hibernate-configuration>
