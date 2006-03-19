@@ -5,12 +5,12 @@
 
 <hibernate-mapping>
 
-   <class name="org.apache.gump.dynagump.presentation.database.hibernate.RunsHib" table="runs">
+   <class name="org.apache.gump.dynagump.database.hibernate.RunsHib" table="runs">
         <id name="id" column="id" />
 
         <property name="startTime" column="start_time"/>
         <property name="endTime" column="end_time"/>
-        <many-to-one name="workspaceId" column="workspace_id" class="org.apache.gump.dynagump.presentation.database.hibernate.WorkspaceHib"/>
+        <many-to-one name="workspaceId" column="workspace_id" class="org.apache.gump.dynagump.database.hibernate.WorkspaceHib"/>
 
         <property name="name" column="name"/>
 

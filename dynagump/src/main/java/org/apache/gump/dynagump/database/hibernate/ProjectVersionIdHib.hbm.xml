@@ -6,10 +6,10 @@
 
 
 
-	<class name="org.apache.gump.dynagump.presentation.database.hibernate.ProjectVersionIdHib" table="project_versions">
+	<class name="org.apache.gump.dynagump.database.hibernate.ProjectVersionIdHib" table="project_versions">
     	<id name="id" column="id"/>
 	    <many-to-one name="project" column="project_id" not-null="true"/>
-	    <one-to-one name="build" class="org.apache.gump.dynagump.presentation.database.hibernate.BuildHib" property-ref="ProjectId"/>
+	    <one-to-one name="build" class="org.apache.gump.dynagump.database.hibernate.BuildHib" property-ref="ProjectId"/>
 	</class>
 	
 </hibernate-mapping>

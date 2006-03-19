@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 
-   <class name="org.apache.gump.dynagump.presentation.database.hibernate.ResultHib" table="results">
+   <class name="org.apache.gump.dynagump.database.hibernate.ResultHib" table="results">
         <id name="id" column="id" />
 
         <property name="name" column="name"/>

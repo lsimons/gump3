@@ -4,13 +4,13 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-	<class name="org.apache.gump.dynagump.presentation.database.hibernate.ModuleHib" table="modules">
+	<class name="org.apache.gump.dynagump.database.hibernate.ModuleHib" table="modules">
     	<id name="id" column="id"/>
 	    <property name="name" column="name"/>
 	    <property name="description" column="description"/>
 <!--         <set name="project" inverse="true" >
             <key column="module_id" />
-            <one-to-many class="org.apache.gump.dynagump.presentation.database.hibernate.ProjectHib" />
+            <one-to-many class="org.apache.gump.dynagump.database.hibernate.ProjectHib" />
         </set>  -->
 
 	</class>

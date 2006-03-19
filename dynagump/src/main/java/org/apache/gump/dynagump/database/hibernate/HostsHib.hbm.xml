@@ -6,7 +6,7 @@
 <hibernate-mapping>
 
 
-    <class name="org.apache.gump.dynagump.presentation.database.hibernate.HostsHib" table="hosts">
+    <class name="org.apache.gump.dynagump.database.hibernate.HostsHib" table="hosts">
         <id name="address" column="address" />
  
         <property name="description" column="description"/>
@@ -18,7 +18,7 @@
         <property name="name" column="name"/>
         <set name="workspace" inverse="true">
             <key column="host"/>
-            <one-to-many class="org.apache.gump.dynagump.presentation.database.hibernate.WorkspaceHib"/>
+            <one-to-many class="org.apache.gump.dynagump.database.hibernate.WorkspaceHib"/>
         </set>
     </class>
  

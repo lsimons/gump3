@@ -157,28 +157,28 @@
 -->
 		<action 
 			path="/results/ListProjects"
-			type="org.apache.gump.dynagump.presentation.actions.ProjectListAction"
+			type="org.apache.gump.dynagump.actions.ProjectListAction"
 			scope="session">
 			<forward name="success" path="/WEB-INF/results/projects.jsp"/>
 			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
 		</action>
 		<action 
 			path="/results/Builds"
-			type="org.apache.gump.dynagump.presentation.actions.BuildsAction"
+			type="org.apache.gump.dynagump.actions.BuildsAction"
 			scope="session">
 			<forward name="success" path="/WEB-INF/results/builds.jsp"/>
 			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
 		</action>
 		<action 
 			path="/results/ProjectStatus"
-			type="org.apache.gump.dynagump.presentation.actions.ProjectStatusAction"
+			type="org.apache.gump.dynagump.actions.ProjectStatusAction"
 			scope="session">
 			<forward name="success" path="/WEB-INF/results/projectStatus.jsp"/>
 			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
 		</action>
 		<action 
 			path="/results/StatusRun"
-			type="org.apache.gump.dynagump.presentation.actions.StatusRunAction"
+			type="org.apache.gump.dynagump.actions.StatusRunAction"
 			scope="session">
 			<forward name="success" path="/WEB-INF/results/runStatus.jsp"/>
 			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
@@ -186,7 +186,7 @@
 
 		<action 
 			path="/results/ShowRuns"
-			type="org.apache.gump.dynagump.presentation.actions.ShowRunsAction"
+			type="org.apache.gump.dynagump.actions.ShowRunsAction"
 			scope="session">
 			<forward name="success" path="/WEB-INF/results/runs.jsp"/>
 			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
@@ -194,7 +194,7 @@
 		
 		<action 
 			path="/results/ListProjectBuild"
-			type="org.apache.gump.dynagump.presentation.actions.ListProjectBuilds"
+			type="org.apache.gump.dynagump.actions.ListProjectBuilds"
 			scope="session">
 			<forward name="success" path="/WEB-INF/results/showProjectBuilds.jsp"/>
 			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
@@ -285,7 +285,7 @@
 <!-- ======================================== Message Resources Definitions -->
 
     <message-resources parameter="MessageResources" />
-	<message-resources parameter="org.apache.gump.dyngump.presentation.resources.application" />
+	<message-resources parameter="org.apache.gump.dyngump.resources.application" />
 	
 
 <!-- =============================================== Plug Ins Configuration -->

@@ -5,8 +5,7 @@
 
 <hibernate-mapping>
 
-
-    <class name="org.apache.gump.dynagump.presentation.database.hibernate.DependenciesHib" table="project_dependencies">
+    <class name="org.apache.gump.dynagump.database.hibernate.DependenciesHib" table="project_dependencies">
         <id name="dependant" column="dependant" /> 
 
         <many-to-one name="build" column="dependee" not-null="true"/>
