@@ -59,7 +59,7 @@ public class ShowRunsAction extends Action {
         if (forward == true) {
             return mapping.findForward("success");
         } else {
-            request.getSession().setAttribute("errorMsg", errorMsg);
+            request.getSession().setAttribute("error", errorMsg);
             return mapping.findForward("errorPriv");
         }
     }

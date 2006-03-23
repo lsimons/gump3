@@ -17,43 +17,7 @@
      corresponding "name" and "type" attributes, as shown here.
 -->
 
-
 <struts-config>
-
-<!-- ============================================ Data Source Configuration -->
-<!--
-<data-sources>
-<data-source type="org.apache.commons.dbcp.BasicDataSource">
-    <set-property
-      property="driverClassName"
-      value="org.postgresql.Driver" />
-    <set-property
-      property="url"
-      value="jdbc:postgresql://localhost/mydatabase" />
-    <set-property
-      property="username"
-      value="me" />
-    <set-property
-      property="password"
-      value="test" />
-    <set-property
-      property="maxActive"
-      value="10" />
-    <set-property
-      property="maxWait"
-      value="5000" />
-    <set-property
-      property="defaultAutoCommit"
-      value="false" />
-    <set-property
-      property="defaultReadOnly"
-      value="false" />
-    <set-property
-      property="validationQuery"
-      value="SELECT COUNT(*) FROM market" />
-</data-source>
-</data-sources>
--->
 
 <!-- ================================================ Form Bean Definitions -->
 
@@ -103,23 +67,8 @@
 <!-- =========================================== Global Forward Definitions -->
 
     <global-forwards>
-
-        <forward
-            name="welcome"
-            path="/Welcome.do"/>
-        <forward
-            name="welcomePriv"
-            path="/WelcomePriv.do"/>
-        <forward
-            name="error"
-            path="/Error.do"/>
-        <forward
-            name="errorPriv"
-            path="/ErrorPriv.do"/>
-        <forward 
-        	name="/results/" 
-        	path="/results/results.jsp"/>
-        
+        <forward name="welcome"        path="/"/>
+        <forward name="error"          path="/error.jsp"/>
     </global-forwards>
 
 
@@ -127,77 +76,41 @@
 
     <action-mappings>
 
-<!--         <action
-            path="/Welcome"
-            forward="/index.jsp"/>
-        <action roles="admin,user"
-            path="/WelcomePriv"
-            forward="/WEB-INF/index.jsp"/>
-        <action
-            path="/Error"
-            forward="/error.jsp"/>
-        <action
-            path="/ErrorPriv"
-            forward="/WEB-INF/errorPriv.jsp"/>        
-		<action 
-            path="/Login"
-            forward="/WEB-INF/index.jsp"/>
-		
-        <action roles="admin,user"
-            path="/Test"
-            type="com.sysadmin.web.action.NopAction">
-			<forward name="success" path="/WEB-INF/index.jsp"/>
-		</action>
-		
-        <action roles="admin,user"
-            path="/Logout"
-            type="com.sysadmin.web.action.LogoutAction">
-			<forward name="success" path="/WEB-INF/logoutSucc.jsp"/>
-		</action>
--->
 		<action 
 			path="/results/ListProjects"
 			type="org.apache.gump.dynagump.actions.ProjectListAction"
 			scope="session">
-			<forward name="success" path="/WEB-INF/results/projects.jsp"/>
-			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
+			<forward name="success" path="/results/projects.jsp"/>
 		</action>
 		<action 
-			path="/results/Builds"
-			type="org.apache.gump.dynagump.actions.BuildsAction"
+			path="/results/Workspaces"
+			type="org.apache.gump.dynagump.actions.WorkspacesAction"
 			scope="session">
-			<forward name="success" path="/WEB-INF/results/builds.jsp"/>
-			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
+			<forward name="success"   path="/results/workspaces.jsp"/>
 		</action>
 		<action 
 			path="/results/ProjectStatus"
 			type="org.apache.gump.dynagump.actions.ProjectStatusAction"
 			scope="session">
-			<forward name="success" path="/WEB-INF/results/projectStatus.jsp"/>
-			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
+			<forward name="success" path="/results/projectStatus.jsp"/>
 		</action>
 		<action 
 			path="/results/StatusRun"
 			type="org.apache.gump.dynagump.actions.StatusRunAction"
 			scope="session">
-			<forward name="success" path="/WEB-INF/results/runStatus.jsp"/>
-			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
+			<forward name="success" path="/results/runStatus.jsp"/>
 		</action>
-
 		<action 
 			path="/results/ShowRuns"
 			type="org.apache.gump.dynagump.actions.ShowRunsAction"
 			scope="session">
-			<forward name="success" path="/WEB-INF/results/runs.jsp"/>
-			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
+			<forward name="success" path="/results/runs.jsp"/>
 		</action>
-		
 		<action 
 			path="/results/ListProjectBuild"
 			type="org.apache.gump.dynagump.actions.ListProjectBuilds"
 			scope="session">
-			<forward name="success" path="/WEB-INF/results/showProjectBuilds.jsp"/>
-			<forward name="errorPriv" path="/WEB-INF/error/error.jsp"/>
+			<forward name="success" path="/results/showProjectBuilds.jsp"/>
 		</action>
 
 	<!--  

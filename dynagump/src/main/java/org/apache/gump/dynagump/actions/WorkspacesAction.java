@@ -23,9 +23,9 @@ import org.apache.struts.action.ActionMapping;
  * 
  */
 // TODO Change the name to workspaceAction
-public class BuildsAction extends Action {
+public class WorkspacesAction extends Action {
 
-    private static Log log = LogFactory.getLog(BuildsAction.class);
+    private static Log log = LogFactory.getLog(WorkspacesAction.class);
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
@@ -50,7 +50,7 @@ public class BuildsAction extends Action {
             return mapping.findForward("success");
         } else {
             request.getSession().setAttribute("errorMsg", errorMsg);
-            return mapping.findForward("errorPriv");
+            return mapping.findForward("error");
         }
     }
 

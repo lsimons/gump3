@@ -71,7 +71,7 @@ public class ProjectStatusAction extends Action {
             return mapping.findForward("success");
         } else {
             request.getSession().setAttribute("errorMsg", errorMsg);
-            return mapping.findForward("errorPriv");
+            return mapping.findForward("error");
         }
     }
 }
