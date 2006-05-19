@@ -17,6 +17,8 @@
   DynaGump requires:
 
    o  A Java 1.5 or later compatible virtual machine for your operating system.
+   
+   o  A MySQL installation (tested with 5.0.15).
 
    o  Apache Maven 2.0 or later (http://maven.apache.org) 
 
@@ -25,11 +27,28 @@
   How do I run DynaGump?
   ----------------------
   
-   1) [download Sun's JTA 1.0.1B from http://java.sun.com/products/jta/]
-   2) mvn install:install-file -Dfile=<path-to-file>/jta-1_0_1B-classes.zip \
+   *) [download Sun's JTA 1.0.1B from http://java.sun.com/products/jta/]
+   *) mvn install:install-file -Dfile=<path-to-file>/jta-1_0_1B-classes.zip \
       -DgroupId=javax.transaction -DartifactId=jta -Dversion=1.0.1B -Dpackaging=jar
-   3) mvn package
-   4) mvn jetty6:run
+      
+   *) create gump database and user if they do not exist already:
+
+         mysqladmin create database gump
+         mysql -u root -p gump < src/database/Gump3DB.sql
+         echo "'GRANT ALL ON gump.* TO 'gump'@'localhost' IDENTIFIED BY 'somepassword'" | mysql -u root -p
+         echo "FLUSH PRIVILEGES" | mysql -u root -p
+    
+      (changing the password to something else of course)
+   *) let hibernate know about the db name / username / password by editing
+   
+         src/main/resources/hibernate.cfg.xml
+
+   *) optionally push sample data into database:
+   
+         mysql -u gump -p gump < src/database/Gump3TempDB.sql
+
+   *) mvn package
+   *) mvn jetty6:run
 
   Point your browser to http://127.0.0.1:8080/ to see DynaGump in action.
 
