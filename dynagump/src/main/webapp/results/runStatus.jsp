@@ -7,7 +7,7 @@
  <ul class="path">
   <li><a href="../index.jsp" title="Home">Home</a></li>
   <li><a href="./" title="Results">Results</a></li>
-  <li><a href="Builds.gump" title="By Builds">By Builds</a></li>
+  <li><a href="Workspaces.gump" title="By Builds">By Builds</a></li>
   <logic:present name="currentWorkspace"><li><a href="ShowRuns.gump?workspace=<bean:write name="currentWorkspace"/>" title="Select Run">Select Run</a></li></logic:present>
   <li class="current">Build Results</li>
  </ul>
