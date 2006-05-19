@@ -1,37 +1,29 @@
--- phpMyAdmin SQL Dump
--- version 2.6.2
--- http://www.phpmyadmin.net
--- 
--- Värd: localhost
--- Skapad: 19 augusti 2005 kl 16:01
--- Serverversion: 4.0.24
--- PHP-version: 4.3.11
--- 
--- Databas: `gump`
--- 
+-----------------------------------------------------------------------------
+-- Copyright 2005,2006 The Apache Software Foundation
+--
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.apache.org/licenses/LICENSE-2.0
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+-----------------------------------------------------------------------------
 
--- --------------------------------------------------------
-
--- 
--- Struktur för tabell `builds`
--- 
-
-CREATE TABLE `builds` (
-  `id` varchar(255) NOT NULL default '',
-  `run_id` varchar(255) NOT NULL default '',
-  `project_version_id` varchar(255) NOT NULL default '',
-  `start_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `end_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `result` int(2) NOT NULL default '0',
-  `log` text,
-  PRIMARY KEY  (`id`),
-  KEY `run_id` (`run_id`),
-  KEY `project_version_id` (`project_version_id`),
-  KEY `result` (`result`)
-) TYPE=MyISAM;
+--
+-- Sample data generated using the Gump3 test fixture workspace. See also:
+--    https://svn.apache.org/repos/asf/gump/branches/Gump3/gumpdb/src/sql
+--
+-- TODO: figure out differences between these schemas
+--       and which one should be the 'master' version
+--
 
 -- 
--- Data i tabell `builds`
+-- Data for table `builds`
 -- 
 
 INSERT INTO `builds` VALUES ('giraffe/generic@200507051351:0', 'giraffe/generic@200507051351', 'giraffe/generic@200507051351/xjavac', '2005-07-05 13:51:54', '2005-07-05 13:51:54', 0, 'Log saving still a TODO!');
@@ -59,19 +51,7 @@ INSERT INTO `builds` VALUES ('giraffe/gump3-test-fixture@200507051352:6', 'giraf
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `causes`
--- 
-
-CREATE TABLE `causes` (
-  `build_id` varchar(255) NOT NULL default '',
-  `cause_id` varchar(255) NOT NULL default '',
-  `cause_table` varchar(32) NOT NULL default 'project_versions',
-  KEY `build_id` (`build_id`),
-  KEY `cause_id` (`cause_id`)
-) TYPE=MyISAM;
-
--- 
--- Data i tabell `causes`
+-- Data for table `causes`
 -- 
 
 INSERT INTO `causes` VALUES ('giraffe/generic@200507051351:4', 'giraffe/generic@200507051351/xml-apis', 'project_versions');
@@ -85,23 +65,7 @@ INSERT INTO `causes` VALUES ('giraffe/generic@200507051351:10', 'giraffe/generic
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `hosts`
--- 
-
-CREATE TABLE `hosts` (
-  `address` varchar(255) NOT NULL default '',
-  `description` text,
-  `cpu_arch` varchar(8) NOT NULL default 'x86',
-  `cpu_number` int(2) unsigned NOT NULL default '1',
-  `cpu_speed_Mhz` int(8) unsigned default NULL,
-  `memory_Mb` int(8) unsigned default NULL,
-  `disk_Gb` int(8) unsigned default NULL,
-  `name` varchar(32) NOT NULL default '',
-  PRIMARY KEY  (`address`)
-) TYPE=MyISAM;
-
--- 
--- Data i tabell `hosts`
+-- Data for table `hosts`
 -- 
 
 INSERT INTO `hosts` VALUES ('giraffe', 'giraffe (Linux,2.6.10-5-386,#1 Fri May 20 13:52:48 UTC 2005,i686,)', '', 0, 0, 0, 0, 'giraffe');
@@ -109,18 +73,7 @@ INSERT INTO `hosts` VALUES ('giraffe', 'giraffe (Linux,2.6.10-5-386,#1 Fri May 2
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `modules`
--- 
-
-CREATE TABLE `modules` (
-  `id` varchar(255) NOT NULL default '',
-  `name` varchar(32) NOT NULL default '',
-  `description` tinytext,
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
-
--- 
--- Data i tabell `modules`
+-- Data for table `modules`
 -- 
 
 INSERT INTO `modules` VALUES ('giraffe/generic/xml-xerces2', 'xml-xerces2', '\n    Java XML Parser - the sequel with no equal\n  ');
@@ -132,18 +85,7 @@ INSERT INTO `modules` VALUES ('giraffe/gump3-test-fixture/gump-fixture-svn', 'gu
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `project_dependencies`
--- 
-
-CREATE TABLE `project_dependencies` (
-  `dependee` varchar(255) NOT NULL default '',
-  `dependant` varchar(255) NOT NULL default '',
-  KEY `dependee` (`dependee`),
-  KEY `dependant` (`dependant`)
-) TYPE=MyISAM;
-
--- 
--- Data i tabell `project_dependencies`
+-- Data for table `project_dependencies`
 -- 
 
 INSERT INTO `project_dependencies` VALUES ('giraffe/generic@200507051351/bootstrap-ant', 'giraffe/generic@200507051351/jaxp');
@@ -179,17 +121,7 @@ INSERT INTO `project_dependencies` VALUES ('giraffe/gump3-test-fixture@200507051
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `project_versions`
--- 
-
-CREATE TABLE `project_versions` (
-  `id` varchar(255) NOT NULL default '',
-  `project_id` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
-
--- 
--- Data i tabell `project_versions`
+-- Data for table `project_versions`
 -- 
 
 INSERT INTO `project_versions` VALUES ('giraffe/generic@200507051351/xjavac', 'giraffe/generic/xml-xerces2/xjavac');
@@ -217,21 +149,7 @@ INSERT INTO `project_versions` VALUES ('giraffe/gump3-test-fixture@200507051352/
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `projects`
--- 
-
-CREATE TABLE `projects` (
-  `id` varchar(255) NOT NULL default '',
-  `name` varchar(255) NOT NULL default '',
-  `description` tinytext,
-  `module_id` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`),
-  KEY `name` (`name`),
-  KEY `module_id` (`module_id`)
-) TYPE=MyISAM;
-
--- 
--- Data i tabell `projects`
+-- Data for table `projects`
 -- 
 
 INSERT INTO `projects` VALUES ('giraffe/generic/xml-xerces2/xjavac', 'xjavac', 'None', 'giraffe/generic/xml-xerces2');
@@ -259,18 +177,7 @@ INSERT INTO `projects` VALUES ('giraffe/gump3-test-fixture/gump-fixture-svn/gump
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `results`
--- 
-
-CREATE TABLE `results` (
-  `id` int(2) NOT NULL default '0',
-  `name` varchar(32) NOT NULL default '',
-  `description` text,
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
-
--- 
--- Data i tabell `results`
+-- Data for table `results`
 -- 
 
 INSERT INTO `results` VALUES (0, 'success', 'This is the status of a successful project build');
@@ -280,21 +187,7 @@ INSERT INTO `results` VALUES (2, 'stalled', 'This is the status of a project tha
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `runs`
--- 
-
-CREATE TABLE `runs` (
-  `id` varchar(255) NOT NULL default '',
-  `start_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `end_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `workspace_id` varchar(255) NOT NULL default '',
-  `name` varchar(12) NOT NULL default '',
-  PRIMARY KEY  (`id`),
-  KEY `workspace_id` (`workspace_id`)
-) TYPE=MyISAM;
-
--- 
--- Data i tabell `runs`
+-- Data for table `runs`
 -- 
 
 INSERT INTO `runs` VALUES ('giraffe/generic@200507051351', '2005-07-05 13:51:54', '2005-07-05 13:51:54', 'giraffe/generic', '200507051351');
@@ -303,20 +196,7 @@ INSERT INTO `runs` VALUES ('giraffe/gump3-test-fixture@200507051352', '2005-07-0
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `workspaces`
--- 
-
-CREATE TABLE `workspaces` (
-  `id` varchar(255) NOT NULL default '0',
-  `name` varchar(32) NOT NULL default '',
-  `host` varchar(255) NOT NULL default '',
-  `description` tinytext,
-  PRIMARY KEY  (`id`),
-  KEY `host` (`host`)
-) TYPE=MyISAM;
-
--- 
--- Data i tabell `workspaces`
+-- Data for table `workspaces`
 -- 
 
 INSERT INTO `workspaces` VALUES ('giraffe/generic', 'generic', 'giraffe', 'None');

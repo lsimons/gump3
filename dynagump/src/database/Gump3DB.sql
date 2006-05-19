@@ -1,19 +1,29 @@
--- phpMyAdmin SQL Dump
--- version 2.6.2
--- http://www.phpmyadmin.net
--- 
--- Värd: localhost
--- Skapad: 19 augusti 2005 kl 16:05
--- Serverversion: 4.0.24
--- PHP-version: 4.3.11
--- 
--- Databas: `gump`
--- 
+-----------------------------------------------------------------------------
+-- Copyright 2005,2006 The Apache Software Foundation
+--
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.apache.org/licenses/LICENSE-2.0
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+-----------------------------------------------------------------------------
 
--- --------------------------------------------------------
+--
+-- Database schema used by dynagump. See also:
+--    https://svn.apache.org/repos/asf/gump/branches/Gump3/gumpdb/src/sql
+--
+-- TODO: figure out differences between these schemas
+--       and which one should be the 'master' version
+--
 
--- 
--- Struktur för tabell `builds`
+--
+-- Structure for table `builds`
 -- 
 
 CREATE TABLE `builds` (
@@ -33,7 +43,7 @@ CREATE TABLE `builds` (
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `causes`
+-- Structure for table `causes`
 -- 
 
 CREATE TABLE `causes` (
@@ -47,7 +57,7 @@ CREATE TABLE `causes` (
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `hosts`
+-- Structure for table `hosts`
 -- 
 
 CREATE TABLE `hosts` (
@@ -65,7 +75,7 @@ CREATE TABLE `hosts` (
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `modules`
+-- Structure for table `modules`
 -- 
 
 CREATE TABLE `modules` (
@@ -78,7 +88,7 @@ CREATE TABLE `modules` (
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `project_dependencies`
+-- Structure for table `project_dependencies`
 -- 
 
 CREATE TABLE `project_dependencies` (
@@ -91,7 +101,7 @@ CREATE TABLE `project_dependencies` (
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `project_versions`
+-- Structure for table `project_versions`
 -- 
 
 CREATE TABLE `project_versions` (
@@ -103,7 +113,7 @@ CREATE TABLE `project_versions` (
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `projects`
+-- Structure for table `projects`
 -- 
 
 CREATE TABLE `projects` (
@@ -119,7 +129,7 @@ CREATE TABLE `projects` (
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `results`
+-- Structure for table `results`
 -- 
 
 CREATE TABLE `results` (
@@ -132,7 +142,7 @@ CREATE TABLE `results` (
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `runs`
+-- Structure for table `runs`
 -- 
 
 CREATE TABLE `runs` (
@@ -148,7 +158,7 @@ CREATE TABLE `runs` (
 -- --------------------------------------------------------
 
 -- 
--- Struktur för tabell `workspaces`
+-- Structure for table `workspaces`
 -- 
 
 CREATE TABLE `workspaces` (
