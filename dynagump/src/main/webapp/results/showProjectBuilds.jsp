@@ -5,8 +5,8 @@
 
 <div id="top">
  <ul class="path">
-  <li><a href="../index.jsp" title="Home">Home</a></li>
-  <li><a href="./" title="Results">Results</a></li>
+  <li><a href="/index.jsp" title="Home">Home</a></li>
+  <li><a href="./index.jsp" title="Results">Results</a></li>
   <li><a href="">Project List</a></li>
   <li class="current">Project Builds</li>
  </ul>
@@ -31,13 +31,13 @@
     		<bean:write name="project" property="name" />
     	  </td>
     	  <td>
-    		<bean:write name="project" property="numbersOfDependant" />    		
+    		<bean:write name="project" property="numbersOfDependant" />
     	  </td>
     	  <td>
-    		<bean:write name="project" property="numbersOfDependees" />    		
+    		<bean:write name="project" property="numbersOfDependees" />
     	  </td>
     	  <td>
-    		<bean:write name="project" property="start_time" />    		
+    		<bean:write name="project" property="start_time" />
     	  </td>
     	  <td>
     		<a href="ShowRuns.gump?workspace=<bean:write name="project" property="workspace_id"/>">
@@ -46,14 +46,14 @@
     	  </td>
     	  <td>
     		<a href="StatusRun.gump?id=<bean:write name="project" property="run_id"/>">
-	    		<bean:write name="project" property="run_name" />    		
+	    		<bean:write name="project" property="run_name" />
 	    	</a>
        </td>
        <td>
-    		<bean:write name="project" property="resultString" />    		 
+    		<bean:write name="project" property="resultString" />
     	   </td>
     	   <td>
-    		<bean:write name="project" property="module_name" />    		    	
+    		<bean:write name="project" property="module_name" />
        </td>
       </tr>
     </logic:iterate>

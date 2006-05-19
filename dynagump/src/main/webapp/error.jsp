@@ -19,8 +19,6 @@
     	    An error has accured one reason might be that the session has expired.<br /> Please try again!
      </logic:notPresent>
     </p>
-    </ul>
-    </p>
 </div>
 
 </div>

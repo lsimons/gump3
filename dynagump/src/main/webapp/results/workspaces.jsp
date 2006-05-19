@@ -5,8 +5,8 @@
 
 <div id="top">
  <ul class="path">
-  <li><a href="../index.jsp" title="Home">Home</a></li>
-  <li><a href="./" title="Results">Results</a></li>
+  <li><a href="/index.jsp" title="Home">Home</a></li>
+  <li><a href="./index.jsp" title="Results">Results</a></li>
   <li class="current">By Builds</li>
  </ul>
 </div>
@@ -20,7 +20,7 @@
 <div id="body" class="withside">
 
     <h1>Select Workspace</h1>
-    
+
     <ul>
        <logic:iterate id="host" indexId="index" name="workspaces">
          <p><b><bean:write name="host" property="name"/> - <bean:write name="host" property="description"/></b>

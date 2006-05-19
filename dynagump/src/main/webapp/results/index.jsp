@@ -1,8 +1,8 @@
-<%@ include file="../top.inc" %>
+<%@ include file="/top.inc" %>
 
 <div id="top">
  <ul class="path">
-  <li><a href="../index.jsp" title="Home">Home</a></li>
+  <li><a href="/index.jsp" title="Home">Home</a></li>
   <li class="current">Results</li>
  </ul>
 </div>

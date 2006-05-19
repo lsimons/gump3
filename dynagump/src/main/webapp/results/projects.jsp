@@ -5,8 +5,8 @@
 
 <div id="top">
  <ul class="path">
-  <li><a href="../index.jsp" title="Home">Home</a></li>
-  <li><a href="./" title="Results">Results</a></li>
+  <li><a href="/index.jsp" title="Home">Home</a></li>
+  <li><a href="./index.jsp" title="Results">Results</a></li>
   <li class="current">Project List</li>
  </ul>
 </div>
@@ -18,7 +18,7 @@
 <div id="body">
 
     <h1>Projects</h1>
-    
+
     <table class="data">
     <thead>
     <tr><th>Project name</th><th>Description</th><th>module</th></tr>

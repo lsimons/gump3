@@ -5,8 +5,8 @@
 
 <div id="top">
  <ul class="path">
-  <li><a href="../index.jsp" title="Home">Home</a></li>
-  <li><a href="./" title="Results">Results</a></li>
+  <li><a href="/index.jsp" title="Home">Home</a></li>
+  <li><a href="./index.jsp" title="Results">Results</a></li>
   <li><a href="Workspaces.gump" title="By Builds">By Builds</a></li>
   <li><a href="ShowRuns.gump?workspace=<bean:write name="currentWorkspace"/>" title="Select Run">Select Run</a></li>
   <li><a href="StatusRun.gump?id=<bean:write name="currentRun"/>" title="Results for this run">Build Results</a></li>
@@ -24,7 +24,7 @@
 
     	<h3>description</h3>
     	<p><bean:write name="project" property="description"/></p>
-		
+
 	<h3>State</h3>
 	<ul>
 		<li>Current State: <bean:write name="project" property="resultString"/></li>
@@ -47,7 +47,7 @@
 
 	 	<p>
 	 	This package depends on:
-	 	<ul>												
+	 	<ul>
 	 	<logic:iterate id="depends" name="project" property="dependantList">
 	 		<li><a href="ProjectStatus.gump?id=<bean:write name="depends" property="id"/>"><bean:write name="depends" property="projectName"/></a></li>
 	 	</logic:iterate>
@@ -61,7 +61,7 @@
 	 	</logic:iterate>
 	 	</ul>
 	 	</p>
-	 </p>
+	 </div>
 
  	<h3>History</h3>
  	<p><bean:define id="history" name="project" property="history" /></p>

@@ -2,13 +2,13 @@
 <head>
  <title>Apache Gump 3.0</title>
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
- <link rel="stylesheet" type="text/css" href="resources/styles/print.css" media="print"/>
- <link rel="stylesheet" type="text/css" href="resources/styles/base/content.css" media="all"/>
- <link rel="stylesheet" type="text/css" href="resources/styles/cavendish/content.css" title="Cavendish" media="all"/>
- <link rel="stylesheet" type="text/css" href="resources/styles/base/template.css" media="screen"/>
- <link rel="stylesheet" type="text/css" href="resources/styles/cavendish/template.css" title="Cavendish" media="screen"/>
- <link rel="icon" href="resources/images/icon.png" type="image/png"/>
- <script src="resources/scripts/search.js" type="text/javascript">//</script>
+ <link rel="stylesheet" type="text/css" href="/resources/styles/print.css" media="print"/>
+ <link rel="stylesheet" type="text/css" href="/resources/styles/base/content.css" media="all"/>
+ <link rel="stylesheet" type="text/css" href="/resources/styles/cavendish/content.css" title="Cavendish" media="all"/>
+ <link rel="stylesheet" type="text/css" href="/resources/styles/base/template.css" media="screen"/>
+ <link rel="stylesheet" type="text/css" href="/resources/styles/cavendish/template.css" title="Cavendish" media="screen"/>
+ <link rel="icon" href="/resources/images/icon.png" type="image/png"/>
+ <script src="/resources/scripts/search.js" type="text/javascript">//</script>
 </head>
 
 <body>
@@ -22,9 +22,9 @@
 <div id="center">
 
 <div id="header">
- <h1><a href="./" title="Apache Gump" accesskey="1">Apache Gump</a></h1>
+ <h1><a href="/index.jsp" title="Apache Gump" accesskey="1">Apache Gump</a></h1>
  <ul>
-  <li><a href="./results/" title="Results">Results</a></li>
+  <li><a href="/results/index.jsp" title="Results">Results</a></li>
   <li class="current"><span>Home</span></li>
  </ul>
  <div class="searchbox">
@@ -55,14 +55,14 @@ this purpose, the gump project maintains its own dedicated server.</p>
  <h2>Build results</h2>
 
  <p>Apache dedicates a complete machine to running gump. The 
-<a href="results/">Build results</a> page provides a view of the data
+<a href="/results/index.jsp">Build results</a> page provides a view of the data
 gump generates for apache.</p>
 
 </div>
 
 </div>
 
-<%@ include file="bottom.inc" %>
+<%@ include file="/bottom.inc" %>
 
 </body>
 </html>  
