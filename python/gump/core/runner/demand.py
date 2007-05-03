@@ -71,7 +71,9 @@ class OnDemandRunner(GumpRunner):
         """
         Wait for all workers to complete.
         """
-        self.group.waitForAll()
+        if self.group:
+            if hasattr(self.group, "waitForAll"):
+                self.group.waitForAll()
         
     def performUpdate(self,module):
         """
@@ -179,16 +181,18 @@ class OnDemandRunner(GumpRunner):
         # In project order...
         for project in sequence:
 
-            # Process the module, upon demand
-            module=project.getModule()
-            
             # If we want to be updating...
             if gumpOptions.isUpdate():
-                # W/ multiple project in one module, it may be done
-                if not module.isUpdated():
-                    self.log.debug('Update module *inlined* (not in background thread) ' + `module` + '.')     
-                    inlined+=1
-                    self.performUpdate(module)
+                
+                if project.inModule():
+                    # Process the module, upon demand
+                    module=project.getModule()
+            
+                    # W/ multiple project in one module, it may be done
+                    if not module.isUpdated():
+                        self.log.debug('Update module *inlined* (not in background thread) ' + `module` + '.')     
+                        inlined+=1
+                        self.performUpdate(module)
 
             # If we want to be building...
             if gumpOptions.isBuild():

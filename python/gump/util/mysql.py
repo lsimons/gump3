@@ -145,13 +145,14 @@ class DbHelper:
                 affected=cursor.execute(statement)
                 log.debug('SQL affected: ' + `affected`)
             
-                row = cursor.fetchall()[0] # Ought be only one...
+                if affected > 0: # might be nothing in db yet
+                    row = cursor.fetchall()[0] # Ought be only one...
           
-                # Extract values
-                for column in columns:
-                    if row.has_key(column) and row[column]:
-                        settings[column]=row[column]
-                        #print 'Extracted %s -> %s' % ( column, row[column])
+                    # Extract values
+                    for column in columns:
+                        if row.has_key(column) and row[column]:
+                            settings[column]=row[column]
+                            #print 'Extracted %s -> %s' % ( column, row[column])
                               
             except Exception, details:
                 if cursor: self.logWarnings(cursor)

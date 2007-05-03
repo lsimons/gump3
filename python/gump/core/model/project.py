@@ -31,7 +31,7 @@ from gump.core.model.misc import Jar, Assembly, BaseOutput, \
                             AddressPair
 from gump.core.model.stats import Statable, Statistics
 from gump.core.model.property import Property
-from gump.core.model.builder import Ant,NAnt,Maven,Script,Configure,Make
+from gump.core.model.builder import Ant,NAnt,Maven,Maven2,Script,Configure,Make
 from gump.util import getIndent
 from gump.util.file import *
 from gump.core.model.depend import *
@@ -79,8 +79,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     	#
     	self.ant=None
         self.nant=None
-    	self.maven=None
-    	self.script=None
+        self.maven=None
+        self.mvn= None
+        self.script=None
         self.configure = None
         self.make = None
         self.builder = []
@@ -159,6 +160,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.maven: return True
         return False
         
+    def hasMvn(self):
+        if self.mvn: return True
+        return False
+        
     def hasScript(self):
         if self.script: return True
         return False
@@ -179,6 +184,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
     def getMaven(self):
         return self.maven
+        
+    def getMvn(self):
+        return self.mvn
         
     def getScript(self):
         return self.script
@@ -343,11 +351,23 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return (not self.isPackaged()) and self.hasBuilder()
         
     # provide elements when not defined in xml
-    def complete(self,workspace): 
+    def complete(self,workspace,visited=None): 
+    
+        # Give some indication when spinning on
+        # circular dependencies, 'cos even though we
+        # have code in to not spin, never assume never...
+        log.debug('Complete: %s, Path: %s' % (self, visited))
+        
         if self.isComplete(): return
-
+        
+        # Create a copy, for recursion, and
+        # detection of circular paths.
+        new_visited = [self]
+        if visited: new_visited += visited
+                            
         if not self.inModule():
-            self.addWarning("Not in a module")
+            self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
+            self.addError("Not in a module")
             return
          
         # :TODO: hacky   
@@ -383,6 +403,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.hasDomChild('maven') and not packaged:
             self.maven = Maven(self.getDomChild('maven'),self)
             self.builder.append(self.maven)
+            
+            # Copy over any XML errors/warnings
+            # :TODO:#1: transferAnnotations(self.xml.maven, self)
+            
+        # Import any <mvn part [if not packaged]
+        if self.hasDomChild('mvn') and not packaged:
+            self.mvn = Maven2(self.getDomChild('mvn'),self)
+            self.builder.append(self.mvn)
             
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.maven, self)
@@ -563,12 +591,32 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         [b.expand(self, workspace) for b in self.builder]
 
         if not packaged:
+            removes = []
+            
             # Complete dependencies so properties can reference the,
             # completed metadata within a dependent project
             for dependency in self.getDirectDependencies():
                 depProject=dependency.getProject()
-                if not depProject.isComplete():
-                    depProject.complete(workspace)
+                if depProject in new_visited:
+                    for circProject in new_visited:
+                        circProject.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
+                        circProject.addError("Circular Dependency. Path: %s -> %s." % \
+                                                (new_visited, depProject.getName()))
+                                                
+                    self.addError("Dependency broken, removing dependency on %s from %s." % \
+                                                (depProject.getName(), self.getName()))
+                
+                    removes.append(dependency)
+                else:
+                    # Don't redo what is done.
+                    if not depProject.isComplete():
+                        # Recurse, knowing which project
+                        # is in this list.
+                        depProject.complete(workspace, new_visited)
+                        
+            # Remove circulars...
+            for dependency in removes:
+                self.removeDependency(dependency)
 
             self.buildDependenciesMap(workspace)                        
         
@@ -585,6 +633,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.maven:
             self.addJVMArgs(self.getDomChild("maven"))
 
+        if self.mvn:
+            self.addJVMArgs(self.getDomChild("mvn"))
+
         #
         # complete properties
         #
@@ -595,14 +646,16 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             # TODO -- move these back?
             #
             if badDepends or badOptions: 
-                for xmldepend in badDepends:
+                for badDep in badDepends:
+                    (xmldepend,reason) = badDep
                     self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
-                    self.addError("Bad Dependency. Project: " \
-                            + getDomAttributeValue(xmldepend,'project') + " unknown to *this* workspace")
+                    self.addError("Bad Dependency. Project: %s : %s " \
+                            % (getDomAttributeValue(xmldepend,'project'),reason))
 
-                for xmloption in badOptions:                
-                    self.addWarning("Bad *Optional* Dependency. Project: " \
-                            + getDomAttributeValue(xmloption,'project') + " unknown to *this* workspace")
+                for badOpt in badOptions:
+                    (xmloption,reason) = badOpt   
+                    self.addWarning("Bad *Optional* Dependency. Project: %s : %s" \
+                            % (getDomAttributeValue(xmloption,'project') , reason))
         else:
             self.addInfo("This is a packaged project, location: " + self.home)        
                                     
@@ -626,10 +679,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                     
         # Close down the DOM...
         self.shutdownDom()       
-        
-        # Done, don't redo
+    
+        # Done so don't redo
         self.setComplete(True)
-
+    
     # turn the <jvmarg> children of domchild into jvmargs
     def addJVMArgs(self,domChild):        
         for jvmarg in getDomChildIterator(domChild,'jvmarg'):
@@ -652,7 +705,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 # Add a dependency
                 self.addDependency(dependency)
             else:
-                badDepends.append(ddom)    
+                badDepends.append((ddom,"unknown to *this* workspace"))    
                 
         # Walk the XML parts converting
         badOptions=[]
@@ -667,7 +720,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 # Add a dependency
                 self.addDependency(dependency)                    
             else:
-                badOptions.append(odom)
+                badOptions.append((odom,"unknown to *this* workspace"))
 
         return (badDepends, badOptions)
         

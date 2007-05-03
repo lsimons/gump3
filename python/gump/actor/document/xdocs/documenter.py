@@ -82,6 +82,7 @@ class XDocDocumenter(Documenter):
         self.syncObject(module)
          
     def processProject(self,project):
+        
         verbose=self.run.getOptions().isVerbose()
         debug=self.run.getOptions().isDebug()
         self.documentProject(project,True)
@@ -809,6 +810,9 @@ class XDocDocumenter(Documenter):
         projectsTable=projectsSection.createTable(['Index','Time','Name','State','Duration\nin state','Last Modified','Notes'])
         pcount=0
         for project in self.gumpSet.getCompletedProjects():
+                        
+            # Hack for bad data.
+            if not project.inModule(): continue
                        
             #if realTime and \
             #    (project.getState()==STATE_FAILED or \
@@ -984,6 +988,9 @@ This page helps Gumpmeisters (and others) locate the main areas to focus attenti
         depOrder=createOrderedList(sortedProjectList,compareProjectsByFullDependeeCount)
   
         for project in depOrder:
+            # Hack for bad data
+            if not project.inModule(): continue
+                
             if not self.gumpSet.inProjectSequence(project): continue       
             
             if not project.getState()==STATE_FAILED:
@@ -1043,6 +1050,9 @@ This page helps Gumpmeisters (and others) observe community progress.
                     'Dependees','Project State','Duration\nin state'])
         pcount=0
         for project in sortedProjectList:
+            # Hack for bad data
+            if not project.inModule(): continue    
+            # Filter
             if not self.gumpSet.inProjectSequence(project): continue       
             
             if not project.getState()==STATE_SUCCESS or \
@@ -1089,6 +1099,9 @@ This page helps Gumpmeisters (and others) observe community progress.
                     'Depends','Not-Built Depends','Project State','Duration\nin state'])
         pcount=0
         for project in sortedProjectList:
+            # Hack for bad data
+            if not project.inModule(): continue    
+            # Filter    
             if not self.gumpSet.inProjectSequence(project): continue       
             
             if not project.getState()==STATE_PREREQ_FAILED:
@@ -1679,6 +1692,10 @@ This page helps Gumpmeisters (and others) observe community progress.
     #    endXDoc(x)
         
     def documentProject(self,project,realTime=False): 
+    
+        # Hack for bad data. Gump3 won't let it get this
+        # far.
+        if not project.inModule(): return
         
         spec=self.resolver.getFileSpec(project)
         document=XDocDocument('Project : ' + project.getName(),    
@@ -2549,77 +2566,80 @@ This page helps Gumpmeisters (and others) observe community progress.
                     fileList.createEntry("Owner (Referencer): "))
             
         if fileReference.exists():
-            if fileReference.isDirectory():                
+            try:
+                if fileReference.isDirectory():                
                 
-                listingSection=fdocument.createSection('Directory Contents')
-                listingTable=listingSection.createTable(['Filename','Type','Size'])
+                    listingSection=fdocument.createSection('Directory Contents')
+                    listingTable=listingSection.createTable(['Filename','Type','Size'])
                 
-                directory=fileReference.getPath()
+                    directory=fileReference.getPath()
                 
-                # Change to os.walk once we can move to Python 2.3
-                files=os.listdir(directory)
-                files.sort()
-                for listedFile in files:
+                    # Change to os.walk once we can move to Python 2.3
+                    files=os.listdir(directory)
+                    files.sort()
+                    for listedFile in files:
                     
-                    filePath=os.path.abspath(os.path.join(directory,listedFile))
-                    listingRow=listingTable.createRow()
+                        filePath=os.path.abspath(os.path.join(directory,listedFile))
+                        listingRow=listingTable.createRow()
+                    
+                        #
+                        listingRow.createData(listedFile)    
+                    
+                        if os.path.isdir(filePath):
+                            listingRow.createData('Directory')
+                            listingRow.createData('N/A')
+                        else:
+                            listingRow.createData('File')    
+                            listingRow.createData(str(os.path.getsize(filePath)))                                                
+                else:    
                     
                     #
-                    listingRow.createData(listedFile)    
-                    
-                    if os.path.isdir(filePath):
-                        listingRow.createData('Directory')
-                        listingRow.createData('N/A')
-                    else:
-                        listingRow.createData('File')    
-                        listingRow.createData(str(os.path.getsize(filePath)))                                                
-            else:    
-                    
-                #
-                # Show the content...
-                #
-                outputSection=fdocument.createSection('File Contents')
-                output=fileReference.getPath()
-                if output:
-                    try:            
-                        if os.path.getsize(output) > 100000:
-                            #
-                            # This is *big* just copy/point to it
-                            #
-                            from shutil import copyfile
-                            # Extract name, to make relative to group
-                            outputBaseName=os.path.basename(output)
-                            (outputName,outputExtn)=os.path.splitext(outputBaseName)
-                            displayedOutput=self.resolver.getFile(fileReference, outputName, outputExtn, 1)
+                    # Show the content...
+                    #
+                    outputSection=fdocument.createSection('File Contents')
+                    output=fileReference.getPath()
+                    if output:
+                        try:            
+                            if os.path.getsize(output) > 100000:
+                                #
+                                # This is *big* just copy/point to it
+                                #
+                                from shutil import copyfile
+                                # Extract name, to make relative to group
+                                outputBaseName=os.path.basename(output)
+                                (outputName,outputExtn)=os.path.splitext(outputBaseName)
+                                displayedOutput=self.resolver.getFile(fileReference, outputName, outputExtn, 1)
                         
-                            # Do the transfer..
-                            copyfile(output,displayedOutput)                        
-                            outputSection.createParagraph().createLink(outputBaseName,'Complete File')
-                        else:
-                            outputSource=outputSection.createSource()    
-                            o=None
-                            try:
-                                # Keep a length count to not exceed 32K
-                                size=0
-                                o=open(output, 'r')
-                                line=o.readline()
-                                while line:
-                                    length = len(line)
-                                    size += length
-                                    # Crude to 'ensure' that escaped
-                                    # it doesn't exceed 32K.
-                                    if size > 20000:
-                                        outputSection.createParagraph('Continuation...')
-                                        outputSource=outputSection.createSource()
-                                        size = length
-                                    outputSource.createText(line)
+                                # Do the transfer..
+                                copyfile(output,displayedOutput)                        
+                                outputSection.createParagraph().createLink(outputBaseName,'Complete File')
+                            else:
+                                outputSource=outputSection.createSource()    
+                                o=None
+                                try:
+                                    # Keep a length count to not exceed 32K
+                                    size=0
+                                    o=open(output, 'r')
                                     line=o.readline()
-                            finally:
-                                if o: o.close()
-                    except Exception, details:
-                        outputSection.createParagraph('Failed to copy contents from :' + output + ' : ' + str(details))
-                else:
-                    outputSection.createParagraph('No contents in this file.')
+                                    while line:
+                                        length = len(line)
+                                        size += length
+                                        # Crude to 'ensure' that escaped
+                                        # it doesn't exceed 32K.
+                                        if size > 20000:
+                                            outputSection.createParagraph('Continuation...')
+                                            outputSource=outputSection.createSource()
+                                            size = length
+                                        outputSource.createText(line)
+                                        line=o.readline()
+                                finally:
+                                    if o: o.close()
+                        except Exception, details:
+                            outputSection.createParagraph('Failed to copy contents from :' + output + ' : ' + str(details))
+                    else:
+                        outputSection.createParagraph('No contents in this file.')                
+            except Exception, details:
+                fdocument.createWarning('Failed documeting file or directory. %s' % details)
         else:
             fdocument.createWarning('No such file or directory.')
            

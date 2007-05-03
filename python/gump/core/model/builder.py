@@ -203,7 +203,7 @@ class Builder(ModelObject, PropertyContainer):
         # Check for debugging properties
         self.setDebug(self.domAttributeIsTrue('debug'))
         self.setVerbose(self.domAttributeIsTrue('verbose'))
-                        
+        
         self.setComplete(True)
                     
     def dump(self, indent=0, output=sys.stdout):
@@ -268,6 +268,24 @@ class Maven(Builder):
     	
         # Import the goal
         self.goal=self.getDomAttributeValue('goal','jar')
+            	    
+    def getGoal(self):
+        return self.goal
+    	
+    def dump(self, indent=0, output=sys.stdout):
+        """ Display the contents of this object """
+        Builder.dump(self,indent,output)
+        i=getIndent(indent+1)
+        output.write(i+'Goal: ' + self.getGoal() + '\n')
+
+# represents an <mvn/> element
+class Maven2(Builder):
+    """ A Maven command (within a project)"""
+    def __init__(self,dom,project):
+    	Builder.__init__(self,dom,project)
+    	
+        # Import the goal
+        self.goal=self.getDomAttributeValue('goal','package')
             	    
     def getGoal(self):
         return self.goal

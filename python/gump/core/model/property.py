@@ -47,6 +47,9 @@ class Property(NamedModelObject):
     # provide default elements when not defined in xml
     def complete(self,parent,workspace):
         if self.isComplete(): return
+        
+        # Don't normally allow blank properties
+        blankOk=False
     
         if self.hasDomAttribute('value'):
             self.value=self.getDomAttributeValue('value','')
@@ -145,11 +148,14 @@ class Property(NamedModelObject):
             else:
                 responsibleParty.addError( \
                     'Can\'t have path on property on workspace: ' + self.getName())
+        else:
+            # Nothing set, allow blank
+            blankOk = True
         
         #
         # Do we have a value yet?
         #
-        if isinstance(self.value,NoneType):
+        if not blankOk and isinstance(self.value,NoneType):
             responsibleParty.addError('Unhandled Property: ' + self.getName() + ' on: ' + str(parent))
             self.value='*Unset*'
                 

@@ -74,6 +74,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.noMono = False
         self.noNAnt = False    
         self.noMaven = False    	
+        self.noMaven2 = False
         self.noSvn = False    	
         self.noCvs = False   
         self.noP4 = False   
@@ -90,7 +91,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.javaHome = None
         self.javaCommand = 'java'
         self.javacCommand = 'javac'
-        
+                
         # Timezone and offset from UTC
         self.timezone = time.tzname
         self.timezoneOffset = time.timezone
@@ -115,8 +116,13 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         # JAVAC_CMD can be set (perhaps for JRE verse JDK)
         if os.environ.has_key('JAVAC_CMD'):        
             self.javacCommand  = os.environ['JAVAC_CMD']
-            self.addInfo('JAVAC_CMD environmental variable setting javac command to ' + self.javacCommand )      
-    
+            self.addInfo('javaCommand environmental variable setting javac command to ' + self.javacCommand )      
+        else:
+            # Default to $JAVA_HOME/bin/java, can be overridden with $JAVA_CMD.
+            if os.environ.has_key('JAVA_HOME'):        
+                self.javaCommand  = os.path.join(os.environ['JAVA_HOME'],'bin',self.javaCommand)
+                self.addInfo('javaCommand set to $JAVA_HOME/bin/java = ' + self.javaCommand )             
+        
         self._checkEnvVariable('JAVA_HOME')
                 
         if os.environ.has_key('JAVA_HOME'):        
@@ -126,6 +132,10 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         if not self.noMaven and not self._checkEnvVariable('MAVEN_HOME',False): 
             self.noMaven=True
             self.addWarning('MAVEN_HOME environmental variable not found, no maven builds.')
+            
+        if not self.noMaven2 and not self._checkEnvVariable('M2_HOME',False): 
+            self.noMaven=True
+            self.addWarning('M2_HOME environmental variable not found, no mvn builds.')
             
         # Check for executables
         
@@ -157,6 +167,11 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             not self._checkExecutable('maven','--version',False,False,'check_maven'): 
             self.noMaven=True
             self.addWarning('"maven" command not found, no Maven builds')
+       
+        if not self.noMaven2 and \
+            not self._checkExecutable('mvn','--version',False,False,'check_maven2'): 
+            self.noMaven=True
+            self.addWarning('"mvn" command not found, no Maven2 builds')
        
         if not self.noNAnt and \
             not self._checkExecutable('NAnt','-help',False,False,'check_NAnt'): 

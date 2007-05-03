@@ -50,6 +50,7 @@ from gump.core.build.script import ScriptBuilder
 from gump.core.build.ant import AntBuilder
 from gump.core.build.nant import NAntBuilder
 from gump.core.build.maven import MavenBuilder
+from gump.core.build.mvn import Maven2Builder
 from gump.core.build.configure import ConfigureBuilder
 from gump.core.build.make import MakeBuilder
 
@@ -81,6 +82,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
         self.ant=AntBuilder(run)
         self.nant=NAntBuilder(run)
         self.maven=MavenBuilder(run)
+        self.mvn=Maven2Builder(run)
         self.script=ScriptBuilder(run)
         self.configure = ConfigureBuilder(run)
         self.make = MakeBuilder(run);
@@ -140,6 +142,8 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                     self.nant.buildProject(project, languageHelper, stats)
                 elif project.hasMaven():
                     self.maven.buildProject(project, languageHelper, stats)
+                elif project.hasMvn():
+                    self.mvn.buildProject(project, languageHelper, stats)
                 elif project.hasConfigure():
                     self.configure.buildProject(project, languageHelper, stats)
                 elif project.hasMake():
@@ -322,7 +326,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                         project.addError("See Directory Listing Work for Missing Outputs")
             else:
                 project.changeState(STATE_SUCCESS)
-        else:
+        elif project.inModule():
             # List source directory (when failed) in case it helps debugging...
             listDirectoryToFileHolder(project,project.getModule().getWorkingDirectory(), 
                                         FILE_TYPE_SOURCE, 'list_source_'+project.getName())           
@@ -486,5 +490,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
             self.nant.preview(project,  languageHelper, stats)
         elif project.hasMaven():
             self.maven.preview(project,  languageHelper, stats)
+        elif project.hasMvn():
+            self.mvn.preview(project, languageHelper, stats);
         else:
             print 'No builder for project: ' + project.getName()

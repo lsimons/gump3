@@ -317,7 +317,12 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                 
     # provide default elements when not defined in xml
     def complete(self,workspace):
-     
+          
+        # Give some indication when spinning on
+        # circular dependencies, 'cos even though we
+        # have code in to not spin, never assume never...
+        log.debug('Complete: %s' % self)
+        
         if self.isComplete(): return
 
         # :TODO: hacky   

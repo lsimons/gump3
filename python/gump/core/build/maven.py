@@ -188,9 +188,11 @@ class MavenBuilder(gump.core.run.gumprun.RunSpecific):
                         os.path.basename(propertiesFile))
                 except:
                     log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
-                
-            except:
-                log.error('Generate Maven Properties Failed', exc_info=1)    
+               
+            except Exception, details:
+                message='Generate Maven Properties Failed:' + str(details)
+                log.error(message, exc_info=1)
+                project.addError(message)    
                 project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
  
     # The propertiesFile parameter is primarily for testing.
@@ -205,6 +207,12 @@ class MavenBuilder(gump.core.run.gumprun.RunSpecific):
         basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
         if not propertiesFile: 
             propertiesFile=os.path.abspath(os.path.join(basedir,'build.properties'))
+            
+        # Ensure containing directory exists, or make it.
+        propsdir=os.path.dirname(propertiesFile)
+        if not os.path.exists(propsdir):
+            project.addInfo('Making directory for Maven properties: ['+propsdir+']')
+            os.makedirs(propsdir)
         
         if os.path.exists(propertiesFile):
             project.addWarning('Overriding Maven properties: ['+propertiesFile+']')
@@ -231,7 +239,7 @@ class MavenBuilder(gump.core.run.gumprun.RunSpecific):
         for property in project.getWorkspace().getProperties()+project.getMaven().getProperties():
             # build.sysclasspath makes Maven sick.
             if not 'build.sysclasspath' == property.name:
-                props.write(('%s=%s\n') % (property.name,property.value))            
+                props.write(('%s=%s\n') % (property.name,property.value.replace('\\','/')))            
         
         #
         # Output classpath properties
@@ -255,7 +263,7 @@ maven.jar.override = on
                 props.write(('# Contributor: %s\nmaven.jar.%s=%s\n') % \
                     (	annotatedPath.getContributor(),	
                         annotatedPath.getId(),	
-                        annotatedPath.getPath()))
+                        annotatedPath.getPath().replace('\\','/')))
 
         return propertiesFile
       

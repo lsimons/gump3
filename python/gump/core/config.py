@@ -55,7 +55,7 @@ def gumpPath(path,basedir=None):
 class setting:    
     """Configuration of hardcoded settings"""
     
-    VERSION='2.2'
+    VERSION='2.3'
     
     WS_VERSION="0.4"
     WS_MINIMUM_VERSION="0.3"

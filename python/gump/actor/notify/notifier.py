@@ -98,7 +98,8 @@ class Notifier(AbstractRunActor):
         if self._hasUnwanted():
             log.info('We have some unwanted\'s to send to list...')
             
-            self.sendEmail(wsTo or self.workspace.administrator,wsFrom or self.workspace.email,
+            self.sendEmail( wsTo or self.workspace.administrator,
+                            wsFrom or self.workspace.email,
                         'BATCH: All dressed up, with nowhere to go...',
                         self._getUnwantedContent())
                         
@@ -113,7 +114,8 @@ class Notifier(AbstractRunActor):
         # Belt and braces (notify to us if not notify to them)
         if self._hasUnsent():
             log.info('We have some unsented\'s to send to list...')    
-            self.sendEmail(wsTo or self.workspace.administrator,wsFrom or self.workspace.email,
+            self.sendEmail(wsTo or self.workspace.administrator,
+                        wsFrom or self.workspace.email,
                         'BATCH: Unable to send...',
                          self._getUnsentContent())
                         

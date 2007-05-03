@@ -64,7 +64,7 @@ class Syndicator(AbstractRunActor):
     def processProject(self,project):    
         """
         Syndicate information about the project (if it needs it)
-        """
+        """                
         self.rss.syndicateProject(project)
         self.atom.syndicateProject(project)
            

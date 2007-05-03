@@ -205,6 +205,9 @@ def shutdownProcessAndProcessGroup(pid):
         log.warn('Kill process group %s (i.e. anything launched by PID %s) [from %s, for %s]' \
                     % (pgrpID, pid, os.getpid(), default.gumpid))  
         if -1 != pgrpID:
+            # Give cores time to be produced, then just get serious...
+            os.killpg(pgrpID,signal.SIGABRT)
+            time.sleep(10)
             os.killpg(pgrpID,signal.SIGKILL)
         else:
             log.warn('No such PID' + str(pid) + '.')    
