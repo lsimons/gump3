@@ -158,7 +158,7 @@ class NAntBuilder(gump.core.run.gumprun.RunSpecific):
         cmd.addNamedParameters(properties)
     
         # Pass the buildfile
-        if buildfile: cmd.addParameter('-f',buildfile)
+        if buildfile: cmd.addParameter('-buildfile',buildfile, ':')
     
         # End with the target (or targets)...
         if target: 
