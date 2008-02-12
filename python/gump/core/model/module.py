@@ -257,6 +257,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         self.workspace=None
         self.workdir=None
         
+        self.groupId=None
            
     def getObjectForTag(self,tag,dom,name=None):
         """
@@ -330,6 +331,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         
         # Defaults
         self.workdir=self.getName()
+        self.groupId=self.getName()
              
         # Import overrides from DOM
         transferDomInfo( self.element, self, {'srcdir':'workdir'})
@@ -502,9 +504,13 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             
         if self.hasDomChild('description'):
             self.desc=self.getDomChildValue('description')           
-        
+
         # Existence means 'true'
         self.redistributable=self.hasDomChild('redistributable')    
+
+        # make groupId default to module's name
+        if not self.groupId:
+            self.groupId = self.getName();
 
         # For prettiness
         self.sortedProjects=createOrderedList(self.getProjects())
@@ -523,12 +529,11 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         
     def getArtifactGroup(self):
         """
-        What does this projects artifacts group under?
-        Right now ... the module name
+        What do this module's artifacts group under?
         
         Return String
         """
-        return self.getName()
+        return self.groupId
         
     def addProject(self,project):
         """

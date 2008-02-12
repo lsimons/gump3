@@ -107,7 +107,10 @@ class MakeBuilder(gump.core.run.gumprun.RunSpecific):
         # The make file (or none == Makefile)
         makefile = make.getMakeFile()
 
-        cmd=Cmd('make','build_'+project.getModule().getName()+'_'+project.getName(),
+        # The make command, defaults to "make"
+        makeCommand = project.getWorkspace().getMakeCommand()
+
+        cmd=Cmd(makeCommand,'build_'+project.getModule().getName()+'_'+project.getName(),
             basedir)
         
         # Pass the makefile

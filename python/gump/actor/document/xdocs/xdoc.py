@@ -759,7 +759,8 @@ class XDocDocument(XDocPiece):
             self.context.writeLine(' <td><a href="%s/project_fixes.html">Fixes</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/project_prereqs.html">Pre-reqs</a></td><td>|</td>' % self.rootpath)  
             self.context.writeLine(' <td><a href="%s/gump_stats/index.html">Stats</a></td><td>|</td>' % self.rootpath)  
-            self.context.writeLine(' <td><a href="%s/gump_xref/index.html">XRef</a></td>' % self.rootpath) 
+            self.context.writeLine(' <td><a href="%s/gump_xref/index.html">XRef</a></td><td>|</td>' % self.rootpath) 
+            self.context.writeLine(' <td><a href="%s/proxyLog.html">Maven Repository Proxy Log</a></td>' % self.rootpath) 
             
             self.context.writeLine(' <td colspan="3"><img align="right" src="%s/images/gump-logo.png" alt="Gump Logo"/></td>' % self.rootpath)  
             self.context.writeLine(' </tr>')  

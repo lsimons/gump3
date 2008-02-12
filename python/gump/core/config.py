@@ -103,6 +103,8 @@ class default:
     prefix = '[GUMP@' + gumphost + ']'
     signature="\r\n--\r\nApache Gump\nhttp://gump.apache.org/ " \
         + '[Instance: ' + gumpfullhost + "]\n"
+
+    mvnRepoProxyPort = '8192'
         
     # Information for portability
     if not os.name == 'dos' and not os.name == 'nt':

@@ -28,6 +28,9 @@ SET LOCAL_ENV=local-env.bat
 IF EXIST  %LOCAL_ENV% CALL %LOCAL_ENV%
 
 SET HOST_LOCAL_ENV="local-env-%GUMP_HOST%.bat"
+SET HOST_LOCAL_PRE_RUN="local-pre-run-${GUMP_HOST}.bat"
+SET HOST_LOCAL_POST_RUN="local-post-run-${GUMP_HOST}.bat"
+
 IF EXIST  %HOST_LOCAL_ENV% CALL %HOST_LOCAL_ENV%
 
 python gump.py %1 %2 %3 %4 %5

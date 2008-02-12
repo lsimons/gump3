@@ -131,6 +131,9 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
 
         # Where the merged XML was put
         self.mergeFile=None
+
+        # make executable
+        self.makeCommand = 'make'
  
     def getChildren(self):
         return self.getModules() 
@@ -293,6 +296,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         self.mailport = int(default.mailport)
         self.prefix=default.prefix
         self.signature=default.signature
+        self.mvnRepoProxyPort = default.mvnRepoProxyPort
         
         # Import overrides from DOM
         transferDomInfo(self.element, 
@@ -525,6 +529,9 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def getSourceControlStagingDirectory(self):
         return self.cvsdir
 
+    def getMakeCommand(self):
+        return self.makeCommand
+
     def getObjectForTag(self,tag,dom,name=None):
         """
         	If we are parsing  document (given this object as
@@ -600,6 +607,13 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                     self.addProject(project)   
         
         self.setResolved()  
+
+    def getLocalRepositoryDirectory(self):
+        #
+        # Where to put the local repository
+        #
+        return os.path.abspath(os.path.join(self.getBaseDirectory(),
+                                            "mvnlocalrepo"))
 
 class WorkspaceStatistics(Statistics):
     """Statistics Holder"""

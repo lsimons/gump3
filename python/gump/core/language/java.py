@@ -24,6 +24,7 @@
 
 from gump import log
 
+import os
 import os.path
 
 import gump.core.run.gumprun
@@ -53,7 +54,14 @@ class JavaHelper(gump.core.run.gumprun.RunSpecific):
         Get JVM arguments for a project 
         
         """
-        return project.jvmargs
+        args = project.jvmargs
+        if os.environ.has_key('GUMP_JAVA_ARGS'):
+            args = gump.util.process.command.Parameters()
+            for p in os.environ['GUMP_JAVA_ARGS'].split(' '):
+                args.addParameter(p);
+            for p in project.jvmargs.items() :
+                args.addParameterObject(p);
+        return args
        
     def getClasspaths(self,project,debug=False):
         """
@@ -66,7 +74,6 @@ class JavaHelper(gump.core.run.gumprun.RunSpecific):
         
         # Return them simple/flattened
         return ( classpath.getFlattened(), bootclasspath.getFlattened() )
-
    
     def getBaseClasspath(self):
         """

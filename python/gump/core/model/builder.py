@@ -286,6 +286,8 @@ class Maven2(Builder):
     	
         # Import the goal
         self.goal=self.getDomAttributeValue('goal','package')
+
+        self.separateLocalRepo = self.domAttributeIsTrue('separateLocalRepository')
             	    
     def getGoal(self):
         return self.goal
@@ -295,6 +297,11 @@ class Maven2(Builder):
         Builder.dump(self,indent,output)
         i=getIndent(indent+1)
         output.write(i+'Goal: ' + self.getGoal() + '\n')
+
+    def needsSeparateLocalRepository(self):
+        """ Whether a separate local repository should be used for this build """
+        return self.separateLocalRepo
+
 
 # represents an <configure/> element
 class Configure(Builder):

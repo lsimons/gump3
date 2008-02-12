@@ -1,22 +1,19 @@
 #!/usr/bin/env python
 
-#
-#  Licensed to the Apache Software Foundation (ASF) under one or more
-#  contributor license agreements.  See the NOTICE file distributed with
-#  this work for additional information regarding copyright ownership.
-#  The ASF licenses this file to You under the Apache License, Version 2.0
-#  (the "License"); you may not use this file except in compliance with
-#  the License.  You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-#
-# $Header: $
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 """
 
@@ -397,31 +394,21 @@ def doRun():
             else:
                 log.write('SVN update skipped per environment setting.\n')
                 svnExit=0
-            if svnExit:
-                result=1   
+            if svnExit: result=1               
             
-#            if not result:
-#                # Update Gump metadata from CVS
-#                if not os.environ.has_key('GUMP_NO_CVS_UPDATE') and \
-#                    not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
-#                    cvsroot=':pserver:anoncvs@cvs.apache.org:/home/cvspublic'
-#                    os.environ['CVSROOT']=cvsroot
-#                    # :TODO: ??? delete os.environ['CVS_RSH']
-#                    cvsExit = runCommand('cvs','-q update -dP','metadata')
-#                else:
-#                    log.write('CVS update skipped per environment setting.\n')
-#                    cvsExit=0
-#                if cvsExit:
-#                    result=1
-                
-            # :TODO: Need to remove all *.pyc (other than this one)
-            # because a Gump refactor can leave old/stale compiled
-            # classes around.
-                
             # :TODO: Is this a CVS thing, or a Gump historical thing?
             if os.path.exists('.timestamp'): 
                 os.remove('.timestamp')            
         
+            if os.environ.has_key('HOST_LOCAL_PRE_RUN'):
+                pre_run_script=os.environ['HOST_LOCAL_PRE_RUN']
+                if os.path.exists(pre_run_script):
+                    pre_exit = runCommand(os.path.join('.',pre_run_script),\
+                                          outputFile=os.path.join(pre_run_script,".out"))
+                    if pre_exit: result=1
+                else:
+                    log.write('No pre-run script [%s].\n' % pre_run_script)
+                
             if not result:
                 # Process/build command line
                 iargs = '-w ' + workspaceName + ' ' + projectsExpr + ' ' + ' '.join(args[1:])
@@ -438,9 +425,19 @@ def doRun():
                 if check:
                     command='bin/check.py'
                 integrationExit = runCommand(sys.executable+ ' '+command, iargs)
-                if integrationExit:
-                    result=1
-    
+                if integrationExit: result=1
+
+            if not result:
+                if os.environ.has_key('HOST_LOCAL_POST_RUN'):
+                    post_run_script=os.environ['HOST_LOCAL_POST_RUN']
+                    if os.path.exists(post_run_script):
+                        post_exit = runCommand(os.path.join('.',post_run_script),\
+                                          outputFile=os.path.join(post_run_script,".out"))
+                        if post_exit: result=1
+                    else:
+                        log.write('No post-run script [%s].\n' % post_run_script)
+                
+                
         except KeyboardInterrupt:    
             log.write('Terminated by user interrupt...\n')
             result = 1

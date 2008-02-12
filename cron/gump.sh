@@ -17,11 +17,15 @@
 #
 # $Header: $
 cygwin=false;
+sunos=false;
 case "`uname`" in
   CYGWIN*) cygwin=true ;;
+  SunOS*) sunos=true ;;
 esac
 if $cygwin; then
    export GUMP_HOST=`hostname`
+elif $sunos; then
+   export GUMP_HOST=`uname -n`
 else
     export GUMP_HOST=`hostname -s`
 fi
@@ -33,14 +37,18 @@ export HOST_LOCAL_ENV=local-env-${GUMP_HOST}.sh
 if [ -e  $HOST_LOCAL_ENV ] ; then
 	. $HOST_LOCAL_ENV
 fi
+export HOST_LOCAL_PRE_RUN=local-pre-run-${GUMP_HOST}.sh
+export HOST_LOCAL_POST_RUN=local-post-run-${GUMP_HOST}.sh
 
-export GUMP_PYTHON="`which python2.3`"
 if [ "" == "$GUMP_PYTHON" ] ; then
- export GUMP_PYTHON="`which python`"
- if [ "" == "$GUMP_PYTHON" ] ; then
- 	echo "No Python (python2.3 nor python) found in path."
- 	exit 1
- fi
+  export GUMP_PYTHON="`which python2.3`"
+  if [ "" == "$GUMP_PYTHON" ] ; then
+    export GUMP_PYTHON="`which python`"
+	if [ "" == "$GUMP_PYTHON" ] ; then
+	    echo "No Python (python2.3 nor python) found in path."
+	 	exit 1
+    fi
+  fi
 fi
 
 #

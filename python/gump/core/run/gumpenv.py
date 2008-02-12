@@ -81,6 +81,7 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.noJava = False
         self.noJavac = False
         self.noMake = False    
+        self.noMvnRepoProxy = False
         
         self.javaProperties = None
     
@@ -137,6 +138,11 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.noMaven=True
             self.addWarning('M2_HOME environmental variable not found, no mvn builds.')
             
+        if not self.noMvnRepoProxy \
+                and not self._checkEnvVariable('MVN_PROXY_HOME', False):
+            self.noMvnRepoProxy = True
+            self.addWarning('MVN_PROXY_HOME environmental variable not found, no using a proxy for Maven2 repository')
+
         # Check for executables
         
         self._checkExecutable('env','',False)

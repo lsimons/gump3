@@ -35,7 +35,6 @@ from gump.core.model.module import Module
 from gump.core.model.project import Project
 from gump.core.model.depend import  ProjectDependency
 from gump.core.model.stats import *
-from gump.core.model.state import *
 
 from gump.util.threads.tools import *
 from gump.util.locks import *

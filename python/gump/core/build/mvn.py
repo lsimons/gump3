@@ -67,7 +67,7 @@ class Maven2Builder(gump.core.run.gumprun.RunSpecific):
         log.debug('Run Maven2 on Project: #[' + `project.getPosition()` + '] ' + project.getName())
         
         self.performPreBuild(project, languageHelper, stats)
-          
+
         if project.okToPerformWork():
 
             #
@@ -96,15 +96,13 @@ class Maven2Builder(gump.core.run.gumprun.RunSpecific):
                     
         if project.wasBuilt():
             pomFile=self.locateMavenProjectFile(project) 
-            if os.path.exists(pomFile):                               
+            if os.path.exists(pomFile):                      
                 project.addDebug('Maven POM in: ' + pomFile) 
-                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG) 
-                    
-            projpFile=self.locateMavenProjectPropertiesFile(project) 
-            if os.path.exists(projpFile):                                                
-                project.addDebug('Maven project properties in: ' + projpFile)                
-                catFileToFileHolder(project, projpFile, FILE_TYPE_CONFIG)                           
-  
+                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG)
+
+            wipeDirectoryTree(self.locateLocalRepo(project), False)
+ 
+
     #
     # Build an Maven command for this project
     #        
@@ -132,22 +130,6 @@ class Maven2Builder(gump.core.run.gumprun.RunSpecific):
         cmd=Cmd('mvn','build_'+project.getModule().getName()+'_'+project.getName(),\
             basedir,{'CLASSPATH':classpath})
             
-        # Set this as a system property. Setting it here helps JDK1.4+
-        # AWT implementations cope w/o an X11 server running (e.g. on
-        # Linux)
-        # cmd.addPrefixedParameter('-D','java.awt.headless','true','=')
-    
-        #
-        # Add BOOTCLASSPATH
-        #
-        #if bootclasspath:
-        #    cmd.addPrefixedParameter('-X','bootclasspath/p',bootclasspath,':')
-            
-        #if jvmargs:
-        #    cmd.addParameters(jvmargs)
-            
-        # cmd.addParameter('org.apache.maven.cli.App')  
-    
         #
         # Allow maven-level debugging...
         #
@@ -156,6 +138,9 @@ class Maven2Builder(gump.core.run.gumprun.RunSpecific):
         if project.getWorkspace().isVerbose()  or project.isVerbose() or verbose: 
             cmd.addParameter('--exception') 
         
+        props = self.getProperties(project)
+        cmd.addNamedParameters(props)
+
         #
         # Suppress downloads
         #          
@@ -170,6 +155,9 @@ class Maven2Builder(gump.core.run.gumprun.RunSpecific):
         #
         #cmd.addPrefixedParameter('-D','build.sysclasspath','only','=')
     
+        cmd.addParameter('--settings')
+        cmd.addParameter(self.locateMvnSettings(project))
+
         # End with the goal...
         if goal: 
             for goalParam in goal.split(','):
@@ -177,55 +165,66 @@ class Maven2Builder(gump.core.run.gumprun.RunSpecific):
     
         return cmd
   
-        # Do this even if not ok
+    def getProperties(self,project):
+        """ Get properties for a project """
+        properties = Parameters()
+        for property in project.getMvn().getProperties():
+            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
+        return properties
+
+    def locateMavenProjectFile(self,project):
+        """Return Maven project file location"""      
+        basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
+        return os.path.abspath(os.path.join(basedir,'pom.xml'))  
+        
+    # Do this even if not ok
     def performPreBuild(self, project, languageHelper, stats):
                    
         # Maven requires a build.properties to be generated...
         if project.okToPerformWork():
             try:
-                propertiesFile=self.generateMavenProperties(project,languageHelper)                                
-                project.addDebug('(Gump generated) Maven Properties in: ' + propertiesFile)
+                settingsFile = self.generateMvnSettings(project,languageHelper)
+                project.addDebug('(Gump generated) Maven2 Settings in: ' + settingsFile)
                 
                 try:
-                    catFileToFileHolder(project,propertiesFile,
+                    catFileToFileHolder(project, settingsFile,
                         FILE_TYPE_CONFIG,
-                        os.path.basename(propertiesFile))
+                        os.path.basename(settingsFile))
                 except:
-                    log.error('Display Properties [ ' + propertiesFile + '] Failed', exc_info=1)   
+                    log.error('Display Settings [ ' + settingsFile + '] Failed', exc_info=1)   
                
             except Exception, details:
-                message='Generate Maven Properties Failed:' + str(details)
+                message='Generate Maven2 Settings Failed:' + str(details)
                 log.error(message, exc_info=1)
-                project.addError(message)    
-                project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
- 
-    # The propertiesFile parameter is primarily for testing.
-    def generateMavenProperties(self,project,languageHelper,propertiesFile=None):
-        """Set properties/overrides for a Maven project"""
-        
-        #:TODO: Does Maven have the idea of system properties?
-        
-        #
-        # Where to put this:
-        #
-        basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
-        if not propertiesFile: 
-            propertiesFile=os.path.abspath(os.path.join(basedir,'profiles.xml'))
+                project.addError(message)
+                project.changeState(STATE_FAILED, REASON_PREBUILD_FAILED)
+
+    def preview(self,project,languageHelper,stats):        
+        command=self.getMavenCommand(project,languageHelper) 
+        command.dump()
             
+    def generateMvnSettings(self, project, languageHelper):
+        """Set repository for a Maven2 project"""
+        
+        settingsFile = self.locateMvnSettings(project)
         # Ensure containing directory exists, or make it.
-        propsdir=os.path.dirname(propertiesFile)
-        if not os.path.exists(propsdir):
-            project.addInfo('Making directory for Maven properties: ['+propsdir+']')
-            os.makedirs(propsdir)
+        settingsdir = os.path.dirname(settingsFile)
+        if not os.path.exists(settingsdir):
+            project.addInfo('Making directory for Maven2 settings: ['+settingsdir+']')
+            os.makedirs(settingsdir)
         
-        if os.path.exists(propertiesFile):
-            project.addWarning('Overriding Maven properties: ['+propertiesFile+']')
+        if os.path.exists(settingsFile):
+            project.addWarning('Overriding Maven2 settings: ['+settingsFile+']')
     
+        if self.needsSeparateLocalRepository(project):
+            localRepositoryDir = self.locateLocalRepo(project)
+        else:
+            localRepositoryDir = self.run.getWorkspace().getLocalRepositoryDirectory()
+
+        props=open(settingsFile,'w')
         
-        props=open(propertiesFile,'w')
-        
-        props.write('<?xml version="1.0"?>\n')
-        props.write(("""<!-- 
+        props.write(("""<?xml version="1.0"?>
+<!--
 # DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT 
 #
 # File Automatically Generated by Gump, see http://gump.apache.org/
@@ -235,60 +234,39 @@ class Maven2Builder(gump.core.run.gumprun.RunSpecific):
 #
 #
 # DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
-# 
--->\n""")	%	(project.getName(), time.strftime('%Y-%m-%d %H:%M:%S')) )
-        props.write("<profiles>\n")
-        props.write("  <profile>\n")
-        props.write("   <id>Gump</id>\n")
-        props.write("   <activation><activeByDefault/></activation>\n")
-        (classpath,bootclasspath)=languageHelper.getClasspathObjects(project)
-        
-        # :TODO: write...
-        props.write("   <properties>\n")
-        for annotatedPath in classpath.getPathParts()+bootclasspath.getPathParts():
-            if isinstance(annotatedPath,gump.core.language.path.AnnotatedPath):
-                # Sort of punting here
-                props.write("<!-- Contributor: %s -->\n" % \
-                    ( annotatedPath.getContributor() ))
-                props.write("     <maven.jar.%s>%s</maven.jar.%s>\n" % \
-                             (annotatedPath.getId(), \
-                              annotatedPath.getPath(), \
-                              annotatedPath.getId()))
-        #
-        # Output basic properties
-        #
-        for property in project.getWorkspace().getProperties()+project.getMvn().getProperties():
-            # build.sysclasspath makes Maven sick.
-            if not 'build.sysclasspath' == property.name:
-                props.write(('<%s>%s</%s>\n') % \
-                   (property.name,property.value,property.name))            
-        
-        #
-        # Output classpath properties
-        #
-        props.write("""<!--
-# 
-# M A V E N  J A R  O V E R R I D E
-# 
 -->
-<maven.jar.override>on</maven.jar.override>
-""")
-        
-        props.write("   </properties>\n")
-        props.write("</profile></profiles>\n")
-        return propertiesFile
-      
-    def locateMavenProjectPropertiesFile(self,project):
-        """Return Maven project properties file location""" 
+<settings>
+  <localRepository>%s</localRepository>""")
+                    % (project.getName(), time.strftime('%Y-%m-%d %H:%M:%S'),
+                       localRepositoryDir))
+        if not self.run.getEnvironment().noMvnRepoProxy:
+            props.write("""
+  <mirrors>
+    <mirror>
+      <id>Gump</id>
+      <name>Gump</name>
+      <url>http://localhost:%s/maven2</url>
+      <mirrorOf>central</mirrorOf>
+    </mirror>
+  </mirrors>""" % (self.run.getWorkspace().mvnRepoProxyPort) )
+
+        props.write("</settings>")
+                   
+        return settingsFile
+
+    def locateMvnSettings(self, project):
+        #
+        # Where to put this:
+        #
         basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
-        return os.path.abspath(os.path.join(basedir,'project.properties'))
-        
-    def locateMavenProjectFile(self,project):
-        """Return Maven project file location"""      
-        basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
-        return os.path.abspath(os.path.join(basedir,'pom.xml'))  
-        
-    def preview(self,project,languageHelper,stats):        
-        command=self.getMavenCommand(project,languageHelper) 
-        command.dump()
-            
+        return os.path.abspath(os.path.join(basedir, 'gump_mvn_settings.xml'))
+
+    def locateLocalRepo(self, project):
+        #
+        # Where to put the local repository
+        #
+        return os.path.abspath(os.path.join(self.run.getWorkspace().getBaseDirectory(),
+                                            project.getName() + ".mvnlocalrepo"))
+
+    def needsSeparateLocalRepository(self, project):
+        return project.mvn.needsSeparateLocalRepository()

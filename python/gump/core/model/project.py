@@ -94,6 +94,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     
         self.url=None
         self.desc=''
+        self.groupId=''
         
         self.redistributable=False
         self.packageMarker=None
@@ -141,11 +142,13 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         
     def getArtifactGroup(self):
         """
-        What does this projects artifacts group under?
-        Ask the module...
+        What do this project's artifacts group under?
+        Ask the module unless overridden
         
         Return String
         """
+        if self.groupId:
+            return self.groupId
         return self.getModule().getArtifactGroup()
         
     def hasAnt(self):

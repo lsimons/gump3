@@ -35,6 +35,8 @@ from gump.actor.repository.publisher import RepositoryPublisher
 from gump.actor.notify.notifier import Notifier
 from gump.actor.results.resulter import Resulter
 from gump.actor.syndication.syndicator import Syndicator
+from gump.actor.mvnrepository.local import LocalMvnRepositoryCleaner
+from gump.actor.mvnrepoproxy.proxycontrol import MvnRepositoryProxyController
 
 class GumpRunner(RunSpecific):
     """
@@ -211,6 +213,13 @@ class GumpRunner(RunSpecific):
         if self.run.getOptions().isPublish():
             self.run.registerActor(RepositoryPublisher(self.run))   
 
+        # Handle mvn repository proxy
+        if not self.run.getEnvironment().noMvnRepoProxy:
+            self.run.registerActor(MvnRepositoryProxyController(self.run))
+
+        # Clear local mvn repository
+        self.run.registerActor(LocalMvnRepositoryCleaner(self.run))
+                    
         # Synchonize
         if xdocs:
             self.run.registerActor(Synchronizer(self.run,documenter))
@@ -222,8 +231,7 @@ class GumpRunner(RunSpecific):
             self.log.info('Not doing notifications [%s,%s]' \
                 % (self.run.getOptions().isNotify(), \
                     self.run.getWorkspace().isNotify() ) )
-                    
-                    
+        
         # See what we have...            
         self.run.logActors()
         
