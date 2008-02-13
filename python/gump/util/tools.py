@@ -178,13 +178,13 @@ def syncDirectories(sourcedir,destdir,annotatable=None,output=None):
             transferAnnotations(sync, annotatable)                
     return changes
             
-def wipeDirectoryTree(dir):
+def wipeDirectoryTree(dir, recreateDir = True):
     log.info('Wipe Directory [' + `dir` + ']') 
     if os.path.exists(dir):
         try:
             shutil.rmtree(dir)            
         except: pass
-    if not os.path.exists(dir):
+    if recreateDir and not os.path.exists(dir):
         os.makedirs(dir)
                 
 def tailFile(file,lines,wrapLen=0,eol=None,marker=None):
