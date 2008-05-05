@@ -130,6 +130,8 @@ class Maven2Builder(gump.core.run.gumprun.RunSpecific):
         cmd=Cmd('mvn','build_'+project.getModule().getName()+'_'+project.getName(),\
             basedir,{'CLASSPATH':classpath})
             
+        cmd.addParameter('--batch-mode')
+
         #
         # Allow maven-level debugging...
         #
