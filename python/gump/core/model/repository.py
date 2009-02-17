@@ -30,7 +30,7 @@ from gump.util.domutils import *
 class Repository(NamedModelObject, Statable):
     """ 
     
-    A named repository (CVS|SVN|Artifacts) 
+    A named repository (CVS|SVN|Perforce|Artifacts|GIT) 
     
     """
     def __init__(self,name,dom,workspace):
@@ -38,10 +38,17 @@ class Repository(NamedModelObject, Statable):
             
         self.url=None
         
+        typeToLabel = {'cvs':'CVS', 'svn':'Subversion', 'artifact':'Artifact',
+                       'p4':'Perforce', 'git':'Git'}
+
         type=self.getDomAttributeValue('type')
         
+        try:
+            self.type = typeToLabel[type]
+        except:
+            raise RuntimeError, 'Invalid Repository Type:' + str(xml.type)
+
         if 'cvs'==type:
-            self.type='CVS'    
             self.web=self.getDomChildValue('cvsweb') or \
                         self.getDomChildValue('web')
             if self.hasDomChild('root'):
@@ -52,33 +59,25 @@ class Repository(NamedModelObject, Statable):
                 self.path=getDomChildValue(root,'path')
                 self.hostname=getDomChildValue(root,'hostname')
             else:
-                raise RuntimeError, 'No XML <root on repository: ' + self.getName()
-        elif 'svn'==type:  
-            self.type='Subversion'
-            if self.hasDomChild('url'):
-                self.url=self.getDomChildValue('url')
-            else:
-                raise RuntimeError, 'No URL on SVN repository: ' + self.getName()
-            self.web=self.getDomChildValue('web')
-            self.user=self.getDomChildValue('user')            
-            self.password=self.getDomChildValue('password')
-        elif 'artifact'==type:
-            self.type='Artifacts'
-            if self.hasDomChild('url'):
-                self.url=self.getDomChildValue('url')
-            else:
-                raise RuntimeError, 'No URL on Jars repository: ' + self.getName()                
-            self.web=self.getDomChildValue('web')
+                raise RuntimeError, 'No XML <root on repository: ' \
+                    + self.getName()
         elif 'p4'==type:
-            self.type='Perforce'
             if self.hasDomChild('root'):
                 root=self.getDomChild('root')
                 self.p4port=getDomChildValue(root,'hostname')
             else:
-                raise RuntimeError, 'No Perforce server on P4 repository: ' + self.getName()
+                raise RuntimeError, 'No Perforce server on P4 repository: ' \
+                    + self.getName()
             self.web=self.getDomChildValue('web')
         else:
-            raise RuntimeError, 'Invalid Repository Type:' + str(xml.type)         
+            if self.hasDomChild('url'):
+                self.url=self.getDomChildValue('url')
+            else:
+                raise RuntimeError, 'No URL on ' + self.type + ' repository: ' \
+                    + self.getName()
+            self.web=self.getDomChildValue('web')
+            self.user=self.getDomChildValue('user')            
+            self.password=self.getDomChildValue('password')
             
         # Modules referencing this repository
         self.modules=[]

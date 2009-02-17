@@ -16,224 +16,60 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-
-"""
-
-import os.path
-import sys
-from fnmatch import fnmatch
-
 from gump import log
-from gump.core.run.gumprun import *
-from gump.core.config import dir, default, basicConfig
-
-from gump.util import dump, display, getIndent, logResourceUtilization, \
-                            invokeGarbageCollection
-from gump.util.note import Annotatable
-from gump.util.work import *
-
-from gump.util.tools import *
-
-from gump.core.model.workspace import *
-from gump.core.model.module import Module
-from gump.core.model.project import Project
-from gump.core.model.depend import  ProjectDependency
-from gump.core.model.stats import *
-from gump.core.model.state import *
+from gump.core.model.workspace import Cmd
+from gump.core.update.scmupdater import ScmUpdater
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class SvnUpdater(RunSpecific):
+class SvnUpdater(ScmUpdater):
+    """
+    Updater for Subversion
+    """
     
-    def __init__(self,run):
-        RunSpecific.__init__(self,run)
+    def __init__(self, run):
+        ScmUpdater.__init__(self, run)
 
 
-    def updateModule(self,module):
-        """        
-            Perform a SVN update on a module            
+    def getCheckoutCommand(self, module):
         """
-            
-        log.info('Perform SVN Update on #[' + `module.getPosition()` + \
-                        '] : ' + module.getName())
-    
-        # Did we 'SVN checkout' already?
-        exists	=	os.path.exists(module.getSourceControlStagingDirectory())
-       
-        # Doesn't teach us much
-        #if exists:
-        #    self.performStatus(module)
-            
-        self.performUpdate(module, exists)
-        
-        return module.okToPerformWork()   
-              
-    def performStatus(self,module):
+            Build the appropriate SVN command for checkout
         """
-        
-            Do a status comparison between our copy and server
-            
+        return self.getCommand(module, False)
+
+    def getUpdateCommand(self, module):
         """
-        
-        #  Get the Update Command
-        cmd = self.getStatusCommand(module)
-                               
-        # Execute the command and capture results        
-        cmdResult=execute(cmd, module.getWorkspace().tmpdir)
-    
-        # Store this as work
-        work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
-        module.performedWork(work)  
+            Build the appropriate SVN command for update
+        """
+        return self.getCommand(module, True)
+
+    def getCommand(self, module, forUpdate):
+        """
+            Build the appropriate SVN command for checkout or update
+        """
+        repository = module.repository
+        url = module.getScm().getRootUrl()
       
-        # Update Context w/ Results  
-        if not cmdResult.isOk():              
-            message='Failed to \'status --show-updates\' module: ' + module.getName()
-            module.addWarning(message)
-            log.error(message)               
-
-    def getStatusCommand(self,module):
-        """
-        
-            Build the 'svn status --show-updates --non-interative' command
-            
-        """
-        log.debug("SubVersion Module Status : " + module.getName() + \
-                       ", Repository Name: " + str(module.repository.getName()))
-                                        
-        url=module.svn.getRootUrl()
-      
-        log.debug("SVN URL: [" + url + "] on Repository: " + module.repository.getName())
+        log.debug("SVN URL: [" + url + "] on Repository: "\
+                      + repository.getName())
      
         #
         # Prepare SVN checkout/update command...
         # 
-        cmd=Cmd('svn', 'status_'+module.getName(), 
-                module.getSourceControlStagingDirectory())
+        cmd = Cmd('svn', 'update_'+module.getName(), 
+                  module.getWorkspace().getSourceControlStagingDirectory())
        
         #
         # Be 'quiet' (but not silent) unless requested otherwise.
         #
-        if 	not module.isDebug() 	\
-            and not module.isVerbose() \
-            and not module.svn.isDebug()	\
-            and not module.svn.isVerbose():    
+        if self.shouldBeQuiet(module):    
             cmd.addParameter('--quiet')
                   
-        #
-        # Allow trace for debug
-        #
-        # SVN complains about -v|--verbose, don't ask me why
-        #
-        # if module.isDebug() or  module.svn.isDebug():
-        #    cmd.addParameter('--verbose')
-            
-        # do an SVN status --show-updates
-        cmd.addParameter('status')
-        cmd.addParameter('--show-updates')
-       
-        #
-        # Request non-interactive
-        #
-        cmd.addParameter('--non-interactive')
-
-        return cmd
-
-                                                  
-    def performUpdate(self,module,exists):
-        """
-        
-            Check-out or Update  from SVN
-            
-        """
-        
-        #  Get the Update Command
-        (repository, url, cmd ) = self.getUpdateCommand(module, exists)
-                
-               
-        # Execute the command and capture results        
-        cmdResult=execute(cmd, module.getWorkspace().tmpdir)
-      
-        #
-        # Store this as work, on both the module and (cloned) on the repo
-        #
-        work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
-        module.performedWork(work)  
-        repository.performedWork(work.clone())
-      
-        # Update Context w/ Results  
-        if not cmdResult.isOk():              
-            log.error('Failed to checkout/update module: ' + module.name)   
-            if not exists:     
-                module.changeState(STATE_FAILED,REASON_UPDATE_FAILED)
-            else:
-                module.addError('*** Failed to update from source control. Stale contents ***')
-                        
-                # Black mark for this repository
-                repository=module.getRepository()
-                repository.addError('*** Failed to update %s from source control. Stale contents ***'	\
-                                    % module.getName())
-                                        
-                # Kinda bogus, but better than nowt (for now)
-                module.changeState(STATE_SUCCESS,REASON_UPDATE_FAILED)
-        else:
-            module.changeState(STATE_SUCCESS)       
-                         
-                             
-    def preview(self,module):
-        (repository, url, command ) = self.getUpdateCommand(module,0)
-        command.dump()
-          
-        # Doesn't teach us much  
-        # command = self.getStatusCommand(module)
-        # command.dump()
-            
-        (repository, url, command ) = self.getUpdateCommand(module,1)
-        command.dump()                                            
-    
-    def getUpdateCommand(self,module,exists=0):
-        """
-            Build the appropriate SVN command for checkout/update
-        """
-        repository=module.repository
-        
-        log.debug("SubVersion Module Update : " + module.getName() + \
-                       ", Repository Name: " + repository.getName())
-                                        
-        url=module.svn.getRootUrl()
-      
-        log.debug("SVN URL: [" + url + "] on Repository: " + repository.getName())
-     
-        #
-        # Prepare SVN checkout/update command...
-        # 
-        cmd=Cmd('svn', 'update_'+module.getName(), 
-                    module.getWorkspace().getSourceControlStagingDirectory())
-       
-        #
-        # Be 'quiet' (but not silent) unless requested otherwise.
-        #
-        if 	not module.isDebug() 	\
-            and not module.isVerbose() \
-            and not module.svn.isDebug()	\
-            and not module.svn.isVerbose():    
-            cmd.addParameter('--quiet')
-                  
-        #
-        # Allow trace for debug
-        #
-        # SVN complains about -v|--verbose, don't ask me why
-        #
-        # if module.isDebug() or  module.svn.isDebug():
-        #    cmd.addParameter('--verbose')
-            
-        if exists:
-            # do an SVN update
+        if forUpdate:
             cmd.addParameter('update')
         else:
-            # do an SVN checkout
             cmd.addParameter('checkout', url)
        
         #
@@ -251,10 +87,8 @@ class SvnUpdater(RunSpecific):
         # If module name != SVN directory, tell SVN to put it into
         # a directory named after our module
         #
-        if not module.svn.hasDir() or \
-           not module.svn.getDir() == module.getName():
+        if not module.getScm().hasDir() or \
+           not module.getScm().getDir() == module.getName():
                 cmd.addParameter(module.getName())
         
-        return (module.repository, url, cmd)
-         
-    
+        return cmd

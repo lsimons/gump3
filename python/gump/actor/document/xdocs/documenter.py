@@ -1645,31 +1645,38 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 module, \
                                 repoList.createEntry( "Repository: ") )
                                 
-            if module.hasCvs():
-                if module.cvs.hasModule():
-                    repoList.createEntry( "CVS Module: ", module.cvs.getModule()) 
+            scm = module.getScm()
+            if scm:
+                scmName = scm.getScmName()
+                if scm.hasDir():
+                    repoList.createEntry(scmName + " Directory: ", scm.getDir()) 
+                if scm.getScmType() == 'cvs':
+                    if scm.hasModule():
+                        repoList.createEntry(scmName + " Module: ",
+                                             scm.getModule()) 
                      
-                if module.cvs.hasTag():
-                    repoList.createEntry( "CVS Tag: ", module.cvs.getTag()) 
-                    
-                if module.cvs.hasDir():
-                    repoList.createEntry( "CVS Dir: ", module.cvs.getDir()) 
-                    
-                if module.cvs.hasHostPrefix():
-                    repoList.createEntry( "CVS Host Prefix: ", module.cvs.getHostPrefix()) 
+                    if scm.hasTag():
+                        repoList.createEntry(scmName + " Tag: ", scm.getTag()) 
+                                        
+                    if scm.hasHostPrefix():
+                        repoList.createEntry(scmName + " Host Prefix: ",
+                                             scm.getHostPrefix()) 
                      
-                repoList.createEntry( "CVSROOT: ", module.cvs.getCvsRoot()) 
+                    repoList.createEntry("CVSROOT: ", scm.getCvsRoot()) 
 
-            if module.hasSvn():
-                if module.svn.hasDir():
-                    repoList.createEntry( "SVN Directory: ", module.svn.getDir()) 
-                repoList.createEntry( "SVN URL: ", module.svn.getRootUrl())                 
+                elif scm.getScmType() == 'p4':
+                    if scm.hasTag():
+                        repoList.createEntry(scmName + " Tag: ", scm.getTag()) 
 
-            if module.hasArtifacts():
-                if module.artifacts.hasUrl():
-                    repoList.createEntry( "Jars URL: ", module.artifacts.getUrl())   
+                    repoList.createEntry(scmName + " Port: ", scm.getPort()) 
+                    repoList.createEntry(scmName + " Clientspec: ",
+                                         scm.getClientspec()) 
 
-            repoList.createEntry('Redistributable: ', module.isRedistributable())              
+                repoList.createEntry(scmName + " URL: ", scm.getRootUrl())
+
+
+            repoList.createEntry('Redistributable: ',
+                                 module.isRedistributable())              
            
         document.serialize()
         document=None

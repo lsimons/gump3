@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -15,58 +16,52 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+from gump import log
 from gump.core.model.workspace import Cmd
 from gump.core.update.scmupdater import ScmUpdater
 
-def getP4Command(module):
-    """
-    Update this module (checking out if needed)
-    """
-    cmd = Cmd('p4', 'update_' + module.getName(),
-              module.getWorkspace().getSourceControlStagingDirectory())
-          
-    # Determine if a tag is set, on <p4 or on <module
-    tag = None
-    if module.getScm().hasTag():
-        tag = module.getScm().getTag()
-    elif module.hasTag():
-        tag = module.getTag()
+def log_repository_and_url(module):
+    repository = module.repository
+    url = module.getScm().getRootUrl()
+    log.debug("GIT URL: [" + url + "] on Repository: " + \
+                  repository.getName())
 
-    # Do a p4 sync
-    cmd.addParameter('-p', module.getScm().getPort())
-    cmd.addParameter('-u', module.getScm().getUser())
-    cmd.addParameter('-P', module.getScm().getPassword())
-    cmd.addParameter('-c', module.getScm().getClientspec())
-    cmd.addParameter('sync')
-    if tag:
-        cmd.addParameter(module.getName() + '/...@', tag, ' ')
-    else:
-        cmd.addParameter(module.getName() + '/...')
-
-    return cmd
-
+                  
 ###############################################################################
 # Classes
 ###############################################################################
 
-class P4Updater(ScmUpdater):
+class GitUpdater(ScmUpdater):
     """
-    Updater for Perforce
+    Updater for GIT
     """
     
     def __init__(self, run):
         ScmUpdater.__init__(self, run)
 
+
     def getCheckoutCommand(self, module):
         """
-            Checkout this module
+            Build the appropriate GIT command for clone
         """
-        return getP4Command(module)
+        log_repository_and_url(module)
+        cmd = Cmd('git-clone', 'update_' + module.getName(), 
+                  module.getWorkspace().getSourceControlStagingDirectory())
+        self.maybeMakeQuiet(module, cmd)
+        cmd.addParameter(module.getScm().getRootUrl())
+        cmd.addParameter(module.getName())
+        return cmd
 
     def getUpdateCommand(self, module):
         """
-            Update this module
+            Build the appropriate GIT command for pull
         """
-        return getP4Command(module)
+        log_repository_and_url(module)
+        cmd = Cmd('git-pull', 'update_' + module.getName(), 
+                  module.getSourceControlStagingDirectory())
+        self.maybeMakeQuiet(module, cmd)
+        return cmd
 
+    def maybeMakeQuiet(self, module, cmd):
+        if self.shouldBeQuiet(module):    
+            cmd.addParameter('--quiet')

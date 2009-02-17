@@ -82,6 +82,10 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         self.noJavac = False
         self.noMake = False    
         self.noMvnRepoProxy = False
+        self.noGit = False
+        self.noDarcs = False
+        self.noHg = False
+        self.noBzr = False
         
         self.javaProperties = None
     
@@ -157,43 +161,42 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
         if not self.noJavac and not self._checkExecutable('java com.sun.tools.javac.Main','-help',False,False,'check_java_compiler'):
             self.noJavac=True
 
-        if not self.noCvs and not self._checkExecutable('cvs','--version',False):
-            self.noCvs=True
-            self.addWarning('"cvs" command not found, no CVS repository updates')
+        self.noCvs = self._checkWithDashVersion('cvs',
+                                                'no CVS repository updates')
         
-        if not self.noSvn and not self._checkExecutable('svn','--version',False):
-            self.noSvn=True
-            self.addWarning('"svn" command not found, no SVN repository updates')
+        self.noSvn = self._checkWithDashVersion('svn',
+                                                'no svn repository updates')
           
-        if not self.noP4 and not self._checkExecutable('p4','-V',False):
-            self.noP4=True
-            self.addWarning('"p4" command not found, no Perforce repository updates')
+        self.noP4 = self._checkWithDashVersion('p4',
+                                               'no Perforce repository updates',
+                                               '-V')
           
-        if not self.noMaven and \
-            not self._checkExecutable('maven','--version',False,False,'check_maven'): 
-            self.noMaven=True
-            self.addWarning('"maven" command not found, no Maven builds')
+        self.noMaven = not self.noMaven and not \
+            self._checkWithDashVersion('maven', "no Maven 1.x builds")
+
        
-        if not self.noMaven2 and \
-            not self._checkExecutable('mvn','--version',False,False,'check_maven2'): 
-            self.noMaven=True
-            self.addWarning('"mvn" command not found, no Maven2 builds')
+        self.noMaven2 = not self.noMaven2 and not \
+            self._checkWithDashVersion('mvn', "no Maven 2.x builds")
+
+        self.noNAnt = self._checkWithDashVersion('NAnt', "no NAnt builds")
+
+        self.noMono = self._checkWithDashVersion('mono', "no Mono runtime")
+
+        self.noMake = self._checkWithDashVersion('make', "no make builds")
        
-        if not self.noNAnt and \
-            not self._checkExecutable('NAnt','-help',False,False,'check_NAnt'): 
-            self.noNAnt=True
-            self.addWarning('"NAnt" command not found, no NAnt builds')
-       
-        if not self.noMono and \
-            not self._checkExecutable('mono','--help',False,False,'check_mono'): 
-            self.noMono=True
-            self.addWarning('"Mono" command not found, no Mono runtime')
-       
-        if not self.noMake and \
-            not self._checkExecutable('make','--help',False,False,'check_Make'): 
-            self.noMake=True
-            self.addWarning('"make" command not found, no make builds')
-       
+        self.noGit = self._checkWithDashVersion('git',
+                                                'no git repository updates')
+          
+        self.noDarcs = self._checkWithDashVersion('darcs',
+                                                  'no darcs repository updates')
+          
+        self.noHg = self._checkWithDashVersion('hg',
+                                               'no Mercurial repository updates')
+          
+        self.noBzr = self._checkWithDashVersion('bzr',
+                                                'no Bazar repository updates')
+          
+          
         self.checked = True
         
         self.changeState(STATE_SUCCESS)
@@ -269,6 +272,18 @@ class GumpEnvironment(Annotatable,Workable,Propogatable):
             self.log.debug("Java Property: " + name + " => " + value)
 
         return self.javaProperties
+
+    def _checkWithDashVersion(self,commandName,consequence,version='--version'):
+        """
+        Determine whether a particular command is or is not available
+        by using the --version switch
+        """
+        ok = self._checkExecutable(commandName, version, False, False,
+                                   'check_' + commandName)
+        if not ok:
+            self.addWarning('"' + commandName + '" command not found, '
+                            + consequence)
+        return ok
 
     def _checkExecutable(self,command,options,mandatory,logOutput=False,name=None):
         """

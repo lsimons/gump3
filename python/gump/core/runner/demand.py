@@ -76,7 +76,7 @@ class OnDemandRunner(GumpRunner):
         
     def performUpdate(self,module):
         """
-        	Perform the (cvs,svn) update of a single module.
+        	Perform the SCM update of a single module.
         	
         	The module is locked during the update. Most of the actual work
         	is delegated to the updater that's provided by the parent GumpRunner

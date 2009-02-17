@@ -15,228 +15,97 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
+from gump.core.model.workspace import Cmd
+from gump.core.update.scmupdater import ScmUpdater
+from gump.tool.integration.cvs import readLogins, loginToRepositoryOnDemand
 
-"""
-
-import os.path
-import sys
-from fnmatch import fnmatch
-
-from gump import log
-from gump.core.run.gumprun import *
-from gump.core.config import dir, default, basicConfig
-
-from gump.util import dump, display, getIndent, logResourceUtilization, \
-                            invokeGarbageCollection
-from gump.util.note import Annotatable
-from gump.util.work import *
-
-from gump.util.tools import *
-
-from gump.core.model.workspace import *
-from gump.core.model.module import Module
-from gump.core.model.project import Project
-from gump.core.model.depend import  ProjectDependency
-from gump.core.model.stats import *
-from gump.core.model.state import *
-
-from gump.tool.integration.cvs import *
-
+def maybe_add_tag(module, cmd):
+    # Determine if a tag is set, on <cvs or on <module
+    tag = None
+    if module.getScm().hasTag():
+        tag = module.getScm().getTag()
+    elif module.hasTag():
+        tag = module.getTag()
+    if tag:
+        cmd.addParameter('-r', tag, ' ')
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class CvsUpdater(RunSpecific):
+class CvsUpdater(ScmUpdater):
+    """
+    Updater for CVS
+    """
     
-    def __init__(self,run):
-        RunSpecific.__init__(self,run)
+    def __init__(self, run):
+        ScmUpdater.__init__(self, run)
 
         #
         # A stash of known logins.
         #
-        self.logins=readLogins()
+        self.logins = readLogins()
 
-    def updateModule(self,module):
+    def getCheckoutCommand(self, module):
         """
-        
-            Perform a CVS update on a module
-            
+            Build the appropriate CVS command for checkout
         """
-            
-        #log.info('Perform CVS Update on #[' + `module.getPosition()` + \
-        #                '] : ' + module.getName())
+        self.maybeLogin(module)
     
-        # Did we 'CVS checkout' already?
-        exists	=	os.path.exists(module.getSourceControlStagingDirectory())
-       
-        # Doesn't tell us much...
-        #if exists:
-        #    self.performStatus(module)
-                
-        self.performUpdate(module,exists)        
-        
-        return module.okToPerformWork()      
-        
-    def performStatus(self,module):
-        #  Get the Update Command
-        (repository, root, cmd ) = self.getUpdateCommand(module, True, True)
-                
-        # Provide CVS logins, if not already there
-        loginToRepositoryOnDemand(repository,root,self.logins)
-               
-        # Execute the command and capture results        
-        cmdResult=execute(cmd, module.getWorkspace().tmpdir)
-      
-        #
-        # Store this as work, on both the module and (cloned) on the repo
-        #
-        work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
-        module.performedWork(work)  
-     
-        if not cmdResult.isOk():              
-            log.error('Failed to checkout/update module: ' + module.name)   
-                                  
-    def performUpdate(self,module,exists):
-        """
-            Update this module (checking out if needed)
-        """
-        #  Get the Update Command
-        (repository, root, cmd ) = self.getUpdateCommand(module, exists)
-                
-        #log.debug("CVS Update Module " + module.getName() + \
-        #               ", Repository Name: " + str(module.repository.getName()))
-                                        
-        # Provide CVS logins, if not already there
-        loginToRepositoryOnDemand(repository,root,self.logins)
-               
-        # Execute the command and capture results        
-        cmdResult=execute(cmd, module.getWorkspace().tmpdir)
-      
-        #
-        # Store this as work, on both the module and (cloned) on the repo
-        #
-        work=CommandWorkItem(WORK_TYPE_UPDATE,cmd,cmdResult)
-        module.performedWork(work)  
-        repository.performedWork(work.clone())
-      
-        # Update Context w/ Results  
-        if not cmdResult.isOk():              
-            log.error('Failed w/ CVS Root ' + root + ' for %s on Repository %s.' \
-                % (module.name, module.repository.getName())) 
-            if not exists:     
-                module.changeState(STATE_FAILED,REASON_UPDATE_FAILED)
-            else:
-                module.addError('*** Failed to update from source control. Stale contents ***')
-                        
-                # Black mark for this repository
-                repository=module.getRepository()
-                repository.addError('*** Failed to update %s from source control. Stale contents ***'	\
-                                    % module.getName())
-                                        
-                # Kinda bogus, but better than nowt (for now)
-                module.changeState(STATE_SUCCESS,REASON_UPDATE_FAILED)
+        cmd = Cmd('cvs', 'update_' + module.getName(),
+                  module.getWorkspace().getSourceControlStagingDirectory())
+        self.setupCommonParameters(module, cmd)
+          
+        # do a cvs checkout
+        cmd.addParameter('checkout')
+        cmd.addParameter('-P')
+        maybe_add_tag(module, cmd)
+
+        if not module.getScm().hasModule() or \
+           not module.getScm().getModule() == module.getName(): 
+            cmd.addParameter('-d', module.getName(), ' ')
+
+        if module.getScm().hasModule():
+            cmd.addParameter(module.getScm().getModule())
         else:
-            module.changeState(STATE_SUCCESS)      
-            
-            # We run CVS as -q (quiet) so any output means
-            # updates occured...
-            if cmdResult.hasOutput():                       
-                log.info('Update(s) received via CVS on #[' \
-                                + `module.getPosition()` + \
-                                '] : ' + module.getName())
-                                 
-    def preview(self,module):
-                
-        (repository, root, command ) = self.getUpdateCommand(module,False)
-        command.dump()
-        
-        # Doesn't tell us much...
-        #(repository, root, command ) = self.getUpdateCommand(module,True,True)
-        #command.dump()
-            
-        (repository, root, command ) = self.getUpdateCommand(module,True)
-        command.dump()                       
-        
-    
-    def getUpdateCommand(self,module,exists=False,nowork=False):
-        """        
-            Format a commandline for doing the CVS update            
+            cmd.addParameter(module.getName())            
+
+        return cmd
+
+    def getUpdateCommand(self, module):
         """
-        
-        if nowork and not exists:
-            raise RuntimeException('Not coded for this combo.')            
-        
-        root=module.cvs.getCvsRoot()
+            Build the appropriate CVS command for update
+        """
+
+        self.maybeLogin(module)
     
-        # Prepare CVS checkout/update command...
-        prefix='update'
-        directory=module.getWorkspace().getSourceControlStagingDirectory()
-        if exists:     
-            directory=module.getSourceControlStagingDirectory()            
-        if nowork:
-            prefix='status'       
-                
-        cmd=Cmd(	'cvs',
-                    prefix+'_'+module.getName(),
-                    directory)
+        cmd = Cmd('cvs', 'update_' + module.getName(),
+                  module.getSourceControlStagingDirectory())
+        self.setupCommonParameters(module, cmd)
           
-        # Be 'quiet' (but not silent) unless requested otherwise.
-        if 	not module.isDebug() 	\
-            and not module.isVerbose() \
-            and not module.cvs.isDebug()	\
-            and not module.cvs.isVerbose():    
+        # Do a cvs update
+        cmd.addParameter('update')
+        cmd.addParameter('-P')
+        cmd.addParameter('-d')
+        maybe_add_tag(module, cmd)
+
+        return cmd
+    
+    def setupCommonParameters(self, module, cmd):
+        if self.shouldBeQuiet(module):    
             cmd.addParameter('-q')
-        
-        if nowork:
-            cmd.addParameter('-n')
-          
-        # Allow trace for debug
-        if module.isDebug():
+        elif module.isDebug():
             cmd.addParameter('-t')
-          
         # Request compression
         cmd.addParameter('-z3')
           
         # Set the CVS root
-        cmd.addParameter('-d', root)
-    
-        # Determine if a tag is set, on <cvs or on <module
-        tag=None
-        if module.cvs.hasTag():
-            tag=module.cvs.getTag()
-        elif module.hasTag():
-            tag=module.getTag()
-            
-        if exists:
+        cmd.addParameter('-d', module.getScm().getCvsRoot())    
 
-            # Do a cvs update
-            cmd.addParameter('update')
-            cmd.addParameter('-P')
-            cmd.addParameter('-d')
-            if tag:
-                cmd.addParameter('-r',tag,' ')
-            else:
-                cmd.addParameter('-A')
-            #cmd.addParameter(module.getName())
+    def maybeLogin(self, module):
+        repository = module.repository
+        root = module.getScm().getCvsRoot()
 
-        else:
+        # Provide CVS logins, if not already there
+        loginToRepositoryOnDemand(repository, root, self.logins)
 
-            # do a cvs checkout
-            cmd.addParameter('checkout')
-            cmd.addParameter('-P')
-            if tag:
-                cmd.addParameter('-r',tag,' ')
-
-            if 	not module.cvs.hasModule() or \
-                not module.cvs.getModule() == module.getName(): 
-                    cmd.addParameter('-d',module.getName(),' ')
-                    
-            if module.cvs.hasModule():
-                cmd.addParameter(module.cvs.getModule())
-            else:
-                cmd.addParameter(module.getName())            
-        
-        return (module.repository, root, cmd)
-    

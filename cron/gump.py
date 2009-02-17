@@ -20,7 +20,7 @@
   This is the commandline entrypoint into Python Gump,
   used *primarily* by nightly cron jobs.
   
-  It updates Gump (from CVS) to ensure it (itself) is 
+  It updates Gump (from svn) to ensure it (itself) is 
   latest, does some environment twiddling, and runs the
   main gump/integration.py. Bit more twiddling with 
   outputs afterwards...
@@ -276,7 +276,6 @@ def doRun():
     args=sys.argv
     result=0
     svnExit = -1
-    cvsExit = -1
     integrationExit = -1
             
     try:
@@ -323,7 +322,7 @@ def doRun():
             # Nope, can't find the workspace...
             if not os.path.exists(workspacePath):
                 raise RuntimeError('\n  No workspace at ' + str(workspacePath) +
-                  '!\n  Maybe you need to check out the metadata from CVS?\n' +
+                  '!\n  Maybe you need to check out the metadata from svn?\n' +
                   '  See the file metadata/FILLME for more information...')
             
             #
@@ -396,7 +395,6 @@ def doRun():
                 svnExit=0
             if svnExit: result=1               
             
-            # :TODO: Is this a CVS thing, or a Gump historical thing?
             if os.path.exists('.timestamp'): 
                 os.remove('.timestamp')            
         
@@ -532,7 +530,7 @@ def doRun():
                 print 'Unable to mail failure report : ' + `[mailserver,mailport,mailto,mailfrom]`
             
             
-    writeRunLogEntry('Complete [%s svn:%s,cvs:%s,run:%s]' % (result, svnExit, cvsExit, integrationExit))
+    writeRunLogEntry('Complete [%s svn:%s,run:%s]' % (result, svnExit, integrationExit))
 
     # bye!
     sys.exit(result)

@@ -166,8 +166,8 @@ class ModelTestSuite(UnitTestSuite):
         module1=self.module1
         module2=self.module2
         
-        self.assertTrue('Module has CVS', module1.hasCvs())
-        self.assertFalse('Module has NOT SVN', module1.hasSvn())
+        self.assertTrue('Module has CVS',
+                        module1.getScm().getScmType() == 'cvs')
         self.assertNonZeroString('CVSROOT',module1.cvs.getCvsRoot())
         self.assertNonZeroString('Has Tag',module1.cvs.getTag())
         self.assertNonZeroString('Has Tag',module2.getTag())
@@ -175,8 +175,8 @@ class ModelTestSuite(UnitTestSuite):
     def testSvn(self):
         svnmodule1= self.workspace.getModule('svn_module1')
         
-        self.assertTrue('Module has SVN', svnmodule1.hasSvn())
-        self.assertFalse('Module has NOT CVS', svnmodule1.hasCvs())
+        self.assertTrue('Module has SVN',
+                        module1.getScm().getScmType() == 'svn')
         self.assertNonZeroString('SVN URL',svnmodule1.svn.getRootUrl())
         self.assertTrue('SVN Dir',svnmodule1.svn.hasDir())
     

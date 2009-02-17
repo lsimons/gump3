@@ -32,17 +32,47 @@ from gump.util import getIndent
 from gump.util.note import transferAnnotations, Annotatable
 from gump.util.domutils import *
 
-class ModuleCvs(ModelObject):
+class ModuleScm(ModelObject):
     def __init__(self,dom,repository):
         ModelObject.__init__(self,dom)
         
-        self.repository=repository
+        # Reference to the shared repository
+        self.repository = repository    
+            
+        # Extract settings
+        self.dir = self.getDomAttributeValue('dir')
+        self.type = self.element.tagName
+
+    def getRootUrl(self):
+        url = self.repository.getUrl()
+        if url and self.hasDir():
+            url += self.getDir()
+        return url
+        
+    def hasDir(self):
+        if self.dir: return True
+        return False
+        
+    def getDir(self):
+        return self.dir
+        
+    def getViewUrl(self):
+        return self.getRootUrl()
+         
+    def getScmType(self):
+        return self.type
+
+    def getScmName(self):
+        return self.repository.getType()
+
+class ModuleCvs(ModuleScm):
+    def __init__(self,dom,repository):
+        ModuleScm.__init__(self, dom, repository)
         
         # Extract settings
-        self.tag			=	self.getDomAttributeValue('tag')
-        self.module			=	self.getDomAttributeValue('module')
-        self.hostPrefix 	=   self.getDomAttributeValue('host-prefix')
-        self.dir			=	self.getDomAttributeValue('dir','')
+        self.tag                        =       self.getDomAttributeValue('tag')
+        self.module                     =       self.getDomAttributeValue('module')
+        self.hostPrefix         =   self.getDomAttributeValue('host-prefix')
         
     def getCvsRoot(self):
         """Construct the CVS root for this set of information"""
@@ -82,13 +112,6 @@ class ModuleCvs(ModelObject):
     def getHostPrefix(self):
         return str(self.hostPrefix)
         
-    def hasDir(self):
-        if self.dir: return True
-        return False
-        
-    def getDir(self):
-        return str(self.dir)
-    
     def hasModule(self):
         if self.module: return True
         return False
@@ -105,38 +128,11 @@ class ModuleCvs(ModelObject):
                  url=self.repostory.getCvsWeb()+'/'+self.module.getName()
         return url
         
-class ModuleSvn(ModelObject):
+class ModuleP4(ModuleScm):
     def __init__(self,dom,repository):
-        ModelObject.__init__(self,dom)
-        
-        # Reference to the shared repository
-        self.repository=repository    
-            
-        # Extract settings
-        self.dir	=	self.getDomAttributeValue('dir')
-
-    def getRootUrl(self):
-        url=self.repository.getUrl()
-        if self.hasDir():
-            url+=self.getDir()
-        return url
-        
-    def hasDir(self):
-        if self.dir: return True
-        return False
-        
-    def getDir(self):
-        return self.dir
-        
-    def getViewUrl(self):
-        return self.getRootUrl()
-         
-class ModuleP4(ModelObject):
-    def __init__(self,dom,repository):
-        ModelObject.__init__(self,dom)
+        ModuleScm.__init__(self, dom, repository)
 
         # Reference to the shared repository
-        self.repository=repository
         self.hostname='perforce:1666'
         if repository.hasDomChild('root'):
             root=repository.getDomChild('root')
@@ -148,9 +144,6 @@ class ModuleP4(ModelObject):
             self.clientspec=getDomChildValue(root,'clientspec')
 
         self.tag=self.getDomAttributeValue('tag')
-
-        # Extract settings
-        self.dir=self.getDomAttributeValue('dir')
 
     def getPort(self):
         return str(self.hostname)
@@ -170,22 +163,6 @@ class ModuleP4(ModelObject):
         
     def getTag(self):
         return str(self.tag)
-        
-    def getRootUrl(self):
-        url=self.repository.getUrl()
-        if self.hasDir():
-            url+=self.getDir()
-        return url
-
-    def hasDir(self):
-        if self.dir: return True
-        return False
-
-    def getDir(self):
-        return self.dir
-
-    def getViewUrl(self):
-        return self.getRootUrl()
         
 class ModuleArtifacts(ModelObject):
     def __init__(self,dom,repository):
@@ -217,36 +194,33 @@ class ModuleArtifacts(ModelObject):
 class Module(NamedModelObject, Statable, Resultable, Positioned):
     """Set of Modules (which contain projects)"""
     def __init__(self,name,dom,owner):
-    	NamedModelObject.__init__(self,name,dom,owner)
-            	
-    	Statable.__init__(self)
-    	Resultable.__init__(self)
-    	Positioned.__init__(self)
-    	
-    	self.totalDepends=[]
-    	self.totalDependees=[]
+        NamedModelObject.__init__(self,name,dom,owner)
+                
+        Statable.__init__(self)
+        Resultable.__init__(self)
+        Positioned.__init__(self)
+        
+        self.totalDepends=[]
+        self.totalDependees=[]
     
-    	self.projects={}
-    	
+        self.projects={}
+        
         self.notifys=[]
         
-    	self.repository=None
-    	self.cvs=None
-    	self.svn=None
-    	self.artifacts=None
-    	self.p4=None
-    	
-        self.packaged		=	False 
+        self.repository=None
+        self.scm = None
+        
+        self.packaged           =       False 
         self.redistributable=   False
         
         # Changes were found (when updating)
-    	self.modified		=	False
-    	
-    	# The task of updating has occured..
-    	self.updated		=	False
-    	
-    	self.affected		=	0
-        	
+        self.modified           =       False
+        
+        # The task of updating has occured..
+        self.updated            =       False
+        
+        self.affected           =       0
+                
         # Extract settings
         self.tag=''
                 
@@ -261,7 +235,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
            
     def getObjectForTag(self,tag,dom,name=None):
         """
-        	Get a new (or spliced) object for this tag	
+                Get a new (or spliced) object for this tag      
         """
         
         object=None
@@ -284,10 +258,10 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         return object                                          
       
     def resolve(self):
-	"""
-	Resolving requires creating objects (in the correct lists/maps) for
-	certain high level XML elements, e.g. <project.
-	"""
+        """
+        Resolving requires creating objects (in the correct lists/maps) for
+        certain high level XML elements, e.g. <project.
+        """
         
         if self.isResolved(): return
         
@@ -406,9 +380,9 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                                     `packageCount` + '.)')                                            
 
         # Determine source directory
-        self.absWorkingDir=	\
+        self.absWorkingDir=     \
                 os.path.abspath(
-                        os.path.join(workspace.getBaseDirectory(),	
+                        os.path.join(workspace.getBaseDirectory(),      
                                 self.workdir))
         
         self.absSrcCtlDir=    \
@@ -422,70 +396,8 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                          os.path.join(    workspace.getSourceControlStagingDirectory(), 
                                             self.getName() + '.lock'))
                                
-        # :TODO: Consolidate this code, less cut-n-paste but also
-        # check the 'type' of the repository is appropriate for the
-        # use (eg. type='cvs' if referenced by CVS).
         if not packaged:
-            # We have a CVS entry, expand it...
-            if self.hasDomChild('cvs'):
-                cvs=self.getDomChild('cvs')
-                repoName=getDomAttributeValue(cvs,'repository')
-                if repoName:
-                    if workspace.hasRepository(repoName):
-                        # It references this repository...
-                        repo=workspace.getRepository(repoName)
-                        self.repository=repo
-                        repo.addModule(self)
-                        self.cvs=ModuleCvs(cvs,repo)
-                    else:
-                        self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                        self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
-                                + self.getName() + ']')
-                            
-            elif self.hasDomChild('svn'):
-                rdom=self.getDomChild('svn')
-                repoName=getDomAttributeValue(rdom,'repository')
-                if repoName:
-                    if workspace.hasRepository(repoName):
-                        # It references this repository...
-                        repo=workspace.getRepository(repoName)
-                        self.repository=repo
-                        repo.addModule(self)
-                        self.svn=ModuleSvn(rdom,repo)
-                    else:
-                        self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                        self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
-                                + self.getName() + ']')                 
-                                                
-            elif self.hasDomChild('p4'):
-                p4dom=self.getDomChild('p4')
-                repoName=getDomAttributeValue(p4dom,'repository')
-                if repoName:
-                    if workspace.hasRepository(repoName):
-                        # It references this repository
-                        repo=workspace.getRepository(repoName)
-                        self.repository=repo
-                        repo.addModule(self)
-                        self.p4=ModuleP4(p4dom,repo)
-                    else:
-                        self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
-                        self.addError('No such repository ['+ str(repoName) + '] in workspace on [' \
-                                + self.getName() + ']')
-
-            elif self.hasDomChild('artifacts'):
-                adom=self.getDomChild('artifacts')
-                repoName=getDomAttributeValue(adom,'repository')
-                if repoName:
-                    if workspace.hasRepository(repoName):
-                        # It references this repository...
-                        repo=workspace.getRepository(repoName)	
-                        self.repository=repo	
-                        repo.addModule(self)
-                        self.artifacts=ModuleArtifacts(adom,repo)
-                    else:
-                        self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)               
-                        self.addError('No such repository ['+ str(repoName) +'] in workspace on [' \
-                                + self.getName() + ']')                 
+            self.parseScm()
 
         # Grab all notifications
         for notifyEntry in self.getDomChildIterator('nag'):
@@ -520,6 +432,44 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                 
         self.setComplete(True)            
         
+    def parseScm(self):
+        """
+        Parses the child element that holds SCM information
+        """
+
+        # sorted by priority, the first matching SCM element wins
+        supportedScms = ['cvs', 'svn', 'p4', 'git', 'artifacts']
+        for s in supportedScms:
+            if self.hasDomChild(s):
+                dom = self.getDomChild(s)
+                repoName = getDomAttributeValue(dom, 'repository')
+                if repoName:
+                    if self.workspace.hasRepository(repoName):
+                        # It references this repository...
+                        repo = self.workspace.getRepository(repoName)
+                        self.repository = repo
+                        repo.addModule(self)
+                        self.scm = self.createScmInstance(s, dom, repo)
+                    else:
+                        self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
+                        self.addError('No such repository ['+ str(repoName) \
+                                          +'] in workspace on [' \
+                                          + self.getName() + ']')
+                return
+
+
+    def createScmInstance(self, type, dom, repo):
+        """
+        Factory method for matching ModuleScm subclass of given SCM
+        """
+        if type == 'cvs':
+            return ModuleCvs(dom, repo)
+        elif type == 'p4':
+            return ModuleP4(dom, repo)
+        elif type == 'artifacts':
+            return ModuleArtifacts(dom, repo)
+        return ModuleScm(dom, repo)
+
     def hasNotifys(self):
         if self.notifys: return True
         return False
@@ -537,7 +487,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         
     def addProject(self,project):
         """
-        	Associate this module with this project, and vice verse.
+                Associate this module with this project, and vice verse.
         """
         name=project.getName()
         
@@ -729,24 +679,9 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             return 'http://svn.apache.org/repos/asf/gump/metadata/' + location
         
     def isUpdatable(self):
-        return self.hasCvs() or self.hasSvn() or self.hasArtifacts()
+        if self.scm: return True
+        return False
                 
-    def hasCvs(self):
-        if self.cvs: return True
-        return False
-        
-    def hasSvn(self):
-        if self.svn: return True
-        return False
-        
-    def hasP4(self):
-        if self.p4: return True
-        return False
-        
-    def hasArtifacts(self):
-        if self.artifacts: return True
-        return False
-        
     # Where the contents (at the repository) Modified?
     def isModified(self):
         return self.modified
@@ -768,12 +703,12 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         return self.repository
     
     def getViewUrl(self):
-        if self.hasCvs():
-            return self.cvs.getViewUrl()
-        elif self.hasSvn():
-            return self.svn.getViewUrl()            
-        elif self.hasP4():
-            return self.p4.getViewUrl()            
+        scm = getScm(self);
+        if scm:
+            return scm.getViewUrl()
+
+    def getScm(self):
+        return self.scm
 
 class ModuleStatistics(Statistics):
     """ 
