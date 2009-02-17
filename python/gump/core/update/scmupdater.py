@@ -100,10 +100,10 @@ class ScmUpdater(RunSpecific):
                         
                     # Black mark for this repository
                     repository = module.getRepository()
-                    repository.addError('*** Failed to update %s from source' + \
-                                            ' control. Stale contents ***' \
-                                            % module.getName())
-                                        
+                    repository.addError('*** Failed to update ' module.name + \
+                                            'from source control. Stale '+ \
+                                            'contents ***')
+
                     # Kinda bogus, but better than nowt (for now)
                     module.changeState(STATE_SUCCESS, REASON_UPDATE_FAILED)
 
