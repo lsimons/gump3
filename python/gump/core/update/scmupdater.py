@@ -100,7 +100,7 @@ class ScmUpdater(RunSpecific):
                         
                     # Black mark for this repository
                     repository = module.getRepository()
-                    repository.addError('*** Failed to update ' module.name + \
+                    repository.addError('*** Failed to update ' + module.name +\
                                             'from source control. Stale '+ \
                                             'contents ***')
 
