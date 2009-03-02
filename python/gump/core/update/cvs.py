@@ -15,9 +15,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os.path
+
 from gump.core.model.workspace import Cmd
-from gump.core.update.scmupdater import ScmUpdater
+from gump.core.update.scmupdater import ScmUpdater, should_be_quiet
 from gump.tool.integration.cvs import readLogins, loginToRepositoryOnDemand
+from gump.util.tools import tailFileToString
 
 def maybe_add_tag(module, cmd):
     # Determine if a tag is set, on <cvs or on <module
@@ -28,6 +31,28 @@ def maybe_add_tag(module, cmd):
         tag = module.getTag()
     if tag:
         cmd.addParameter('-r', tag, ' ')
+
+def setup_common_parameters(module, cmd):
+    if should_be_quiet(module):    
+        cmd.addParameter('-q')
+    elif module.isDebug():
+        cmd.addParameter('-t')
+    # Request compression
+    cmd.addParameter('-z3')
+          
+    # Set the CVS root
+    cmd.addParameter('-d', module.getScm().getCvsRoot())    
+
+def error_unless_file_content_matches(cvsdir, filename, expected_content,
+                                      prop):
+    f = os.path.join(cvsdir, filename)
+    if not os.path.exists(f):
+        return (False, 'workspace doesn\'t contain a ' + filename + ' file')
+    actual = tailFileToString(f, 1).rstrip()
+    if actual != expected_content:
+        return (False, 'expected ' + prop + ' to be \'' + \
+                        expected_content + '\' but is \'' + actual + '\'')
+    return None
 
 ###############################################################################
 # Classes
@@ -54,7 +79,7 @@ class CvsUpdater(ScmUpdater):
     
         cmd = Cmd('cvs', 'update_' + module.getName(),
                   module.getWorkspace().getSourceControlStagingDirectory())
-        self.setupCommonParameters(module, cmd)
+        setup_common_parameters(module, cmd)
           
         # do a cvs checkout
         cmd.addParameter('checkout')
@@ -81,7 +106,7 @@ class CvsUpdater(ScmUpdater):
     
         cmd = Cmd('cvs', 'update_' + module.getName(),
                   module.getSourceControlStagingDirectory())
-        self.setupCommonParameters(module, cmd)
+        setup_common_parameters(module, cmd)
           
         # Do a cvs update
         cmd.addParameter('update')
@@ -91,16 +116,48 @@ class CvsUpdater(ScmUpdater):
 
         return cmd
     
-    def setupCommonParameters(self, module, cmd):
-        if self.shouldBeQuiet(module):    
-            cmd.addParameter('-q')
-        elif module.isDebug():
-            cmd.addParameter('-t')
-        # Request compression
-        cmd.addParameter('-z3')
-          
-        # Set the CVS root
-        cmd.addParameter('-d', module.getScm().getCvsRoot())    
+    def workspaceMatchesModule(self, module):
+        """
+        look for a CVS directory and the files contained therein, try to match
+        the contents of said files
+        """
+        cvsdir = os.path.join(module.getSourceControlStagingDirectory(),
+                               'CVS')
+        if not os.path.exists(cvsdir):
+            return (False, 'workspace doesn\'t contain a CVS directory')
+
+        root = error_unless_file_content_matches(cvsdir, 'Root',
+                                                 module.getScm().getCvsRoot(),
+                                                 'CVSROOT')
+        if root:
+            return root
+
+        expected_module = module.getName()
+        if module.getScm().hasModule():
+            expected_module = module.getScm().getModule()
+        rep = error_unless_file_content_matches(cvsdir, 'Repository',
+                                                expected_module, 'Module')
+        if rep:
+            return rep
+
+        if module.getScm().hasTag() or module.hasTag():
+            expected_tag = 'T'
+            if module.getScm().hasTag():
+                expected_tag += module.getScm().getTag()
+            elif module.hasTag():
+                expected_tag += module.getTag()
+            tag = error_unless_file_content_matches(cvsdir, 'Tag',
+                                                    expected_tag, 'Tag')
+            if tag:
+                return tag
+
+        elif os.path.exists(os.path.join(cvsdir, 'Tag')):
+            return (False, 'workspace is tagged with \'' + \
+                        tailFileToString(os.path.join(cvsdir, 'Tag'),
+                                         1).rstrip() + \
+                        '\' but shouldn\'t have a tag at all.')
+
+        return (True, '')
 
     def maybeLogin(self, module):
         repository = module.repository

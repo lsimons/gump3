@@ -221,12 +221,12 @@ class Cmd:
     def dump(self,indent=''):
         print self.overview(indent)
         
-def getCmdFromString(strcmd,name=None):
+def getCmdFromString(strcmd, name = None, cwd = None):
     """Extract a Cmd Object from a String"""
     parts = split(strcmd,' ')
     cmdcmd = parts[0]
     if not name: name = cmdcmd
-    cmd = Cmd(cmdcmd,name)
+    cmd = Cmd(cmdcmd, name, cwd)
     for i in range(1,len(parts)):
         if parts[i]:
             cmd.addParameterObject(getParameterFromString(parts[i]))

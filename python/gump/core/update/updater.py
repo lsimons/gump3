@@ -23,6 +23,8 @@
 import os.path
 
 from gump import log
+from gump.core.model.repository import SCM_TYPE_CVS, SCM_TYPE_GIT, \
+    SCM_TYPE_SVN, SCM_TYPE_P4
 from gump.core.model.workspace import catFileToFileHolder, \
     EXIT_CODE_FAILED, EXIT_CODE_SUCCESS, FILE_TYPE_LOG, \
     gumpSafeName, logResourceUtilization, \
@@ -95,8 +97,12 @@ class GumpUpdater(RunSpecific):
     def __init__(self, run):
         RunSpecific.__init__(self, run)
         
-        self.updaters = {'cvs' : CvsUpdater(run), 'svn' : SvnUpdater(run),
-                         'p4' : P4Updater(run), 'git' : GitUpdater(run)}
+        self.updaters = {
+            SCM_TYPE_CVS : CvsUpdater(run),
+            SCM_TYPE_SVN : SvnUpdater(run),
+            SCM_TYPE_P4 : P4Updater(run),
+            SCM_TYPE_GIT : GitUpdater(run)
+            }
 
 
     #    ******************************************************************

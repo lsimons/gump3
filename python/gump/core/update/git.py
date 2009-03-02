@@ -17,8 +17,10 @@
 # limitations under the License.
 
 from gump import log
-from gump.core.model.workspace import Cmd
-from gump.core.update.scmupdater import ScmUpdater
+from gump.core.update.scmupdater import match_workspace_template, ScmUpdater, \
+    should_be_quiet
+from gump.util.process.command import Cmd
+from gump.util.tools import tailFileToString
 
 def log_repository_and_url(module):
     repository = module.repository
@@ -27,6 +29,10 @@ def log_repository_and_url(module):
                   repository.getName())
 
                   
+def maybe_make_quiet(module, cmd):
+    if should_be_quiet(module):    
+        cmd.addParameter('--quiet')
+
 ###############################################################################
 # Classes
 ###############################################################################
@@ -47,7 +53,7 @@ class GitUpdater(ScmUpdater):
         log_repository_and_url(module)
         cmd = Cmd('git-clone', 'update_' + module.getName(), 
                   module.getWorkspace().getSourceControlStagingDirectory())
-        self.maybeMakeQuiet(module, cmd)
+        maybe_make_quiet(module, cmd)
         cmd.addParameter(module.getScm().getRootUrl())
         cmd.addParameter(module.getName())
         return cmd
@@ -59,9 +65,14 @@ class GitUpdater(ScmUpdater):
         log_repository_and_url(module)
         cmd = Cmd('git-pull', 'update_' + module.getName(), 
                   module.getSourceControlStagingDirectory())
-        self.maybeMakeQuiet(module, cmd)
+        maybe_make_quiet(module, cmd)
         return cmd
 
-    def maybeMakeQuiet(self, module, cmd):
-        if self.shouldBeQuiet(module):    
-            cmd.addParameter('--quiet')
+    def workspaceMatchesModule(self, module):
+        """
+            Run git config remote.origin.url to see whether the URL matches
+        """
+        return match_workspace_template(module, 'git config remote.origin.url',
+                                        lambda result:
+                                            tailFileToString(result.getOutput(),
+                                                             1).rstrip())

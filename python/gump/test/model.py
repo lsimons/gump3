@@ -27,6 +27,7 @@ import types, StringIO
 
 from gump import log
 import gump.core.config
+from gump.core.model.repository import SCM_TYPE_CVS, SCM_TYPE_SVN
 from gump.core.model.state import *
 from gump.util import *
 from gump.test import getWorkedTestRun
@@ -167,7 +168,7 @@ class ModelTestSuite(UnitTestSuite):
         module2=self.module2
         
         self.assertTrue('Module has CVS',
-                        module1.getScm().getScmType() == 'cvs')
+                        module1.getScm().getScmType() == SCM_TYPE_CVS)
         self.assertNonZeroString('CVSROOT',module1.cvs.getCvsRoot())
         self.assertNonZeroString('Has Tag',module1.cvs.getTag())
         self.assertNonZeroString('Has Tag',module2.getTag())
@@ -176,7 +177,7 @@ class ModelTestSuite(UnitTestSuite):
         svnmodule1= self.workspace.getModule('svn_module1')
         
         self.assertTrue('Module has SVN',
-                        module1.getScm().getScmType() == 'svn')
+                        module1.getScm().getScmType() == SCM_TYPE_SVN)
         self.assertNonZeroString('SVN URL',svnmodule1.svn.getRootUrl())
         self.assertTrue('SVN Dir',svnmodule1.svn.hasDir())
     
