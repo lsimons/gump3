@@ -16,22 +16,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from gump.core.update.scmupdater import match_workspace_template, ScmUpdater, \
-    should_be_quiet, log_repository_and_url
+import re
+from gump.core.update.scmupdater import extract_URL, log_repository_and_url, \
+    match_workspace_template, ScmUpdater, should_be_quiet
 from gump.util.process.command import Cmd
-from gump.util.tools import tailFileToString
 
-def maybe_make_quiet(module, cmd):
+def setup_common_parameters(module, cmd):
     if should_be_quiet(module):    
-        cmd.addParameter('--quiet')
+        cmd.addParameter('-q')
+    elif module.isDebug():
+        cmd.addParameter('-v')
+
+URL_REGEX = re.compile('^paths.default=(.*)\s*$', re.MULTILINE | re.UNICODE)
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class GitUpdater(ScmUpdater):
+class HgUpdater(ScmUpdater):
     """
-    Updater for GIT
+    Updater for Mercurial
     """
     
     def __init__(self, run):
@@ -40,31 +44,38 @@ class GitUpdater(ScmUpdater):
 
     def getCheckoutCommand(self, module):
         """
-            Build the appropriate GIT command for clone
+            Build the appropriate hg command for clone
         """
-        log_repository_and_url(module, 'git')
-        cmd = Cmd('git-clone', 'update_' + module.getName(), 
+        log_repository_and_url(module, 'hg')
+        cmd = Cmd('hg', 'update_' + module.getName(), 
                   module.getWorkspace().getSourceControlStagingDirectory())
-        maybe_make_quiet(module, cmd)
+        cmd.addParameter('clone')
+        setup_common_parameters(module, cmd)
         cmd.addParameter(module.getScm().getRootUrl())
         cmd.addParameter(module.getName())
         return cmd
 
     def getUpdateCommand(self, module):
         """
-            Build the appropriate GIT command for pull
+            Build the appropriate hg command for pull
         """
-        log_repository_and_url(module, 'git')
-        cmd = Cmd('git-pull', 'update_' + module.getName(), 
+        log_repository_and_url(module, 'hg')
+        cmd = Cmd('hg', 'update_' + module.getName(), 
                   module.getSourceControlStagingDirectory())
-        maybe_make_quiet(module, cmd)
+        cmd.addParameter('pull')
+        # update working copy
+        cmd.addParameter('-u')
+        setup_common_parameters(module, cmd)
+        # pull everything, don't ask
+        cmd.addParameter('-y')
         return cmd
 
     def workspaceMatchesModule(self, module):
         """
-            Run git config remote.origin.url to see whether the URL matches
+            Run hg showconfig to see whether the URL matches
         """
-        return match_workspace_template(module, 'git config remote.origin.url',
+        return match_workspace_template(module, 'hg showconfig',
                                         lambda result:
-                                            tailFileToString(result.getOutput(),
-                                                             1).rstrip())
+                                            extract_URL(result, URL_REGEX,
+                                                        'hg showconfig'),
+                                        module.getScm().getRootUrl())

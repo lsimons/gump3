@@ -17,13 +17,11 @@
 # limitations under the License.
 
 import re
-import StringIO
 
 from gump import log
 from gump.core.update.scmupdater import match_workspace_template, ScmUpdater, \
-    should_be_quiet
+    should_be_quiet, extract_URL
 from gump.util.process.command import Cmd
-from gump.util.tools import catFile
 
 def getCommand(module, forUpdate):
     """
@@ -75,19 +73,6 @@ def getCommand(module, forUpdate):
 
 URL_REGEX = re.compile('^URL:\s+(.*)\s*$', re.MULTILINE | re.UNICODE)
 
-def extract_URL(result):
-    """
-    Extracs the URL from 'svn info' output
-    """
-    stream = StringIO.StringIO()
-    catFile(stream, result.getOutput())
-    output = stream.getvalue()
-    stream.close()
-    match = URL_REGEX.search(output)
-    if not match:
-        return 'Couldn\'t find URL in svn info output ' + output
-    return match.group(1)
-
 ###############################################################################
 # Classes
 ###############################################################################
@@ -117,6 +102,9 @@ class SvnUpdater(ScmUpdater):
         """
             Run svn info to see whether the URL matches
         """
-        return match_workspace_template(module, 'svn info', extract_URL,
+        return match_workspace_template(module, 'svn info',
+                                        lambda result:
+                                            extract_URL(result, URL_REGEX,
+                                                        'svn info'),
                                         module.getScm().getRootUrl() \
                                             .rstrip('/'))

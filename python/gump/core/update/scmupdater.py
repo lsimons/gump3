@@ -17,6 +17,7 @@
 # limitations under the License.
 
 import os.path
+import StringIO
 
 from gump import log
 
@@ -24,7 +25,7 @@ from gump.core.model.workspace import CommandWorkItem, \
     REASON_UPDATE_FAILED, STATE_FAILED, STATE_SUCCESS, WORK_TYPE_UPDATE
 from gump.core.run.gumprun import RunSpecific
 from gump.util.process.launcher import execute
-from gump.util.tools import wipeDirectoryTree
+from gump.util.tools import catFile, wipeDirectoryTree
 from gump.util.process.command import getCmdFromString
 
 def should_be_quiet(module):
@@ -61,6 +62,26 @@ def match_workspace_template(module, cmd_string, extract_url,
     return (expectedURL == actualURL, 'Expected URL \'' + expectedURL + \
                 '\' but working copy was \'' + actualURL + '\'')
 
+def log_repository_and_url(module, scmType):
+    repository = module.repository
+    url = module.getScm().getRootUrl()
+    log.debug(scmType + " URL: [" + url + "] on Repository: " + \
+                  repository.getName())
+
+def extract_URL(result, regex, command):
+    """
+    Extracs the URL from result
+    """
+    stream = StringIO.StringIO()
+    catFile(stream, result.getOutput())
+    output = stream.getvalue()
+    stream.close()
+    match = regex.search(output)
+    if not match:
+        return 'Couldn\'t find URL in ' + command + ' output ' + output
+    return match.group(1)
+
+                  
 ###############################################################################
 # Classes
 ###############################################################################

@@ -17,6 +17,6 @@
 # limitations under the License.
 
 # tell Python what modules make up the gump.test package
-__all__ = ["updater","cvs","svn","jars", "git", "scmupdater"]
+__all__ = ["updater", "cvs", "svn", "jars", "git", "scmupdater", "darcs", "bzr",
+           "hg"]
 
-    

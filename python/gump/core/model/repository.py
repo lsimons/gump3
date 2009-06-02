@@ -36,10 +36,13 @@ SCM_TYPE_SVN = ScmType('svn', 'Subversion')
 SCM_TYPE_ARTIFACTS = ScmType('artifacts', 'Artfifacts')
 SCM_TYPE_P4 = ScmType('p4', 'Perforce')
 SCM_TYPE_GIT = ScmType('git', 'Git')
+SCM_TYPE_DARCS = ScmType('darcs', 'darcs')
+SCM_TYPE_BZR = ScmType('bzr', 'Bazaar')
+SCM_TYPE_HG = ScmType('hg', 'Mercurial')
 
 # sorted by priority, the first matching SCM element inside a module wins
 SUPPORTED_SCMS = [SCM_TYPE_CVS, SCM_TYPE_SVN, SCM_TYPE_P4,
-                  SCM_TYPE_GIT,
+                  SCM_TYPE_GIT, SCM_TYPE_DARCS, SCM_TYPE_BZR, SCM_TYPE_HG,
                   SCM_TYPE_ARTIFACTS]
 
 def scm_type_for_name(name):
@@ -54,7 +57,7 @@ def scm_type_for_name(name):
 class Repository(NamedModelObject, Statable):
     """ 
 
-    A named repository (CVS|SVN|Perforce|Artifacts|GIT) 
+    A named repository (CVS|SVN|Perforce|Artifacts|GIT|darcs|bzr|hg)
 
     """
     def __init__(self, name, dom, workspace):

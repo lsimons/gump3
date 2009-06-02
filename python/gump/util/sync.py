@@ -198,8 +198,9 @@ class PathWalker(Annotatable):
                     linkto = os.readlink(srcname)
                     os.symlink(linkto, dstname)
                 elif os.path.isdir(srcname):
-                    # Copy directories, but not CVS/SVN/GIT stuff
-                    if not name in ['CVS','.svn','.git']:
+                    # Copy directories, but not CVS/SVN/GIT etc. stuff
+                    if not name in ['CVS','.svn','.git', '_darcs', '.bzr',
+                                    '.hg']:
                         self.copytree(srcname, dstname, symlinks)
                 else:
                     # Selectively copy file

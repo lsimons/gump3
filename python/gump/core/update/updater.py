@@ -24,16 +24,19 @@ import os.path
 
 from gump import log
 from gump.core.model.repository import SCM_TYPE_CVS, SCM_TYPE_GIT, \
-    SCM_TYPE_SVN, SCM_TYPE_P4
+    SCM_TYPE_SVN, SCM_TYPE_P4, SCM_TYPE_DARCS, SCM_TYPE_BZR, SCM_TYPE_HG
 from gump.core.model.workspace import catFileToFileHolder, \
     EXIT_CODE_FAILED, EXIT_CODE_SUCCESS, FILE_TYPE_LOG, \
     gumpSafeName, logResourceUtilization, \
     STATE_FAILED, STATE_SUCCESS, syncDirectories, REASON_SYNC_FAILED
 from gump.core.run.gumprun import RunSpecific
+from gump.core.update.bzr import BzrUpdater
 from gump.core.update.cvs import CvsUpdater
+from gump.core.update.darcs import DarcsUpdater
 from gump.core.update.git import GitUpdater
 from gump.core.update.p4 import P4Updater
 from gump.core.update.svn import SvnUpdater
+from gump.core.update.hg import HgUpdater
 
 def syncModule(module):
     """
@@ -98,10 +101,13 @@ class GumpUpdater(RunSpecific):
         RunSpecific.__init__(self, run)
         
         self.updaters = {
+            SCM_TYPE_BZR : BzrUpdater(run),
+            SCM_TYPE_HG  : HgUpdater(run),
             SCM_TYPE_CVS : CvsUpdater(run),
             SCM_TYPE_SVN : SvnUpdater(run),
             SCM_TYPE_P4 : P4Updater(run),
-            SCM_TYPE_GIT : GitUpdater(run)
+            SCM_TYPE_GIT : GitUpdater(run),
+            SCM_TYPE_DARCS : DarcsUpdater(run)
             }
 
 
@@ -141,7 +147,7 @@ class GumpUpdater(RunSpecific):
     
         workspace = self.run.getWorkspace()
         
-        log.debug("Workspace CVS|SVN|P4|GIT Directory: " \
+        log.debug("Workspace CVS|SVN|P4|GIT|darcs|bzr|hg Directory: " \
                       + workspace.getSourceControlStagingDirectory())
 
         # Update all the modules that have repositories
