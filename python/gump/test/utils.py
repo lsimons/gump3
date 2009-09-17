@@ -69,9 +69,6 @@ class UtilsTestSuite(UnitTestSuite):
         getIndent(5)
         logResourceUtilization()
   
-    def testUnicode(self):
-        getStringFromUnicode("Ceki Gülcü")
-        
     def testInspectGarbageCollection(self):
         invokeGarbageCollection('testInspect')
         
