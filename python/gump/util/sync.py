@@ -20,85 +20,89 @@
     Helper Stuff
 """
 
-import logging
 import os.path
-from stat import *
+from stat import S_ISDIR, ST_MODE, ST_MTIME, ST_SIZE
 import shutil
+import types
 
 from gump import log
 from gump.util import getStringFromUnicode
-from gump.util.work import *
-from gump.util.file import *
-from gump.util.note import *
+from gump.util.note import Annotatable
 
-SYNC_ACTION=1
-COPY_ACTION=2
+SYNC_ACTION = 1
+COPY_ACTION = 2
 
 class PathWalker(Annotatable):
 
-    def __init__(self, sourcedir, targetdir, action = SYNC_ACTION, output=None, debug=0):
+    def __init__(self, sourcedir, targetdir, action = SYNC_ACTION, output = None,
+                 debug = 0):
         Annotatable.__init__(self)
         self.sourcedir = getStringFromUnicode(sourcedir)
         self.targetdir = getStringFromUnicode(targetdir)
         self.action = action
-        
-        if SYNC_ACTION==action:
-            self.actionString='Sync'
-        elif COPY_ACTION==action:
-            self.actionString='Copy'
-            
-        self.debug=debug
-        
-        # A place to 'log' actions        
-        self.output=output
-        self.outputStream=None
-        
-        # Notice that actions occured        
-        self.actionsOccured=False
-        self.inboundActions=False
-        self.cleanupActions=False
-        
+
+        if SYNC_ACTION == action:
+            self.actionString = 'Sync'
+        elif COPY_ACTION == action:
+            self.actionString = 'Copy'
+
+        self.debug = debug
+
+        # A place to 'log' actions
+        self.output = output
+        self.outputStream = None
+
+        # Notice that actions occured
+        self.actionsOccured = False
+        self.inboundActions = False
+        self.cleanupActions = False
+
     def execute(self):
         #log.debug('Starting %s from [%s]' % (self.actionString,self.sourcedir))
         #log.debug('        target dir [' + self.targetdir + ']')
-        
+
         # Allow user to pass an open stream, or a filename
         # In later case control open/close.
-        doClose=0
+        doClose = 0
         if self.output:
-            if isinstance(self.output,types.StringTypes):
-                doClose=1
+            if isinstance(self.output, types.StringTypes):
+                doClose = 1
                 #log.debug('       changes to  [' + self.output + ']')
-                self.outputStream=open(self.output,'w')
+                self.outputStream = open(self.output, 'w')
             else:
-                self.outputStream=self.output
-                
+                self.outputStream = self.output
+
         try:
-            
+
             if not os.path.exists(self.sourcedir):
-                log.error('Exiting sync, source directory does not exist [' + self.sourcedir + ']')
-                raise IOError, 'source directory does not exist [' + self.sourcedir + ']'
+                log.error('Exiting sync, source directory does not exist ['
+                          + self.sourcedir + ']')
+                raise IOError, 'source directory does not exist [' \
+                    + self.sourcedir + ']'
 
             if not os.path.isdir(self.sourcedir):
-                log.error('Exiting sync, source is not a directory [' + self.sourcedir + ']')
-                raise IOError, 'source is not a directory [' + self.sourcedir + ']'
+                log.error('Exiting sync, source is not a directory ['
+                          + self.sourcedir + ']')
+                raise IOError, 'source is not a directory [' \
+                    + self.sourcedir + ']'
 
             if not os.path.exists(self.targetdir):
                 try:
                     os.makedirs(self.targetdir)
                 except Exception, details:
                     log.exception('failed on ' + str(details))
-                    raise IOError, 'could not create directory [' + self.targetdir + ']'
-                
-            self.copytree(self.sourcedir, self.targetdir, 1)   
-             
+                    raise IOError, 'could not create directory [' \
+                        + self.targetdir + ']'
+
+            self.copytree(self.sourcedir, self.targetdir, 1)
+
         finally:
             if doClose and self.outputStream:
                 #
                 # We opened it, we close it...
                 #
                 self.outputStream.close()
-                
+
                 #
                 # Clean Up Empty Output Files
                 #
@@ -107,43 +111,52 @@ class PathWalker(Annotatable):
                         try:
                             os.remove(self.output)
                             #log.debug('No changes, removed  [' + self.output + ']')
-                        except: pass
-                
+                        except:
+                            pass
+
         return (self.actionsOccured, self.inboundActions, self.cleanupActions)
-        
-    def displayAction(self,inbound,type,file,reason=''):
-        
+
+    def displayAction(self, inbound, type, file, reason = ''):
+
         # Mark something happened..
-        self.actionsOccured=True
-        
+        self.actionsOccured = True
+
         if inbound:
-            self.inboundActions=True
+            self.inboundActions = True
         else:
-            self.cleanupActions=True
-        
+            self.cleanupActions = True
+
         # Log it (if requested)
         if self.outputStream:
-            reasonSep=''
-            if reason: reasonSep=' - '
-            self.outputStream.write('%s : %s%s%s\n' % ( type , str(file), reasonSep, reason ))
-        
-    def isCopy(self): return (COPY_ACTION == self.action)
-    def isSync(self): return (SYNC_ACTION == self.action)
-    def isDiff(self): return (DIFF_ACTION == self.action)
-    
-    def setDebug(self, debug): self.sebug = debug
-    def isDebug(self): return self.debug
-        
-    def copytree(self, src, dst, symlinks=0):
-        
+            reasonSep = ''
+            if reason:
+                reasonSep = ' - '
+            self.outputStream.write('%s : %s%s%s\n'
+                                    % ( type , str(file), reasonSep, reason ))
+
+    def isCopy(self):
+        return (COPY_ACTION == self.action)
+    def isSync(self):
+        return (SYNC_ACTION == self.action)
+    def isDiff(self):
+        return (DIFF_ACTION == self.action)
+
+    def setDebug(self, debug):
+        self.debug = debug
+    def isDebug(self):
+        return self.debug
+
+    def copytree(self, src, dst, symlinks = 0):
+
         # Only supported on some platforms.
-        if 'posix'<>os.name: symlinks=0
-        
+        if 'posix' <> os.name:
+            symlinks = 0
+
         #
         # List all the files in the source location
         #
         names = os.listdir(src)
-        
+
         #
         # Determine information about the destination (existence/type)
         #
@@ -151,43 +164,45 @@ class PathWalker(Annotatable):
             destinationStat = os.stat(dst)
         except Exception:
             destinationStat = None
-         
-        #   
-        # handle case where destinationStat exists but is not a directory    
+
+        #
+        # handle case where destinationStat exists but is not a directory
         #
         if destinationStat and not S_ISDIR(destinationStat[ST_MODE]):
-            self.displayAction(True,' -F ', dst, 'Need a directory here, not a file.')        
+            self.displayAction(True, ' -F ',
+                               dst, 'Need a directory here, not a file.')
             os.remove(dst)
             destinationStat = None
-         
+
         #
         # Generate the target location (even if it means making
         # a path of directories.)
-        #   
-        if not destinationStat:     
-            self.displayAction(True,' +D ', dst)    
+        #
+        if not destinationStat:
+            self.displayAction(True, ' +D ', dst)
             os.makedirs(dst)
-            
+
         if destinationStat:
-            names2 = os.listdir(dst)            
-            if not self.isCopy():    
+            names2 = os.listdir(dst)
+            if not self.isCopy():
                 self.removenonmatching(src, dst, names, names2)
-                self.epurate(src, dst, names, names2)    
-                
+                self.epurate(src, dst, names, names2)
+
         #
         #
         #
         for name in names:
-            
-            try:    
+
+            try:
                 srcname = os.path.join(src, name)
                 dstname = os.path.join(dst, name)
-            
+
             except UnicodeDecodeError, why:
-                message = 'Unicode Error. Can\'t copy [%s] in [%s] to [%s]: [%s]' % (`name`, `src`, `dst`, str(why))
+                message = 'Unicode Error. Can\'t copy [%s] in [%s] to [%s]: [%s]'\
+                    % (`name`, `src`, `dst`, str(why))
                 log.exception(message)
                 raise RuntimeError, message
-                
+
             try:
                 if symlinks and os.path.islink(srcname):
                     if os.path.exists(dstname):
@@ -199,90 +214,103 @@ class PathWalker(Annotatable):
                     os.symlink(linkto, dstname)
                 elif os.path.isdir(srcname):
                     # Copy directories, but not CVS/SVN/GIT etc. stuff
-                    if not name in ['CVS','.svn','.git', '_darcs', '.bzr',
+                    if not name in ['CVS', '.svn', '.git', '_darcs', '.bzr',
                                     '.hg']:
                         self.copytree(srcname, dstname, symlinks)
                 else:
                     # Selectively copy file
                     self.maybecopy(srcname, dstname)
-                    
+
             except (IOError, os.error), why:
-                message = "Can't copy [%s] to [%s]: [%s]" % (`srcname`, `dstname`, str(why))
+                message = "Can't copy [%s] to [%s]: [%s]" % (`srcname`,
+                                                             `dstname`,
+                                                             str(why))
                 log.exception(message)
                 raise IOError, message
-                
-    def epurate(self, sourcedir, destdir, acceptablefiles, existingfiles):        
+
+    def epurate(self, sourcedir, destdir, acceptablefiles, existingfiles):
         """
         this routine will delete from a set of existing files
         in a directory [the ones which are not part of an 
         array of acceptablefiles]
-        
+
         sourcedir = directory from which the copy is taking place
         destdir = directory where the epuration is to take place 
-        acceptablefiles = array of filenames of files which are accepted at destination
-        existingfiles = array of filenames which exist at destination                                     
-        
+        acceptablefiles = array of filenames of files which are
+        accepted at destination
+        existingfiles = array of filenames which exist at destination
+
         None
         """
         for afile in existingfiles:
-            
-            fullsourcefile = os.path.join(sourcedir, afile)
-            fulldestfile = os.path.join(destdir, afile)
+
             if not afile in acceptablefiles:
                 tobedeleted = os.path.join(destdir, afile)
                 try:
                     destinationStat = os.stat(tobedeleted)
                     if S_ISDIR(destinationStat[ST_MODE]):
-                        if self.isDebug(): log.debug('Attempting to remove directory [%s]' % (`tobedeleted`))
-                        self.displayAction(False,' -D ', tobedeleted)    
+                        if self.isDebug():
+                            log.debug('Attempting to remove directory [%s]'
+                                      % (`tobedeleted`))
+                        self.displayAction(False, ' -D ', tobedeleted)
                         shutil.rmtree(tobedeleted)
-                    else:    
-                        if self.isDebug(): log.debug('Attempting to remove file [%s]' % (`tobedeleted`))   
-                        self.displayAction(False,' -F ', tobedeleted)    
+                    else:
+                        if self.isDebug():
+                            log.debug('Attempting to remove file [%s]'
+                                      % (`tobedeleted`))
+                        self.displayAction(False, ' -F ', tobedeleted)
                         os.remove(tobedeleted)
                 except (IOError, os.error), why:
-                    log.warning('Error removing [%s] - %s. Try again.' % (`tobedeleted`, why))
-                    self.displayAction(False,' -X ', tobedeleted)    
+                    log.warning('Error removing [%s] - %s. Try again.'
+                                % (`tobedeleted`, why))
+                    self.displayAction(False, ' -X ', tobedeleted)
                     shutil.rmtree(tobedeleted, True)
-                    
-    def removenonmatching(self, sourcedir, destdir, acceptablefiles, existingfiles):
+
+    def removenonmatching(self, sourcedir, destdir, acceptablefiles,
+                          existingfiles):
         """
             this routine will remove from destination
             the entries which are files at destination and directory at source
             the entries which are directory at destination and files at source
-            leaves untouched entries which exist both at source and at destination
+            leaves untouched entries which exist both at source and at
+            destination
             sourcedir = directory from which the copy is taking place
             destdir = directory where the epuration is to take place 
-            acceptablefiles = array of filenames of files which are accepted at destination
-            existingfiles = array of filenames which exist at destination                                     
+            acceptablefiles = array of filenames of files which are
+            accepted at destination
+            existingfiles = array of filenames which exist at destination
         """
         removed = []
         for afile in existingfiles:
-            
+
             if afile in acceptablefiles:
-                                
+
                 fullsourcefile = os.path.join(sourcedir, afile)
                 fulldestfile = os.path.join(destdir, afile)
-            
-                if os.path.isdir(fullsourcefile) and not os.path.isdir(fulldestfile):
+
+                if os.path.isdir(fullsourcefile) and not \
+                        os.path.isdir(fulldestfile):
                     if self.isDebug(): 
                         log.debug('Removing file [%s] to be replaced by directory' 
                                 %(`fulldestfile`))
                     os.remove(fulldestfile)
-                    self.displayAction(True,' -F ', fulldestfile, 'Need a directory.')
+                    self.displayAction(True, ' -F ', fulldestfile,
+                                       'Need a directory.')
                     removed.append(afile)
-                elif os.path.isfile(fullsourcefile) and os.path.isdir(fulldestfile):              
+                elif os.path.isfile(fullsourcefile) and \
+                        os.path.isdir(fulldestfile):
                     if self.isDebug(): 
                         log.debug('Removing directory [%s] to be replaced by file' 
                                 %(`fulldestfile`))
-                    self.displayAction(True,' -D ', fulldestfile, 'Need a file.')
+                    self.displayAction(True, ' -D ', fulldestfile,
+                                       'Need a file.')
                     shutil.rmtree(fulldestfile)
                     removed.append(afile)
-                    
+
         # Do the work
         for afile in removed:
-            existingfiles.remove(afile)             
-                
+            existingfiles.remove(afile)
+
     def maybecopy(self, srcname, dstname):
         """
             copy a file from srcname to dstname if 
@@ -295,40 +323,45 @@ class PathWalker(Annotatable):
             destinationStat = os.stat(dstname)
         except:
             destinationStat = None
-            
-        reason=''
+
+        reason = ''
         # Determine if copy is appropriate.
         performCopy = 0
         if not destinationStat:
             performCopy = 1
-            reason='Did not exist.'
+            reason = 'Did not exist.'
         elif S_ISDIR(destinationStat[ST_MODE]):
-            self.displayAction(True,' -D ', dstname, 'Need a file.')    
+            self.displayAction(True, ' -D ', dstname, 'Need a file.')
             shutil.rmtree(dstname)
             performCopy = 1
         elif sourceStat[ST_SIZE] != destinationStat[ST_SIZE]:
             performCopy = 1
-            reason='Size difference.'
+            reason = 'Size difference.'
         elif sourceStat[ST_MTIME] != destinationStat[ST_MTIME]:
             performCopy = 1
-            reason='Stat difference.'
-            
+            reason = 'Stat difference.'
+
         if performCopy:
-            if self.isDebug(): log.debug("Attempting copy from [%s] to [%s]" %(`srcname`, `dstname`))    
-            self.displayAction(True,' U> ', dstname, reason)    
-            shutil.copy2(srcname, dstname)    
+            if self.isDebug():
+                log.debug("Attempting copy from [%s] to [%s]"
+                          %(`srcname`, `dstname`))
+            self.displayAction(True, ' U> ', dstname, reason)
+            if os.path.exists(dstname):
+                os.remove(dstname)
+            shutil.copy2(srcname, dstname)
         #else:
         #    log.debug("Do not copy from [%s:%s] to [%s:%s]" \
         #                %(`srcname`, `sourceStat`, `dstname`,`destinationStat`))
-        #        
+        #
 
 class Copy(PathWalker):
     """
     A Sync without the epurate
     """
-    def __init__(self, sourcedir, targetdir, output=None, debug=0):
-        PathWalker.__init__(self, sourcedir, targetdir, COPY_ACTION, output, debug)
-                    
+    def __init__(self, sourcedir, targetdir, output = None, debug = 0):
+        PathWalker.__init__(self, sourcedir, targetdir, COPY_ACTION, output,
+                            debug)
+
 class Sync(PathWalker):
     """
         This class can be used to sync two directories
@@ -339,6 +372,7 @@ class Sync(PathWalker):
             the class can be also used to copy from one directory to another
         x = Sync(sourcedir, targetdir, )
     """
-    def __init__(self, sourcedir, targetdir, output=None, debug=0):
-        PathWalker.__init__(self, sourcedir, targetdir, SYNC_ACTION, output, debug)
-        
+    def __init__(self, sourcedir, targetdir, output = None, debug = 0):
+        PathWalker.__init__(self, sourcedir, targetdir, SYNC_ACTION, output,
+                            debug)
+
