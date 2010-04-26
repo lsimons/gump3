@@ -27,7 +27,7 @@ from gump.util.file import FILE_TYPE_CONFIG
 from gump.util.process.command import Cmd, CMD_STATE_SUCCESS, \
     CMD_STATE_TIMED_OUT, Parameters
 from gump.util.process.launcher import execute
-from gump.util.tools import catFileToFileHolder, wipeDirectoryTree
+from gump.util.tools import catFileToFileHolder
 
 from time import strftime
 
@@ -43,6 +43,92 @@ def write_mirror_entry(props, prefix, mirror_of, port):
       <url>http://localhost:%s/%s</url>
       <mirrorOf>%s</mirrorOf>
     </mirror>""" % (mirror_of, mirror_of, port, prefix, mirror_of) )
+
+def locateMavenProjectFile(project):
+    """Return Maven project file location"""
+    basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
+    return os.path.abspath(os.path.join(basedir, 'pom.xml'))
+
+def locateMavenSettings(project):
+    #
+    # Where to put this:
+    #
+    basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
+    return os.path.abspath(os.path.join(basedir, 'gump_mvn_settings.xml'))
+
+def getMavenProperties(project):
+    """ Get properties for a project """
+    properties = Parameters()
+    for property in project.getMvn().getProperties():
+        properties.addPrefixedNamedParameter('-D', property.name, \
+                                                 property.value, '=')
+    return properties
+
+def getMavenCommand(project, languageHelper):
+    """ Build an Maven command for this project """
+    maven = project.mvn
+
+    # The maven goal (or none == maven default goal)
+    goal = maven.getGoal()
+
+    # Optional 'verbose' or 'debug'
+    verbose = maven.isVerbose()
+    debug = maven.isDebug()
+
+    #
+    # Where to run this:
+    #
+    basedir = maven.getBaseDirectory() or project.getBaseDirectory()
+
+    #
+    # Build a classpath (based upon dependencies)
+    #
+    (classpath, _bootclasspath) = languageHelper.getClasspaths(project)
+
+    # Run Maven...
+    cmd = Cmd('mvn', 'build_' + project.getModule().getName() + '_' + \
+                project.getName(), basedir, {'CLASSPATH':classpath})
+
+    cmd.addParameter('--batch-mode')
+
+    #
+    # Allow maven-level debugging...
+    #
+    if project.getWorkspace().isDebug() or project.isDebug() or debug: 
+        cmd.addParameter('--debug')
+    if project.getWorkspace().isVerbose() \
+            or project.isVerbose() or verbose: 
+        cmd.addParameter('--exception') 
+
+    props = getMavenProperties(project)
+    cmd.addNamedParameters(props)
+
+    #
+    # Suppress downloads
+    #
+
+    # As long as we don't know how to pass our local artifacts to
+    # mvn there is no point in using the offline mode
+    #
+    # cmd.addParameter('--offline')
+
+    #
+    #       This sets the *defaults*, a workspace could override them.
+    #
+    #cmd.addPrefixedParameter('-D', 'build.sysclasspath', 'only', '=')
+
+    cmd.addParameter('--settings')
+    cmd.addParameter(locateMavenSettings(project))
+
+    # End with the goal...
+    if goal: 
+        for goalParam in goal.split(','):
+            cmd.addParameter(goalParam)
+
+    return cmd
+
+def needsSeparateLocalRepository(project):
+    return project.mvn.needsSeparateLocalRepository()
 
 class Maven2Builder(RunSpecific):
 
@@ -66,7 +152,7 @@ class Maven2Builder(RunSpecific):
             #
             # Get the appropriate build command...
             #
-            cmd = self.getMavenCommand(project, languageHelper)
+            cmd = getMavenCommand(project, languageHelper)
 
             if cmd:
                 # Execute the command ....
@@ -88,94 +174,14 @@ class Maven2Builder(RunSpecific):
                     project.changeState(STATE_SUCCESS)
 
         if project.wasBuilt():
-            pomFile = self.locateMavenProjectFile(project) 
+            pomFile = locateMavenProjectFile(project) 
             if os.path.exists(pomFile):
                 project.addDebug('Maven POM in: ' + pomFile) 
                 catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG)
-
-            wipeDirectoryTree(self.locateLocalRepo(project), False)
  
 
-    #
-    # Build an Maven command for this project
-    #
-    def getMavenCommand(self, project, languageHelper):
-        maven = project.mvn
-
-        # The maven goal (or none == maven default goal)
-        goal = maven.getGoal()
-
-        # Optional 'verbose' or 'debug'
-        verbose = maven.isVerbose()
-        debug = maven.isDebug()
-
-        #
-        # Where to run this:
-        #
-        basedir = maven.getBaseDirectory() or project.getBaseDirectory()
-
-        #
-        # Build a classpath (based upon dependencies)
-        #
-        (classpath, bootclasspath) = languageHelper.getClasspaths(project)
-
-        # Run Maven...
-        cmd = Cmd('mvn', 'build_' + project.getModule().getName() + '_' + \
-                    project.getName(), basedir, {'CLASSPATH':classpath})
-
-        cmd.addParameter('--batch-mode')
-
-        #
-        # Allow maven-level debugging...
-        #
-        if project.getWorkspace().isDebug() or project.isDebug() or debug: 
-            cmd.addParameter('--debug')
-        if project.getWorkspace().isVerbose() \
-                or project.isVerbose() or verbose: 
-            cmd.addParameter('--exception') 
-
-        props = self.getProperties(project)
-        cmd.addNamedParameters(props)
-
-        #
-        # Suppress downloads
-        #
-
-        # As long as we don't know how to pass our local artifacts to
-        # mvn there is no point in using the offline mode
-        #
-        # cmd.addParameter('--offline')
-
-        #
-        #       This sets the *defaults*, a workspace could override them.
-        #
-        #cmd.addPrefixedParameter('-D', 'build.sysclasspath', 'only', '=')
-
-        cmd.addParameter('--settings')
-        cmd.addParameter(self.locateMvnSettings(project))
-
-        # End with the goal...
-        if goal: 
-            for goalParam in goal.split(','):
-                cmd.addParameter(goalParam)
-
-        return cmd
-
-    def getProperties(self, project):
-        """ Get properties for a project """
-        properties = Parameters()
-        for property in project.getMvn().getProperties():
-            properties.addPrefixedNamedParameter('-D', property.name, \
-                                                     property.value, '=')
-        return properties
-
-    def locateMavenProjectFile(self, project):
-        """Return Maven project file location"""
-        basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
-        return os.path.abspath(os.path.join(basedir, 'pom.xml'))
-
     # Do this even if not ok
-    def performPreBuild(self, project, languageHelper, stats):
+    def performPreBuild(self, project, languageHelper, _stats):
 
         # Maven requires a build.properties to be generated...
         if project.okToPerformWork():
@@ -198,14 +204,14 @@ class Maven2Builder(RunSpecific):
                 project.addError(message)
                 project.changeState(STATE_FAILED, REASON_PREBUILD_FAILED)
 
-    def preview(self, project, languageHelper, stats):
-        command = self.getMavenCommand(project, languageHelper) 
+    def preview(self, project, languageHelper, _stats):
+        command = getMavenCommand(project, languageHelper) 
         command.dump()
 
-    def generateMvnSettings(self, project, languageHelper):
+    def generateMvnSettings(self, project, _languageHelper):
         """Set repository for a Maven2 project"""
 
-        settingsFile = self.locateMvnSettings(project)
+        settingsFile = locateMavenSettings(project)
         # Ensure containing directory exists, or make it.
         settingsdir = os.path.dirname(settingsFile)
         if not os.path.exists(settingsdir):
@@ -217,11 +223,13 @@ class Maven2Builder(RunSpecific):
             project.addWarning('Overriding Maven2 settings: [' + settingsFile \
                                    + ']')
 
-        if self.needsSeparateLocalRepository(project):
+        if needsSeparateLocalRepository(project):
             localRepositoryDir = self.locateLocalRepo(project)
         else:
-            localRepositoryDir = \
-                self.run.getWorkspace().getLocalRepositoryDirectory()
+            localRepositoryDir = os.path.abspath(\
+                os.path.join(self.run.getWorkspace()
+                             .getLocalRepositoryDirectory(), "shared")
+                )
 
         props = open(settingsFile, 'w')
 
@@ -257,21 +265,14 @@ class Maven2Builder(RunSpecific):
 
         return settingsFile
 
-    def locateMvnSettings(self, project):
-        #
-        # Where to put this:
-        #
-        basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
-        return os.path.abspath(os.path.join(basedir, 'gump_mvn_settings.xml'))
-
     def locateLocalRepo(self, project):
         #
         # Where to put the local repository
         #
+        name = project.mvn.getLocalRepositoryName()
+        if not name:
+            name = project.getName() + ".mvnlocalrepo"
         return os.path.abspath(os.path.join(self.run.getWorkspace()\
-                                                .getBaseDirectory(),
-                                            project.getName() \
-                                            + ".mvnlocalrepo"))
-
-    def needsSeparateLocalRepository(self, project):
-        return project.mvn.needsSeparateLocalRepository()
+                                                .getLocalRepositoryDirectory(),
+                                            name
+                                            ))
