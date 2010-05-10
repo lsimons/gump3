@@ -18,597 +18,658 @@
 """
 
     The model for a 'Project'
-    
+
 """
 
-from time import localtime, strftime, tzname
-
-from gump.core.model.state import *
-from gump.core.model.object import ModelObject, NamedModelObject
-from gump.core.model.misc import Jar, Assembly, BaseOutput, \
-                            Resultable, Positioned, \
-                            Mkdir, Delete, JunitReport, Work, \
-                            AddressPair
-from gump.core.model.stats import Statable, Statistics
-from gump.core.model.property import Property
-from gump.core.model.builder import Ant,NAnt,Maven,Maven2,Script,Configure,Make
-from gump.util import getIndent
-from gump.util.file import *
-from gump.core.model.depend import *
-from gump.util.note import transferAnnotations, Annotatable
+import glob
+import os
+import sys
 import gump.util.process.command
-from gump.util.domutils import *
 
+from gump import log
+from gump.core.config import default
+from gump.core.model.builder import Ant, NAnt, Maven, Maven2, Script, \
+    Configure, Make
+from gump.core.model.depend import Dependable, importDomDependency
+from gump.core.model.misc import Jar, Assembly, BaseOutput, \
+    Resultable, Positioned, Mkdir, Delete, JunitReport, Work, \
+    AddressPair
+from gump.core.model.object import NamedModelObject
+from gump.core.model.state import REASON_CONFIG_FAILED, STATE_FAILED, \
+    STATE_PREREQ_FAILED, REASON_MISSING_OUTPUTS
+from gump.core.model.stats import Statable, Statistics
+from gump.util import getIndent, getStringFromUnicode
+from gump.util.domutils import transferDomInfo, hasDomAttribute, \
+    getDomAttributeValue, getDomTextValue, getDomChildIterator
+from gump.util.note import transferAnnotations
 
 class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
-    
-    UNSET_LANGUAGE=0
-    JAVA_LANGUAGE=1
-    CSHARP_LANGUAGE=2
-    
-    LANGUAGE_MAP= {
-        'java':JAVA_LANGUAGE,
-        'csharp':CSHARP_LANGUAGE
+    """ A Single project """
+
+    UNSET_LANGUAGE = 0
+    JAVA_LANGUAGE = 1
+    CSHARP_LANGUAGE = 2
+
+    LANGUAGE_MAP = {
+        'java' : JAVA_LANGUAGE, 
+        'csharp' : CSHARP_LANGUAGE
     }
 
-    """ A Single project """
-    def __init__(self,name,xml,owner):
-    	NamedModelObject.__init__(self,name,xml,owner)
-    	
-    	Statable.__init__(self)
-    	Resultable.__init__(self)
-    	Dependable.__init__(self)
-    	Positioned.__init__(self)
-    	
-    	# Navigation
-        self.module=None # Module has to claim ownership
-        self.workspace=None
-    	
-    	self.home=None
-    	self.basedir=None
-    	
-    	self.license=None
-        
-        self.languageType=Project.JAVA_LANGUAGE    	
-        
-    	self.affectedProjects=[]
-        
-    	#############################################################
-    	#
-    	# Sub-Components
-    	#
-    	self.ant=None
-        self.nant=None
-        self.maven=None
-        self.mvn= None
-        self.script=None
+    def __init__(self, name, xml, owner):
+        NamedModelObject.__init__(self, name, xml, owner)
+
+        Statable.__init__(self)
+        Resultable.__init__(self)
+        Dependable.__init__(self)
+        Positioned.__init__(self)
+
+        # Navigation
+        self.module = None # Module has to claim ownership
+        self.workspace = None
+
+        self.home = None
+        self.basedir = None
+
+        self.license = None
+
+        self.languageType = Project.JAVA_LANGUAGE
+
+        self.affectedProjects = []
+
+        #############################################################
+        #
+        # Sub-Components
+        #
+        self.ant = None
+        self.nant = None
+        self.maven = None
+        self.mvn = None
+        self.script = None
         self.configure = None
         self.make = None
         self.builder = []
 
-    	self.works=[]
-    	self.mkdirs=[]
-    	self.deletes=[]
-    	self.reports=[]
-        self.notifys=[]
-    
-        self.url=None
-        self.desc=''
-        self.groupId=''
-        
-        self.redistributable=False
-        self.packageMarker=None
-        self.jvmargs=gump.util.process.command.Parameters()
-        self.packageNames=None
-        
-    	#############################################################
-    	# Outputs (Jars, Assemblies)
-    	#
-        self.outputs={}      
-        
-    	#############################################################
-    	# Misc
-    	#        
-        self.honoraryPackage=False        
-        self.built=False
-        
+        self.works = []
+        self.mkdirs = []
+        self.deletes = []
+        self.reports = []
+        self.notifys = []
+
+        self.url = None
+        self.desc = ''
+        self.groupId = ''
+
+        self.redistributable = False
+        self.packageMarker = None
+        self.jvmargs = gump.util.process.command.Parameters()
+        self.packageNames = None
+
+        #############################################################
+        # Outputs (Jars, Assemblies)
+        #
+        self.outputs = {}
+        self.outputs_expanded = False
+
+        #############################################################
+        # Misc
+        #
+        self.honoraryPackage = False
+        self.built = False
+
     def __del__(self):
         NamedModelObject.__del__(self)
         Statable.__del__(self)
         Resultable.__del__(self)
         Dependable.__del__(self)
         Positioned.__del__(self)
-        
+
     def hasNotifys(self):
         """
         Does this project have any notification addresses, and if not
         does the module?
-        
+
         boolean true if some
         """
-        if self.notifys: return True
-        if self.module: return self.module.hasNotifys()
+        if self.notifys:
+            return True
+        if self.module:
+            return self.module.hasNotifys()
         return False
-        
+
     def getNotifys(self):
         """
-        	Return the list of notification addresses for this project
-        	but if none, see if the module has any.
+                Return the list of notification addresses for this project
+                but if none, see if the module has any.
         """
         if not self.notifys: 
             if self.module:
                 return self.module.getNotifys()
         return self.notifys
-        
+
     def getArtifactGroup(self):
         """
         What do this project's artifacts group under?
         Ask the module unless overridden
-        
+
         Return String
         """
         if self.groupId:
             return self.groupId
         return self.getModule().getArtifactGroup()
-        
+
     def hasAnt(self):
-        if self.ant: return True
+        if self.ant:
+            return True
         return False
-        
+
     def hasNAnt(self):
-        if self.nant: return True
+        if self.nant:
+            return True
         return False
-        
+
     def hasMaven(self):
-        if self.maven: return True
+        if self.maven:
+            return True
         return False
-        
+
     def hasMvn(self):
-        if self.mvn: return True
+        if self.mvn:
+            return True
         return False
-        
+
     def hasScript(self):
-        if self.script: return True
+        if self.script:
+            return True
         return False
-    
+
     def hasConfigure(self):
-        if self.configure: return True
+        if self.configure:
+            return True
         return False
-        
+
     def hasMake(self):
-        if self.make: return True
+        if self.make:
+            return True
         return False
-        
+
     def getAnt(self):
         return self.ant
-        
+
     def getNAnt(self):
         return self.nant
-        
+
     def getMaven(self):
         return self.maven
-        
+
     def getMvn(self):
         return self.mvn
-        
+
     def getScript(self):
         return self.script
-    
+
     def getConfigure(self):
         return self.configure
-        
+
     def getMake(self):
         return self.make
 
     def hasUrl(self):
-        if self.url or self.getModule().hasUrl(): return True
+        if self.url or self.getModule().hasUrl():
+            return True
         return False
-            
+
     def getUrl(self):
-        return self.url or self.getModule().getUrl()            
-        
+        return self.url or self.getModule().getUrl()
+
     def hasDescription(self):
-        if self.desc or self.getModule().hasDescription(): return True
+        if self.desc or self.getModule().hasDescription():
+            return True
         return False
-        
+
     def getDescription(self):
-        return self.desc or self.getModule().getDescription()    
-        
-    def getLimitedDescription(self, limit=60):
-        desc=self.getDescription()    
+        return self.desc or self.getModule().getDescription()
+
+    def getLimitedDescription(self, limit = 60):
+        desc = self.getDescription()
         if len(desc) > limit:
-            desc=desc[:limit]
-            desc+='...'        
+            desc = desc[:limit]
+            desc += '...'
         return desc
-        
+
     def getMetadataLocation(self):
         return self.metadata or self.getModule().getMetadataLocation()
-                     
+
     def getMetadataViewUrl(self):
         if self.metadata:
-            location=self.metadata
-            if location.startswith('http'): return location
+            location = self.metadata
+            if location.startswith('http'):
+                return location
             # :TODO: Make configurable
             return 'http://svn.apache.org/repos/asf/gump/metadata/' + location
         return self.getModule().getMetadataViewUrl()
-                        
+
     def getViewUrl(self):
         # :TODO: if a basedir then offset?
         return self.getModule().getViewUrl()
-            
-    def addOutput(self,output):
-        self.outputs[output.getName()]=output
-        
+
+    def addOutput(self, output):
+        self.outputs[output.getName()] = output
+
     def getOutputCount(self):
         return len(self.outputs)
-        
-    def hasOutputWithId(self,id):
+
+    def hasOutputWithId(self, id):
         return self.outputs.has_key(id)
-        
+
     def hasLicense(self):
-        if self.license: return True
+        if self.license:
+            return True
         return False
-        
+
     def getLicense(self):
         return self.license
-        
-    def getDeletes(self): return self.deletes
-    def getMkDirs(self): return self.mkdirs
-    def getWorks(self): return self.works
-        
+
+    def getDeletes(self):
+        return self.deletes
+    def getMkDirs(self):
+        return self.mkdirs
+    def getWorks(self):
+        return self.works
+
     def hasOutputs(self):
-        if self.outputs: return True
+        if self.outputs:
+            return True
         return False
-        
+
     def getOutputs(self):
+        self.expand_outputs()
         return self.outputs.values()
+
+    def expand_outputs(self):
+        """ expands glob patterns in output names """
+        if self.built and not self.outputs_expanded:
+            for output in self.outputs.values():
+                path = output.getPath()
+                log.debug("glob expanding " + path)
+                expansions = glob.glob(path)
+                count = len(expansions)
+                if count > 1:
+                    self.changeState(STATE_FAILED, REASON_MISSING_OUTPUTS)
+                    self.addError(path + " matched " + count + "  files.")
+                elif count == 1:
+                    log.debug("replacing " + path + " with " + expansions[0])
+                    output.setPath(expansions[0])
+                else:
+                    log.debug("didn't find any match for " + path)
+            self.outputs_expanded = True
 
     def hasAnyOutputs(self):
         """
         Does this project generate outputs (currently JARs)
         """
         return self.hasOutputs() or self.hasLicense()
-        
+
     def hasPackageNames(self):
-        if self.packageNames: return True
+        if self.packageNames:
+            return True
         return False
-        
+
     def getPackageNames(self):
         return self.packageNames
-        
-    def getOutputAt(self,index):
-        return self.outputs.values()[index]
-                
+
+    def getOutputAt(self, index):
+        return self.getOutputs()[index]
+
     def isRedistributable(self):
-        return self.redistributable or (self.module and self.module.isRedistributable())
-        
+        return self.redistributable or \
+            (self.module and self.module.isRedistributable())
+
     def wasBuilt(self):
         """ Was a build attempt made? """
         return self.built
-        
-    def setBuilt(self,built=True):
-        self.built=built
-        
+
+    def setBuilt(self, built = True):
+        self.built = built
+
     def hasReports(self):
-        if self.reports: return True
+        if self.reports:
+            return True
         return False
-        
+
     def getReports(self):
         return self.reports
-        
+
     def getFOGFactor(self):
         return self.getStats().getFOGFactor()
-        
+
     def getHistoricalOddsOfSuccess(self):
         return self.getStats().getHistoricalOddsOfSuccess()
-        
+
     # Only modules get Modified.
     def getLastModified(self):
-        return self.getModule().getStats().getLastModified()  
-        
+        return self.getModule().getStats().getLastModified()
+
     def countAffectedProjects(self):
         return len(self.affectedProjects)
-        
+
     def getAffectedProjects(self):
         return self.affectedProjects
-        
-    def addAffected(self,project):
+
+    def addAffected(self, project):
         self.affectedProjects.append(project)
         self.affectedProjects.sort()
-        
-    def propagateErrorStateChange(self,state,reason,cause,message):
-        
+
+    def propagateErrorStateChange(self, _state, reason, cause, message):
+
         #
         # Mark depend*ee*s as failed for this cause...
         # Warn option*ee*s
         #
-        for dependee in self.getDirectDependees():  
-    
+        for dependee in self.getDirectDependees():
+
             # This is a backwards link, so use the owner
-            dependeeProject=dependee.getOwnerProject()
-        
+            dependeeProject = dependee.getOwnerProject()
+
             if dependee.isOptional():
-                dependeeProject.addInfo("Optional dependency " + self.name + " " + message)
+                dependeeProject.addInfo("Optional dependency " + self.name + \
+                                            " " + message)
             else:
                 dependee.addInfo("Dependency " + self.name + " " + message)
-                dependeeProject.changeState(STATE_PREREQ_FAILED,reason,cause)
+                dependeeProject.changeState(STATE_PREREQ_FAILED, reason, cause)
     #
     # We have a potential clash between the <project package attribute and
     # the <project <package element. The former indicates a packages install
     # the latter the (Java) package name for the project contents. 
-    #                                      
+    #
     def isPackaged(self):
         return self.isPackageMarked() or self.honoraryPackage
-    
+
     def isPackageMarked(self):
-        if self.packageMarker: return True
-        return False        
-        
-    def getPackageMarker(self):   
+        if self.packageMarker:
+            return True
+        return False
+
+    def getPackageMarker(self):
         return self.packageMarker
-                  
-    def setHonoraryPackage(self,honorary=True):
-        self.honoraryPackage=honorary
-    
+
+    def setHonoraryPackage(self, honorary = True):
+        self.honoraryPackage = honorary
+
     def isGumped(self):
         return (not self.isPackaged()) and self.hasBuilder()
-        
+
     # provide elements when not defined in xml
-    def complete(self,workspace,visited=None): 
-    
+    def complete(self, workspace, visited = None): 
+
         # Give some indication when spinning on
         # circular dependencies, 'cos even though we
         # have code in to not spin, never assume never...
         log.debug('Complete: %s, Path: %s' % (self, visited))
-        
-        if self.isComplete(): return
-        
+
+        if self.isComplete():
+            return
+
         # Create a copy, for recursion, and
         # detection of circular paths.
         new_visited = [self]
-        if visited: new_visited += visited
-                            
+        if visited:
+            new_visited += visited
+
         if not self.inModule():
-            self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
+            self.changeState(STATE_FAILED, REASON_CONFIG_FAILED)
             self.addError("Not in a module")
             return
-         
-        # :TODO: hacky   
-        self.workspace=workspace
-        
+
+        # :TODO: hacky
+        self.workspace = workspace
+
         # Import overrides from DOM
-        transferDomInfo(self.element, self, {})        
-    
+        transferDomInfo(self.element, self, {})
+
         # Somebody overrode this as a package
         if self.hasDomAttribute('package'):
-            self.packageMarker=self.getDomAttributeValue('package')
-        
+            self.packageMarker = self.getDomAttributeValue('package')
+
         # Packaged Projects don't need the full treatment..
-        packaged=self.isPackaged()
+        packaged = self.isPackaged()
 
         # Import any <ant part [if not packaged]
         if self.hasDomChild('ant') and not packaged:
-            self.ant = Ant(self.getDomChild('ant'),self)
+            self.ant = Ant(self.getDomChild('ant'), self)
             self.builder.append(self.ant)
-            
+
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.ant, self)
-        
+
         # Import any <nant part [if not packaged]
         if self.hasDomChild('nant') and not packaged:
-            self.nant = NAnt(self.getDomChild('nant'),self)
+            self.nant = NAnt(self.getDomChild('nant'), self)
             self.builder.append(self.nant)
-            
+
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.nant, self)
-        
+
         # Import any <maven part [if not packaged]
         if self.hasDomChild('maven') and not packaged:
-            self.maven = Maven(self.getDomChild('maven'),self)
+            self.maven = Maven(self.getDomChild('maven'), self)
             self.builder.append(self.maven)
-            
+
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.maven, self)
-            
+
         # Import any <mvn part [if not packaged]
         if self.hasDomChild('mvn') and not packaged:
-            self.mvn = Maven2(self.getDomChild('mvn'),self)
+            self.mvn = Maven2(self.getDomChild('mvn'), self)
             self.builder.append(self.mvn)
-            
+
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.maven, self)
-            
+
         # Import any <script part [if not packaged]
         if self.hasDomChild('script') and not packaged:
-            self.script = Script(self.getDomChild('script'),self)
+            self.script = Script(self.getDomChild('script'), self)
             self.builder.append(self.script)
-            
+
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.script, self)
-        
+
         # Import any <nant part [if not packaged]
         if self.hasDomChild('make') and not packaged:
-            self.make = Make(self.getDomChild('make'),self)
+            self.make = Make(self.getDomChild('make'), self)
             self.builder.append(self.make)
 
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.make, self)
-        
+
         # Import any <nant part [if not packaged]
         if self.hasDomChild('configure') and not packaged:
-            self.configure = Configure(self.getDomChild('configure'),self)
+            self.configure = Configure(self.getDomChild('configure'), self)
             self.builder.append(self.configure)
-            
+
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.configure, self)
-        
-        # Set this up to be the base directory of this project,
+
+        # Set this up to be the base directory of this project, 
         # if one is set
-        self.basedir = os.path.abspath(os.path.join(	\
-                            self.getModule().getWorkingDirectory() or dir.base,	\
-                            self.getDomAttributeValue('basedir','')))
-         
+        self.basedir = os.path.abspath(os.path.join(
+                self.getModule().getWorkingDirectory() or dir.base,
+                self.getDomAttributeValue('basedir', '')))
+
         # Compute home directory
         if self.isPackaged():
             # Installed below package directory
             if self.isPackageMarked():
-                self.home=os.path.abspath(
+                self.home = os.path.abspath(
                     os.path.join(
-                        workspace.pkgdir,
+                        workspace.pkgdir, 
                         self.getDomAttributeValue('package')))
             else:
-                self.home=os.path.abspath(workspace.pkgdir)
+                self.home = os.path.abspath(workspace.pkgdir)
         elif self.hasDomChild('home'):
-            home=self.getDomChild('home')
-            if hasDomAttribute(home,'nested'):
-                nested=self.expandVariables(
-                    getDomAttributeValue(home,'nested'))
-                self.home=os.path.abspath(
-                    os.path.join(self.getModule().getWorkingDirectory(),
+            home = self.getDomChild('home')
+            if hasDomAttribute(home, 'nested'):
+                nested = self.expandVariables(
+                    getDomAttributeValue(home, 'nested'))
+                self.home = os.path.abspath(
+                    os.path.join(self.getModule().getWorkingDirectory(), 
                                     nested))
-            elif hasDomAttribute(home,'parent'):
-                parent=self.expandVariables(
-                    getDomAttributeValue(home,'parent'))
-                self.home=os.path.abspath(
-                    os.path.join(workspace.getBaseDirectory(),parent))
+            elif hasDomAttribute(home, 'parent'):
+                parent = self.expandVariables(
+                    getDomAttributeValue(home, 'parent'))
+                self.home = os.path.abspath(
+                    os.path.join(workspace.getBaseDirectory(), parent))
             else:
-                message=('Unable to complete project.home for %s [not nested/parent] : %s') \
+                message = ('Unable to complete project.home for %s [not nested/parent] : %s') \
                             % (self.name, home)
                 self.addError(message)
                 log.warning(message)
-                self.home=None        
+                self.home = None
         else:
             if self.module:
-                module=self.getModule()    
-                self.home=os.path.abspath(module.getWorkingDirectory())
+                module = self.getModule()
+                self.home = os.path.abspath(module.getWorkingDirectory())
             else:
-                self.home=os.path.abspath(
+                self.home = os.path.abspath(
                             os.path.join(
-                                workspace.getBaseDirectory(),
+                                workspace.getBaseDirectory(), 
                                 self.name))
         # Forget how this could be possible...
         #else:
-        #    message='Unable to complete project.home for: ' + self.name 
+        #    message = 'Unable to complete project.home for: ' + self.name 
         #    self.addError(message)
-        #    self.home=None
-        
-        
+        #    self.home = None
+
+
         # The language type java or CSharp or ...
         if self.hasDomAttribute('language'):
-            self.setLanguageTypeFromString(self.getDomAttributeValue('language'))
-        
+            self.setLanguageTypeFromString(self
+                                           .getDomAttributeValue('language'))
+
 
         # Extract license 
         if self.hasDomChild('license'):
-            license=self.getDomChild('license')
-            if hasDomAttribute(license,'name'):
-                self.license = getDomAttributeValue(license,'name')
+            license = self.getDomChild('license')
+            if hasDomAttribute(license, 'name'):
+                self.license = getDomAttributeValue(license, 'name')
             else:
                 self.addError('Missing \'name\' on <license')
-        
+
         #
-        # Resolve jars/assemblies/outputs        
+        # Resolve jars/assemblies/outputs
         #
-        outputTypes={'jar':Jar, 'assembly':Assembly, 'output':BaseOutput}
-        
+        outputTypes = {'jar' : Jar,
+                       'assembly' : Assembly,
+                       'output' : BaseOutput}
+
         for (tag, clazz) in outputTypes.iteritems():
             for tdom in self.getDomChildIterator(tag):
-                name=self.expandVariables(
-                        getDomAttributeValue(tdom,'name'))
-                    
-                if self.home and name:  
-                    output=clazz(name,tdom,self)
+                name = self.expandVariables(
+                        getDomAttributeValue(tdom, 'name'))
+
+                if self.home and name:
+                    output = clazz(name, tdom, self)
                     output.complete()
-                    output.setPath(os.path.abspath(os.path.join(self.home,name)))
+                    output.setPath(os.path.abspath(os.path.join(self.home,
+                                                                name)))
                     self.addOutput(output)
                 else:
                     self.addError('Missing \'name\' on <' + tag)
-                
-                
+
+
         # Fix 'ids' on all Jars/Assemblies/Outputs which don't have them
         if self.hasOutputs():
             if 1 == self.getOutputCount():
-                output=self.getOutputAt(0)
+                output = self.getOutputAt(0)
                 if not output.hasId():
-                    self.addDebug('Sole output [' + os.path.basename(output.getPath()) + '] identifier set to project name')
-                    output.setId(self.getName())    
+                    self.addDebug('Sole output [' + \
+                                      os.path.basename(output.getPath()) + \
+                                      '] identifier set to project name')
+                    output.setId(self.getName())
             else:
                 # :TODO: A work in progress, not sure how
                 # we ought 'construct' ids.
                 for output in self.getOutputs():
                     if not output.hasId():
-                        basename=os.path.basename(output.getPath())
-                        newId=basename
+                        basename = os.path.basename(output.getPath())
+                        newId = basename
                         # Strip off .jar or .lib (note: both same length)
                         if newId.endswith('.jar') or newId.endswith('.lib'):
-                            newId=newId[:-4]
+                            newId = newId[:-4]
                         # Strip off -@@DATE@@
-                        datePostfix='-' + str(default.date_s)
+                        datePostfix = '-' + str(default.date_s)
                         if newId.endswith(datePostfix):
-                            reduction=-1 * len(datePostfix)
-                            newId=newId[:reduction]
+                            reduction = -1 * len(datePostfix)
+                            newId = newId[:reduction]
                         # Assign...
-                        self.addDebug('Output [' + basename + '] identifier set to output basename: [' + newId + ']')    
+                        self.addDebug('Output [' + basename + \
+                                          '] identifier set to output basename: [' \
+                                          + newId + ']')
                         output.setId(newId)
-        
+
         # Grab all the work
         for w in self.getDomChildIterator('work'):
-            work=Work(w,self)
+            work = Work(w, self)
             work.complete()
             self.works.append(work)
 
         # Grab all the mkdirs
         for m in self.getDomChildIterator('mkdir'):
-            mkdir=Mkdir(m,self)
+            mkdir = Mkdir(m, self)
             mkdir.complete()
             self.mkdirs.append(mkdir)
 
         # Grab all the deleted
         for d in self.getDomChildIterator('delete'):
-            delete=Delete(d,self)
+            delete = Delete(d, self)
             delete.complete()
             self.deletes.append(delete)
 
         # Grab all the reports (junit for now)
         if self.hasDomChild('junitreport'):
-            junitreport=self.getDomChild('junitreport')
-            report=JunitReport(junitreport,self)
+            junitreport = self.getDomChild('junitreport')
+            report = JunitReport(junitreport, self)
             report.complete()
             self.reports.append(report)
-            
+
         # Grab all notifications
         for notifyEntry in self.getDomChildIterator('nag'):
             # Determine where to send
-            toaddr=getDomAttributeValue(notifyEntry,'to',workspace.administrator)
-            fromaddr=getDomAttributeValue(notifyEntry,'from',workspace.email)   
+            toaddr = getDomAttributeValue(notifyEntry, 'to', 
+                                        workspace.administrator)
+            fromaddr = getDomAttributeValue(notifyEntry, 'from',
+                                            workspace.email)
             self.notifys.append(
                     AddressPair(
-                        getStringFromUnicode(toaddr),
-                        getStringFromUnicode(fromaddr)))  
-        
-        # Build Dependencies Map [including depends from <ant|maven/<property/<depend
+                        getStringFromUnicode(toaddr), 
+                        getStringFromUnicode(fromaddr)))
+
+        # Build Dependencies Map [including depends from
+        # <ant|maven/<property/<depend
         if not packaged:
-            (badDepends, badOptions) = self.importDependencies(workspace)                        
+            (badDepends, badOptions) = self.importDependencies(workspace)
 
         # Expand <ant <depends/<properties...
         [b.expand(self, workspace) for b in self.builder]
 
         if not packaged:
             removes = []
-            
-            # Complete dependencies so properties can reference the,
+
+            # Complete dependencies so properties can reference the, 
             # completed metadata within a dependent project
             for dependency in self.getDirectDependencies():
-                depProject=dependency.getProject()
+                depProject = dependency.getProject()
                 if depProject in new_visited:
                     for circProject in new_visited:
-                        circProject.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
+                        circProject.changeState(STATE_FAILED, 
+                                                REASON_CONFIG_FAILED)
                         circProject.addError("Circular Dependency. Path: %s -> %s." % \
-                                                (new_visited, depProject.getName()))
-                                                
+                                                (new_visited, 
+                                                 depProject.getName()))
+
                     self.addError("Dependency broken, removing dependency on %s from %s." % \
-                                                (depProject.getName(), self.getName()))
-                
+                                                (depProject.getName(), 
+                                                 self.getName()))
+
                     removes.append(dependency)
                 else:
                     # Don't redo what is done.
@@ -616,20 +677,20 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                         # Recurse, knowing which project
                         # is in this list.
                         depProject.complete(workspace, new_visited)
-                        
+
             # Remove circulars...
             for dependency in removes:
                 self.removeDependency(dependency)
 
-            self.buildDependenciesMap(workspace)                        
-        
+            self.buildDependenciesMap(workspace)
+
         if self.hasDomChild('url'):
-            url=self.getDomChild('url')
-            self.url=getDomAttributeValue(url,'href')
-            
+            url = self.getDomChild('url')
+            self.url = getDomAttributeValue(url, 'href')
+
         if self.hasDomChild('description'):
-            self.desc=self.getDomChildValue('description')   
-    
+            self.desc = self.getDomChildValue('description')
+
         if self.ant:
             self.addJVMArgs(self.getDomChild("ant"))
 
@@ -642,120 +703,127 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         #
         # complete properties
         #
-        [self.completeAndTransferAnnotations(b, workspace) for b in self.builder]
-            
-        if not packaged:    
+        [self.completeAndTransferAnnotations(b, workspace) \
+             for b in self.builder]
+
+        if not packaged:
             #
             # TODO -- move these back?
             #
             if badDepends or badOptions: 
                 for badDep in badDepends:
-                    (xmldepend,reason) = badDep
-                    self.changeState(STATE_FAILED,REASON_CONFIG_FAILED)
+                    (xmldepend, reason) = badDep
+                    self.changeState(STATE_FAILED, REASON_CONFIG_FAILED)
                     self.addError("Bad Dependency. Project: %s : %s " \
-                            % (getDomAttributeValue(xmldepend,'project'),reason))
+                            % (getDomAttributeValue(xmldepend, 'project'), 
+                               reason))
 
                 for badOpt in badOptions:
-                    (xmloption,reason) = badOpt   
+                    (xmloption, reason) = badOpt
                     self.addWarning("Bad *Optional* Dependency. Project: %s : %s" \
-                            % (getDomAttributeValue(xmloption,'project') , reason))
+                            % (getDomAttributeValue(xmloption, 'project'), 
+                               reason))
         else:
-            self.addInfo("This is a packaged project, location: " + self.home)        
-                                    
+            self.addInfo("This is a packaged project, location: " + self.home)
+
         # Copy over any XML errors/warnings
-        # :TODO:#1: transferAnnotations(self.xml, self)  
-        
+        # :TODO:#1: transferAnnotations(self.xml, self)
+
         #if not self.home:
         #    raise RuntimeError, 'A home directory is needed on ' + `self`
-        
+
         # Existence means 'true'
-        self.redistributable=self.hasDomChild('redistributable')       
-        
+        self.redistributable = self.hasDomChild('redistributable')
+
         # Store any 'Java Package names'
         for pdom in self.getDomChildIterator('package'):
-            packageName=getDomTextValue(pdom)
+            packageName = getDomTextValue(pdom)
             if packageName:
                 if not self.packageNames:
-                    self.packageNames=[]
+                    self.packageNames = []
                 if not packageName in self.packageNames:
                     self.packageNames.append(packageName)
-                    
+
         # Close down the DOM...
-        self.shutdownDom()       
-    
+        self.shutdownDom()
+
         # Done so don't redo
         self.setComplete(True)
-    
+
     # turn the <jvmarg> children of domchild into jvmargs
-    def addJVMArgs(self,domChild):        
-        for jvmarg in getDomChildIterator(domChild,'jvmarg'):
-            if hasDomAttribute(jvmarg, 'value'):                
+    def addJVMArgs(self, domChild):
+        for jvmarg in getDomChildIterator(domChild, 'jvmarg'):
+            if hasDomAttribute(jvmarg, 'value'):
                 self.jvmargs.addParameter(getDomAttributeValue(jvmarg, 'value'))
             else:
                 log.error('Bogus JVM Argument w/ Value')
 
-    def importDependencies(self,workspace):        
-        badDepends=[]
+    def importDependencies(self, workspace):
+        badDepends = []
         # Walk the DOM parts converting
         for ddom in self.getDomChildIterator('depend'):
-            dependProjectName=getDomAttributeValue(ddom,'project')
+            dependProjectName = getDomAttributeValue(ddom, 'project')
             if workspace.hasProject(dependProjectName):
-                dependProject=workspace.getProject(dependProjectName)
-                
+                dependProject = workspace.getProject(dependProjectName)
+
                 # Import the dependency
-                dependency=importDomDependency(self, dependProject, ddom, 0)
-                                
+                dependency = importDomDependency(self, dependProject, ddom, 0)
+
                 # Add a dependency
                 self.addDependency(dependency)
             else:
-                badDepends.append((ddom,"unknown to *this* workspace"))    
-                
+                badDepends.append((ddom, "unknown to *this* workspace"))
+
         # Walk the XML parts converting
-        badOptions=[]
+        badOptions = []
         for odom in self.getDomChildIterator('option'):
-            optionProjectName=getDomAttributeValue(odom,'project')
+            optionProjectName = getDomAttributeValue(odom, 'project')
             if workspace.hasProject(optionProjectName):
-                optionProject=workspace.getProject(optionProjectName)
-                                
+                optionProject = workspace.getProject(optionProjectName)
+
                 # Import the dependency
-                dependency=importDomDependency(self, optionProject, odom, 1)
-                                
+                dependency = importDomDependency(self, optionProject, odom, 1)
+
                 # Add a dependency
-                self.addDependency(dependency)                    
+                self.addDependency(dependency)
             else:
-                badOptions.append((odom,"unknown to *this* workspace"))
+                badOptions.append((odom, "unknown to *this* workspace"))
 
         return (badDepends, badOptions)
-        
+
     def hasBaseDirectory(self):
-        if self.basedir: return True
+        if self.basedir:
+            return True
         return False
-        
+
     def getBaseDirectory(self):
-         return self.basedir
-         
+        return self.basedir
+
     def hasHomeDirectory(self):
-        if self.home: return True
+        if self.home:
+            return True
         return False
-        
+
     def getHomeDirectory(self):
         return self.home
-        
+
     def inModule(self):
-        return hasattr(self,'module') and self.module
-        
-    def setModule(self,module):
+        return hasattr(self, 'module') and self.module
+
+    def setModule(self, module):
         if self.module:
-            raise RuntimeError, 'Project [' + self.name + '] already has a module set'
-        self.module=module
-        
+            raise RuntimeError, \
+                'Project [' + self.name + '] already has a module set'
+        self.module = module
+
     def getModule(self):
-        if not self.inModule(): raise RuntimeError, 'Project [' + self.name + '] not in a module.]'
+        if not self.inModule():
+            raise RuntimeError, 'Project [' + self.name + '] not in a module.]'
         return self.module 
-        
+
     def getWorkspace(self):
         return self.workspace
-        
+
     def hasBuilder(self):
         """
         Does this project have a builder?
@@ -764,147 +832,152 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             return 1
         else:
             return 0
-        
-    def dump(self, indent=0, output=sys.stdout):
+
+    def dump(self, indent = 0, output = sys.stdout):
         """ 
         Display the contents of this object 
         """
-        i=getIndent(indent)
-        i1=getIndent(indent+1)
-        output.write(i+'Project: ' + self.getName() + '\n')
-        NamedModelObject.dump(self, indent+1, output)
-                
+        i = getIndent(indent)
+        i1 = getIndent(indent + 1)
+        output.write(i + 'Project: ' + self.getName() + '\n')
+        NamedModelObject.dump(self, indent + 1, output)
+
         if self.isPackageMarked():
-            output.write(i1+'Packaged: ' + self.getPackageMarker() + '\n')
-        
-        Dependable.dump(self,indent,output)
-                        
-        [b.dump(indent + 1, output) for b in self.builder + self.works + self.getOutputs()]
-            
+            output.write(i1 + 'Packaged: ' + self.getPackageMarker() + '\n')
+
+        Dependable.dump(self, indent, output)
+
+        [b.dump(indent + 1, output) for b in self.builder + self.works \
+             + self.getOutputs()]
+
     def getAnnotatedOutputsList(self): 
         """
         Return a list of the outputs this project generates
         """
-        outputs=[]
+        outs = []
         for output in self.getOutputs():
-            path=output.getPath()
-            outputs.append(gump.core.language.path.AnnotatedPath(output.getId(),path,self,None,"Project output"))                    
-        return outputs
-                        
-    def setLanguageTypeFromString(self,lang=None):
+            path = output.getPath()
+            outs.append(gump.core.language.path.AnnotatedPath(output.getId(), 
+                                                              path, self, None, 
+                                                              "Project output"))
+        return outs
+
+    def setLanguageTypeFromString(self, lang = None):
         try:
-            self.languageType=Project.LANGUAGE_MAP[lang]
+            self.languageType = Project.LANGUAGE_MAP[lang]
         except:
-            message='Language %s not in supported %s.' % (lang, Project.LANGUAGE_MAP.keys())
+            message = 'Language %s not in supported %s.' \
+                % (lang, Project.LANGUAGE_MAP.keys())
             self.addWarning(message)
             log.warning(message)
-            
+
     def getLanguageType(self):
         return self.languageType
-        
-    def setLanguageType(self,langType):
-        self.languageType=langType
+
+    def setLanguageType(self, langType):
+        self.languageType = langType
 
     def completeAndTransferAnnotations(self, b, workspace):
-        b.complete(self,workspace)
-        transferAnnotations(b, self)  
+        b.complete(self, workspace)
+        transferAnnotations(b, self)
 
 class ProjectStatistics(Statistics):
     """Statistics Holder"""
-    def __init__(self,projectName):
-        Statistics.__init__(self,projectName)
+    def __init__(self, projectName):
+        Statistics.__init__(self, projectName)
 
     def getKeyBase(self):
-        return 'project:'+ self.name        
+        return 'project:' + self.name
 
-                                                
+
 class ProjectSummary:
     """ Contains an overview """
-    def __init__(self,	\
-                    projects=0,successes=0,failures=0,	\
-                    prereqs=0,noworks=0,packages=0,	\
-                    others=0,statepairs=None):
-                        
+    def __init__(self, projects = 0, successes = 0, failures = 0,
+                 prereqs = 0, noworks = 0, packages = 0,
+                 others = 0, statepairs = None):
+
         # Counters
-        self.projects=projects
-        self.successes=successes
-        self.failures=failures
-        self.prereqs=prereqs
-        self.noworks=noworks
-        self.packages=packages
-        self.others=others
-        self.statepairs=statepairs
-        
+        self.projects = projects
+        self.successes = successes
+        self.failures = failures
+        self.prereqs = prereqs
+        self.noworks = noworks
+        self.packages = packages
+        self.others = others
+        self.statepairs = statepairs
+
         # Percentages
-        self.overallPercentage=0
-        self.successesPercentage=0
-        self.failuresPercentage=0
-        self.prereqsPercentage=0
-        self.noworksPercentage=0
-        self.packagesPercentage=0
-        self.othersPercentage=0
-        
+        self.overallPercentage = 0
+        self.successesPercentage = 0
+        self.failuresPercentage = 0
+        self.prereqsPercentage = 0
+        self.noworksPercentage = 0
+        self.packagesPercentage = 0
+        self.othersPercentage = 0
+
         #
-        if not self.statepairs: self.statepairs=[]
-        
+        if not self.statepairs:
+            self.statepairs = []
+
         self.calculatePercentages()
-        
-    def addState(self,state):            
+
+    def addState(self, state):
         # Stand up and be counted
         if state.isSuccess():
-            self.successes+=1
+            self.successes += 1
         elif state.isPrereqFailed():
-            self.prereqs+=1
+            self.prereqs += 1
         elif state.isFailed():
-            self.failures+=1
+            self.failures += 1
         elif state.isUnset():
-            self.noworks+=1
+            self.noworks += 1
         elif state.isComplete():
             # :TODO: Accurate?
-            self.packages+=1
+            self.packages += 1
         else:
-            self.others+=1
-                
+            self.others += 1
+
         # One more project...
         self.projects += 1
-                
+
         # Add state, if not already there
-        if not state.isUnset() and not state in self.statepairs: \
+        if not state.isUnset() and not state in self.statepairs:
             self.statepairs.append(state)
-        
+
         self.calculatePercentages()
-        
-    def addSummary(self,summary):
-                 
+
+    def addSummary(self, summary):
+
         self.projects += summary.projects
-        
+
         self.successes += summary.successes
         self.failures += summary.failures
         self.prereqs += summary.prereqs
         self.noworks += summary.noworks
         self.packages += summary.packages
         self.others += summary.others
-        
+
         # Add state pair, if not already there
         for pair in summary.statepairs:
-            if not pair.isUnset() and not pair in self.statepairs: \
+            if not pair.isUnset() and not pair in self.statepairs:
                 self.statepairs.append(pair)
-                
+
         self.calculatePercentages()
-        
+
     def calculatePercentages(self):
         """ Keep counters correct """
-        if self.projects > 0:            
-            self.successesPercentage=(float(self.successes)*100)/self.projects
-            self.failuresPercentage=(float(self.failures)*100)/self.projects
-            self.prereqsPercentage=(float(self.prereqs)*100)/self.projects
-            self.noworksPercentage=(float(self.noworks)*100)/self.projects
-            self.packagesPercentage=(float(self.packages)*100)/self.projects
-            self.othersPercentage=(float(self.others)*100)/self.projects
-            
+        if self.projects > 0:
+            self.successesPercentage = (float(self.successes)*100)/self.projects
+            self.failuresPercentage = (float(self.failures)*100)/self.projects
+            self.prereqsPercentage = (float(self.prereqs)*100)/self.projects
+            self.noworksPercentage = (float(self.noworks)*100)/self.projects
+            self.packagesPercentage = (float(self.packages)*100)/self.projects
+            self.othersPercentage = (float(self.others)*100)/self.projects
+
             # This is the overall success of a run...
-            self.overallPercentage=(float(self.successes + self.packages)*100)/self.projects
-            
+            self.overallPercentage = (float(self.successes + self.packages) \
+                                        *100)/self.projects
+
     def getOverallPercentage(self):
         """ Return the overall success """
         return self.overallPercentage
