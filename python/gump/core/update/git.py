@@ -43,8 +43,9 @@ class GitUpdater(ScmUpdater):
             Build the appropriate GIT command for clone
         """
         log_repository_and_url(module, 'git')
-        cmd = Cmd('git-clone', 'update_' + module.getName(), 
+        cmd = Cmd('git', 'update_' + module.getName(), 
                   module.getWorkspace().getSourceControlStagingDirectory())
+        cmd.addParameter('clone')
         maybe_make_quiet(module, cmd)
         cmd.addParameter(module.getScm().getRootUrl())
         cmd.addParameter(module.getName())
@@ -55,8 +56,9 @@ class GitUpdater(ScmUpdater):
             Build the appropriate GIT command for pull
         """
         log_repository_and_url(module, 'git')
-        cmd = Cmd('git-pull', 'update_' + module.getName(), 
+        cmd = Cmd('git', 'update_' + module.getName(), 
                   module.getSourceControlStagingDirectory())
+        cmd.addParameter('pull')
         maybe_make_quiet(module, cmd)
         return cmd
 
