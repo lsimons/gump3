@@ -287,7 +287,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
     def expand_outputs(self):
         """ expands glob patterns in output names """
-        if self.built and not self.outputs_expanded:
+        if (self.built or not self.hasBuilder()) and not self.outputs_expanded:
             for output in self.outputs.values():
                 path = output.getPath()
                 log.debug("glob expanding " + path)
@@ -295,7 +295,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 count = len(expansions)
                 if count > 1:
                     self.changeState(STATE_FAILED, REASON_MISSING_OUTPUTS)
-                    self.addError(path + " matched " + count + "  files.")
+                    self.addError("%s matched %d files." % (path, count))
                 elif count == 1:
                     log.debug("replacing " + path + " with " + expansions[0])
                     output.setPath(expansions[0])
