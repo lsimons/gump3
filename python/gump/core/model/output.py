@@ -22,6 +22,7 @@
 from gump.core.model.object import NamedModelObject
 
 OUTPUT_ASSEMBLY = 'assembly'
+OUTPUT_BOOTCLASSPATH_JAR = 'boot'
 OUTPUT_HOMEDIR = 'home'
 OUTPUT_JAR = 'jar'
 OUTPUT_LICENSE = 'license'

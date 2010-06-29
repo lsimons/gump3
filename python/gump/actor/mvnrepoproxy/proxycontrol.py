@@ -21,7 +21,8 @@ import time
 import urllib
 
 from gump import log
-from gump.core.model.output import OUTPUT_JAR, OUTPUT_POM
+from gump.core.model.output import OUTPUT_BOOTCLASSPATH_JAR, OUTPUT_JAR, \
+    OUTPUT_POM
 from gump.core.run.actor import AbstractRunActor, FinalizeRunEvent, \
     InitializeRunEvent
 
@@ -46,6 +47,7 @@ class MvnRepositoryProxyController(AbstractRunActor):
             groupId = project.getArtifactGroup()
             for output in project.getOutputs():
                 if output.getType() == OUTPUT_JAR \
+                        or output.getType() == OUTPUT_BOOTCLASSPATH_JAR \
                         or output.getType() == OUTPUT_POM:
                     fileName = os.path.abspath(output.getPath())
                     try:
