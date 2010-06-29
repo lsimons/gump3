@@ -31,10 +31,10 @@ from gump.core.config import default
 from gump.core.model.builder import Ant, NAnt, Maven, Maven2, Script, \
     Configure, Make
 from gump.core.model.depend import Dependable, importDomDependency
-from gump.core.model.misc import Jar, Assembly, BaseOutput, \
-    Resultable, Positioned, Mkdir, Delete, JunitReport, Work, \
-    AddressPair
+from gump.core.model.misc import AddressPair, \
+    Resultable, Positioned, Mkdir, Delete, JunitReport, Work
 from gump.core.model.object import NamedModelObject
+from gump.core.model.output import Output
 from gump.core.model.state import REASON_CONFIG_FAILED, STATE_FAILED, \
     STATE_PREREQ_FAILED, REASON_MISSING_OUTPUTS
 from gump.core.model.stats import Statable, Statistics
@@ -105,7 +105,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         self.packageNames = None
 
         #############################################################
-        # Outputs (Jars, Assemblies)
+        # Outputs (like jars, assemblies, poms ...)
         #
         self.outputs = {}
         self.outputs_expanded = False
@@ -519,8 +519,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 self.home = os.path.abspath(
                     os.path.join(workspace.getBaseDirectory(), parent))
             else:
-                message = ('Unable to complete project.home for %s [not nested/parent] : %s') \
-                            % (self.name, home)
+                message = ('Unable to complete project.home for %s' +
+                           ' [not nested/parent] : %s') \
+                           % (self.name, home)
                 self.addError(message)
                 log.warning(message)
                 self.home = None
@@ -555,28 +556,30 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 self.addError('Missing \'name\' on <license')
 
         #
-        # Resolve jars/assemblies/outputs
+        # Resolve outputs
         #
-        outputTypes = {'jar' : Jar,
-                       'assembly' : Assembly,
-                       'output' : BaseOutput}
+        outputTypes = ['jar',
+                       'assembly',
+                       'output',
+                       'pom']
 
-        for (tag, clazz) in outputTypes.iteritems():
+        for tag in outputTypes:
             for tdom in self.getDomChildIterator(tag):
-                name = self.expandVariables(
-                        getDomAttributeValue(tdom, 'name'))
+                name = self.expandVariables(getDomAttributeValue(tdom, 'name'))
 
                 if self.home and name:
-                    output = clazz(name, tdom, self)
+                    output = Output(name, tdom, self)
                     output.complete()
                     output.setPath(os.path.abspath(os.path.join(self.home,
                                                                 name)))
+                    if not output.getType() and tag != 'output':
+                        output.setType(tag)
                     self.addOutput(output)
                 else:
                     self.addError('Missing \'name\' on <' + tag)
 
 
-        # Fix 'ids' on all Jars/Assemblies/Outputs which don't have them
+        # Fix 'ids' on all outputs which don't have them
         if self.hasOutputs():
             if 1 == self.getOutputCount():
                 output = self.getOutputAt(0)
@@ -602,8 +605,8 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                             newId = newId[:reduction]
                         # Assign...
                         self.addDebug('Output [' + basename + \
-                                          '] identifier set to output basename: [' \
-                                          + newId + ']')
+                                          '] identifier set to output ' + \
+                                          'basename: [' + newId + ']')
                         output.setId(newId)
 
         # Grab all the work
@@ -662,13 +665,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                     for circProject in new_visited:
                         circProject.changeState(STATE_FAILED, 
                                                 REASON_CONFIG_FAILED)
-                        circProject.addError("Circular Dependency. Path: %s -> %s." % \
-                                                (new_visited, 
-                                                 depProject.getName()))
+                        circProject.addError("Circular Dependency. Path: " + \
+                                                 "%s -> %s." % \
+                                                 (new_visited,
+                                                  depProject.getName()))
 
-                    self.addError("Dependency broken, removing dependency on %s from %s." % \
-                                                (depProject.getName(), 
-                                                 self.getName()))
+                    self.addError("Dependency broken, removing dependency " + \
+                                      "on %s from %s." % \
+                                      (depProject.getName(), self.getName()))
 
                     removes.append(dependency)
                 else:
@@ -720,9 +724,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
                 for badOpt in badOptions:
                     (xmloption, reason) = badOpt
-                    self.addWarning("Bad *Optional* Dependency. Project: %s : %s" \
-                            % (getDomAttributeValue(xmloption, 'project'), 
-                               reason))
+                    self.addWarning("Bad *Optional* Dependency. " + \
+                                        "Project: %s : %s" \
+                                        % (getDomAttributeValue(xmloption,
+                                                                'project'), 
+                                           reason))
         else:
             self.addInfo("This is a packaged project, location: " + self.home)
 

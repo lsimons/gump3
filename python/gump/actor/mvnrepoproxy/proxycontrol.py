@@ -17,26 +17,27 @@
 
 import os
 import os.path
-import sys
 import time
 import urllib
 
 from gump import log
-from gump.core.run.gumprun import *
+from gump.core.model.output import OUTPUT_JAR, OUTPUT_POM
+from gump.core.run.actor import AbstractRunActor, FinalizeRunEvent, \
+    InitializeRunEvent
 
-class MvnRepositoryProxyController(gump.core.run.actor.AbstractRunActor):
+class MvnRepositoryProxyController(AbstractRunActor):
     """
        Starts/Stops the proxy, adds artifacts to it when a project has
        been built, collects the results.
     """
 
-    def __init__(self, run, javaCommand='java'):
-        gump.core.run.actor.AbstractRunActor.__init__(self, run)
+    def __init__(self, run, javaCommand = 'java'):
+        AbstractRunActor.__init__(self, run)
         self.proxyURL = "http://localhost:%s/" \
             % (run.getWorkspace().mvnRepoProxyPort)
         self.java = javaCommand
 
-    def processProject(self,project):
+    def processProject(self, project):
         """
         Process a project (i.e. publish it's artifacts to the proxy)
         """
@@ -44,13 +45,16 @@ class MvnRepositoryProxyController(gump.core.run.actor.AbstractRunActor):
         if project.okToPerformWork() and project.hasOutputs():
             groupId = project.getArtifactGroup()
             for output in project.getOutputs():
-                fileName = os.path.abspath(output.getPath())
-                try:
-                    log.info('Publishing \'%s\' to proxy' % (fileName))
-                    self.publish(groupId, output.getId(), fileName)
-                except:
-                    log.error('Failed to publish \'%s\' to proxy' % (fileName),
-                              exc_info=1)
+                if output.getType() == OUTPUT_JAR \
+                        or output.getType() == OUTPUT_POM:
+                    fileName = os.path.abspath(output.getPath())
+                    try:
+                        log.info('Publishing \'%s\' output \'%s\' to proxy'
+                                 % (output.getType(), fileName))
+                        self.publish(groupId, output.getId(), fileName)
+                    except:
+                        log.error('Failed to publish \'%s\' to proxy' %
+                                  (fileName), exc_info = 1)
 
     def processOtherEvent(self, event):
         if isinstance(event, InitializeRunEvent):
@@ -74,6 +78,16 @@ class MvnRepositoryProxyController(gump.core.run.actor.AbstractRunActor):
             # TODO emulate spawnlp on non-Unix platforms
             os.spawnlp(os.P_NOWAIT, self.java, self.java, '-jar', proxyJar,
                        self.workspace.mvnRepoProxyPort)
+            # Hang back for a bit while the proxy starts up
+            for _pWait in range(10):
+                try:
+                    urllib.urlopen(self.proxyURL)
+                    # Not reached until urlopen succeeds
+                    log.info('mvn Repository proxy started')
+                    break
+                except IOError:
+                    time.sleep(1)
+                    continue
         except:
             log.error('--- Failed to start proxy', exc_info=1)
 
@@ -86,13 +100,14 @@ class MvnRepositoryProxyController(gump.core.run.actor.AbstractRunActor):
             proxyLogContent = proxyLogRequest.read()
             proxyLogRequest.close()
             # TODO xdocs-Documenter is hard-coded here
-            proxyLogFile = open(os.path.join(os.path.join(self.workspace.getBaseDirectory(),
-                                                     'xdocs-work'),
-                                             proxyLogFileName), 'w')
+            proxyLogFile = open(os.path.join(
+                    os.path.join(self.workspace.getBaseDirectory(),
+                                 'xdocs-work'),
+                    proxyLogFileName), 'w')
             proxyLogFile.write(proxyLogContent)
-            proxyLogFile.close();
+            proxyLogFile.close()
         except:
-            log.error('--- Failed to store ' + proxyLogFileName, exc_info=1)
+            log.error('--- Failed to store ' + proxyLogFileName, exc_info = 1)
 
         log.info('Stopping mvn repository proxy')
         try:
@@ -100,4 +115,4 @@ class MvnRepositoryProxyController(gump.core.run.actor.AbstractRunActor):
             # allow Java process to stop before the Python process terminates
             time.sleep(5)
         except:
-            log.error('--- Failed to stop proxy', exc_info=1)
+            log.error('--- Failed to stop proxy', exc_info = 1)

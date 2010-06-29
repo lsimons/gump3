@@ -41,7 +41,7 @@
 ###############################################################################
 
 # tell Python what modules make up the gump.core.model package
-__all__ = ["misc","state", \
+__all__ = ["misc","state", "output", \
     "object","project","module","workspace","repository", \
     "builder","profile",]
 
