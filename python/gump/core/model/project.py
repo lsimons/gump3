@@ -107,6 +107,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         #############################################################
         # Outputs (like jars, assemblies, poms ...)
         #
+        # kept as {type => [outputs of that type]}
         self.outputs = {}
         self.outputs_expanded = False
 
@@ -253,13 +254,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         return self.getModule().getViewUrl()
 
     def addOutput(self, output):
-        self.outputs[output.getName()] = output
-
-    def getOutputCount(self):
-        return len(self.outputs)
-
-    def hasOutputWithId(self, id):
-        return self.outputs.has_key(id)
+        if output.getType() not in self.outputs:
+            self.outputs[output.getType()] = []
+        self.outputs[output.getType()].append(output)
 
     def hasLicense(self):
         if self.license:
@@ -283,25 +280,27 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
     def getOutputs(self):
         self.expand_outputs()
-        return self.outputs.values()
+        return reduce(lambda l1, l2: l1 + l2, self.outputs.itervalues(), [])
 
     def expand_outputs(self):
         """ expands glob patterns in output names """
         if (self.built or not self.hasBuilder()) and not self.outputs_expanded:
-            for output in self.outputs.values():
-                path = output.getPath()
-                log.debug("glob expanding " + path)
-                expansions = glob.glob(path)
-                count = len(expansions)
-                if count > 1:
-                    self.changeState(STATE_FAILED, REASON_MISSING_OUTPUTS)
-                    self.addError("%s matched %d files." % (path, count))
-                elif count == 1:
-                    log.debug("replacing " + path + " with " + expansions[0])
-                    output.setPath(expansions[0])
-                else:
-                    log.debug("didn't find any match for " + path)
-            self.outputs_expanded = True
+            for l in self.outputs.itervalues():
+                for output in l:
+                    path = output.getPath()
+                    log.debug("glob expanding " + path)
+                    expansions = glob.glob(path)
+                    count = len(expansions)
+                    if count > 1:
+                        self.changeState(STATE_FAILED, REASON_MISSING_OUTPUTS)
+                        self.addError("%s matched %d files." % (path, count))
+                    elif count == 1:
+                        log.debug("replacing " + path + " with " \
+                                      + expansions[0])
+                        output.setPath(expansions[0])
+                    else:
+                        log.debug("didn't find any match for " + path)
+        self.outputs_expanded = True
 
     def hasAnyOutputs(self):
         """
@@ -316,9 +315,6 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
     def getPackageNames(self):
         return self.packageNames
-
-    def getOutputAt(self, index):
-        return self.getOutputs()[index]
 
     def isRedistributable(self):
         return self.redistributable or \
@@ -558,56 +554,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         #
         # Resolve outputs
         #
-        outputTypes = ['jar',
-                       'assembly',
-                       'output',
-                       'pom']
-
-        for tag in outputTypes:
-            for tdom in self.getDomChildIterator(tag):
-                name = self.expandVariables(getDomAttributeValue(tdom, 'name'))
-
-                if self.home and name:
-                    output = Output(name, tdom, self)
-                    output.complete()
-                    output.setPath(os.path.abspath(os.path.join(self.home,
-                                                                name)))
-                    if not output.getType() and tag != 'output':
-                        output.setType(tag)
-                    self.addOutput(output)
-                else:
-                    self.addError('Missing \'name\' on <' + tag)
-
-
-        # Fix 'ids' on all outputs which don't have them
-        if self.hasOutputs():
-            if 1 == self.getOutputCount():
-                output = self.getOutputAt(0)
-                if not output.hasId():
-                    self.addDebug('Sole output [' + \
-                                      os.path.basename(output.getPath()) + \
-                                      '] identifier set to project name')
-                    output.setId(self.getName())
-            else:
-                # :TODO: A work in progress, not sure how
-                # we ought 'construct' ids.
-                for output in self.getOutputs():
-                    if not output.hasId():
-                        basename = os.path.basename(output.getPath())
-                        newId = basename
-                        # Strip off .jar or .lib (note: both same length)
-                        if newId.endswith('.jar') or newId.endswith('.lib'):
-                            newId = newId[:-4]
-                        # Strip off -@@DATE@@
-                        datePostfix = '-' + str(default.date_s)
-                        if newId.endswith(datePostfix):
-                            reduction = -1 * len(datePostfix)
-                            newId = newId[:reduction]
-                        # Assign...
-                        self.addDebug('Output [' + basename + \
-                                          '] identifier set to output ' + \
-                                          'basename: [' + newId + ']')
-                        output.setId(newId)
+        self.handle_outputs()
 
         # Grab all the work
         for w in self.getDomChildIterator('work'):
@@ -886,6 +833,81 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     def completeAndTransferAnnotations(self, b, workspace):
         b.complete(self, workspace)
         transferAnnotations(b, self)
+
+    def handle_outputs(self):
+        """
+        Parse all child elements that define outputs and resolve their ids
+        """
+        output_tags = ['jar',
+                       'assembly',
+                       'output',
+                       'pom']
+        rawOutputs = []
+        outputCountByType = {}
+
+        for tag in output_tags:
+            for tdom in self.getDomChildIterator(tag):
+                name = self.expandVariables(getDomAttributeValue(tdom, 'name'))
+
+                if self.home and name:
+                    output = Output(name, tdom, self)
+                    output.complete()
+                    output.setPath(os.path.abspath(os.path.join(self.home,
+                                                                name)))
+                    if not output.getType() and tag != 'output':
+                        output.setType(tag)
+                    rawOutputs.append(output)
+                    if output.getType() not in outputCountByType:
+                        outputCountByType[output.getType()] = 1
+                    else:
+                        outputCountByType[output.getType()] = \
+                            outputCountByType[output.getType()] + 1
+                else:
+                    self.addError('Missing \'name\' on <' + tag)
+
+
+        # Fix 'ids' on all outputs which don't have them
+        for output in rawOutputs:
+            if not output.hasId():
+                if 1 == outputCountByType[output.getType()]:
+                    self.addDebug('Sole ' + output.getType() + ' output [' + \
+                                      os.path.basename(output.getPath()) + \
+                                      '] identifier set to project name')
+                    output.setId(self.getName())
+                else:
+                    # :TODO: A work in progress, not sure how
+                    # we ought 'construct' ids.
+                    basename = os.path.basename(output.getPath())
+                    newId = basename
+                    # Strip off .jar or .lib (note: both same length)
+                    if newId.endswith('.jar') or newId.endswith('.lib'):
+                        newId = newId[:-4]
+                    # Strip off -@@DATE@@
+                    datePostfix = '-' + str(default.date_s)
+                    if newId.endswith(datePostfix):
+                        reduction = -1 * len(datePostfix)
+                        newId = newId[:reduction]
+                    # Assign...
+                    self.addDebug('Output [' + basename + \
+                                      '] identifier set to output ' + \
+                                      'basename: [' + newId + ']')
+                    output.setId(newId)
+            self.addOutput(output)
+
+        # ensure id is unique per output type
+        for output_type in self.outputs.keys():
+            d = {}
+            remove = []
+            for o in self.outputs[output_type]:
+                if o.getId() in d:
+                    self.addWarning("Multiple " + output_type + " outputs " \
+                                        + " use id " + o.getId() \
+                                        + " dropping " + o.getPath())
+                    remove.append(o)
+                else:
+                    d[o.getId()] = True
+            for o in remove:
+                self.outputs[output_type].remove(o)
 
 class ProjectStatistics(Statistics):
     """Statistics Holder"""
