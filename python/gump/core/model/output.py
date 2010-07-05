@@ -27,6 +27,7 @@ OUTPUT_HOMEDIR = 'home'
 OUTPUT_JAR = 'jar'
 OUTPUT_LICENSE = 'license'
 OUTPUT_POM = 'pom'
+OUTPUT_TESTS_JAR = 'testsjar'
 
 # represents an <output/> element
 class Output(NamedModelObject):
@@ -67,3 +68,9 @@ class Output(NamedModelObject):
     def setType(self, t):
         """ optional type of output """
         self.type = t
+
+    def is_jar(self):
+        """ is this some sort of jar output? """
+        return self.type in [OUTPUT_BOOTCLASSPATH_JAR, \
+                                 OUTPUT_JAR, \
+                                 OUTPUT_TESTS_JAR]
