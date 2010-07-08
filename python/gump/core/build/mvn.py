@@ -19,6 +19,7 @@
 import os.path
 
 from gump import log
+from gump.actor.mvnrepoproxy.proxycontrol import PROXY_CONFIG
 from gump.core.model.workspace import CommandWorkItem, \
     REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
     STATE_FAILED, STATE_SUCCESS,  WORK_TYPE_BUILD
@@ -40,7 +41,7 @@ def write_mirror_entry(props, prefix, mirror_of, port):
     <mirror>
       <id>gump-%s</id>
       <name>Gump proxying %s</name>
-      <url>http://localhost:%s/%s</url>
+      <url>http://localhost:%s%s</url>
       <mirrorOf>%s</mirrorOf>
     </mirror>""" % (mirror_of, mirror_of, port, prefix, mirror_of) )
 
@@ -251,14 +252,9 @@ class Maven2Builder(RunSpecific):
                        localRepositoryDir))
         if not self.run.getEnvironment().noMvnRepoProxy:
             props.write("<mirrors>")
-            write_mirror_entry(props, 'maven2', 'central', \
-                                   self.run.getWorkspace().mvnRepoProxyPort)
-            write_mirror_entry(props, 'repo/m2-snapshot-repository', \
-                                   'apache.snapshots', \
-                                   self.run.getWorkspace().mvnRepoProxyPort)
-            write_mirror_entry(props, 'maven/2', \
-                                   'maven2-repository.dev.java.net', \
-                                   self.run.getWorkspace().mvnRepoProxyPort)
+            for (name, prefix, _url) in PROXY_CONFIG:
+                write_mirror_entry(props, prefix, name, \
+                                       self.run.getWorkspace().mvnRepoProxyPort)
             props.write("</mirrors>")
 
         props.write("</settings>")

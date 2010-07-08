@@ -17,6 +17,7 @@
 
 import os
 import os.path
+import tempfile
 import time
 import urllib
 
@@ -24,6 +25,17 @@ from gump import log
 from gump.core.model.output import OUTPUT_POM
 from gump.core.run.actor import AbstractRunActor, FinalizeRunEvent, \
     InitializeRunEvent
+
+# list of tuples listing all repositories we want to mirror
+#   each tuple consists of a name, the path prefix that identifies the
+#   repository and the real repository URL without that prefix
+#   (properly escaped to be used in a Java .properties file
+PROXY_CONFIG = [
+    ('central', '/maven2', 'http\://repo1.maven.org'),
+    ('apache.snapshots', '/repo/m2-snapshot-repository',
+     'http\://people.apache.org'),
+    ('maven2-repository.dev.java.net', '/maven/2', 'http\://download.java.net')
+    ]
 
 class MvnRepositoryProxyController(AbstractRunActor):
     """
@@ -69,14 +81,23 @@ class MvnRepositoryProxyController(AbstractRunActor):
 
     def spawnProxy(self):
         log.info('Starting mvn repository proxy')
+ 
+        propsfile = tempfile.NamedTemporaryFile(mode = 'w+',
+                                                suffix = '.properties')
+        log.info('Writing ' + propsfile.name)
+        for (_name, prefix, url) in PROXY_CONFIG:
+            propsfile.write("%s=%s\n" % (prefix, url))
+        propsfile.flush()
+
         try:
             proxyJar = os.path.join(os.environ.get('MVN_PROXY_HOME'),
                                     'repoproxy.jar')
-            log.info('Running: %s -jar %s %s'
-                     % (self.java, proxyJar, self.workspace.mvnRepoProxyPort))
+            log.info('Running: %s -jar %s %s %s'
+                     % (self.java, proxyJar, self.workspace.mvnRepoProxyPort,
+                        propsfile.name))
             # TODO emulate spawnlp on non-Unix platforms
             os.spawnlp(os.P_NOWAIT, self.java, self.java, '-jar', proxyJar,
-                       self.workspace.mvnRepoProxyPort)
+                       self.workspace.mvnRepoProxyPort, propsfile.name)
             # Hang back for a bit while the proxy starts up
             for _pWait in range(10):
                 try:
@@ -89,6 +110,7 @@ class MvnRepositoryProxyController(AbstractRunActor):
                     continue
         except:
             log.error('--- Failed to start proxy', exc_info=1)
+        propsfile.close()
 
     def saveLogAndStop(self):
         proxyLogFileName = 'proxyLog.html'
