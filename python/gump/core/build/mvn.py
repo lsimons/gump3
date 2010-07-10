@@ -65,7 +65,7 @@ def getMavenProperties(project):
                                                  property.value, '=')
     return properties
 
-def getMavenCommand(project, languageHelper):
+def getMavenCommand(project):
     """ Build an Maven command for this project """
     maven = project.mvn
 
@@ -81,14 +81,9 @@ def getMavenCommand(project, languageHelper):
     #
     basedir = maven.getBaseDirectory() or project.getBaseDirectory()
 
-    #
-    # Build a classpath (based upon dependencies)
-    #
-    (classpath, _bootclasspath) = languageHelper.getClasspaths(project)
-
     # Run Maven...
     cmd = Cmd('mvn', 'build_' + project.getModule().getName() + '_' + \
-                project.getName(), basedir, {'CLASSPATH':classpath})
+                project.getName(), basedir)
 
     cmd.addParameter('--batch-mode')
 
@@ -153,7 +148,7 @@ class Maven2Builder(RunSpecific):
             #
             # Get the appropriate build command...
             #
-            cmd = getMavenCommand(project, languageHelper)
+            cmd = getMavenCommand(project)
 
             if cmd:
                 # Execute the command ....
@@ -205,8 +200,8 @@ class Maven2Builder(RunSpecific):
                 project.addError(message)
                 project.changeState(STATE_FAILED, REASON_PREBUILD_FAILED)
 
-    def preview(self, project, languageHelper, _stats):
-        command = getMavenCommand(project, languageHelper) 
+    def preview(self, project, _languageHelper, _stats):
+        command = getMavenCommand(project) 
         command.dump()
 
     def generateMvnSettings(self, project, _languageHelper):

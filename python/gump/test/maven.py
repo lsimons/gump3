@@ -27,7 +27,7 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.core.model.state import *
-from gump.core.build.maven import MavenBuilder
+from gump.core.build.maven import generateMavenProperties, getMavenCommand
 
 import gump.core.language.java
 
@@ -57,18 +57,17 @@ class MavenTestSuite(UnitTestSuite):
         self.maven1=self.workspace.getProject('maven1')            
         self.assertNotNone('Needed a maven project', self.maven1)
         
-        self.mavenBuilder=MavenBuilder(self.run)
         self.javaHelper=gump.core.language.java.JavaHelper(self.run)
         
     def testMavenProperties(self):
                 
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())        
-        self.mavenBuilder.generateMavenProperties(self.maven1, self.javaHelper, 'test/unit-testing-maven.properties')
+        generateMavenProperties(self.maven1, self.javaHelper, 'test/unit-testing-maven.properties')
         
     def testMavenCommand(self):                
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())        
   
-        cmd=self.mavenBuilder.getMavenCommand(self.maven1,self.javaHelper)
+        cmd = getMavenCommand(self.maven1)
         
         # cmd.dump()
         
