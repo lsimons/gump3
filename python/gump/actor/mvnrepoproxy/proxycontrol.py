@@ -29,12 +29,17 @@ from gump.core.run.actor import AbstractRunActor, FinalizeRunEvent, \
 # list of tuples listing all repositories we want to mirror
 #   each tuple consists of a name, the path prefix that identifies the
 #   repository and the real repository URL without that prefix
-#   (properly escaped to be used in a Java .properties file
+#   (properly escaped to be used in a Java .properties file).
+# Since different mvn projects use different names for the same
+#  repository it is possible to have multiple listings for a single
+#  repo.  Each name has to be unique as has to be the combination of
+#  prefix and URL (i.e. each prefix must uniquely map to a real URL)
 PROXY_CONFIG = [
     ('central', '/maven2', 'http\://repo1.maven.org'),
     ('apache.snapshots', '/repo/m2-snapshot-repository',
      'http\://people.apache.org'),
-    ('maven2-repository.dev.java.net', '/maven/2', 'http\://download.java.net')
+    ('maven2-repository.dev.java.net', '/maven/2', 'http\://download.java.net'),
+    ('m2.dev.java.net', '/maven/2', 'http\://download.java.net')
     ]
 
 class MvnRepositoryProxyController(AbstractRunActor):
@@ -84,9 +89,12 @@ class MvnRepositoryProxyController(AbstractRunActor):
  
         propsfile = tempfile.NamedTemporaryFile(mode = 'w+',
                                                 suffix = '.properties')
+        known_prefixes = {}
         log.info('Writing ' + propsfile.name)
         for (_name, prefix, url) in PROXY_CONFIG:
-            propsfile.write("%s=%s\n" % (prefix, url))
+            if prefix not in known_prefixes:
+                propsfile.write("%s=%s\n" % (prefix, url))
+                known_prefixes[prefix] = True
         propsfile.flush()
 
         try:
