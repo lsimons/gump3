@@ -45,16 +45,16 @@ echo "--------------------------------------------------"
 echo "Run ... $GUMP_PYTHON gump/test/pyunit.py"
 $GUMP_PYTHON gump/test/pyunit.py
 
-echo "--------------------------------------------------"
-echo "Run the environment check"
-$GUMP_PYTHON ../bin/env.py
+#echo "--------------------------------------------------"
+#echo "Run the environment check"
+#$GUMP_PYTHON ../bin/env.py
 
 
-echo "--------------------------------------------------"
+#echo "--------------------------------------------------"
 # echo "Run the Workspace check"
 # $GUMP_PYTHON ../bin/check.py -w ../metadata/test-workspace.xml all --debug
 
 
-echo "--------------------------------------------------"
+#echo "--------------------------------------------------"
 # echo "Run the Workspace preview"
 # $GUMP_PYTHON ../bin/preview.py -w ../metadata/test-workspace.xml all --debug

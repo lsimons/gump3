@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <workspace name="test"
-	       basedir="/data/gump" 
-           jardir="/data/gump/jars/latest"
-           pkgdir="/data/package"
+	   basedir="/tmp/gump" 
+           jardir="/tmp/gump/jars/latest"
+           pkgdir="/tmp/package"
            version="0.4">
   <property name="build.sysclasspath" value="only"/>
   <profile href="no_such_profile.xml"/>

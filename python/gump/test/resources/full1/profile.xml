@@ -27,7 +27,7 @@
 
   <repository href="repository1.xml"/>
   <repository href="svn_repository1.xml"/>
-  <repository href="artifact_repository1.xml"/>
+  <!--repository href="artifact_repository1.xml"/-->
 
   <!-- Override package1 to be a package -->
   <project name='package1' package='package1' />

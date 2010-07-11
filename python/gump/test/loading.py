@@ -54,7 +54,7 @@ class LoadingTestSuite(UnitTestSuite):
         self.performLoad('gump/test/resources/full1/workspace.xml')
         
     def testBroken1(self):
-        self.performLoad('gump/test/resources/broken1/workspace.xml')
+        self.performLoad('gump/test/resources/broken1/broken_workspace.xml')
         
     # :TODO: Need to fix
     #def testCircular1(self):

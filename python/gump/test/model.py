@@ -67,6 +67,10 @@ class ModelTestSuite(UnitTestSuite):
         self.module3=self.workspace.getModule('module3')
         self.module4=self.workspace.getModule('module4')
         self.module5=self.workspace.getModule('module5')
+
+        for p in [self.project1, self.project2, self.project3, self.project4,
+                  self.module1, self.module2, self.module3, self.module4]:
+            p.resetState()
         
     def suiteTearDown(self):
         self.workspace=None
@@ -169,17 +173,17 @@ class ModelTestSuite(UnitTestSuite):
         
         self.assertTrue('Module has CVS',
                         module1.getScm().getScmType() == SCM_TYPE_CVS)
-        self.assertNonZeroString('CVSROOT',module1.cvs.getCvsRoot())
-        self.assertNonZeroString('Has Tag',module1.cvs.getTag())
+        self.assertNonZeroString('CVSROOT',module1.getScm().getCvsRoot())
+        self.assertNonZeroString('Has Tag',module1.getScm().getTag())
         self.assertNonZeroString('Has Tag',module2.getTag())
     
     def testSvn(self):
         svnmodule1= self.workspace.getModule('svn_module1')
         
         self.assertTrue('Module has SVN',
-                        module1.getScm().getScmType() == SCM_TYPE_SVN)
-        self.assertNonZeroString('SVN URL',svnmodule1.svn.getRootUrl())
-        self.assertTrue('SVN Dir',svnmodule1.svn.hasDir())
+                        svnmodule1.getScm().getScmType() == SCM_TYPE_SVN)
+        self.assertNonZeroString('SVN URL',svnmodule1.getScm().getRootUrl())
+        self.assertTrue('SVN Dir',svnmodule1.getScm().hasDir())
     
     def testDependencyMapping(self):
         
@@ -201,16 +205,32 @@ class ModelTestSuite(UnitTestSuite):
         project3=self.project3
         project4=self.project4
         
+        self.assertEqual('Initial state should be UNSET',
+                         project1.getState(), STATE_UNSET)
+        self.assertEqual('Initial state should be UNSET',
+                         project2.getState(), STATE_UNSET)
+        self.assertEqual('Initial state should be UNSET',
+                         project3.getState(), STATE_UNSET)
+        self.assertEqual('Initial state should be UNSET',
+                         project4.getState(), STATE_UNSET)
+
         # Make one 'packaged'
-        module1.changeState(STATE_COMPLETE,REASON_PACKAGE)
+        module1.changeState(STATE_COMPLETE, REASON_PACKAGE)
         
         # Make one 'failed'
         module3.changeState(STATE_FAILED)
         
-        self.assertNotEqual('Complete State ought NOT propagate down', project1.getState(), STATE_COMPLETE)
-        
-        self.assertEqual('State ought propagate to here', project4.getState(), STATE_PREREQ_FAILED)
-        self.assertNotEqual('State ought NOT propagate like this', project4.getState(), STATE_FAILED)
+        self.assertNotEqual('Complete State ought NOT propagate down',
+                            project1.getState(), STATE_COMPLETE)
+
+        self.assertEqual('State ought propagate to here',
+                         project3.getState(), STATE_FAILED)
+        self.assertEqual('project4 is a direct dependee of project3',
+                         project3.hasDirectDependee(project4), True)
+        self.assertNotEqual('State ought NOT propagate like this',
+                            project4.getState(), STATE_FAILED)
+        self.assertEqual('State ought propagate to here',
+                         project4.getState(), STATE_PREREQ_FAILED)
     
     def testMetadataLocations(self):
         module1=self.module1

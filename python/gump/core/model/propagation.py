@@ -33,6 +33,10 @@ class Propogatable(Stateful):
         self.cause=None	# Primary Cause
         self.causes=[]
             
+    def resetState(self):
+        """ Used by Unit Tests only """
+        Stateful.setStatePair(self, StatePair())        
+
     def changeState(self,state,reason=REASON_UNSET,cause=None,message=None):  
           
         #
