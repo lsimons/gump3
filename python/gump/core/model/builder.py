@@ -293,20 +293,29 @@ class Maven2(Builder):
     def __init__(self, dom, project):
         Builder.__init__(self, dom, project)
 
-        # Import the goal
         self.goal = self.getDomAttributeValue('goal', 'package')
 
         self.local_repo = self.getDomAttributeValue('separateLocalRepository',
                                                     'False')
+        self.profile = self.getDomAttributeValue('profile')
 
     def getGoal(self):
+        """ The goal to execute """
         return self.goal
+
+    def getProfile(self):
+        """ The profile to use, may be None """
+        return self.profile
 
     def dump(self, indent = 0, output = sys.stdout):
         """ Display the contents of this object """
         Builder.dump(self, indent, output)
         i = getIndent(indent + 1)
         output.write(i + 'Goal: ' + self.getGoal() + '\n')
+        if self.profile:
+            output.write(i + 'Profile: ' + self.getProfile() + '\n')
+        else:
+            output.write(i + 'using default profile.\n')
 
     def needsSeparateLocalRepository(self):
         """ Whether a separate local repository will be used for this build """

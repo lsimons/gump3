@@ -99,22 +99,12 @@ def getMavenCommand(project):
     props = getMavenProperties(project)
     cmd.addNamedParameters(props)
 
-    #
-    # Suppress downloads
-    #
-
-    # As long as we don't know how to pass our local artifacts to
-    # mvn there is no point in using the offline mode
-    #
-    # cmd.addParameter('--offline')
-
-    #
-    #       This sets the *defaults*, a workspace could override them.
-    #
-    #cmd.addPrefixedParameter('-D', 'build.sysclasspath', 'only', '=')
-
     cmd.addParameter('--settings')
     cmd.addParameter(locateMavenSettings(project))
+
+    profile = maven.getProfile()
+    if profile:
+        cmd.addPrefixedParameter('-P', profile)
 
     # End with the goal...
     if goal: 
