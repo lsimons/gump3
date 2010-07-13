@@ -17,7 +17,7 @@
 
 """
 
-    Paths (e.g. Java Classpaths, CSharp Assembly Paths, etc.)
+    Paths (e.g. Java Classpaths etc.)
     
 """
 
@@ -136,4 +136,3 @@ class ArtifactPath(Annotatable):
         return os.pathsep.join(self.getSimplePathList())
             
 class Classpath(ArtifactPath): pass
-class AssemblyPath(ArtifactPath): pass

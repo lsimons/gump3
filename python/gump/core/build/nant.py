@@ -26,6 +26,23 @@ from gump.util.work import CommandWorkItem, WORK_TYPE_BUILD
 from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
     REASON_PREBUILD_FAILED, STATE_FAILED, STATE_SUCCESS
 
+def getNAntProperties(project):
+    """ Get properties for a project """
+    return collect_properties(project.getWorkspace().getProperties() + \
+                                  project.getNAnt().getProperties())
+
+def getNAntSysProperties(project):
+    """ Get sysproperties for a project """
+    return collect_properties(project.getWorkspace().getSysProperties() + \
+                                  project.getNAnt().getSysProperties())
+
+def collect_properties(props):
+    """ collect named properties for a project """
+    properties = Parameters()
+    for prop in props:
+        properties.addPrefixedNamedParameter('-D:', prop.name, prop.value, '=')
+    return properties
+
 class NAntBuilder(RunSpecific):
     """
         A NAnt builder (uses nant to build projects)
@@ -38,7 +55,7 @@ class NAntBuilder(RunSpecific):
         """ 
         RunSpecific.__init__(self, run)
 
-    def buildProject(self, project, language, _stats):
+    def buildProject(self, project, _language, _stats):
         """
                 Build a project using NAnt, based off the <nant metadata.
 
@@ -52,7 +69,7 @@ class NAntBuilder(RunSpecific):
                      '] : ' + project.getName())
 
         # Get the appropriate build command...
-        cmd = self.getNAntCommand(project, language)
+        cmd = self.getNAntCommand(project)
 
         if cmd:
             # Execute the command ....
@@ -73,7 +90,7 @@ class NAntBuilder(RunSpecific):
                 # For now, things are going good...
                 project.changeState(STATE_SUCCESS)
 
-    def getNAntCommand(self, project, languageHelper):
+    def getNAntCommand(self, project):
         """
         Build an NANT command for this project, based on the <nant metadata
         select targets and build files as appropriate.
@@ -102,23 +119,17 @@ class NAntBuilder(RunSpecific):
         # Where to run this:
         basedir = nant.getBaseDirectory() or project.getBaseDirectory()
 
-        # Build a classpath (based upon dependencies)
-        #(classpath, bootclasspath) = language.getClasspaths(project)
-
         # Get properties
-        properties = self.getNAntProperties(project)
+        properties = getNAntProperties(project)
 
         # Get system properties
-        sysproperties = self.getNAntSysProperties(project)
-
-        # Library Path
-        libpath = languageHelper.getAssemblyPath(project)
+        sysproperties = getNAntSysProperties(project)
 
         # Run NAnt...
         cmd = Cmd(self.run.env.get_nant_command(),
                   'build_' + project.getModule().getName() + '_' + \
                     project.getName(), 
-                  basedir, {'DEVPATH' : libpath})
+                  basedir)
 
         # Launch with specified framework (e.g. mono-1.0.1) if
         # required.
@@ -159,28 +170,10 @@ class NAntBuilder(RunSpecific):
 
         return cmd
 
-    def getNAntProperties(self, project):
-        """ Get properties for a project """
-        properties = Parameters()
-        for prop in project.getWorkspace().getProperties() + \
-                project.getNAnt().getProperties():
-            properties.addPrefixedNamedParameter('-D:', prop.name, 
-                                                 prop.value, '=')
-        return properties
-
-    def getNAntSysProperties(self, project):
-        """ Get sysproperties for a project """
-        properties = Parameters()
-        for prop in project.getWorkspace().getSysProperties() + \
-                project.getNAnt().getSysProperties():
-            properties.addPrefixedNamedParameter('-D:', prop.name, 
-                                                 prop.value, '=')
-        return properties
-
-    def preview(self, project, language, _stats):
+    def preview(self, project, _language, _stats):
         """
                 Preview what an NAnt build would look like.
         """
-        cmd = self.getNAntCommand(project, language) 
+        cmd = self.getNAntCommand(project) 
         cmd.dump()
  

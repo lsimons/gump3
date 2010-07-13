@@ -29,8 +29,6 @@ import gump.core.config
 from gump.core.model.state import *
 from gump.core.build.nant import NAntBuilder
 
-import gump.core.language.csharp
-
 from gump.util import *
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
@@ -58,12 +56,11 @@ class NAntTestSuite(UnitTestSuite):
         self.assertNotNone('Needed a nant project', self.nant1)
         
         self.nantBuilder=NAntBuilder(self.run)
-        self.csharpHelper=gump.core.language.csharp.CSharpHelper(self.run)
    
     def testNAntCommand(self):                
         self.assertTrue('NAnt project has a NAnt object', self.nant1.hasNAnt())        
   
-        cmd=self.nantBuilder.getNAntCommand(self.nant1,self.csharpHelper)
+        cmd=self.nantBuilder.getNAntCommand(self.nant1)
         
         #cmd.dump()
         

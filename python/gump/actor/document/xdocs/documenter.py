@@ -2044,11 +2044,6 @@ This page helps Gumpmeisters (and others) observe community progress.
                                       project)
                 self.displayClasspath(miscSection, bootclasspath,
                                       'Boot Classpath', project)
-            elif Project.CSHARP_LANGUAGE == language:
-                csharpHelper = helper
-                libpath = csharpHelper.getAssemblyPathObject(project)
-                self.displayClasspath(miscSection, libpath, 'Assemblies',
-                                      project)
         else:
             miscSection.createParagraph('No build command (so classpaths/' + \
                                             'assembly path irrelevant)')
