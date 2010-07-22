@@ -28,8 +28,8 @@ import gump.util.process.command
 
 from gump import log
 from gump.core.config import default
-from gump.core.model.builder import Ant, NAnt, Maven, Maven2, Script, \
-    Configure, Make
+from gump.core.model.builder import Ant, NAnt, Maven, Maven2, Mvn2Install, \
+    Script, Configure, Make
 from gump.core.model.depend import Dependable, importDomDependency
 from gump.core.model.misc import AddressPair, \
     Resultable, Positioned, Mkdir, Delete, JunitReport, Work
@@ -461,6 +461,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.maven, self)
 
+        # Import any <mvn2install part [if not packaged]
+        if self.hasDomChild('mvn2install') and not packaged:
+            self.mvn = Mvn2Install(self.getDomChild('mvn2install'), self)
+            self.builder.append(self.mvn)
+
+            # Copy over any XML errors/warnings
+            # :TODO:#1: transferAnnotations(self.xml.maven, self)
+
         # Import any <script part [if not packaged]
         if self.hasDomChild('script') and not packaged:
             self.script = Script(self.getDomChild('script'), self)
@@ -644,12 +652,6 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
         if self.ant:
             self.addJVMArgs(self.getDomChild("ant"))
-
-        if self.maven:
-            self.addJVMArgs(self.getDomChild("maven"))
-
-        if self.mvn:
-            self.addJVMArgs(self.getDomChild("mvn"))
 
         #
         # complete properties

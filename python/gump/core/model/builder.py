@@ -328,6 +328,38 @@ class Maven2(Builder):
             return None
         return self.local_repo
 
+class Mvn2Install(Maven2):
+    """ Installs a single file into the local mvn repository """
+
+    def __init__(self, dom, project):
+        Maven2.__init__(self, dom, project)
+        self.goal = 'install:install-file'
+        self.packaging = self.getDomAttributeValue('packaging', 'pom')
+        self.file = self.getDomAttributeValue('file', 'pom.xml')
+        self.version = self.getDomAttributeValue('version')
+        self.artifactId = self.getDomAttributeValue('artifactId')
+
+    def expand(self, project, workspace):
+        """ Turns the builder's attributes into properties """
+        Builder.expand(self, project, workspace)
+
+        impl = getDOMImplementation()
+        if (self.artifactId):
+            self.add_property(impl, 'artifactId', self.artifactId)
+        else:
+            self.add_property(impl, 'artifactId', project.getName())
+        self.add_property(impl, 'groupId', project.getArtifactGroup())
+        self.add_property(impl, 'packaging', self.packaging)
+        self.add_property(impl, 'file', self.file)
+        self.add_property(impl, 'version', self.version)
+
+    def add_property(self, impl, name, value):
+        """ Adds a named property """
+        doc = impl.createDocument(None, 'property', None)
+        prop = doc.documentElement
+        prop.setAttribute('name', name)
+        prop.setAttribute('value', value)
+        self.importProperty(prop)
 
 # represents an <configure/> element
 class Configure(Builder):
