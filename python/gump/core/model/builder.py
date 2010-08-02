@@ -23,15 +23,17 @@
 
 import os
 import sys
+import xml.dom.minidom
 from xml.dom import getDOMImplementation
 
 from gump.util import getIndent
 from gump.util.domutils import domAttributeIsTrue, getDomAttributeValue, \
-    hasDomAttribute, hasDomChild, transferDomAttributes
+    getDomChild, getDomTextValue, hasDomAttribute, hasDomChild, \
+    transferDomAttributes
 
 from gump.core.model.depend import INHERIT_NONE, ProjectDependency
 from gump.core.model.object import ModelObject
-from gump.core.model.property import PropertyContainer
+from gump.core.model.property import Property, PropertyContainer
 
 # represents a generic build (e.g. <ant/>) element
 class Builder(ModelObject, PropertyContainer):
@@ -198,10 +200,10 @@ class Builder(ModelObject, PropertyContainer):
         # Complete them all
         self.completeProperties(workspace)
 
-        # Set this up...
         if self.hasDomAttribute('basedir'):
             self.basedir = os.path.abspath(os.path.join(
-                    self.project.getModule().getWorkingDirectory() or dir.base,
+                    self.project.getModule().getWorkingDirectory()
+                    or dir.base,
                     self.getDomAttributeValue('basedir')
                     ))
         else:
@@ -331,35 +333,109 @@ class Maven2(Builder):
 class Mvn2Install(Maven2):
     """ Installs a single file into the local mvn repository """
 
+    ARTIFACT_ID = 'artifactId'
+    FILE = 'file'
+    GOAL = 'install:install-file'
+    PACKAGING = 'packaging'
+    PARENT = 'parent'
+    POM = 'pom'
+    VERSION = 'version'
+
     def __init__(self, dom, project):
         Maven2.__init__(self, dom, project)
-        self.goal = 'install:install-file'
-        self.packaging = self.getDomAttributeValue('packaging', 'pom')
-        self.file = self.getDomAttributeValue('file', 'pom.xml')
-        self.version = self.getDomAttributeValue('version')
-        self.artifactId = self.getDomAttributeValue('artifactId')
+        self.goal = Mvn2Install.GOAL
+        self.packaging = self.getDomAttributeValue(Mvn2Install.PACKAGING,
+                                                   Mvn2Install.POM)
+        self.file = self.getDomAttributeValue(Mvn2Install.FILE, 'pom.xml')
+        self.version = self.getDomAttributeValue(Mvn2Install.VERSION)
+        self.artifactId = self.getDomAttributeValue(Mvn2Install.ARTIFACT_ID)
 
     def expand(self, project, workspace):
         """ Turns the builder's attributes into properties """
         Builder.expand(self, project, workspace)
 
         impl = getDOMImplementation()
-        if (self.artifactId):
-            self.add_property(impl, 'artifactId', self.artifactId)
-        else:
-            self.add_property(impl, 'artifactId', project.getName())
-        self.add_property(impl, 'groupId', project.getArtifactGroup())
-        self.add_property(impl, 'packaging', self.packaging)
-        self.add_property(impl, 'file', self.file)
-        self.add_property(impl, 'version', self.version)
+        self._add_property(impl, Mvn2Install.ARTIFACT_ID,
+                           self.artifactId or project.getName())
+        self._add_property(impl, 'groupId', project.getArtifactGroup())
+        self._add_property(impl, Mvn2Install.PACKAGING, self.packaging)
+        self._add_property(impl, Mvn2Install.FILE, self.file)
+        if self.version:
+            self._add_property(impl, Mvn2Install.VERSION, self.version)
+        elif not self.packaging == Mvn2Install.POM:
+            project.addError("version attribute is mandatory if the file is"
+                             + " not a POM.")
 
-    def add_property(self, impl, name, value):
+    def getProperties(self):
+        """
+        Get a list of all the property objects - potentially parse POM
+        for version
+        """
+        props = PropertyContainer.getProperties(self)[:]
+
+        if not self.version and self.packaging == Mvn2Install.POM:
+            try:
+                pomDoc = self._read_pom()
+                root = pomDoc.documentElement
+                if not root.tagName == 'project':
+                    self.project.addError('file is not a POM, its root element'
+                                          + ' is ' + root.tagName)
+                    return
+
+                version = _extract_version_from_pom(root)
+
+                if not version:
+                    self.project.addError("POM doesn't specify a version,"
+                                          + " you must provide the version"
+                                          + " attribute.")
+                    return
+
+                version_text = getDomTextValue(version)
+                if '${' in version_text:
+                    self.project.addError('POM uses a property reference as'
+                                          + ' version which is not supported'
+                                          + ' by Gump.  You must provide an'
+                                          + ' explicit version attribute to'
+                                          + ' mvn2install.')
+                else:
+                    impl = getDOMImplementation()
+                    dom = _create_dom_property(impl, Mvn2Install.VERSION,
+                                               version_text)
+                    prop = Property(Mvn2Install.VERSION, dom, self.project)
+                    prop.complete(self.project, self.project.getWorkspace())
+                    props.append(prop)
+            except Exception, details:
+                self.project.addError('failed to parse POM because of '
+                                      + str(details))
+        return props
+
+    def _add_property(self, impl, name, value):
         """ Adds a named property """
-        doc = impl.createDocument(None, 'property', None)
-        prop = doc.documentElement
-        prop.setAttribute('name', name)
-        prop.setAttribute('value', value)
-        self.importProperty(prop)
+        self.importProperty(_create_dom_property(impl, name, value))
+
+    def _read_pom(self):
+        """ locates the POM, parses it and returns it as DOM Document """ 
+        pom = os.path.join(self.getBaseDirectory(), self.file)
+        return xml.dom.minidom.parse(pom)
+
+def _create_dom_property(impl, name, value):
+    """ creates and returns a DOM element for a named property """
+    doc = impl.createDocument(None, 'property', None)
+    prop = doc.documentElement
+    prop.setAttribute('name', name)
+    prop.setAttribute('value', value)
+    return prop
+
+def _extract_version_from_pom(root):
+    """ Tries to extract the version DOM element from a POM DOM tree """
+    version = None
+    if hasDomChild(root, Mvn2Install.VERSION):
+        version = getDomChild(root, Mvn2Install.VERSION)
+    elif hasDomChild(root, Mvn2Install.PARENT):
+        parent = getDomChild(root, Mvn2Install.PARENT)
+        if hasDomChild(parent, Mvn2Install.VERSION):
+            version = getDomChild(parent, Mvn2Install.VERSION)
+    return version
 
 # represents an <configure/> element
 class Configure(Builder):
