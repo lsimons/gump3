@@ -251,7 +251,7 @@ class ModelLoader:
                 else:
                     # Just construct
                     if name: object=cls(name,dom)
-                    else:    object.cls(dom)
+                    else:    object=cls('',dom)
                     rootObject=object
                
                 if object:
