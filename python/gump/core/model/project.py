@@ -32,7 +32,7 @@ from gump.core.model.builder import Ant, NAnt, Maven, Maven2, Mvn2Install, \
     Script, Configure, Make
 from gump.core.model.depend import Dependable, importDomDependency
 from gump.core.model.misc import AddressPair, \
-    Resultable, Positioned, Mkdir, Delete, JunitReport, Work
+    Resultable, Positioned, Mkdir, Delete, Report, Work
 from gump.core.model.object import NamedModelObject
 from gump.core.model.output import Output
 from gump.core.model.state import REASON_CONFIG_FAILED, STATE_FAILED, \
@@ -583,11 +583,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             self.deletes.append(delete)
 
         # Grab all the reports (junit for now)
-        if self.hasDomChild('junitreport'):
-            junitreport = self.getDomChild('junitreport')
-            report = JunitReport(junitreport, self)
-            report.complete()
-            self.reports.append(report)
+        for r in self.getDomChildIterator('junitreport'):
+            self._add_report(r)
+        for r in self.getDomChildIterator('report'):
+            self._add_report(r)
 
         # Grab all notifications
         for notifyEntry in self.getDomChildIterator('nag'):
@@ -910,6 +909,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                     d[o.getId()] = True
             for o in remove:
                 self.outputs[output_type].remove(o)
+
+    def _add_report(self, report_dom):
+        report = Report(report_dom, self)
+        report.complete()
+        self.reports.append(report)
 
 class ProjectStatistics(Statistics):
     """Statistics Holder"""

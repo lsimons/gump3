@@ -23,7 +23,7 @@
 
 import os
 
-from gump.core.model.object import NamedModelObject, ModelObject
+from gump.core.model.object import ModelObject
 
 class Positioned:
     def __init__(self): 
@@ -112,8 +112,8 @@ class Resolvable(ModelObject):
     def getResolvedPath(self):
         return self.path
 
-# represents a <junitreport/> element
-class JunitReport(Resolvable):
+# represents a <report/> element
+class Report(Resolvable):
     def __init__(self, dom, owner):
         Resolvable.__init__(self, dom, owner)
 
