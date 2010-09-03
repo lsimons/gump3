@@ -45,13 +45,15 @@ class Database:
         """
         See PEP 249.
         """
-        pass
+        if self._conn:
+            self._conn.commit()
 
     def rollback(self):
         """
         See PEP 249.
         """
-        pass
+        if self._conn:
+            self._conn.rollback()
 
     def cursor(self):
         """
@@ -109,9 +111,31 @@ class DbHelper:
         self.database = database
 
     def __del__(self):
+        self.close()
+
+    def close(self):
+        """
+        Closes the connection
+        """
         if self.conn:
             self.conn.close()
             self.conn = None
+
+    def commit(self):
+        """
+        Commits the work performed so far
+        """
+        if self.conn:
+            log.info('SQL committing')
+            self.conn.commit()
+
+    def rollback(self):
+        """
+        Rolls back the work performed so far
+        """
+        if self.conn:
+            log.info('SQL rolling back')
+            self.conn.rollback()
 
     def value(self, value):
         """
@@ -138,15 +162,18 @@ class DbHelper:
         return statement
 
     def select(self, table_name, column_name, entity_name, columns):
+        if not self.conn:
+            raise RuntimeError('connection is closed')
+
         statement = self.generateSelect(table_name, column_name, entity_name)
         settings = {}
         cursor = None
         try:
             try:
                 cursor = self.conn.cursor()
-                log.debug('SQL: ' + statement)
+                log.info('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.debug('SQL affected: ' + `affected`)
+                log.info('SQL affected: ' + `affected`)
 
                 if affected > 0: # might be nothing in db yet
                     row = cursor.fetchall()[0] # Ought be only one...
@@ -204,15 +231,18 @@ class DbHelper:
         Take a dictionary of settings (column names/types) and 
         perform an insert.
         """
+        if not self.conn:
+            raise RuntimeError('connection is closed')
+
         statement = self.generateInsert(table_name, settings)
         affected = 0
         cursor = None
         try:
             try:
                 cursor = self.conn.cursor()
-                log.debug('SQL: ' + statement)
+                log.info('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.debug('SQL Affected: ' + `affected`)
+                log.info('SQL Affected: ' + `affected`)
             except Exception, details:
                 if cursor:
                     self.logWarnings(cursor)
@@ -241,6 +271,9 @@ class DbHelper:
         Take a dictionary of settings (column names/types) and 
         perform an update. Note: The index is a single name.
         """
+        if not self.conn:
+            raise RuntimeError('connection is closed')
+
         statement = self.generateUpdate(table_name, column_name, entity_name,
                                         settings)
         affected = 0
@@ -248,9 +281,9 @@ class DbHelper:
         try:
             try:
                 cursor = self.conn.cursor()
-                log.debug('SQL: ' + statement)
+                log.info('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.debug('SQL Affected: ' + `affected` + ':' + `result`)
+                log.info('SQL Affected: ' + `affected`)
             except Exception, details:
                 if cursor:
                     self.logWarnings(cursor)
@@ -276,15 +309,18 @@ class DbHelper:
         Perform an SQL DELETE 
         Index is single name
         """
+        if not self.conn:
+            raise RuntimeError('connection is closed')
+
         statement = self.generateDelete(table_name, column_name, entity_name)
         affected = 0
         cursor = None
         try:
             try:
                 cursor = self.conn.cursor()
-                log.debug('SQL: ' + statement)
+                log.info('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.debug('SQL Affected: ' + `affected`)
+                log.info('SQL Affected: ' + `affected`)
             except Exception, details:
                 if cursor:
                     self.logWarnings(cursor)

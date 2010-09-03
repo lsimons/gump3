@@ -190,17 +190,22 @@ class StatisticsDB:
             for (key, value) in extras.items():
                 settings[key] = value
 
+        def setter(helper):
+            helper.set(table_name, column_name, stats.name, settings)
+            helper.commit()
+
         # Perform the update (we've ensured a row exists).
-        self._with_reconnect_on_error(\
-            lambda helper:
-                helper.set(table_name, column_name, stats.name, settings))
+        self._with_reconnect_on_error(setter)
 
     def _delStats(self, table_name, column_name, stats):
         """ Perform an SQL DELETE """
+
+        def deleter(helper):
+            helper.delete(table_name, column_name, stats.name)
+            helper.commit()
+
         # Perform the delete
-        self._with_reconnect_on_error(\
-            lambda helper:
-                helper.delete(table_name, column_name, stats.name))
+        self._with_reconnect_on_error(deleter)
 
     def _getBaseStats(self, stats, settings):
         """
@@ -244,7 +249,7 @@ class StatisticsDB:
                         #print "SET ATTR : " + `value` 
                         settings[column] = "'" +\
                             value.strftime('%Y-%m-%d %H:%M:%S') + "'"
-                    elif isinstance(value,types.StringTypes):
+                    elif isinstance(value, types.StringTypes):
                         settings[column] = "'" + str(value) + "'"
                     else:
                         settings[column] = str(value)

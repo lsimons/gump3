@@ -11,7 +11,7 @@
 #     http://www.apache.org/licenses/LICENSE-2.0
 # 
 # Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
+# distributed under the License is distributed on an "AS IS" BASIS, 
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
@@ -22,60 +22,51 @@
  
 """
 
-import os.path
-import os
-import sys
-import fnmatch
-
-from gump import log
-from gump.core.config import dir, default, basicConfig
-from gump.core.run.gumpenv import GumpEnvironment
-
-import gump.util
-import gump.util.work
-import gump.util.note
-
-from gump.core.model.workspace import Workspace
-from gump.core.model.module import Module
-from gump.core.model.project import Project
-from gump.core.model.depend import  ProjectDependency
-from gump.core.model.state import *
-    
 ###############################################################################
 # Init
 ###############################################################################
 
 # Overall objectives
-OBJECTIVE_UNSET=0
-OBJECTIVE_UPDATE=0x01
-OBJECTIVE_BUILD=0x02
-OBJECTIVE_CHECK=0x04
-OBJECTIVE_DOCUMENT=0x08
+OBJECTIVE_UNSET = 0
+OBJECTIVE_UPDATE = 0x01
+OBJECTIVE_BUILD = 0x02
+OBJECTIVE_CHECK = 0x04
+OBJECTIVE_DOCUMENT = 0x08
 
-OBJECTIVE_REDO=OBJECTIVE_UPDATE | OBJECTIVE_BUILD
-OBJECTIVE_INTEGRATE=OBJECTIVE_UPDATE | OBJECTIVE_BUILD | \
+OBJECTIVE_REDO = OBJECTIVE_UPDATE | OBJECTIVE_BUILD
+OBJECTIVE_INTEGRATE = OBJECTIVE_UPDATE | OBJECTIVE_BUILD | \
                         OBJECTIVE_DOCUMENT
-OBJECTIVE_OFFLINE=OBJECTIVE_BUILD | OBJECTIVE_DOCUMENT
+OBJECTIVE_OFFLINE = OBJECTIVE_BUILD | OBJECTIVE_DOCUMENT
 
-# Features            
-FEATURE_UNSET=0
-FEATURE_STATISTICS=0x01
-FEATURE_RESULTS=0x02
-FEATURE_NOTIFY=0x04
-FEATURE_DIAGRAM=0x08
-FEATURE_SYNDICATE=0x10
-FEATURE_DESCRIBE=0x20
-FEATURE_PUBLISH=0x40
-FEATURE_DOCUMENT=0x80
-FEATURE_HISTORICAL=0x80
+# Features
+FEATURE_UNSET = 0
+FEATURE_STATISTICS = 0x01
+FEATURE_RESULTS = 0x02
+FEATURE_NOTIFY = 0x04
+FEATURE_DIAGRAM = 0x08
+FEATURE_SYNDICATE = 0x10
+FEATURE_DESCRIBE = 0x20
+FEATURE_PUBLISH = 0x40
+FEATURE_DOCUMENT = 0x80
+FEATURE_HISTORICAL = 0x100
 
-FEATURE_DEFAULT=FEATURE_STATISTICS|FEATURE_SYNDICATE|FEATURE_DESCRIBE|FEATURE_DOCUMENT|FEATURE_NOTIFY
-            
-FEATURE_ALL=FEATURE_STATISTICS|FEATURE_RESULTS|FEATURE_NOTIFY|FEATURE_DIAGRAM|    \
-                FEATURE_SYNDICATE|FEATURE_DESCRIBE|FEATURE_PUBLISH|FEATURE_DOCUMENT
-            
-FEATURE_OFFICIAL=FEATURE_ALL
-            
+FEATURE_DEFAULT = FEATURE_STATISTICS \
+    | FEATURE_SYNDICATE \
+    | FEATURE_DESCRIBE \
+    | FEATURE_DOCUMENT \
+    | FEATURE_NOTIFY
+
+FEATURE_ALL = FEATURE_STATISTICS \
+    | FEATURE_RESULTS \
+    | FEATURE_NOTIFY \
+    | FEATURE_DIAGRAM \
+    | FEATURE_SYNDICATE \
+    | FEATURE_DESCRIBE \
+    | FEATURE_PUBLISH \
+    | FEATURE_DOCUMENT
+
+FEATURE_OFFICIAL = FEATURE_ALL
+
 
 ###############################################################################
 # Classes
@@ -83,185 +74,188 @@ FEATURE_OFFICIAL=FEATURE_ALL
 
 class GumpRunOptions:
     """
-    
+
     GumpRunOptions are the 'switches' that dictate the code path
-    
+
     """
     def __init__(self):
  
-        self.debug=False	
-        self.verbose=False	
-        self.cache=True	# Defaults to CACHE
-        self.quick=True	# Defaults to QUICK
-        self.dated=False	# Defaults to NOT dated.
-        self.optimize=False	# Do the least ammount of work...
-        self.official=False	# Do a full run (with publishing e-mail)
-        self.historical=False # Historical Database
-        
+        self.debug = False
+        self.verbose = False
+        self.cache = True # Defaults to CACHE
+        self.quick = True # Defaults to QUICK
+        self.dated = False        # Defaults to NOT dated.
+        self.optimize = False     # Do the least ammount of work...
+        self.official = False     # Do a full run (with publishing e-mail)
+
         # Default is XDOCS/XHTML, but can also force text with --text 
-        self.text=False        
-        
+        self.text = False
+
         # Defautl for XDOCS is XHTML
-        self.xdocs=False
-        
-        self.objectives=OBJECTIVE_INTEGRATE
-        self.features=FEATURE_DEFAULT
-        
+        self.xdocs = False
+
+        self.objectives = OBJECTIVE_INTEGRATE
+        self.features = FEATURE_DEFAULT
+
+        self.resolver = None
+
     def isDated(self):
         return self.dated
-        
-    def setDated(self,dated):
-        self.dated=dated        
-        
-    def isHistorical(self):
-        return self.historical
-        
-    def setHistorical(self,historical):
-        self.historical=historical
-        
+
+    def setDated(self, dated):
+        self.dated = dated
+
+    def setHistorical(self, historical):
+        if historical:
+            self.enableFeature(FEATURE_HISTORICAL)
+        else:
+            self.disableFeature(FEATURE_HISTORICAL)
+
     def isOfficial(self):
         """
         Is an official run requested?
         """
         return self.official
-        
-    def setOfficial(self,official):
+
+    def setOfficial(self, official):
         """
         An official run
         """
-        self.official=official
-        self.features=FEATURE_OFFICIAL
-        
+        self.official = official
+        self.features = FEATURE_OFFICIAL
+
     def isQuick(self):
         """
         Is a 'quick' (not complete, i.e. list not sequence) run requested?
         """
         return self.quick
-        
-    def setQuick(self,quick):
+
+    def setQuick(self, quick):
         """
         Set a 'quick' (not complete, i.e. list not sequence) run request
-        """    
-        self.quick=quick
-        
+        """
+        self.quick = quick
+
     def isText(self):
         """
         Is Text documentation generation requested?
         """
         return self.text
-        
-    def setText(self,text):
-        self.text=text
-        
+
+    def setText(self, text):
+        self.text = text
+
     def isXDocs(self):
         """
         Is XDOC documentation generation requested?
         """
         return self.xdocs
-        
-    def setXDocs(self,xdocs):
+
+    def setXDocs(self, xdocs):
         """
         Set XDOC documentation generation
         """
-        self.xdocs=xdocs
-        
+        self.xdocs = xdocs
+
     def isCache(self):
         """
         Is metadata caching requested?
         """
         return self.cache
-        
-    def setCache(self,cache):
+
+    def setCache(self, cache):
         """
         Perform metadata caching
         """
-        self.cache=cache
-        
+        self.cache = cache
+
     def isDebug(self):
         """
         Is a debug run requested?
         """
         return self.debug
-        
-    def setDebug(self,debug):
-        self.debug=debug
-        
+
+    def setDebug(self, debug):
+        self.debug = debug
+
     def isVerbose(self):
         return self.verbose
-        
-    def setVerbose(self,verbose):
+
+    def setVerbose(self, verbose):
         """
         A verbose run
         """
-        self.verbose=verbose
+        self.verbose = verbose
 
-    def setResolver(self,resolver):
+    def setResolver(self, resolver):
         """
         The File/URL resolver (from Gump objects)
         """
-        self.resolver=resolver        
+        self.resolver = resolver
 
     def getResolver(self):
         return self.resolver
-        
+
     # Objectives...
-    def setObjectives(self,objectives):
+    def setObjectives(self, objectives):
         """
         Set the objectives
         """
-        self.objectives=objectives
-        
+        self.objectives = objectives
+
     def getObjectives(self):
         return self.objectives
-        
-    def _testObjectiveIsSet(self,objective):
+
+    def _testObjectiveIsSet(self, objective):
         """
         Helper to test a single objective
         """
-        if (self.objectives & objective): return True
+        if (self.objectives & objective):
+            return True
         return False
-        
+
     # Features...
-    def setFeatures(self,features):
+    def setFeatures(self, features):
         """
         Set the features
         """
-        self.features=features
-        
+        self.features = features
+
     def getFeatures(self):
         return self.features
-        
-    def disableFeature(self,feature):        
+
+    def disableFeature(self, feature):
         """
         Disable a specific feature (or bitwise or of features)
-        """    
+        """
         self.features = (self.features ^ feature)
-        
-    def enableFeature(self,feature):
+
+    def enableFeature(self, feature):
         """
         Enable a specific feature (or bitwise or of features)
         """
         self.features = (self.features | feature)
-        
-    def _testFeatureIsSet(self,feature):
+
+    def _testFeatureIsSet(self, feature):
         """
         A utility method to see if a feature is set.
         """
-        if (self.features & feature): return True
+        if (self.features & feature):
+            return True
         return False
-        
+
     def isUpdate(self):
         """
         Are Updates (CVS|SVN|...) to be performed?
         """
-        return self._testObjectiveIsSet(OBJECTIVE_UPDATE)        
-        
+        return self._testObjectiveIsSet(OBJECTIVE_UPDATE)
+
     def isBuild(self):
         """
         Are Builds (Ant|...) to be performed?
         """
         return self._testObjectiveIsSet(OBJECTIVE_BUILD)
-              
+
     def isCheck(self): 
         """
         Is this really jsut a 'check' or things?
@@ -290,10 +284,8 @@ class GumpRunOptions:
         """
         Is documentation to be created for this run?
         """
-        
-    def isDocument(self):
         return  self._testObjectiveIsSet(OBJECTIVE_DOCUMENT) and \
-                self._testFeatureIsSet(FEATURE_DOCUMENT)
+            self._testFeatureIsSet(FEATURE_DOCUMENT)
 
     def isSyndicate(self):
         """
