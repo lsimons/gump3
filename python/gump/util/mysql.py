@@ -126,7 +126,7 @@ class DbHelper:
         Commits the work performed so far
         """
         if self.conn:
-            log.info('SQL committing')
+            log.debug('SQL committing')
             self.conn.commit()
 
     def rollback(self):
@@ -134,7 +134,7 @@ class DbHelper:
         Rolls back the work performed so far
         """
         if self.conn:
-            log.info('SQL rolling back')
+            log.debug('SQL rolling back')
             self.conn.rollback()
 
     def value(self, value):
@@ -171,9 +171,9 @@ class DbHelper:
         try:
             try:
                 cursor = self.conn.cursor()
-                log.info('SQL: ' + statement)
+                log.debug('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.info('SQL affected: ' + `affected`)
+                log.debug('SQL affected: ' + `affected`)
 
                 if affected > 0: # might be nothing in db yet
                     row = cursor.fetchall()[0] # Ought be only one...
@@ -240,9 +240,9 @@ class DbHelper:
         try:
             try:
                 cursor = self.conn.cursor()
-                log.info('SQL: ' + statement)
+                log.debug('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.info('SQL Affected: ' + `affected`)
+                log.debug('SQL Affected: ' + `affected`)
             except Exception, details:
                 if cursor:
                     self.logWarnings(cursor)
@@ -281,9 +281,9 @@ class DbHelper:
         try:
             try:
                 cursor = self.conn.cursor()
-                log.info('SQL: ' + statement)
+                log.debug('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.info('SQL Affected: ' + `affected`)
+                log.debug('SQL Affected: ' + `affected`)
             except Exception, details:
                 if cursor:
                     self.logWarnings(cursor)
@@ -318,9 +318,9 @@ class DbHelper:
         try:
             try:
                 cursor = self.conn.cursor()
-                log.info('SQL: ' + statement)
+                log.debug('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.info('SQL Affected: ' + `affected`)
+                log.debug('SQL Affected: ' + `affected`)
             except Exception, details:
                 if cursor:
                     self.logWarnings(cursor)

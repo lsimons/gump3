@@ -65,8 +65,8 @@ class MvnRepositoryProxyController(AbstractRunActor):
                 if output.is_jar() or output.getType() == OUTPUT_POM:
                     fileName = os.path.abspath(output.getPath())
                     try:
-                        log.info('Publishing \'%s\' output \'%s\' to proxy'
-                                 % (output.getType(), fileName))
+                        log.debug('Publishing \'%s\' output \'%s\' to proxy'
+                                  % (output.getType(), fileName))
                         self.publish(groupId, output.getId(), fileName)
                     except:
                         log.error('Failed to publish \'%s\' to proxy' %
@@ -90,7 +90,7 @@ class MvnRepositoryProxyController(AbstractRunActor):
         propsfile = tempfile.NamedTemporaryFile(mode = 'w+',
                                                 suffix = '.properties')
         known_prefixes = {}
-        log.info('Writing ' + propsfile.name)
+        log.debug('Writing ' + propsfile.name)
         for (_name, prefix, url) in PROXY_CONFIG:
             if prefix not in known_prefixes:
                 propsfile.write("%s=%s\n" % (prefix, url))
