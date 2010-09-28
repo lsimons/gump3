@@ -300,7 +300,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                         output.setPath(expansions[0])
                     else:
                         log.debug("didn't find any match for " + path)
-        self.outputs_expanded = True
+            self.outputs_expanded = True
 
     def hasAnyOutputs(self):
         """
