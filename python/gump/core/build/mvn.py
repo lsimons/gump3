@@ -141,6 +141,12 @@ class Maven2Builder(RunSpecific):
             cmd = getMavenCommand(project)
 
             if cmd:
+                # Get/set JVM properties
+                jvmargs = languageHelper.getJVMArgs(project)
+                if jvmargs and len(jvmargs.items()) > 0:
+                    cmd.addEnvironment('MAVEN_OPTS',
+                                       jvmargs.formatCommandLine())
+
                 # Execute the command ....
                 cmdResult = execute(cmd, workspace.tmpdir)
 

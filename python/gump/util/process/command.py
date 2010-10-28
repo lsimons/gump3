@@ -200,7 +200,7 @@ class Cmd:
         for p in params.items():
           self.params.addNamedParameter(p.name,p.value,p.separator,p.prefix)
         
-    def addEnvirionment(self,name,val=None):
+    def addEnvironment(self,name,val=None):
         self.env[name]=val
         
     def formatCommandLine(self):

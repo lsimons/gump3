@@ -649,8 +649,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.hasDomChild('description'):
             self.desc = self.getDomChildValue('description')
 
-        if self.ant:
-            self.addJVMArgs(self.getDomChild("ant"))
+        jvmargs_parents = ['ant', 'maven', 'mvn']
+        for tag in jvmargs_parents:
+            if self.hasDomChild(tag):
+                self.addJVMArgs(self.getDomChild(tag))
 
         #
         # complete properties
