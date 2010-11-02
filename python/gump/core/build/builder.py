@@ -49,8 +49,8 @@ from gump.core.config import dir, default, basicConfig
 from gump.core.build.script import ScriptBuilder
 from gump.core.build.ant import AntBuilder
 from gump.core.build.nant import NAntBuilder
-from gump.core.build.maven import MavenBuilder
-from gump.core.build.mvn import Maven2Builder
+from gump.core.build.maven import Maven1Builder
+from gump.core.build.mvn import MavenBuilder
 from gump.core.build.configure import ConfigureBuilder
 from gump.core.build.make import MakeBuilder
 
@@ -81,8 +81,8 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
         
         self.ant=AntBuilder(run)
         self.nant=NAntBuilder(run)
-        self.maven=MavenBuilder(run)
-        self.mvn=Maven2Builder(run)
+        self.maven=Maven1Builder(run)
+        self.mvn=MavenBuilder(run)
         self.script=ScriptBuilder(run)
         self.configure = ConfigureBuilder(run)
         self.make = MakeBuilder(run);

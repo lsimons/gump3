@@ -272,8 +272,8 @@ class NAnt(BaseAnt):
     pass
 
 # represents an <maven/> element
-class Maven(Builder):
-    """ A Maven command (within a project)"""
+class Maven1(Builder):
+    """ A Maven 1.x command (within a project)"""
     def __init__(self, dom, project):
         Builder.__init__(self, dom, project)
 
@@ -289,10 +289,15 @@ class Maven(Builder):
         i = getIndent(indent + 1)
         output.write(i + 'Goal: ' + self.getGoal() + '\n')
 
+MVN_VERSION2 = '2'
+MVN_VERSION3 = '3'
+
 # represents an <mvn/> element
-class Maven2(Builder):
-    """ A Maven command (within a project)"""
-    def __init__(self, dom, project):
+class Maven(Builder):
+    
+    """ A Maven 2.x/3.x command (within a project)"""
+
+    def __init__(self, dom, project, version = MVN_VERSION2):
         Builder.__init__(self, dom, project)
 
         self.goal = self.getDomAttributeValue('goal', 'package')
@@ -300,6 +305,7 @@ class Maven2(Builder):
         self.local_repo = self.getDomAttributeValue('separateLocalRepository',
                                                     'False')
         self.profile = self.getDomAttributeValue('profile')
+        self.version = version
 
     def getGoal(self):
         """ The goal to execute """
@@ -330,7 +336,11 @@ class Maven2(Builder):
             return None
         return self.local_repo
 
-class Mvn2Install(Maven2):
+    def getVersion(self):
+        """ The configured version of Maven to use """
+        return self.version
+
+class MvnInstall(Maven):
     """ Installs a single file into the local mvn repository """
 
     ARTIFACT_ID = 'artifactId'
@@ -341,28 +351,28 @@ class Mvn2Install(Maven2):
     POM = 'pom'
     VERSION = 'version'
 
-    def __init__(self, dom, project):
-        Maven2.__init__(self, dom, project)
-        self.goal = Mvn2Install.GOAL
-        self.packaging = self.getDomAttributeValue(Mvn2Install.PACKAGING,
-                                                   Mvn2Install.POM)
-        self.file = self.getDomAttributeValue(Mvn2Install.FILE, 'pom.xml')
-        self.version = self.getDomAttributeValue(Mvn2Install.VERSION)
-        self.artifactId = self.getDomAttributeValue(Mvn2Install.ARTIFACT_ID)
+    def __init__(self, dom, project, version = MVN_VERSION2):
+        Maven.__init__(self, dom, project, version)
+        self.goal = MvnInstall.GOAL
+        self.packaging = self.getDomAttributeValue(MvnInstall.PACKAGING,
+                                                   MvnInstall.POM)
+        self.file = self.getDomAttributeValue(MvnInstall.FILE, 'pom.xml')
+        self.version = self.getDomAttributeValue(MvnInstall.VERSION)
+        self.artifactId = self.getDomAttributeValue(MvnInstall.ARTIFACT_ID)
 
     def expand(self, project, workspace):
         """ Turns the builder's attributes into properties """
         Builder.expand(self, project, workspace)
 
         impl = getDOMImplementation()
-        self._add_property(impl, Mvn2Install.ARTIFACT_ID,
+        self._add_property(impl, MvnInstall.ARTIFACT_ID,
                            self.artifactId or project.getName())
         self._add_property(impl, 'groupId', project.getArtifactGroup())
-        self._add_property(impl, Mvn2Install.PACKAGING, self.packaging)
-        self._add_property(impl, Mvn2Install.FILE, self.file)
+        self._add_property(impl, MvnInstall.PACKAGING, self.packaging)
+        self._add_property(impl, MvnInstall.FILE, self.file)
         if self.version:
-            self._add_property(impl, Mvn2Install.VERSION, self.version)
-        elif not self.packaging == Mvn2Install.POM:
+            self._add_property(impl, MvnInstall.VERSION, self.version)
+        elif not self.packaging == MvnInstall.POM:
             project.addError("version attribute is mandatory if the file is"
                              + " not a POM.")
 
@@ -373,7 +383,7 @@ class Mvn2Install(Maven2):
         """
         props = PropertyContainer.getProperties(self)[:]
 
-        if not self.version and self.packaging == Mvn2Install.POM:
+        if not self.version and self.packaging == MvnInstall.POM:
             try:
                 pomDoc = self._read_pom()
                 root = pomDoc.documentElement
@@ -396,12 +406,12 @@ class Mvn2Install(Maven2):
                                           + ' version which is not supported'
                                           + ' by Gump.  You must provide an'
                                           + ' explicit version attribute to'
-                                          + ' mvn2install.')
+                                          + ' mvninstall.')
                 else:
                     impl = getDOMImplementation()
-                    dom = _create_dom_property(impl, Mvn2Install.VERSION,
+                    dom = _create_dom_property(impl, MvnInstall.VERSION,
                                                version_text)
-                    prop = Property(Mvn2Install.VERSION, dom, self.project)
+                    prop = Property(MvnInstall.VERSION, dom, self.project)
                     prop.complete(self.project, self.project.getWorkspace())
                     props.append(prop)
             except Exception, details:
@@ -429,12 +439,12 @@ def _create_dom_property(impl, name, value):
 def _extract_version_from_pom(root):
     """ Tries to extract the version DOM element from a POM DOM tree """
     version = None
-    if hasDomChild(root, Mvn2Install.VERSION):
-        version = getDomChild(root, Mvn2Install.VERSION)
-    elif hasDomChild(root, Mvn2Install.PARENT):
-        parent = getDomChild(root, Mvn2Install.PARENT)
-        if hasDomChild(parent, Mvn2Install.VERSION):
-            version = getDomChild(parent, Mvn2Install.VERSION)
+    if hasDomChild(root, MvnInstall.VERSION):
+        version = getDomChild(root, MvnInstall.VERSION)
+    elif hasDomChild(root, MvnInstall.PARENT):
+        parent = getDomChild(root, MvnInstall.PARENT)
+        if hasDomChild(parent, MvnInstall.VERSION):
+            version = getDomChild(parent, MvnInstall.VERSION)
     return version
 
 # represents an <configure/> element

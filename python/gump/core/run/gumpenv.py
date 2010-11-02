@@ -77,6 +77,9 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         self.nant_command = None
         self.noMaven = False
         self.noMaven2 = False
+        self.noMaven3 = False
+        self.m2_home = None
+        self.m3_home = None
         self.noSvn = False
         self.noCvs = False
         self.noP4 = False
@@ -149,15 +152,24 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
                                 ' no maven builds.')
 
         if not self.noMaven2 and not self._checkEnvVariable('M2_HOME', False):
-            self.noMaven = True
+            self.noMaven2 = True
             self.addWarning('M2_HOME environmental variable not found, ' + \
-                                ' no mvn builds.')
+                                ' no mvn2 builds.')
+        else:
+            self.m2_home = os.environ['M2_HOME']
+
+        if not self.noMaven3 and not self._checkEnvVariable('M3_HOME', False):
+            self.noMaven3 = True
+            self.addWarning('M3_HOME environmental variable not found, ' + \
+                                ' no mvn3 builds.')
+        else:
+            self.m3_home = os.environ['M3_HOME']
 
         if not self.noMvnRepoProxy \
                 and not self._checkEnvVariable('MVN_PROXY_HOME', False):
             self.noMvnRepoProxy = True
             self.addWarning('MVN_PROXY_HOME environmental variable not' + \
-                                ' found, no using a proxy for Maven2' + \
+                                ' found, not using a proxy for Maven' + \
                                 ' repository')
 
         # Check for executables
@@ -195,7 +207,13 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
 
 
         self.noMaven2 = not self.noMaven2 and not \
-            self._checkWithDashVersion('mvn', "no Maven 2.x builds")
+            self._checkWithDashVersion(self.m2_home + '/bin/mvn',
+                                       "no Maven 2.x builds")
+
+        self.noMaven3 = not self.noMaven3 and not \
+            self._checkWithDashVersion(self.m3_home + '/bin/mvn',
+                                       "no Maven 3.x builds",
+                                       cmd_env = {'M2_HOME' : self.m3_home})
 
         self._check_nant()
         self.noMono = self._checkWithDashVersion('mono', "no Mono runtime")
@@ -297,20 +315,21 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         return self.javaProperties
 
     def _checkWithDashVersion(self, commandName, consequence,
-                              version = '--version'):
+                              version = '--version',
+                              cmd_env = None):
         """
         Determine whether a particular command is or is not available
         by using the --version switch
         """
         ok = self._checkExecutable(commandName, version, False, False,
-                                   'check_' + commandName)
+                                   'check_' + commandName, cmd_env)
         if not ok:
             self.addWarning('"' + commandName + '" command not found, '
                             + consequence)
         return ok
 
     def _checkExecutable(self, exe, options, mandatory, logOutput = False,
-                         name = None):
+                         name = None, cmd_env = None):
         """
         Determine whether a particular command is or is not available.
         """
@@ -321,6 +340,10 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
             cmd = gump.util.process.command.getCmdFromString(exe + " " + \
                                                                  options,
                                                              name)
+            if cmd_env:
+                for env_key in cmd_env.keys():
+                    cmd.addEnvironment(env_key, cmd_env[env_key])
+
             result = execute(cmd)
             ok = result.isOk()
             if ok:

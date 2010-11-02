@@ -20,6 +20,7 @@ import os.path
 
 from gump import log
 from gump.actor.mvnrepoproxy.proxycontrol import PROXY_CONFIG
+from gump.core.model.builder import MVN_VERSION2, MVN_VERSION3
 from gump.core.model.workspace import CommandWorkItem, \
     REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
     STATE_FAILED, STATE_SUCCESS,  WORK_TYPE_BUILD
@@ -65,7 +66,7 @@ def getMavenProperties(project):
                                                  property.value, '=')
     return properties
 
-def getMavenCommand(project):
+def getMavenCommand(project, executable = 'mvn'):
     """ Build an Maven command for this project """
     maven = project.mvn
 
@@ -82,7 +83,7 @@ def getMavenCommand(project):
     basedir = maven.getBaseDirectory() or project.getBaseDirectory()
 
     # Run Maven...
-    cmd = Cmd('mvn', 'build_' + project.getModule().getName() + '_' + \
+    cmd = Cmd(executable, 'build_' + project.getModule().getName() + '_' + \
                 project.getName(), basedir)
 
     cmd.addParameter('--batch-mode')
@@ -116,19 +117,19 @@ def getMavenCommand(project):
 def needsSeparateLocalRepository(project):
     return project.mvn.needsSeparateLocalRepository()
 
-class Maven2Builder(RunSpecific):
+class MavenBuilder(RunSpecific):
 
     def __init__(self, run):
         RunSpecific.__init__(self, run)
 
     def buildProject(self, project, languageHelper, stats):
         """
-        Build a Maven2 project
+        Build a Maven 2.x/3.x project
         """
 
         workspace = self.run.getWorkspace()
 
-        log.debug('Run Maven2 on Project: #[' + `project.getPosition()` + '] '\
+        log.debug('Run Maven on Project: #[' + `project.getPosition()` + '] '\
                   + project.getName())
 
         self.performPreBuild(project, languageHelper, stats)
@@ -138,7 +139,17 @@ class Maven2Builder(RunSpecific):
             #
             # Get the appropriate build command...
             #
-            cmd = getMavenCommand(project)
+            home = None
+            if project.getMvn().getVersion() == MVN_VERSION2:
+                home = self.run.env.m2_home
+            elif project.getMvn().getVersion() == MVN_VERSION3:
+                home = self.run.env.m3_home
+
+            if home:
+                cmd = getMavenCommand(project, home + '/bin/mvn')
+                cmd.addEnvironment('M2_HOME', home)
+            else:
+                cmd = getMavenCommand(project)
 
             if cmd:
                 # Get/set JVM properties
@@ -179,7 +190,7 @@ class Maven2Builder(RunSpecific):
         if project.okToPerformWork():
             try:
                 settingsFile = self.generateMvnSettings(project, languageHelper)
-                project.addDebug('(Gump generated) Maven2 Settings in: ' + \
+                project.addDebug('(Gump generated) Maven Settings in: ' + \
                                      settingsFile)
 
                 try:
@@ -191,7 +202,7 @@ class Maven2Builder(RunSpecific):
                                   '] Failed', exc_info = 1)
 
             except Exception, details:
-                message = 'Generate Maven2 Settings Failed:' + str(details)
+                message = 'Generate Maven Settings Failed:' + str(details)
                 log.error(message, exc_info = 1)
                 project.addError(message)
                 project.changeState(STATE_FAILED, REASON_PREBUILD_FAILED)
@@ -201,18 +212,18 @@ class Maven2Builder(RunSpecific):
         command.dump()
 
     def generateMvnSettings(self, project, _languageHelper):
-        """Set repository for a Maven2 project"""
+        """Set repository for a Maven project"""
 
         settingsFile = locateMavenSettings(project)
         # Ensure containing directory exists, or make it.
         settingsdir = os.path.dirname(settingsFile)
         if not os.path.exists(settingsdir):
-            project.addInfo('Making directory for Maven2 settings: [' \
+            project.addInfo('Making directory for Maven settings: [' \
                                 + settingsdir + ']')
             os.makedirs(settingsdir)
 
         if os.path.exists(settingsFile):
-            project.addWarning('Overriding Maven2 settings: [' + settingsFile \
+            project.addWarning('Overriding Maven settings: [' + settingsFile \
                                    + ']')
 
         if needsSeparateLocalRepository(project):

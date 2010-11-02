@@ -28,8 +28,8 @@ import gump.util.process.command
 
 from gump import log
 from gump.core.config import default
-from gump.core.model.builder import Ant, NAnt, Maven, Maven2, Mvn2Install, \
-    Script, Configure, Make
+from gump.core.model.builder import Ant, NAnt, Maven1, Maven, MvnInstall, \
+    MVN_VERSION2, MVN_VERSION3, Script, Configure, Make
 from gump.core.model.depend import Dependable, importDomDependency
 from gump.core.model.misc import AddressPair, \
     Resultable, Positioned, Mkdir, Delete, Report, Work
@@ -446,24 +446,35 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             # :TODO:#1: transferAnnotations(self.xml.nant, self)
 
         # Import any <maven part [if not packaged]
-        if self.hasDomChild('maven') and not packaged:
-            self.maven = Maven(self.getDomChild('maven'), self)
-            self.builder.append(self.maven)
+        for tag in ['maven', 'mvn1']:
+            if self.hasDomChild(tag) and not packaged:
+                self.maven = Maven1(self.getDomChild(tag), self)
+                self.builder.append(self.maven)
 
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.maven, self)
 
         # Import any <mvn part [if not packaged]
-        if self.hasDomChild('mvn') and not packaged:
-            self.mvn = Maven2(self.getDomChild('mvn'), self)
-            self.builder.append(self.mvn)
+        for tag in ['mvn', 'mvn2']:
+            if self.hasDomChild(tag) and not packaged:
+                self.mvn = Maven(self.getDomChild(tag), self, MVN_VERSION2)
+                self.builder.append(self.mvn)
 
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.maven, self)
 
-        # Import any <mvn2install part [if not packaged]
-        if self.hasDomChild('mvn2install') and not packaged:
-            self.mvn = Mvn2Install(self.getDomChild('mvn2install'), self)
+        # Import any <mvninstall part [if not packaged]
+        for tag in ['mvninstall', 'mvn2install']:
+            if self.hasDomChild(tag) and not packaged:
+                self.mvn = MvnInstall(self.getDomChild(tag), self)
+                self.builder.append(self.mvn)
+
+            # Copy over any XML errors/warnings
+            # :TODO:#1: transferAnnotations(self.xml.maven, self)
+
+        # Import any <mvn3 part [if not packaged]
+        if self.hasDomChild('mvn3') and not packaged:
+            self.mvn = Maven(self.getDomChild('mvn3'), self, MVN_VERSION3)
             self.builder.append(self.mvn)
 
             # Copy over any XML errors/warnings
@@ -649,7 +660,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.hasDomChild('description'):
             self.desc = self.getDomChildValue('description')
 
-        jvmargs_parents = ['ant', 'maven', 'mvn']
+        jvmargs_parents = ['ant', 'maven', 'mvn', 'mvn1', 'mvn2', 'mvn3']
         for tag in jvmargs_parents:
             if self.hasDomChild(tag):
                 self.addJVMArgs(self.getDomChild(tag))

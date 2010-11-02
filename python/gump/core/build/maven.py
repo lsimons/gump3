@@ -175,7 +175,7 @@ def locateMavenProjectFile(project):
 # Classes
 ###############################################################################
 
-class MavenBuilder(RunSpecific):
+class Maven1Builder(RunSpecific):
 
     def __init__(self, run):
         RunSpecific.__init__(self, run)

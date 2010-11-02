@@ -43,7 +43,7 @@ from gump.core.model.tracker import Tracker
 from gump.core.model.workspace import Workspace
 from gump.core.model.module import Module
 from gump.core.model.project import Project
-from gump.core.model.builder import Ant,NAnt,Maven,Script,Configure,Make
+from gump.core.model.builder import Ant,NAnt,Maven,Maven1,Script,Configure,Make
 from gump.core.model.object import *
 from gump.core.model.state import *
 
@@ -184,6 +184,7 @@ def getIndexForObject(object):
     elif isinstance(object, Ant) or \
         isinstance(object, NAnt) or \
         isinstance(object, Maven) or \
+        isinstance(object, Maven1) or \
         isinstance(object, Configure) or \
         isinstance(object, Make) or \
         isinstance(object, Script) :
