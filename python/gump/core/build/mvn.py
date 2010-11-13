@@ -41,7 +41,7 @@ def write_mirror_entry(props, prefix, mirror_of, port):
     props.write("""
     <mirror>
       <id>gump-%s</id>
-      <name>Gump proxying %s</name>
+      <name>Apache Gump proxying %s</name>
       <url>http://localhost:%s%s</url>
       <mirrorOf>%s</mirrorOf>
     </mirror>""" % (mirror_of, mirror_of, port, prefix, mirror_of) )
@@ -190,7 +190,7 @@ class MavenBuilder(RunSpecific):
         if project.okToPerformWork():
             try:
                 settingsFile = self.generateMvnSettings(project, languageHelper)
-                project.addDebug('(Gump generated) Maven Settings in: ' + \
+                project.addDebug('(Apache Gump generated) Apache Maven Settings in: ' + \
                                      settingsFile)
 
                 try:

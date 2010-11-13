@@ -260,7 +260,7 @@ class XDocDocumenter(Documenter):
         #
         spec = self.resolver.getFileSpec(self.run)
 
-        document = XDocDocument('Gump Run',
+        document = XDocDocument('Apache Gump&trade; Run',
                                 spec.getFile(),
                                 self.config,
                                 spec.getRootPath())
@@ -271,7 +271,7 @@ class XDocDocumenter(Documenter):
             self.documentPartial(definitionSection)
 
         definitionTable = definitionSection.createTable()
-        definitionTable.createEntry('Gump Run GUID', self.run.getRunGuid())
+        definitionTable.createEntry('Apache Gump(TM) Run GUID', self.run.getRunGuid())
         definitionTable.createEntry('Gump Run (Hex) GUID',
                                     self.run.getRunHexGuid())
         definitionTable.createEntry('Gump Version', setting.VERSION)
@@ -329,7 +329,7 @@ class XDocDocumenter(Documenter):
         #
         options = self.run.getOptions()
 
-        optSection = document.createSection('Gump Run Options')
+        optSection = document.createSection('Apache Gump Run Options')
         optSection.createParagraph(
             """The options selected for this Gump run.""")
 
@@ -363,7 +363,7 @@ class XDocDocumenter(Documenter):
         #
         environment = self.run.getEnvironment()
 
-        envSection = document.createSection('Gump Environment')
+        envSection = document.createSection('Apache Gump Environment')
         envSection.createParagraph(
             """The environment that this Gump run was within.""")
 
@@ -546,7 +546,7 @@ class XDocDocumenter(Documenter):
         if not self.workspace.hasDomAttribute('version') \
             or not self.workspace.getDomAttributeValue('version') \
             == setting.WS_VERSION:
-            definitionTable.createEntry('Gump Preferred Workspace Version',
+            definitionTable.createEntry('Apache Gump Preferred Workspace Version',
                                         setting.WS_VERSION)
         definitionTable.createEntry('@@DATE@@', default.date_s)
         definitionTable.createEntry('Start Date/Time (UTC)',
@@ -778,7 +778,7 @@ class XDocDocumenter(Documenter):
         # buildLog.xml -- Modules/Projects in build order
         #
         spec = self.resolver.getFileSpec(self.workspace, 'buildLog')
-        document = XDocDocument('Gump Build Log',
+        document = XDocDocument('Apache Gump&trade; Build Log',
                                 spec.getFile(),
                                 self.config,
                                 spec.getRootPath())
@@ -790,7 +790,7 @@ class XDocDocumenter(Documenter):
             projects = len(self.gumpSet.getCompletedProjects())
 
             document.createWarning(
-                """This Gump run is currently in progress.
+                """This Apache Gump(TM) run is currently in progress.
             It started at %s. As of this moment (%s), %s modules have been updated, and %s projects built.""" \
                     % (self.run.getStart().getLocal(),
                        time.strftime('%H:%M:%S'), modules, projects ))
@@ -800,7 +800,7 @@ class XDocDocumenter(Documenter):
 #            (e.g a recent change of state, a failure, etc.) are listed at runtime.""")
 
         else:
-            document.createNote("""This Gump run is complete.
+            document.createNote("""This Apache Gump(TM) run is complete.
             It started at %s and ended at %s."""
                 % (self.run.getStart().getLocal(),
                     self.run.getEnd().getLocal()))
@@ -1682,7 +1682,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         metadataLocation = module.getMetadataLocation()
         metadataUrl = module.getMetadataViewUrl()
         if metadataLocation and metadataUrl:
-            descriptionSection.createParagraph('Gump Metadata: ')\
+            descriptionSection.createParagraph('Apache Gump Metadata: ')\
                 .createFork(metadataUrl, metadataLocation)
 
         # RSS|Atom
@@ -3133,7 +3133,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 spec.getRootPath())
 
         document.createParagraph("""
-        Statistics from Gump show the depth and health of inter-relationships.
+        Statistics from Apache Gump(TM) show the depth and health of inter-relationships.
         """)
 
         overviewSection = document.createSection('Overview')

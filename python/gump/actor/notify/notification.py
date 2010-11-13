@@ -257,7 +257,7 @@ and/or contact the folk at general@gump.apache.org.
         Resolve footer (Gump identification information)
         """
         stream.write('\n============================== Gump Tracking Only ===\n')
-        stream.write('Produced by Gump version %s.\n' % setting.VERSION)
+        stream.write('Produced by Apache Gump(TM) version %s.\n' % setting.VERSION)
         stream.write('Gump Run %s, %s\n' %    \
                         (   default.datetime_s, self.run.getRunGuid() ))
         if id:

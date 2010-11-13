@@ -121,7 +121,7 @@ class TextDocumenter(Documenter):
     def documentEnvironment(self, indent, environment, debug, verbose):
         indent += ' '
         output=self.output    
-        output.write(indent + "Gump Environment\n")
+        output.write(indent + "Apache Gump Environment\n")
         
         self.documentAnnotations(indent,environment)
         self.documentWork(indent,environment,0)

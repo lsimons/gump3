@@ -243,7 +243,7 @@ class Maven1Builder(RunSpecific):
             try:
                 propertiesFile = generateMavenProperties(project,
                                                          languageHelper)
-                project.addDebug('(Gump generated) Maven Properties in: ' + \
+                project.addDebug('(Apache Gump generated) Apache Maven Properties in: ' + \
                                      propertiesFile)
 
                 try:

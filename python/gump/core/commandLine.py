@@ -66,7 +66,7 @@ class CommandLine:
                 print "Mandatory arguments to long options are mandatory for short options too."
                 print 
                 print "Startup:"
-                print "  -V,  --version           display the version of Gump and exit."
+                print "  -V,  --version           display the version of Apache Gump(TM) and exit."
                 print "  -h,  --help              print this help."
                 print "  -w,  --workspace         use this workspace for Gump."
                 print 

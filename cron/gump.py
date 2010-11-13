@@ -17,7 +17,7 @@
 
 """
 
-  This is the commandline entrypoint into Python Gump, 
+  This is the commandline entrypoint into Apache Gump, 
   used *primarily* by nightly cron jobs.
 
   It updates Gump (from svn) to ensure it (itself) is 
@@ -270,7 +270,7 @@ def run_prepost_script(env_var, script_type):
 
 def doRun():
     # Starting up...
-    writeRunLogEntry('Gump Start-up. Arguments [%s]' % sys.argv)
+    writeRunLogEntry('Apache Gump(tm) Start-up. Arguments [%s]' % sys.argv)
 
     # Allow a lock
     lockFile = os.path.abspath('gump.lock')

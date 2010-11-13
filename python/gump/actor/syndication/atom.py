@@ -57,7 +57,7 @@ class Entry:
         
         # Write the header part...
         stream.write("""		<entry>
-        <author><name>Gump</name></author>
+        <author><name>Apache Gump(TM)</name></author>
         <id>gump:%s:%s-%s</id>
         <title>%s</title>
         <link rel="alternate" type="text/html" href="%s"/>
@@ -151,7 +151,7 @@ class AtomSyndicator(AbstractSyndicator):
         
         moduleFeed=AtomFeed(feedUrl,feedFile,	
                         'module',	\
-                        'Gump : Module ' + escape(module.getName()),	\
+                        'Apache Gump : Module ' + escape(module.getName()),	\
                         moduleUrl,	\
                         escape(module.getDescription() or ''))
                     
@@ -191,7 +191,7 @@ class AtomSyndicator(AbstractSyndicator):
         
         projectFeed=AtomFeed(feedUrl, feedFile,	\
                         'project',	\
-                    'Gump : Project ' + escape(project.getName()),	\
+                    'Apache Gump : Project ' + escape(project.getName()),	\
                     projectUrl,	\
                     escape(project.getDescription() or ''))
          

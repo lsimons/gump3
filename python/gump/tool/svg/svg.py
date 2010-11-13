@@ -34,7 +34,7 @@ def writeHeader(stream):
 
 # Write a document Footer
 def writeFooter(stream):
-    stream.write("""<!-- Produced by Gump -->
+    stream.write("""<!-- Produced by Apache Gump(TM) -->
 """)
         
 # Write an SVG Header

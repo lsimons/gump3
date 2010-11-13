@@ -131,16 +131,16 @@ class Channel:
         self.rssStream.write('  <channel>\n')
         
         # Mandatory Fields
-        self.rssStream.write(('  <title>Gump: %s</title>\n') %(escape(self.title)))
+        self.rssStream.write(('  <title>Apache Gump(TM): %s</title>\n') %(escape(self.title)))
         self.rssStream.write(('  <link>%s</link>\n') %(escape(self.link)))
         self.rssStream.write(('  <description>%s</description>\n') %(escape(self.description)))
         
         self.rssStream.write('  <language>en-us</language>\n')
         self.rssStream.write('  <copyright>Copyright 2003, Apache Software Foundation</copyright>\n')
-        self.rssStream.write(('  <generator>Jakarta Gump : %s</generator>\n') % (escape(setting.VERSION)))
+        self.rssStream.write(('  <generator>Apache Gump : %s</generator>\n') % (escape(setting.VERSION)))
         self.rssStream.write('  <webMaster>general@gump.apache.org</webMaster>\n')
         self.rssStream.write('  <docs>http://blogs.law.harvard.edu/tech/rss</docs>\n')
-        self.rssStream.write('  <category domain="http://www.apache.org/namespaces">Gump</category>\n')
+        self.rssStream.write('  <category domain="http://www.apache.org/namespaces">Apache Gump</category>\n')
                 
         # Optional Fields
         if self.image:
@@ -250,7 +250,7 @@ class RSSSyndicator(AbstractSyndicator):
         moduleUrl=self.run.getOptions().getResolver().getUrl(module)
         
         moduleRSS=RSS(rssUrl,rssFile,	\
-            Channel('Gump : Module ' + escape(module.getName()),	\
+            Channel('Apache Gump : Module ' + escape(module.getName()),	\
                     moduleUrl,	\
                     escape(module.getDescription() or ''), \
                     self.gumpImage))
@@ -292,7 +292,7 @@ class RSSSyndicator(AbstractSyndicator):
         projectUrl=self.run.getOptions().getResolver().getUrl(project)
         
         projectRSS=RSS(rssUrl, rssFile,	\
-            Channel('Gump : Project ' + escape(project.getName()),	\
+            Channel('Apache Gump : Project ' + escape(project.getName()),	\
                     projectUrl,	\
                     escape(project.getDescription() or ''), \
                     self.gumpImage))
