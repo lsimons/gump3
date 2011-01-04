@@ -36,14 +36,14 @@ from gump.core.model.module import *
 from gump.core.model.state import *
 from gump.util import *
 
-from rdflib.URIRef import URIRef
-from rdflib.Literal import Literal
-from rdflib.BNode import BNode
-from rdflib.Namespace import Namespace
-from rdflib.constants import TYPE
+from rdflib import URIRef
+from rdflib import Literal
+from rdflib import BNode
+from rdflib import Namespace
+from rdflib import TYPE
 
 # Import RDFLib's default TripleStore implementation.
-from rdflib.TripleStore import TripleStore
+from rdflib import TripleStore
 
 class RDFDescriber(AbstractRunActor):
     

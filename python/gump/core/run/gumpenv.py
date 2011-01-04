@@ -414,8 +414,8 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
 
     def _check_nant(self):
         if not self.checked:
-            if not self._checkWithDashVersion('NAnt', "no NAnt builds"):
-                if not self._checkWithDashVersion('NAnt.exe', "no NAnt builds"):
+            if not self._checkWithDashVersion('NAnt', "no NAnt builds", '-help'):
+                if not self._checkWithDashVersion('NAnt.exe', "no NAnt builds", '-help'):
                     self.noNAnt = self._checkWithDashVersion('nant',
                                                              "no NAnt builds",
                                                              '-help')
