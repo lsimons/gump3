@@ -357,7 +357,7 @@ class MvnInstall(Maven):
         self.packaging = self.getDomAttributeValue(MvnInstall.PACKAGING,
                                                    MvnInstall.POM)
         self.file = self.getDomAttributeValue(MvnInstall.FILE, 'pom.xml')
-        self.version = self.getDomAttributeValue(MvnInstall.VERSION)
+        self.artifactVersion = self.getDomAttributeValue(MvnInstall.VERSION)
         self.artifactId = self.getDomAttributeValue(MvnInstall.ARTIFACT_ID)
 
     def expand(self, project, workspace):
@@ -370,8 +370,8 @@ class MvnInstall(Maven):
         self._add_property(impl, 'groupId', project.getArtifactGroup())
         self._add_property(impl, MvnInstall.PACKAGING, self.packaging)
         self._add_property(impl, MvnInstall.FILE, self.file)
-        if self.version:
-            self._add_property(impl, MvnInstall.VERSION, self.version)
+        if self.artifactVersion:
+            self._add_property(impl, MvnInstall.VERSION, self.artifactVersion)
         elif not self.packaging == MvnInstall.POM:
             project.addError("version attribute is mandatory if the file is"
                              + " not a POM.")
@@ -383,7 +383,7 @@ class MvnInstall(Maven):
         """
         props = PropertyContainer.getProperties(self)[:]
 
-        if not self.version and self.packaging == MvnInstall.POM:
+        if not self.artifactVersion and self.packaging == MvnInstall.POM:
             try:
                 pomDoc = self._read_pom()
                 root = pomDoc.documentElement

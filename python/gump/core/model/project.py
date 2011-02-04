@@ -466,7 +466,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Import any <mvninstall part [if not packaged]
         for tag in ['mvninstall', 'mvn2install']:
             if self.hasDomChild(tag) and not packaged:
-                self.mvn = MvnInstall(self.getDomChild(tag), self)
+                self.mvn = MvnInstall(self.getDomChild(tag), self, MVN_VERSION2)
                 self.builder.append(self.mvn)
 
             # Copy over any XML errors/warnings
@@ -475,6 +475,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         # Import any <mvn3 part [if not packaged]
         if self.hasDomChild('mvn3') and not packaged:
             self.mvn = Maven(self.getDomChild('mvn3'), self, MVN_VERSION3)
+            self.builder.append(self.mvn)
+
+        # Import any <mvn3install part [if not packaged]
+        if self.hasDomChild('mvn3install') and not packaged:
+            self.mvn = MvnInstall(self.getDomChild('mvn3install'), self,
+                                  MVN_VERSION3)
             self.builder.append(self.mvn)
 
             # Copy over any XML errors/warnings
