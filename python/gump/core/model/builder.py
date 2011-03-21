@@ -350,6 +350,7 @@ class MvnInstall(Maven):
     PARENT = 'parent'
     POM = 'pom'
     VERSION = 'version'
+    GROUP_ID = 'groupId'
 
     def __init__(self, dom, project, version = MVN_VERSION2):
         Maven.__init__(self, dom, project, version)
@@ -359,6 +360,7 @@ class MvnInstall(Maven):
         self.file = self.getDomAttributeValue(MvnInstall.FILE, 'pom.xml')
         self.artifactVersion = self.getDomAttributeValue(MvnInstall.VERSION)
         self.artifactId = self.getDomAttributeValue(MvnInstall.ARTIFACT_ID)
+        self.groupId = self.getDomAttributeValue(MvnInstall.GROUP_ID)
 
     def expand(self, project, workspace):
         """ Turns the builder's attributes into properties """
@@ -367,7 +369,8 @@ class MvnInstall(Maven):
         impl = getDOMImplementation()
         self._add_property(impl, MvnInstall.ARTIFACT_ID,
                            self.artifactId or project.getName())
-        self._add_property(impl, 'groupId', project.getArtifactGroup())
+        self._add_property(impl, MvnInstall.GROUP_ID,
+                           self.groupId or project.getArtifactGroup())
         self._add_property(impl, MvnInstall.PACKAGING, self.packaging)
         self._add_property(impl, MvnInstall.FILE, self.file)
         if self.artifactVersion:
