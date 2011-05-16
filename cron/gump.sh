@@ -16,6 +16,7 @@
 #  limitations under the License.
 #
 # $Header: $
+ulimit -c 1
 cygwin=false;
 sunos=false;
 case "`uname`" in
