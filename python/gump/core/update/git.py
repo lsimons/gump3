@@ -60,6 +60,7 @@ class GitUpdater(ScmUpdater):
                   module.getSourceControlStagingDirectory())
         cmd.addParameter('pull')
         maybe_make_quiet(module, cmd)
+        cmd.addParameter(module.getScm().getRootUrl())
         return cmd
 
     def workspaceMatchesModule(self, module):
