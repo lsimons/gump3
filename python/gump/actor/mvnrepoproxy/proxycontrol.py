@@ -39,7 +39,9 @@ PROXY_CONFIG = [
     ('apache.snapshots', '/repo/m2-snapshot-repository',
      'http\://people.apache.org'),
     ('maven2-repository.dev.java.net', '/maven/2', 'http\://download.java.net'),
-    ('m2.dev.java.net', '/maven/2', 'http\://download.java.net')
+    ('m2.dev.java.net', '/maven/2', 'http\://download.java.net'),
+    ('sonatype-nexus-snapshots', '/content/repositories/snapshots',
+     'https\://oss.sonatype.org')
     ]
 
 class MvnRepositoryProxyController(AbstractRunActor):
