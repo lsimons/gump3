@@ -47,6 +47,8 @@ class GitUpdater(ScmUpdater):
                   module.getWorkspace().getSourceControlStagingDirectory())
         cmd.addParameter('clone')
         maybe_make_quiet(module, cmd)
+        cmd.addParameter('--branch')
+        cmd.addParameter(module.getScm().getBranch())
         cmd.addParameter(module.getScm().getRootUrl())
         cmd.addParameter(module.getName())
         return cmd
@@ -61,6 +63,7 @@ class GitUpdater(ScmUpdater):
         cmd.addParameter('pull')
         maybe_make_quiet(module, cmd)
         cmd.addParameter(module.getScm().getRootUrl())
+        cmd.addParameter(module.getScm().getBranch())
         return cmd
 
     def workspaceMatchesModule(self, module):

@@ -26,7 +26,7 @@ from gump.core.model.misc import Resultable, Positioned, AddressPair
 from gump.core.model.object import NamedModelObject, ModelObject
 from gump.core.model.project import Project, ProjectSummary
 from gump.core.model.repository import SCM_TYPE_ARTIFACTS, SCM_TYPE_CVS, \
-    SCM_TYPE_P4, SUPPORTED_SCMS
+    SCM_TYPE_GIT, SCM_TYPE_P4, SUPPORTED_SCMS
 from gump.core.model.state import REASON_CONFIG_FAILED, REASON_PACKAGE, \
     STATE_COMPLETE, STATE_FAILED
 from gump.core.model.stats import Statable, Statistics
@@ -48,6 +48,8 @@ def create_scm_instance(scm_type, dom, repo):
         return ModuleP4(dom, repo)
     elif scm_type == SCM_TYPE_ARTIFACTS:
         return ModuleArtifacts(dom, repo)
+    elif scm_type == SCM_TYPE_GIT:
+        return ModuleGit(dom, repo)
     return ModuleScm(dom, repo)
 
 
@@ -226,6 +228,17 @@ class ModuleArtifacts(ModelObject):
 
     def getGroup(self):
         return self.group
+
+class ModuleGit(ModuleScm):
+    """
+    Describes the properties of a module's <git element
+    """
+    def __init__(self, dom, repository):
+        ModuleScm.__init__(self,  dom,  repository)
+        self.branch = self.getDomAttributeValue('branch') or 'master'
+
+    def getBranch(self):
+        return self.branch
 
 class Module(NamedModelObject, Statable, Resultable, Positioned):
     """Set of Modules (which contain projects)"""
