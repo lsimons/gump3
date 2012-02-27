@@ -77,4 +77,5 @@ class Output(NamedModelObject):
 
     def complete(self): 
         """ set type from attribute if present """
+        NamedModelObject.complete(self)
         self.setType(self.getDomAttributeValue('type'))
