@@ -74,8 +74,3 @@ class Output(NamedModelObject):
         return self.type in [OUTPUT_BOOTCLASSPATH_JAR, \
                                  OUTPUT_JAR, \
                                  OUTPUT_TESTS_JAR]
-
-    def complete(self): 
-        """ set type from attribute if present """
-        NamedModelObject.complete(self)
-        self.setType(self.getDomAttributeValue('type'))
