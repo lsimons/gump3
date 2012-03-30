@@ -16,14 +16,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import re
 from gump.core.update.scmupdater import match_workspace_template, ScmUpdater, \
-    should_be_quiet, log_repository_and_url
-from gump.util.process.command import Cmd
+    should_be_quiet, log_repository_and_url, extract_URL
+from gump.util.process.command import Cmd, getCmdFromString
+from gump.util.process.launcher import execute
 from gump.util.tools import tailFileToString
 
 def maybe_make_quiet(module, cmd):
     if should_be_quiet(module):    
         cmd.addParameter('--quiet')
+
+BRANCH_REGEX = re.compile('^\* (.*)$', re.MULTILINE | re.UNICODE)
 
 ###############################################################################
 # Classes
@@ -68,8 +72,24 @@ class GitUpdater(ScmUpdater):
 
     def workspaceMatchesModule(self, module):
         """
-            Run git config remote.origin.url to see whether the URL matches
+            Run git branch and git config remote.origin.url
+            to see whether the branch and URL match
         """
+        cmd = getCmdFromString('git branch',
+                               'check_workspace_branch_' + module.getName(), 
+                               module.getSourceControlStagingDirectory())
+        result = execute(cmd)
+
+        if not result.isOk():
+            return (False, 'git branch returned ' + str(result.exit_code))
+        elif not result.hasOutput():
+            return (False, 'git branch didn\'t return any output.')
+
+        current_branch = extract_URL(result, BRANCH_REGEX, 'git branch')
+        if module.getScm().getBranch() != current_branch:
+            return (False, 'Expected branch \'' + module.getScm().getBranch() \
+                        + '\' but working copy was \'' + current_branch + '\'')
+
         return match_workspace_template(module, 'git config remote.origin.url',
                                         lambda result:
                                             tailFileToString(result.getOutput(),
