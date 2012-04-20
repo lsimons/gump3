@@ -37,6 +37,10 @@ class Property(NamedModelObject):
 
         self.value = None
 
+        self.output = None
+
+        self.reference = None
+
 
     def setValue(self, value):
         """
@@ -48,6 +52,11 @@ class Property(NamedModelObject):
         """
         Get a value
         """
+        if self.output :
+            if self.reference == 'jarpath' or self.reference == 'outputpath' :
+                self.setValue(self.output.getPath())
+            else :
+                self.setValue(self.output.getName())                
         return self.value
 
     # provide default elements when not defined in xml
@@ -188,6 +197,8 @@ class Property(NamedModelObject):
             self.setValue(output.getPath())
         else:
             self.setValue(output.getName())
+        self.output = output
+        self.reference = reference
 
     def type_matches(self, output):
         """

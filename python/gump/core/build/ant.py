@@ -167,7 +167,7 @@ class AntBuilder(gump.core.run.gumprun.RunSpecific):
         """ Get properties for a project """
         properties=Parameters()
         for property in project.getWorkspace().getProperties()+project.getAnt().getProperties():
-            properties.addPrefixedNamedParameter('-D',property.name,property.value,'=')
+            properties.addPrefixedNamedParameter('-D',property.name,property.getValue(),'=')
         return properties
 
     def getAntSysProperties(self,project):
