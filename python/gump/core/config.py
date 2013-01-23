@@ -60,8 +60,8 @@ class setting:
     WS_VERSION="0.4"
     WS_MINIMUM_VERSION="0.3"
     
-    DATETIME_FORMAT='%S%M%H%d%m%Y'
-    DATE_FORMAT='%d%m%Y'
+    DATETIME_FORMAT='%Y%m%d%H%M%S'
+    DATE_FORMAT='%Y%m%d'
     
     DATE_PRESENTATION_FORMAT='%a, %d %b %Y'
     
