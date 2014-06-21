@@ -9,6 +9,8 @@
   <module href="module3.xml"/>
   <module href="module4.xml"/>
   <module href="module5.xml"/>
+  <module href="module6.xml"/>
+  <module href="module7.xml"/>
   
   <module href="broken1.xml"/>
   <module href="broken2.xml"/>
@@ -31,6 +33,8 @@
 
   <!-- Override package1 to be a package -->
   <project name='package1' package='package1' />
+  <!-- this is a missing package, within a missing module -->
+  <project name='package2' package='missing_package' />
   
 </profile>
 

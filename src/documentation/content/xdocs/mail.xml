@@ -20,7 +20,7 @@
 
   <header>
     
-    <title>Gump Mailing Lists</title>
+    <title>Apache Gump Mailing Lists</title>
     <authors>
       <person name="Community" email="general AT gump DOT apache DOT org"/>
     </authors>
@@ -32,7 +32,7 @@
       <p>Please read the <link
       href="http://jakarta.apache.org/site/mail.html">guidelines of
       the Jakarta Project</link> before subscribing and posting to the
-      Gump general list as they apply to this list as well.</p>
+      Apache Gump general list as they apply to this list as well.</p>
 
       <p>Like almost all lists of the Apache Software Foundation,
       Gump's list is a subscriber only lists, this means you have to
@@ -46,8 +46,8 @@
           <strong>Medium Traffic</strong>
           <link href="mailto:general-subscribe@gump.apache.org">Subscribe</link>
           <link href="mailto:general-unsubscribe@gump.apache.org">Unsubscribe</link>
-          <link href="http://mail-archives.apache.org/eyebrowse/SummarizeList?listId=227">Archive</link>
-          <link href="http://marc.theaimsgroup.com/?l=gump&amp;r=1&amp;w=2">alternative Archive</link>
+          <link href="http://mail-archives.apache.org/mod_mbox/gump-general/">Archive</link>
+          <link href="http://marc.info/?l=gump&amp;r=1&amp;w=2">alternative Archive</link>
         </p>
 
         <p>This is the list where participating developers, users and

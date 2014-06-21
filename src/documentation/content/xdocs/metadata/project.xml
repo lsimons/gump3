@@ -35,20 +35,15 @@
 
     <ul>
     <li><link href="builder.html">Build instructions</link>:
-    &lt;ant&gt;, &lt;nant&gt;, &lt;maven&gt;, &lt;configure&gt;,
+    &lt;ant&gt;, &lt;nant&gt;, &lt;mvn1&gt;, &lt;mvn2&gt;, &lt;mvn3&gt;, &lt;configure&gt;,
     &lt;make&gt; and &lt;script&gt;.<br/>
           Describes how to produce the outputs from the inputs.</li>
     <li>Inputs: &lt;depend&gt;, &lt;option&gt;, and &lt;work&gt;.  Describes
     where to find the inputs (primarily jar files, but can be directories and
     files).</li>
-    <li>Outputs: &lt;home&gt; and &lt;jar&gt;.  Describes where to locate
+    <li>Outputs: &lt;home&gt;, &lt;license&gt;, &lt;jar&gt;, &lt;pom&gt; and &lt;output&gt;.  Describes where to locate
     the output files.</li>
     </ul>
-
-    <note>Note that &lt;depend&gt; elements nested within &lt;ant&gt;
-    elements are precisely equivalent to specifying both a property to be
-    passed to Ant, as well as a separate depend element. 
-	See <link href="builder.html#depend">here</link>.</note>
 
     <table>
       <tr>
@@ -80,6 +75,11 @@
         <td>vm</td>
         <td>Override the Java Virtual Machine version expected to be used.</td>
         <td>No</td>
+      </tr>
+      <tr>
+        <td>groupId</td>
+        <td>mvn groupId for artifacts built by this project.</td>
+        <td>No, inherits the value from the containing module.</td>
       </tr>
     </table>
 
@@ -288,8 +288,14 @@
       </table>
     </section>
 
-    <section><title>jar</title>
-      <p>The name of an output jar, relative to the home directory.</p>
+    <section><title>output</title>
+      <p>The name of something a project creates.  This is a generic
+        element and there are specialized elements for jars and POMs
+        for example.</p>
+
+      <p>Each output must have a type attribute and may have an id
+        attribute.  ids must be unique among all outputs of the same
+        type.</p>
 
       <table>
         <tr>
@@ -299,7 +305,47 @@
         </tr>
         <tr>
           <td>name</td>
-          <td>The name of the jar</td>
+          <td>The file name of the output.<br/>
+            May contain shell glob patterns
+            (<code>*</code>, <code>?</code> or ranges
+            like <code>[a-z]</code>) in which case the pattern must
+            match exactly one existing file.  The path is relative to
+            the project's home-directory if it has been defined.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td>Provides a unique id which can be used to provide selection
+          between multiple output definitions of the same type.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>type</td>
+          <td>One of "jar", "pom", "boot" (a jar that should be added
+          to the bootclasspath), "testsjar" or "assembly".</td>
+          <td>Yes</td>
+        </tr>
+      </table>
+    </section>
+
+    <section><title>jar</title>
+      <p>The name of an output jar, relative to the home directory.</p>
+
+      <p>This is a shortcut for an output element with type="jar".</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>The name of the jar.<br/>
+            May contain shell glob patterns
+            (<code>*</code>, <code>?</code> or ranges
+            like <code>[a-z]</code>) in which case the pattern must
+            match exactly one existing file.</td>
           <td>Yes</td>
         </tr>
         <tr>
@@ -314,12 +360,46 @@
           prepended to the bootclasspath instead of being appended to the 
           classpath.  This attribute is ignored unless bootclass="yes"
           is specified on the <link href="workspace.html">workspace</link>.</td>
-          <td>No</td>
+          <td>No, defaults to "jar"</td>
         </tr>
       </table>
     </section>
 
-    <section><title>javadoc</title>
+    <section><title>pom</title>
+      <p>The name of an output POM, relative to the home directory.</p>
+
+      <p>This is a shortcut for an output element with type="pom".</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>The name of the POM.<br/>
+            May contain shell glob patterns
+            (<code>*</code>, <code>?</code> or ranges
+            like <code>[a-z]</code>) in which case the pattern must
+            match exactly one existing file.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td>Provides a unique id which can be used to provide selection
+          between multiple poms definitions.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>type</td>
+          <td>Same as output's type attribute.</td>
+          <td>No, defaults to "pom".</td>
+        </tr>
+      </table>
+    </section>
+
+    <!--section><title>javadoc</title>
       <p>This declares where the outputs of the
       <link href="http://java.sun.com/j2se/javadoc/index.html">javadoc</link> tool
       outputs are placed.  This option only has any meaning if the
@@ -427,20 +507,22 @@
 
       <p>must be used.</p>
 
-    </section>
+    </section-->
 
-    <section><title>junitreport</title>
-      <p>This declares where the outputs of the
-      <link href="http://ant.apache.org/manual/OptionalTasks/junitreport.html">junitreport</link>
-      tool outputs are placed.  This option only has any meaning if the
-      <link href="workspace.html#junitreport">&lt;junitreport&gt;</link> element
-      is present in the workspace definition.</p>
+    <section><title>report</title>
+      <p>This declares where any sort of report - for example
+        the outputs of the
+      <link href="http://ant.apache.org/manual/Tasks/junitreport.html">junitreport</link>
+      tool - are placed.</p>
    
-	<warning>
-    <link href="../python/index.html">Python Gump</link> only takes the nested and parent 
-    references as a directory reference, and lists the contents of the files in that
-    directory. It does this irrespective of any entry in the workspace.
-  	</warning>
+      <p>The name <code>junitreport</code> can be used as a synonym
+      for <code>report</code>.</p>
+
+      <p>
+        Apache Gump takes the nested and parent references as a directory
+        reference, and lists the contents of the files in that
+        directory.
+      </p>
   	
       <table>
         <tr>
@@ -462,7 +544,7 @@
           of the workspace.</td>
           <td>No</td>
         </tr>
-        <tr>
+        <!--tr>
           <td>project</td>
           <td>Label to use in the junitreport listing (see below).
           Default is the name of the project.</td>
@@ -474,10 +556,10 @@
           (see below) appear under the named module instead of the
           enclosing module.</td>
           <td>No</td>
-        </tr>
+        </tr-->
       </table>
 
-      <p>&lt;junitreport&gt; supports a nested &lt;description&gt;
+      <!--p>&lt;junitreport&gt; supports a nested &lt;description&gt;
       element, which can be used to set the title in the junitreport
       listing.  If no &lt;description&gt; element has been specified,
       the title defaults to the description of the
@@ -533,7 +615,7 @@
     &lt;/junitreport&gt;
 		</source>
 
-      <p>must be used.</p>
+      <p>must be used.</p-->
 
     </section>
 
@@ -559,31 +641,20 @@
         <tr>
           <td>from</td>
           <td>Sender address for the email report.</td>
-          <td>Yes, unless there is a &quot;from&quot; attribute in
-          each nested regexp element.</td>
+          <td>Yes.</td>
         </tr>
         <tr>
           <td>to</td>
           <td>Recipient of the email report.  Will be overridden by a
           &quot;to&quot; attribute in the 
           <link href="workspace.html#nag">workspace</link>.</td>
-          <td>Yes, unless there is a &quot;to&quot; attribute in each
-          nested regexp element.</td>
+          <td>Yes.</td>
         </tr>
       </table>
       
-	<warning>
-    <link href="../python/index.html">Python Gump</link> does not use regular expressions,
-    it soley relies upon the exit code of the called builder or script.
-  	</warning>
-  	
-      <p>A build failure is detected by matching the output of the
-      build against Perl regular expressions, the default expression
-      is <code>/BUILD FAILED/i</code>.  The regular expressions are
-      specified using nested regexp elements - you can associate
-      different email addresses and subjects with each expression.</p>
+      <p>A build failure is detected by the exit code of the builder.</p>
 
-      <p>The regexp element supports the same attributes as the nag
+      <!--p>The regexp element supports the same attributes as the nag
       element with an additional (required) pattern attribute.  This
       attribute specifies the Perl regular expression to be used when
       looking for a build failure.</p>
@@ -617,7 +688,7 @@
        </p>
       <source>
 &lt;nag&gt;
-  &lt;!-- pattern default is /BUILD FAILED/i --&gt;
+  &lt;!- - pattern default is /BUILD FAILED/i - -&gt;
   &lt;regexp from=&quot;from@example.org&quot; 
           to=&quot;to@example.org&quot; 
           subject=&quot;Build Failure - @name of project element@&quot;/&gt;
@@ -634,7 +705,7 @@
       </p>
       <source>
 &lt;nag&gt;
-  &lt;!-- pattern default is /BUILD FAILED/i --&gt;
+  &lt;!- - pattern default is /BUILD FAILED/i - -&gt;
   &lt;regexp from=&quot;from@example.org&quot; 
           to=&quot;to@example.org&quot; 
           subject=&quot;Build Failure - @name of project element@&quot;/&gt;
@@ -643,7 +714,7 @@
           to=&quot;to@example.org&quot; 
           subject=&quot;Gump Build Warning - Deprecated methods used&quot;/&gt;
 &lt;/nag&gt;
-	</source>
+	</source-->
     </section>
 
     <section><title>redistributable</title>

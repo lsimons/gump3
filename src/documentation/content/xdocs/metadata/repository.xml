@@ -20,7 +20,7 @@
 
   <header>
     
-    <title>Gump</title>
+    <title>Apache Gump&#x2122;</title>
   <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
@@ -44,7 +44,10 @@
       <tr>
         <td>type</td>
         <td>Type of repository.</td>
-        <td><strong>cvs</strong>,<strong>svn</strong>,<strong>jars</strong>,<strong>p4</strong> currently supported.</td>
+        <td><strong>cvs</strong>, <strong>svn</strong>, <strong>jars</strong>,
+          <strong>p4</strong>, <strong>git</strong>, <strong>darcs</strong>,
+          <strong>bzr</strong>, <strong>hg</strong> currently
+          supported.</td>
       </tr>
       <tr>
         <td>compress</td>
@@ -190,7 +193,7 @@
         </tr>
         <tr>
           <td>clientspec</td>
-          <td>A Perforce clientspec is a set of mappings from server paths to local paths.  The Perforce server keeps track of what files are "current" in a particular clientspec; as a result, a clientspec cannot be shared across Gump instances.  It is recommended to set the &lt;samp&gt;allwrite&lt;/samp&gt; option in the clientspec.</td>
+          <td>A Perforce clientspec is a set of mappings from server paths to local paths.  The Perforce server keeps track of what files are "current" in a particular clientspec; as a result, a clientspec cannot be shared across Apache Gump instances.  It is recommended to set the &lt;samp&gt;allwrite&lt;/samp&gt; option in the clientspec.</td>
           <td>Yes</td>
         </tr>
         <tr>
@@ -210,6 +213,37 @@
         </tr>
       </table>
     </section>
+	</section>
+	<section>
+	  <title>GIT/darcs/Bazaar/Mercurial Usage</title>
+          <note>This is for type='git', type='darcs', type='bzr' and
+            type='hg'.</note>
+
+	  <p>This specifies all of the elements which are combined to
+            form a command line.  They are split out into separate
+            entities so that each can be individually overridden in a
+            workspace definition.  When an entity is listed as required
+            below, it means that when all of the definitions are combined
+            the entity must have a value - a workspace or profile, for
+            example, only needs to contain the values which it
+            overrides.</p>
+
+          <table>
+            <tr>
+              <th>Entity</th>
+              <th>Description</th>
+              <th>Required?</th>
+            </tr>
+            <tr>
+              <td>url</td>
+              <td>This is the base URL for all modules that reside
+		within this repository.
+		The <link href="module.html">module</link>'s
+		&lt;git|darcs|bzr|hg <strong>dir</strong> attribute is
+		appended to this base url if present.</td>
+              <td>Yes</td>
+            </tr>
+          </table>
 	</section>
 	</section>
 </body>

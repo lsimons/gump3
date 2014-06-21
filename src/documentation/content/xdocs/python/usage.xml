@@ -20,14 +20,14 @@
 
   <header>
     
-    <title>Gump</title>
+    <title>Apache Gump&#x2122;</title>
   <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
 
     <section><title>Getting Started</title>
     <note>
-    	Python Gump shares the first few steps with Traditional Gump, 
+    	Apache Python Gump shares the first few steps with Traditional Gump, 
     	so start <link href="site:gettingstarted">here</link>
     </note>
     </section>

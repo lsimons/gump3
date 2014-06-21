@@ -18,7 +18,7 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
  <header>    
-  	<title>Gump</title>
+  	<title>Apache Gump&#x2122;</title>
   	<authors>
   		<person name="Sam Ruby" email="rubys AT us.ibm DOT com"/>
   		<person name="Adam Jack" email="ajack AT sybase DOT com"/>
@@ -26,14 +26,14 @@
  </header>
 
 <body>
-  <section><title>Python Gump</title>
+  <section><title>Apache Python Gump</title>
   <p>
     See the <link href="http://wiki.apache.org/gump/GumpPython">background</link> on why
-    the Python Gump re-write was initiated.
+    the Apache Python Gump re-write was initiated.
   </p>
   
   <note>
-  	Python Gump has matured to the point it is the live run, and will soon replace Traditional 
+  	Python Gump has matured to the point it is the live run and replaced Traditional 
   	all together.
   </note>
   

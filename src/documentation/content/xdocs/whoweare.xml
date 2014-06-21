@@ -20,7 +20,7 @@
 
   <header>
     
-    <title>Gump Team Page</title>
+    <title>Apache Gump Team Page</title>
     <authors>
       <person name="Community" email="general AT gump DOT apache DOT org"/>
     </authors>
@@ -36,11 +36,13 @@
     <section><title>Project Managment Committee</title>
 
       <ul>
+        <li>Bill Barker</li>
         <li>Nicola Ken Barozzi</li>
         <li>Stefan Bodewig</li>
         <li>Nick Chalko</li>
         <li>Adam Jack</li>
         <li>Stefano Mazzocchi</li>
+        <li>Brett Porter</li>
         <li>Sam Ruby</li>
         <li>Scott Sanders</li>
         <li>Leo Simons</li>
@@ -49,7 +51,15 @@
       </ul>
 
       <p>The Apache Gump Project Managment Committee can be contacted
-        at pmc@gump.apache.org.</p>
+        at private@gump.apache.org.</p>
+
+      <section><title>Emeritus PMC members</title>
+
+        <ul>
+          <li>Nicola Ken Barozzi</li>
+          <li>Nick Chalko</li>
+        </ul>
+      </section>
     </section>
   </body>
 </document>

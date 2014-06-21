@@ -20,7 +20,7 @@
 
   <header>
     
-    <title>Gump</title>
+    <title>Apache Gump&#x2122;</title>
   	<authors>
   	<person name="Sam Ruby" email="rubys@us.ibm.com"/>
   	<person name="Adam R. B. Jack" email="ajack@apache.org"/>
@@ -31,7 +31,7 @@
 
   <section><title>More on builders</title>
 
-    <p>Gump supports building projects with a wide variety of tools.
+    <p>Apache Gump supports building projects with a wide variety of tools.
     These tools are described using their own elements, all of them
     support a common set of attributes and nested elements.  The
     common structure is described in the next section, followed by
@@ -88,8 +88,9 @@
         </tr>
         <tr>
           <td>project</td>
-          <td>The name of the referenced project.  Required if the reference
-          attribute is "home", "jar", "jarpath", or "srcdir".</td>
+          <td>The name of the referenced project.  Required if the
+          reference attribute is "home", "jar", "jarpath", "output",
+          "outputpath", or "srcdir".</td>
           <td>No</td>
         </tr>
         <tr>
@@ -97,10 +98,23 @@
           <td>
             One of the following values:<br/>
             <strong>home:</strong> the home directory for the referenced project<br/>
-            <strong>jar:</strong> the simple name (path relative to home) of the jar in a
+            <strong>output:</strong> the simple name (path relative to home) of the output in a
               referenced project.<br/>
-            <strong>jarpath:</strong> the fully qualified path of the jar in a referenced
+
+            <strong>jar:</strong> the simple name (path relative to
+              home) of the jar in a referenced project.  This is
+              similar to outputpath with a outputtype attribute of
+              "jar" but also applies to outputs of type "boot" and
+              "testsjar".<br/>
+
+            <strong>outputpath:</strong> the fully qualified path of the output in a referenced
               project.<br/>
+
+            <strong>jarpath:</strong> the fully qualified path of the
+              jar in a referenced project.  This is similar to
+              outputpath with a outputtype attribute of "jar" but also
+              applies to outputs of type "boot" and "testsjar".<br/>
+
             <strong>srcdir:</strong> the srcdir for the module containing the project.<br/>
           </td>
           <td>No</td>
@@ -114,8 +128,14 @@
         </tr>
         <tr>
           <td>id</td>
-          <td>Specifies which jar is desired.  Required only for projects which
-          define more than one jar.</td>
+          <td>Specifies which output is desired.  Required only for projects which
+          define more than one output of the same type.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>outputtype</td>
+          <td>Specifies which type of output is desired.  Required only if the
+          reference attribute is "output" or "outputpath".</td>
           <td>No</td>
         </tr>
       </table>
@@ -127,7 +147,8 @@
       that has become a common enough practice that it makes sense to
       introduce this element.</p>
 
-      <p>Depend is only supported by the Java builders Ant and Maven.</p>
+      <p>Depend is only supported by the Java builders Ant and Maven
+        (any version).</p>
 
       <table>
         <tr>
@@ -163,7 +184,8 @@
 
     <section><title>jvmarg</title>
       <p>Additional command line parameters to pass to the Java
-      Virtual Machine running Ant or Maven.</p>
+      Virtual Machine running Ant or Maven (any version).  Doesn't
+      have any effect on any of the other builders.</p>
 
       <table>
         <tr>
@@ -183,8 +205,7 @@
     <section><title>sysproperty</title>
       <p>Java system property to be passed to the Java Virtual Machine.</p>
 
-      <p>Sysproperty is only supported by the Java builders Ant and
-      Maven.</p>
+      <p>Sysproperty is only supported by the Ant builder.</p>
 
       <table>
         <tr>
@@ -290,7 +311,7 @@
 
   <section><title>ant</title>
     <p>Specifies the arguments to be passed to <fork
-    href="http://ant.apache.org/">Ant</fork>.</p>
+    href="http://ant.apache.org/">Apache Ant</fork>.</p>
 
     <table>
       <tr>
@@ -314,28 +335,30 @@
     </table>
   </section>
 
-  <section><title>maven</title>
+  <section><title>mvn1</title>
     <p>Specifies the arguments to be passed to <fork
-    href="http://maven.apache.org/">Maven</fork>.</p>
+    href="http://maven.apache.org/">Apache Maven 1.x</fork>.</p>
     
-    <p>The <fork href="http://maven.apache.org/">Maven</fork>
-    component of Gump (&lt;maven&gt;) uses a
+    <p>The <fork href="http://maven.apache.org/">Maven 1.x</fork>
+    component of Gump (&lt;mvn1&gt;) uses a
     <strong>pre-installed</strong> version of <fork
     href="http://maven.apache.org">Maven</fork>, it does
-    <strong>NOT</strong> bootstrap Maven from CVS HEAD, yet. This is
-    hopefully something that will be added in the future.</p>
+    <strong>NOT</strong> bootstrap Maven from svn trunk.</p>
     
     <p>Gump generates a <strong>build.properties</strong> file for
     Maven, in which it specifies the jar <link
     href="http://maven.apache.org/reference/user-guide.html#Overriding_Stated_Dependencies">overrides</link>,
     and also any <link href="project.html#property">properties</link>
-    that are passes into the &lt;maven element.</p>
+    that are passes into the &lt;maven&gt; element.</p>
     
-    <p>Currently Gump does <strong>not</strong> read the Maven
+    <p>Gump does <strong>not</strong> read the Maven
     project.xml (POM) to attempt to determine dependencies, the Gump
     descriptor needs to have them. The 'gump' goal in Maven ought
     generate such a file.</p>
     
+    <p>The element name <strong>maven</strong> can be used as an alias
+      for <strong>mvn1</strong>.</p>
+
     <table>
       <tr>
         <th>Attribute</th>
@@ -349,6 +372,247 @@
         <td>No. Defaults to <strong>jar</strong>.</td>
       </tr>
     </table>
+  </section>
+
+  <section><title>mvn2</title>
+    <p>Specifies the arguments to be passed to <fork
+    href="http://maven.apache.org/">Apache Maven 2.x</fork>.</p>
+    
+    <p>The <fork href="http://maven.apache.org/">Maven 2.x</fork>
+    component of Gump (&lt;mvn2&gt;) uses a
+    <strong>pre-installed</strong> version of <fork
+    href="http://maven.apache.org">Maven 2.x</fork>, it does
+    <strong>NOT</strong> bootstrap Maven from svn trunk.</p>
+    
+    <p>
+      First of all, all mvn built projects use the same local
+      repository for artifacts they've downloaded and this local
+      repository is wiped out after each Gump run.  This can be
+      overriden on a per build basis, see below.
+    </p>
+
+    <p>
+      When Gump starts up, it starts a web application on the build
+      server that acts as a proxy for mvn repository requests.
+      Whenever a project has been built successfully Gump registers
+      the created artifacts with this proxy.  When the proxy is asked
+      for a jar artifact and a jar with matching group and artifact id
+      has been registered, the proxy will completely ignore the
+      specified version and serve the Gump built jar file - and
+      calculate SHA1 as well as MD5 checksums for them on the fly as
+      needed.  Any other request that is unknown to the proxy will be
+      passed on to the central mvn repository, in particular the proxy
+      will never serve POMs itself.
+    </p>  
+
+    <p>
+      Technically it is not necessary to declare the dependencies of a
+      mvn built project since artifacts will be retrieved from the
+      proxy even if Gump doesn't know about the dependency.  This can
+      only work if the dependency has already been built, though, so
+      it is still better to list all dependencies inside the Gump
+      descriptor in order to maintain correct build order.
+    </p>
+
+    <p>
+      Maven 2.x and some of its plugins will also download jars even if
+      the project itself doesn't need them.  It is a good practice to
+      watch the log file of the repository proxy and add the jars that
+      have been obtained from the central repository as explicit
+      dependencies to the projects that have asked for them.
+    </p>
+
+    <p>
+      Sometimes a project simply cannot depend on another project
+      built by Gump since it would cause a dependency cycle.  One such
+      example is BCEL, which is needed by Xalan and thus transitively
+      by a lot of other projects.  BCEL is built using Maven 2.x and
+      uses a plugin that depends on JMock and commons-lang, both of
+      which transitively depend on BCEL.  The way around this is to
+      allow BCEL to obtain those jars from the central repository (by
+      being built first) but make it use a separate local repository
+      so that subsequent requests for JMock and commons-lang by other
+      projects will use Gump's versions instead of the released ones.
+    </p>
+
+    <p>The element name <strong>mvn</strong> can be used as an alias
+      for <strong>mvn2</strong>.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>goal</td>
+        <td>The Maven goal to invoke.  <em>This can be a comma
+        separated list. Spaces are preserved.</em></td>
+        <td>No. Defaults to <strong>package</strong>.</td>
+      </tr>
+      <tr>
+        <td>profile</td>
+        <td>The Maven profile to activate.</td>
+        <td>No. Gump will use the default profile if the attribute has
+        not been set.</td>
+      </tr>
+      <tr>
+        <td>separateLocalRepository</td>
+        <td>Normally all &lt;mvn&gt; builds share the same local
+          repository that will be removed after each complete Gump run.
+          Sometimes a project needs to use a separate local repository
+          from the others, the most common case is that a project needs
+          to be built against a released dependency instead of a Gump
+          built one in order to break a dependency cycle.<br/>
+          The value of this attribute can be a boolean or an
+          identifier.  If you use a boolean it simply en- or
+          disables a local repository separate from the other
+          directories and Gump will choose a directory name (if the
+          value is true).  If several projects are tightly related
+          and should share the same local repository different from
+          the other projects you can use an id instead of a boolean
+          and use the same id for each project.
+        </td>
+        <td>No. Defaults to <strong>false</strong>.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section><title>mvn2install</title>
+    <p>Installs a file into the local Maven 2.x+ repository using the
+      mvn2 install plugin.</p>
+
+    <p>This element is a shortcut for a common use case of the mvn
+      builder which would otherwise involve several nested property
+      elements.  It uses mvn's "install:install-file" goal to install
+      the file given by the file attribute using the groupId of the
+      current project (or workspace) and the given or implied
+      artifactId.</p>
+    
+    <p>If the artifact to install is a POM, Gump can try to parse the
+      file for the version number.  Gump's parser isn't complete and
+      may be unable to extract the proper version - for example, Gump
+      will not support property references - in which case the version
+      must be specified explicitly.</p>
+
+    <p>The element name <strong>mvninstall</strong> can be used as an
+      alias for <strong>mvn2install</strong>.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>version</td>
+        <td>The version of the artifact to install.</td>
+        <td>Yes if <code>packaging</code> is different from "pom" or
+          the version inside the POM uses property references.</td>
+      </tr>
+      <tr>
+        <td>file</td>
+        <td>The file to install (relative to basedir).</td>
+        <td>No. Defaults to "pom.xml".</td>
+      </tr>
+      <tr>
+        <td>packaging</td>
+        <td>The type of artifact to install.</td>
+        <td>No. Defaults to "pom".</td>
+      </tr>
+      <tr>
+        <td>artifactId</td>
+        <td>The id of the artifact to install.</td>
+        <td>No. Defaults to project's name.</td>
+      </tr>
+      <tr>
+        <td>profile</td>
+        <td>The Maven profile to activate.</td>
+        <td>No. Gump will use the default profile if the attribute has
+        not been set.</td>
+      </tr>
+      <tr>
+        <td>separateLocalRepository</td>
+        <td>Normally all &lt;mvn&gt; builds share the same local
+          repository that will be removed after each complete Gump run.
+          Sometimes a project needs to use a separate local repository
+          from the others, the most common case is that a project needs
+          to be built against a released dependency instead of a Gump
+          built one in order to break a dependency cycle.<br/>
+          The value of this attribute can be a boolean or an
+          identifier.  If you use a boolean it simply en- or
+          disables a local repository separate from the other
+          directories and Gump will choose a directory name (if the
+          value is true).  If several projects are tightly related
+          and should share the same local repository different from
+          the other projects you can use an id instead of a boolean
+          and use the same id for each project.
+        </td>
+        <td>No. Defaults to <strong>false</strong>.</td>
+      </tr>
+    </table>
+
+    <source><![CDATA[
+<project name="foo" groupId="bar">
+  <mvn2install version="1.0"/>
+</project>]]></source>
+
+    <p>is completely equivalent to</p>
+
+    <source><![CDATA[
+<project name="foo" groupId="bar">
+  <mvn2 goal="install:install-file">
+    <property name="groupId" value="bar"/>
+    <property name="artifactId" value="foo"/>
+    <property name="packaging" value="pom"/>
+    <property name="file" value="pom.xml"/>
+    <property name="version" value="1.0"/>
+  </mvn2>
+</project>]]></source>
+
+  </section>
+
+  <section><title>mvn3</title>
+    <p>Specifies the arguments to be passed to <fork
+    href="http://maven.apache.org/">Apache Maven 3.x</fork>.</p>
+    
+    <p>The <fork href="http://maven.apache.org/">Maven 3.x</fork>
+    component of Gump (&lt;mvn3&gt;) uses a
+    <strong>pre-installed</strong> version of <fork
+    href="http://maven.apache.org">Maven 3.x</fork>, it does
+    <strong>NOT</strong> bootstrap Maven from svn trunk.</p>
+
+    <p>The mvn3 builder works the same way as
+      the <link href="#mvn2">mvn2</link> builder and supports all the
+      same attributes and nested elements.</p>
+  </section>
+    
+  <section><title>mvn3install</title>
+    <p>Installs a file into the local Maven 2.x+ repository using the
+      mvn3 install plugin.</p>
+
+    <p>This builder is identical to
+      the <link href="#mvn2install">mvn2install</link> builder but uses
+      Maven 3.x rather than 2.x to invoke the install plugin.</p>
+
+    <source><![CDATA[
+<project name="foo" groupId="bar">
+  <mvn3install version="1.0"/>
+</project>]]></source>
+
+    <p>is completely equivalent to</p>
+
+    <source><![CDATA[
+<project name="foo" groupId="bar">
+  <mvn3 goal="install:install-file">
+    <property name="groupId" value="bar"/>
+    <property name="artifactId" value="foo"/>
+    <property name="packaging" value="pom"/>
+    <property name="file" value="pom.xml"/>
+    <property name="version" value="1.0"/>
+  </mvn3>
+</project>]]></source>
+
   </section>
 
   <section><title>configure</title>

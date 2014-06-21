@@ -1,0 +1,6 @@
+#!/bin/bash
+#export JAVA_HOME=/opt/local/jre # CHANGE THIS!
+export GUMP_HOME=`pwd`
+cd cron
+./demo.sh
+cd ..

@@ -49,16 +49,20 @@
         <td>Set to "true" to turn on module debugging.</td>
         <td>No</td>
       </tr>
+      <tr>
+        <td>groupId</td>
+        <td>mvn groupId for artifacts built by the projects contained
+        in this module.</td>
+        <td>No, defaults to the module's name</td>
+      </tr>
     </table>
-
-    <warning>Only Python Gump supports &lt;module debug=&quot;true&quot;</warning>
 
     <section><title>url</title>
       <p>This is the homepage for the collection of projects contained in
       this module.  This element is optional, but if present, will be
       referenced in the generated web pages containing build results.</p>
 
-      <p>Note: give the way that Gump uses href to specify definitions which
+      <p>Note: give the way that Apache Gump uses href to specify definitions which
       are to be inlined, the design of this element is rather unfortunate.
       Perhaps it should be replaced with a &lt;home-page&gt; element.</p>
 
@@ -90,10 +94,6 @@
     <section><title>cvs</title>
       <p>References the <link href="repository.html">repository</link> in which
       this project resides.  May also contain various overrides.</p>
-
-      <p>Note: as the long term plans is to make Gump handle many different
-      types of repository types, the name of this element should ultimately
-      change</p>
 
       <table>
         <tr>
@@ -141,8 +141,10 @@
 
     <section><title>svn</title>
 
-      <p>References a <link href="http://subversion.tigris.org">Subversion</link> 
-      repository in which this project resides.</p>
+      <p>References the
+      Subversion <link href="repository.html">repository</link> in
+      which this project resides.  May also contain various
+      overrides.</p>
 
       <table>
         <tr>
@@ -151,16 +153,18 @@
           <th>Required?</th>
         </tr>
         <tr>
-          <td>url</td>
-          <td>The url of the repository in which this module resides.</td>
+          <td>repository</td>
+          <td>The name of the repository in which this module resides.</td>
           <td>Yes</td>
         </tr>
+        <tr>
+          <td>dir</td>
+          <td>The subdirectory in which the svn module is present.  Useful
+          for repositories like Apache's which organize related modules
+          into directories.</td>
+          <td>No</td>
+        </tr>
       </table>
-
-      <p>For example:</p>
-          <source>
-  &lt;svn url="http://svn.collab.net/repos/svn/trunk" /&gt;
-</source>    
     </section>
 
     <section><title>p4</title>
@@ -185,6 +189,123 @@
           <source>
   &lt;p4 repository="my-p4-repository"/&gt;
 </source>    
+    </section>
+
+    <section><title>git</title>
+
+      <p>References the
+      Git <link href="repository.html">repository</link> in
+      which this project resides.  May also contain various
+      overrides.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>repository</td>
+          <td>The name of the repository in which this module resides.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>dir</td>
+          <td>The subdirectory in which the git module is present.
+          Useful for repositories which organize related modules into
+          directories.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>branch</td>
+          <td>Remote git branch to pull from.</td>
+          <td>No, defaults to "master".</td>
+        </tr>
+      </table>
+    </section>
+
+    <section><title>darcs</title>
+
+      <p>References the
+      darcs <link href="repository.html">repository</link> in
+      which this project resides.  May also contain various
+      overrides.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>repository</td>
+          <td>The name of the repository in which this module resides.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>dir</td>
+          <td>The subdirectory in which the darcs module is present.
+          Useful for repositories which organize related modules into
+          directories.</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </section>
+
+    <section><title>bzr</title>
+
+      <p>References the
+      Bazaar <link href="repository.html">repository</link> in
+      which this project resides.  May also contain various
+      overrides.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>repository</td>
+          <td>The name of the repository in which this module resides.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>dir</td>
+          <td>The subdirectory in which the bzr module is present.
+          Useful for repositories which organize related modules into
+          directories.</td>
+          <td>No</td>
+        </tr>
+      </table>
+    </section>
+
+    <section><title>hg</title>
+
+      <p>References the
+      Mercurial <link href="repository.html">repository</link> in
+      which this project resides.  May also contain various
+      overrides.</p>
+
+      <table>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Required?</th>
+        </tr>
+        <tr>
+          <td>repository</td>
+          <td>The name of the repository in which this module resides.</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>dir</td>
+          <td>The subdirectory in which the hg module is present.
+          Useful for repositories which organize related modules into
+          directories.</td>
+          <td>No</td>
+        </tr>
+      </table>
     </section>
 
     <section><title>project</title>

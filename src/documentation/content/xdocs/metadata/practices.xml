@@ -29,7 +29,7 @@
 <body>  	
 	
 	<section><title>Why good practices?</title>
-		<p>There are a number of reasons why an optimal Gump Descriptor ought be
+		<p>There are a number of reasons why an optimal Apache Gump Descriptor ought be
 			a goal. Some are to be nice to Gump, and it's resources. Some are so
 			Gump can be nice to your project. <strong>In short</strong>, don't ask Gump to do more than it needs, and don't put
 			barriers in the way of the frequent Gumping of your project. 

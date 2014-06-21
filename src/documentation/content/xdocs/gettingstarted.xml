@@ -20,7 +20,7 @@
 
   <header>
     
-    <title>Gump: Getting Started</title>
+    <title>Apache Gump&#x2122;: Getting Started</title>
   <authors>
   	<person name="Adam R. B. Jack" email="ajack@apache.org"/>
   </authors></header>
@@ -28,7 +28,7 @@
 <body>
 
 <!--
-  <section><title>Getting started with Gump</title>     
+  <section><title>Getting started with Apache Gump</title>     
     <p>There are a number of ways to work with Gump, and
     </p>
     <table>
@@ -89,7 +89,7 @@
       notification, so it can be omitted.</p>
       
       <p>It is highly recommended at this point that you review the
-      description of the data definitions used by Gump, starting with
+      description of the data definitions used by Apache Gump, starting with
       the <link href="site:om/overview">overview</link>.</p>
       
       <section><title>Pre-requisites</title>
@@ -111,7 +111,7 @@
 
     <section><title>Getting the source/metadata for Gump</title>
   	  <section><title>Getting the source</title>
-		<p>Gump source code resides in Subversion <fork href="http://cvs.apache.org/viewcvs.cgi/gump/?root=Apache-SVN">here</fork>.</p>
+		<p>Gump source code resides in Subversion <fork href="https://svn.apache.org/repos/asf/gump/trunk/">here</fork>.</p>
       <source>
       svn checkout https://svn.apache.org/repos/asf/gump/trunk/ gump 
       </source>      
@@ -120,16 +120,14 @@
 	  </section>
 	  <section><title>Getting the metadata</title>
 
-		<p>The shared Gump metadata resides in CVS <fork href="http://cvs.apache.org/viewcvs.cgi/gump/">here</fork>.</p>
+        <p>If you have checked out the code then you already have the
+          metadata in gump/metadata.</p>
+
+		<p>The shared Gump metadata resides in SVN <fork href="https://svn.apache.org/repos/asf/gump/metadata">here</fork>.</p>
 	<source>
-      cd gump
-      export CVSROOT=:pserver:anoncvs@cvs.apache.org:/home/cvspublic
-      cvs login
-      cvs co -d metadata gump
+      svn checkout https://svn.apache.org/repos/asf/gump/trunk/metadata metadata
       </source>
 	  </section>
-      <p>If prompted for the password, enter <strong>anoncvs</strong>.</p>
-	  <p>This checks out the metadata into a sub-directory called metadata, under gump.</p>
     </section>
 
     <section><title>Defining your workspace</title>
@@ -155,7 +153,7 @@
       </p>
 
       <p>A list of some of the packages you might want to install can be found
-      <link href="http://brutus.apache.org/gump/public/packages.html">
+      <link href="http://vmgump.apache.org/gump/public/packages.html">
       here</link>.</p>
 
       <p><strong>JDK 1.4</strong> includes both <code>jaxp</code> and <code>jsse</code>

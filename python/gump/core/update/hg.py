@@ -20,6 +20,7 @@ import re
 from gump.core.update.scmupdater import extract_URL, log_repository_and_url, \
     match_workspace_template, ScmUpdater, should_be_quiet
 from gump.util.process.command import Cmd
+from gump.util.process.launcher import execute
 
 def setup_common_parameters(module, cmd):
     if should_be_quiet(module):    
@@ -57,10 +58,24 @@ class HgUpdater(ScmUpdater):
 
     def getUpdateCommand(self, module):
         """
-            Build the appropriate hg command for pull
+            Build the appropriate hg command for pull if hg incoming
+            indicates any changes
         """
         log_repository_and_url(module, 'hg')
-        cmd = Cmd('hg', 'update_' + module.getName(), 
+
+        cmd = Cmd('hg', 'incoming_' + module.getName(), 
+                  module.getSourceControlStagingDirectory())
+        cmd.addParameter('incoming')
+        setup_common_parameters(module, cmd)
+        result = execute(cmd)
+
+        if not result.isOk():
+            module.addInfo('No updates')
+            cmd = Cmd('echo', 'update_' + module.getName(), 
+                      module.getSourceControlStagingDirectory())
+            cmd.addParameter('hg incoming indicated no changes to pull')
+        else:
+            cmd = Cmd('hg', 'update_' + module.getName(), 
                   module.getSourceControlStagingDirectory())
         cmd.addParameter('pull')
         # update working copy

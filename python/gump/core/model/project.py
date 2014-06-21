@@ -117,6 +117,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         self.honoraryPackage = False
         self.built = False
 
+        # removed dependencies
+        self.removes = []
+
     def __del__(self):
         NamedModelObject.__del__(self)
         Statable.__del__(self)
@@ -626,7 +629,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         [b.expand(self, workspace) for b in self.builder]
 
         if not packaged:
-            removes = []
+            self.removes = []
 
             # Complete dependencies so properties can reference the, 
             # completed metadata within a dependent project
@@ -645,7 +648,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                                       "on %s from %s." % \
                                       (depProject.getName(), self.getName()))
 
-                    removes.append(dependency)
+                    self.removes.append(dependency)
                 else:
                     # Don't redo what is done.
                     if not depProject.isComplete():
@@ -654,7 +657,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                         depProject.complete(workspace, new_visited)
 
             # Remove circulars...
-            for dependency in removes:
+            for dependency in self.removes:
                 self.removeDependency(dependency)
 
             self.buildDependenciesMap(workspace)
@@ -763,6 +766,13 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
                 badOptions.append((odom, "unknown to *this* workspace"))
 
         return (badDepends, badOptions)
+
+    def get_removed_dependencies(self):
+        """
+        ProjectDependencies that have been removed in order to break
+        circular dependencies.
+        """
+        return self.removes
 
     def hasBaseDirectory(self):
         if self.basedir:

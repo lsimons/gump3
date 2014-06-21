@@ -1,8 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <meta content="text/html; charset=ISO-8859-1"
- http-equiv="content-type">
   <title>How Gump Works</title>
 </head>
 <body>
@@ -18,7 +15,9 @@ first part takes care of actually performing the build. Internally, we
 tend to call this part "Gumpy", since its written in python. The second
 part takes care of the reporting and introspection. It is written in
 java using Apache Cocoon.</p>
-<img src="process.png">
+
+<img src="process.png" alt="Picture showing the process" />
+
 <h3>Gumpy, the builder</h3>
 <p>Gumpy is a python script that is fired from cron every few hours. It
 does some self-initialization, looks at it environment, then starts
@@ -61,6 +60,7 @@ algorithm has been written but not yet implemented!) Suffice saying
 that Gumpy is often able to determine exactly which CVS or SVN commit
 caused the build failure, and in other instances is able to give a good
 hint.</p>
+
 <h3>DynaGump, the reporter</h3>
 <p>Once Gumpy is done, its time for DynaGump to do its thing. DynaGump
 is

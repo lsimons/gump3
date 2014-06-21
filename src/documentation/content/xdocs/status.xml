@@ -20,7 +20,7 @@
 
   <header>
     
-    <title>Gump</title>
+    <title>Apache Gump&#x2122;</title>
   <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
@@ -31,37 +31,12 @@
     release, in other cases they may represent an abject failure to
     communicate.</p>
 
-    <section><title>jakarta-taglibs</title>
-      <p>At the moment, the taglibs builds require the presence of xalan1.
-      Xalan1's last release was in August of 2000.  It has been removed
-      from cvs, and even the backwards compatibility support has been removed 
-      from Xalan2.  Xalan1 is not compatible with Xerces2.  While I would
-      recommend letting go of the Xalan1 support, at a minimum, this
-      dependency needs to be made optional during compilation.
-      </p>
-    </section>
   </section>
 
   <section><title>Other Issues</title>
     <p>These represent versioning issues that will not show up in any
-    Gump run, but you may need to be aware.</p>
+    Apache Gump run, but you may need to be aware.</p>
 
-    <section><title>jakarta-turbine</title>
-      <p>Based on inspection, I don't believe that turbine-2 and turbine-3 can
-      coexist in a classpath.  The jakarta-jetspeed, jakarta-turbine-jyve, and
-      jakarta-turbine-orgami projects depend on turbine-2.  The
-      jakarta-turbine-flux project depends on turbine-3.</p>
-    </section>
-
-    <section><title>jakarta-velocity</title>
-      <p>The combination of Texen, Ant 1.4 or later, and placing jars on your
-      classpath can result in unexpected behavior.  This has been isolated
-      to a standalone 
-      <link href="http://marc.theaimsgroup.com/?l=ant-dev&amp;m=100264908721443&amp;w=2">test case</link> 
-      and being investigated by the Ant development team.  Meanwhile, an 
-      undocumented attribute, reverseloader, which when set to the value "true"
-      on taskdefs which defines texen may help.</p>
-    </section>
   </section>
 
   <section><title>Recent success stories</title>

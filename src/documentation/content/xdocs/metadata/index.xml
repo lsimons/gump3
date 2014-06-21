@@ -19,12 +19,12 @@
 <document>
 
   <header>    
-    <title>Gump Object Model</title>
+    <title>Apache Gump&#x2122; Object Model</title>
   <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
 
-    <p>The data definitions for Gump are organized around the various
+    <p>The data definitions for Apache Gump are organized around the various
     roles a developer may perform.  The overall approach is that elements
     (e.g. project definitions) can be repeated in multiple contexts (e.g.,
     modules, profiles, and workspaces), with definitions in "higher"
@@ -84,10 +84,11 @@
     </section>
 
     <section><title>repository</title>
-      <p>A <link href="repository.html">repository</link> specifies where modules
-      can physically be located.  In the case of cvs (the only option
-      supported at the present time), it contains the information used to
-      form the CVSROOT used on checkout and update commands.</p>
+      <p>A <link href="repository.html">repository</link> specifies
+      where modules can physically be located.  In the case of cvs, it
+      contains the information used to form the CVSROOT used on
+      checkout and update commands, for other supported SCMs it
+      contains URLs or similar information.</p>
     </section>
 
     <section><title>profile</title>

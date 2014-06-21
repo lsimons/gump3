@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -20,20 +20,20 @@
 	xmlns="http://apache.org/forrest/linkmap/1.0" 
 	tab="gump">
 
-	<gump label="Gump">
+	<gump label="Apache Gump">
 	    <index href="index.html" label="Home"/>
 	    <status href="status.html" label="Status"/>
-	    <source href="http://cvs.apache.org/viewcvs/gump/?root=Apache-SVN" label="Source"/>
-	    <source href="http://cvs.apache.org/viewcvs/gump/" label="Metadata"/>
+	    <source href="https://svn.apache.org/repos/asf/gump/trunk" label="Source"/>
+	    <source href="https://svn.apache.org/repos/asf/gump/metadata" label="Metadata"/>
 	    <faq href="http://wiki.apache.org/gump/FrequentlyAskedQuestions" label="FAQ"/>
-	    <gettingstarted href="gettingstarted.html" label="Getting Started"/>
-	    <todo href="todo.html" label="Help Wanted"/>
-            <license href="http://www.apache.org/licenses/LICENSE-2.0.txt" label="License"/>
+	    <!--gettingstarted href="gettingstarted.html" label="Getting Started"/-->
+	    <!--todo href="todo.html" label="Help Wanted"/-->
+            <license href="http://www.apache.org/licenses/" label="License"/>
             <nagged href="nagged.html"/>
 	</gump>
 	<results label="Results">
-	    <nightly href="http://brutus.apache.org/gump/public/" label="Nightly"/>
-	    <jars href="http://brutus.apache.org/gump/public-jars/" label="Jars"/>
+	    <nightly href="http://vmgump.apache.org/gump/public/" label="Nightly"/>
+	    <jars href="http://vmgump.apache.org/gump/public-jars/" label="Jars"/>
 	</results>
 	<!--
 	<menu label="Cross Reference">
@@ -50,9 +50,18 @@
 	    <wiki href="http://wiki.apache.org/gump" label="Wiki"/>
 	    <issues href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10457" label="Issues"/>
             <howtocontribute href="http://jakarta.apache.org/site/getinvolved.html" label="Get Involved"/>
+            <security href="http://www.apache.org/security/"
+                      label="Reporting Security Issues"/>
             <whoweare href="whoweare.html" label="Who We Are"/>
             <bylaws href="bylaws.html" label="Project Bylaws"/>
 	</getinvolved>
+
+        <sponsorship label="Sponsorship">
+            <program href="http://www.apache.org/foundation/sponsorship.html"
+              label="Donate"/>
+            <thanks href="http://www.apache.org/foundation/thanks.html"
+              label="Thanks"/>
+        </sponsorship>
 
 	<om label="Object Model" tab="metadata">
 	    <overview href="metadata/index.html" label="Overview"/>
@@ -71,13 +80,20 @@
 	</python>
 
   <external-refs>
-    <xml.apache.org href="http://xml.apache.org/">
-      <forrest href="forrest/">
-        <validation href="validation.html"/>
-        <webapp href="your-project.html#webapp"/>
-        <document-v11 href="document-v11.html"/>
+    <forrest href="http://forrest.apache.org/">
+      <linking href="docs/linking.html"/>
+      <validation href="docs/validation.html"/>
+      <webapp href="docs/your-project.html#webapp"/>
+      <cap href="docs/cap.html"/>
+      <dtd-docs href="docs/dtd-docs.html"/>
+      <new_content_type href="docs/your-project.html#adding_new_content_type"/>
+      <buildPlugin href="docs/howto/howto-buildPlugin.html"/>
+      <dev href="howto-dev.html">
+        <debug-validation href="#debug-validation"/>
+      </dev>
       </forrest>
-      <cocoon href="cocoon/"/>
-    </xml.apache.org>
+    <forrest-zone href="http://forrest.zones.apache.org/"/>
+    <cocoon href="http://cocoon.apache.org/"/>
+    <xml.apache.org href="http://xml.apache.org/"/>
   </external-refs>
 </site>

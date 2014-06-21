@@ -53,9 +53,9 @@ class Property(NamedModelObject):
         Get a value
         """
         if self.output :
-            if self.reference == 'jarpath' or self.reference == 'outputpath' :
+            if self.reference == 'jarpath' or self.reference == 'outputpath':
                 self.setValue(self.output.getPath())
-            else :
+            else:
                 self.setValue(self.output.getName())                
         return self.value
 

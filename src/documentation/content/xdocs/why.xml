@@ -20,14 +20,14 @@
 
   <header>
     
-    <title>Why was Gump written?</title>
+    <title>Why was Apache Gump written?</title>
   <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/>
   		<person name="Adam Jack" email="ajack AT sybase DOT com"/></authors></header>
 
 <body>
 
   <p>
-    I've read with great amusement the motivations attributed to why Gump
+    I've read with great amusement the motivations attributed to why Apache Gump
     was originally written.  The reasons were most definitely not altruistic.
     To understand why Gump was written, you need to understand a bit of
     the history of the Jakarta and XML projects.  But, first, here is a

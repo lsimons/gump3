@@ -18,7 +18,7 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
   <header>    
-    <title>Gump - Frequently Asked Questions</title>
+    <title>Apache Gump - Frequently Asked Questions</title>
   
   	<authors>
   		<person name="Sam Ruby" email="rubys AT us.ibm DOT com"/>
@@ -27,8 +27,8 @@
   </header>    
 <body>
 
-	<section><title>Question: Which version of Ant (or JUnit or log4j or...) does Gump use?</title>
-    <p><strong>Answer: </strong>The latest from cvs (as of the instant of the Gump run).</p>
+	<section><title>Question: Which version of Apache Ant (or JUnit or Apache log4j or...) does Apache Gump use?</title>
+    <p><strong>Answer: </strong>The latest from SCM (as of the instant of the Gump run).</p>
     </section>
     
 	<section><title>Question: Gump is building the latest version of everything?</title>
@@ -53,12 +53,12 @@
     	</section>
     	
       <section><title>Question: I've got a fix, how do I get Gump to pick it up?</title>
-    		<p><strong>Answer: </strong>Check it into cvs.</p>
+    		<p><strong>Answer: </strong>Check it into your source control.</p>
     	</section>
     	
 <section><title>Question: I checked in a fix, how do I know if Gump picked it up?</title>
-    		<p><strong>Answer: </strong>On the build log, click on the link marked <code>cvs</code>.  It 
-              will tell you when the latest cvs update or checkout was 
+    		<p><strong>Answer: </strong>On the build log, click on the link marked <code>update</code>.  It 
+              will tell you when the latest scm update or checkout was 
               performed and what source files were obtained in the process.</p>
     	</section>
     	
@@ -84,8 +84,8 @@
               definition for a project I'm a committer on...how do I get
               the change to be made?</title>
     		<p><strong>Answer: </strong>The 
-              <link href="http://cvs.apache.org/viewcvs/gump/">
-              gump cvs repository</link> is open to all ASF committers.
+              <link href="http://svn.apache.org/viewvc/gump/metadata/">
+              gump svn repository</link> is open to all ASF committers.
               Simply check it out and commit your changes.  It is highly
               recommended that you build the "gen" target first of the
               provided build.xml in order to verify that your changes
@@ -101,7 +101,7 @@
               general@gump.apache.org</link>.  Being Apache related
               (i.e, used by or a consumer of other Apache projects) helps,
               but is not required.  What is important is that your code be
-              publicly accessible via cvs and that it be buildable in an
+              publicly accessible via a supported SCM and that it be buildable in an
               OS independent manner.</p>
     	</section>
     	
@@ -110,9 +110,9 @@
     		<p><strong>Answer: </strong>That's supported too, as long as your project supports
               viewcvs or equivalent.  Simply put the URL of the project
               definition in the 
-              <link href="http://cvs.apache.org/viewcvs/gump/profile/gump.xml?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+              <link href="http://svn.apache.org/viewvc/gump/metadata/profile/gump.xml?content-type=text/vnd.viewcvs-markup">
               gump profile</link>.  However, if you are an ASF committer, why
-              not consider leaving it in the gump cvs repository, that
+              not consider leaving it in the gump svn repository, that
               way others can also help out too?
              </p>
     	</section>

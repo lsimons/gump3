@@ -20,7 +20,7 @@
 
   <header>
     
-    <title>Gump</title>
+    <title>Apache Gump&#x2122;</title>
   <authors><person name="Sam Ruby" email="rubys@us.ibm.com"/></authors></header>
 
 <body>
@@ -48,7 +48,7 @@
         <td>name</td>
         <td>Name of this workspace.
         </td>
-        <td>Required by Python Gump</td>
+        <td>Yes</td>
       </tr>
       <tr>
         <td>pkgdir</td>
@@ -84,23 +84,23 @@
       </tr>
       <tr>
         <td>version</td>
-        <td>Which version of the Gump dtd this workspace was defined against.
+        <td>Which version of the Apache Gump dtd this workspace was defined against.
           The current version is "0.4".
         </td>
         <td>Yes</td>
       </tr>
-      <tr>
+      <!--tr>
         <td>sync</td>
         <td>The name of the command, along with any desired parameters, used to
           synchronize the build directory with the cvs directory.  This can make
           a <em>considerable</em> performance advantage over the default action
           which is to recursively remove the directory and copy the entire
           directory tree.  Recommended value for this parameter is
-          <code>"rsync -r -a --delete"</code>. <em>Note:</em> Not used ny Python Gump,
+          <code>"rsync -r -a - -delete"</code>. <em>Note:</em> Not used ny Python Gump,
           which builds this in.
          </td>
         <td>No</td>
-      </tr>
+      </tr-->
       <tr>
         <td>bootclass</td>
         <td>If this value is set to "yes", it will enable placing jars on the
@@ -109,6 +109,39 @@
           <link href="project.html">project</link> for details.
         </td>
         <td>No</td>
+      </tr>
+      <tr>
+        <td>makeCommand</td>
+        <td>The make executable to use.</td>
+        <td>No, defaults to make.</td>
+      </tr>
+      <tr>
+        <td>mvnRepoProxyPort</td>
+        <td>TCP port to bind the mvn repository proxy to.</td>
+        <td>No, defaults to 8192.</td>
+      </tr>
+      <tr>
+        <td>logurl</td>
+        <td>Public URL that makes the contens of <code>logdir</code>
+          available.  This will be used in nag emails.</td>
+        <td>No.  Defaults to ""</td>
+      </tr>
+      <tr>
+        <td>mailserver</td>
+        <td>SMTP server to use when sending nag emails.</td>
+        <td>No.  Defaults to mail.apache.org</td>
+      </tr>
+      <tr>
+        <td>administrator</td>
+        <td>Email address that receives the final report when a Gump
+          run is finished.</td>
+        <td>No.</td>
+      </tr>
+      <tr>
+        <td>email</td>
+        <td>Email address that is the sender of the final report when
+          a Gump run is finished.</td>
+        <td>No.</td>
       </tr>
     </table>
     <p/>
@@ -276,7 +309,7 @@
     </section>
 
 
-    <section><title>javadoc</title>
+    <!--section><title>javadoc</title>
       <p>Enables publishing of a summary page linking all of the javadocs
       produced in the process.  This will be placed in the workspace log
       directory with the name "javadoc.html".</p>
@@ -307,7 +340,7 @@
           <td>No</td>
         </tr>
       </table>
-    </section>
+    </section-->
 
     <section><title>junitreport</title>
       <p>Enables publishing of a summary page linking all of the junit

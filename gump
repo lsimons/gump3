@@ -82,14 +82,6 @@ function usage
         $0 site-publish
 "
       ;;
-    get-metadata)
-      echo "
-      Use CVS to check out or update the metadata.
-
-      Usage:
-        $0 get-metadata [CVSROOT]
-"
-      ;;
     validate)
       echo "
       Run the DTD validation tools on the metadata.
@@ -108,7 +100,11 @@ function usage
       ;;
     *)
       echo "
-      Utility commandline interface for Gump.
+     _____
+    |   __|_ Apache_ ___ 
+    |  |  | | |     | . |
+    |_____|___|_|_|_|  _|
+                    |_|
      
       Usage:
         $0 command [opts ...]
@@ -117,11 +113,10 @@ function usage
      
         run -- run Gumpy
         test -- run Gumpy its unit tests
-        get-metadata -- Check out or update metadata from CVS
         validate -- validate the metadata
-        help -- print this information
         site -- use Apache Forrest to build the documentation
         site-publish -- use SVN and SSH to publish the site to the website
+    help -- print this information
      
       Run
      
@@ -140,8 +135,7 @@ function usage
 # Print an error message and then exit.
 function error
 {
-  echo "$0: $1"
-#  usage
+  echo "$1"
   exit 1
 }
 
@@ -252,9 +246,6 @@ function delegate
     site-publish)
       site_publish $@
       ;;
-    get-metadata)
-      get_metadata $@
-      ;;
     validate)
       validate $0
       ;;
@@ -265,7 +256,7 @@ function delegate
       experimental_tests $@
       ;;
     '')
-      error "Please specify a command"
+      usage $@
       ;;
     *)
       error "Unknown command '$command'"

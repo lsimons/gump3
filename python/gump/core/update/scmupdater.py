@@ -144,28 +144,7 @@ class ScmUpdater(RunSpecific):
             # Update Context w/ Results
             if not cmdResult.isOk():
                 log.error('Failed to checkout/update module: ' + module.name)
-
-                #
-                # Here the live branch differs from trunk: while live
-                # will mark the module as failed (and not build any
-                # projects contained in it), live will go on if the
-                # directory exists and assume it is a transient error
-                #
-                if not isUpdate:     
-                    module.changeState(STATE_FAILED, REASON_UPDATE_FAILED)
-                else:
-                    module.addError('*** Failed to update from source control.' \
-                                        + 'Stale contents ***')
-                        
-                    # Black mark for this repository
-                    repository = module.getRepository()
-                    repository.addError('*** Failed to update ' + module.name +\
-                                            'from source control. Stale '+ \
-                                            'contents ***')
-
-                    # Kinda bogus, but better than nowt (for now)
-                    module.changeState(STATE_SUCCESS, REASON_UPDATE_FAILED)
-
+                module.changeState(STATE_FAILED, REASON_UPDATE_FAILED)
             else:
                 module.changeState(STATE_SUCCESS)
 
