@@ -141,6 +141,19 @@ class ScmUpdater(RunSpecific):
             module.performedWork(work)
             module.repository.performedWork(work.clone())
 
+            if cmdResult.isOk():
+                # Execute any postprocessing that may be required
+                cmdPost = self.getPostProcessCommand(module, isUpdate)
+                if cmdPost:
+                    log.debug(module.getScm().getScmType().displayName + \
+                              " Module PostProcess : " + \
+                              module.getName() + ", Repository Name: " + \
+                              module.repository.getName())
+                    cmdResult = execute(cmdPost, module.getWorkspace().tmpdir)
+                    work = CommandWorkItem(WORK_TYPE_UPDATE, cmdPost, cmdResult)
+                    module.performedWork(work)
+                    module.repository.performedWork(work.clone())
+
             # Update Context w/ Results
             if not cmdResult.isOk():
                 log.error('Failed to checkout/update module: ' + module.name)
@@ -219,3 +232,15 @@ class ScmUpdater(RunSpecific):
         This base implementation returns (True, '')
         """
         return (True, '')
+
+    def getPostProcessCommand(self, module, isUpdate):
+        """
+        Get a command that is supposed to post-process a checked-out
+        or updated working copy.
+
+        This has been introduced in order to update git submodules and
+        is currently not used by any other scm updater.
+
+        This base implementation returns None
+        """
+        return None

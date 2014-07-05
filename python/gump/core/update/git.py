@@ -51,6 +51,7 @@ class GitUpdater(ScmUpdater):
                   module.getWorkspace().getSourceControlStagingDirectory())
         cmd.addParameter('clone')
         maybe_make_quiet(module, cmd)
+        cmd.addParameter('--recursive')
         cmd.addParameter('--branch')
         cmd.addParameter(module.getScm().getBranch())
         cmd.addParameter(module.getScm().getRootUrl())
@@ -94,3 +95,20 @@ class GitUpdater(ScmUpdater):
                                         lambda result:
                                             tailFileToString(result.getOutput(),
                                                              1).rstrip())
+
+    def getPostProcessCommand(self, module, isUpdate):
+        """
+        Run git submodule update --init if this has been an update,
+        if it has been a clone command just before, its recursive flag
+        will already have taken care of everything.
+        """
+        if isUpdate:
+            cmd = Cmd('git', 'submodule_update_' + module.getName(), 
+                      module.getSourceControlStagingDirectory())
+            cmd.addParameter('submodule')
+            cmd.addParameter('update')
+            cmd.addParameter('--init')
+            cmd.addParameter('--recursive')
+            maybe_make_quiet(module, cmd)
+            return cmd
+        return None
