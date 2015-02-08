@@ -506,3 +506,36 @@ class Script(Configure):
     def getName(self):
         return self.name
 
+# represents an <gradle/> element
+class Gradle(Builder):
+
+    """ A gradle command (within a project)"""
+
+    def __init__(self, dom, project):
+        Builder.__init__(self, dom, project)
+
+        self.task = self.getDomAttributeValue('task', 'build')
+
+        self.local_repo = self.getDomAttributeValue('separateLocalRepository',
+                                                    'False')
+
+    def getTask(self):
+        """ The task to execute """
+        return self.task
+
+    def dump(self, indent = 0, output = sys.stdout):
+        """ Display the contents of this object """
+        Builder.dump(self, indent, output)
+        i = getIndent(indent + 1)
+        output.write(i + 'Task: ' + self.getTask() + '\n')
+
+    def needsSeparateLocalRepository(self):
+        """ Whether a separate local repository will be used for this build """
+        return self.local_repo and self.local_repo not in ['False', 'false']
+
+    def getLocalRepositoryName(self):
+        """ Name of the local repository if one has been given """
+        if not self.needsSeparateLocalRepository() \
+                or self.local_repo in ['True', 'true']:
+            return None
+        return self.local_repo

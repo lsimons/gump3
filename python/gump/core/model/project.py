@@ -29,7 +29,7 @@ import gump.util.process.command
 from gump import log
 from gump.core.config import default
 from gump.core.model.builder import Ant, NAnt, Maven1, Maven, MvnInstall, \
-    MVN_VERSION2, MVN_VERSION3, Script, Configure, Make
+    MVN_VERSION2, MVN_VERSION3, Script, Configure, Make, Gradle
 from gump.core.model.depend import Dependable, importDomDependency
 from gump.core.model.misc import AddressPair, \
     Resultable, Positioned, Mkdir, Delete, Report, Work
@@ -87,6 +87,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         self.script = None
         self.configure = None
         self.make = None
+        self.gradle = None
         self.builder = []
 
         self.works = []
@@ -196,6 +197,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             return True
         return False
 
+    def hasGradle(self):
+        if self.gradle:
+            return True
+        return False
+
     def getAnt(self):
         return self.ant
 
@@ -216,6 +222,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
     def getMake(self):
         return self.make
+
+    def getGradle(self):
+        return self.gradle
 
     def hasUrl(self):
         if self.url or self.getModule().hasUrl():
@@ -513,6 +522,14 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.configure, self)
 
+        # Import any <gradle part [if not packaged]
+        if self.hasDomChild('gradle') and not packaged:
+            self.gradle = Gradle(self.getDomChild('gradle'), self)
+            self.builder.append(self.gradle)
+
+            # Copy over any XML errors/warnings
+            # :TODO:#1: transferAnnotations(self.xml.gradle, self)
+
         # Set this up to be the base directory of this project, 
         # if one is set
         self.basedir = os.path.abspath(os.path.join(
@@ -669,7 +686,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.hasDomChild('description'):
             self.desc = self.getDomChildValue('description')
 
-        jvmargs_parents = ['ant', 'maven', 'mvn', 'mvn1', 'mvn2', 'mvn3']
+        jvmargs_parents = ['ant', 'maven', 'mvn', 'mvn1', 'mvn2', 'mvn3', 'gradle']
         for tag in jvmargs_parents:
             if self.hasDomChild(tag):
                 self.addJVMArgs(self.getDomChild(tag))

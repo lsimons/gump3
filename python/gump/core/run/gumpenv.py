@@ -91,6 +91,7 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         self.noDarcs = False
         self.noHg = False
         self.noBzr = False
+        self.noGradle = False
 
         self.javaProperties = None
 
@@ -233,6 +234,8 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         self.noBzr = self._checkWithDashVersion('bzr',
                                                 'no Bazar repository updates')
 
+        self.noGradle = self._checkWithDashVersion('gradle',
+                                                   'no gradle builds')
 
         self.checked = True
 
