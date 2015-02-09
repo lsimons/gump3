@@ -118,7 +118,7 @@ def getGradleCommand(project, executable='gradle'):
                 os.path.join(project.getWorkspace()
                              .getLocalRepositoryDirectory(),
                              "shared"))
-    cmd.addParameter("-Dmaven.repo.path=" + localRepositoryDir)
+    cmd.addParameter("-Dmaven.repo.local=" + localRepositoryDir)
 
     #cmd.addParameter('--settings')
     #cmd.addParameter(locateGradleSettings(project))
