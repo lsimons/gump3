@@ -48,6 +48,7 @@ from gump.core.config import dir, default, basicConfig
 
 from gump.core.build.script import ScriptBuilder
 from gump.core.build.ant import AntBuilder
+from gump.core.build.gradle import GradleBuilder
 from gump.core.build.nant import NAntBuilder
 from gump.core.build.maven import Maven1Builder
 from gump.core.build.mvn import MavenBuilder
@@ -80,6 +81,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
         gump.core.run.gumprun.RunSpecific.__init__(self,run)
         
         self.ant=AntBuilder(run)
+        self.gradle=GradleBuilder(run)
         self.nant=NAntBuilder(run)
         self.maven=Maven1Builder(run)
         self.mvn=MavenBuilder(run)
@@ -144,6 +146,8 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                     self.maven.buildProject(project, languageHelper, stats)
                 elif project.hasMvn():
                     self.mvn.buildProject(project, languageHelper, stats)
+                elif project.hasGradle():
+                    self.gradle.buildProject(project, languageHelper, stats)
                 elif project.hasConfigure():
                     self.configure.buildProject(project, languageHelper, stats)
                 elif project.hasMake():
@@ -492,5 +496,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
             self.maven.preview(project,  languageHelper, stats)
         elif project.hasMvn():
             self.mvn.preview(project, languageHelper, stats);
+        elif project.hasGradle():
+            self.gradle.preview(project, languageHelper, stats);
         else:
             print 'No builder for project: ' + project.getName()
