@@ -36,7 +36,6 @@ from gump.core.run.actor import AbstractRunActor, FinalizeRunEvent, \
 #  prefix and URL (i.e. each prefix must uniquely map to a real URL)
 PROXY_CONFIG = [
     ('central', '/maven2', 'http\://repo1.maven.org'),
-    ('centrals', '/maven2s', 'https\://repo1.maven.org'),
     ('apache.snapshots', '/repo/m2-snapshot-repository',
      'http\://people.apache.org'),
     ('maven2-repository.dev.java.net', '/maven/2', 'http\://download.java.net'),
