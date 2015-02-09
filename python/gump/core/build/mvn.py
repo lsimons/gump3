@@ -117,6 +117,17 @@ def getMavenCommand(project, executable = 'mvn'):
 def needsSeparateLocalRepository(project):
     return project.mvn.needsSeparateLocalRepository()
 
+def local_mvn_repo(project, build_element):
+    #
+    # Where to put the local repository
+    #
+    name = build_element.getLocalRepositoryName()
+    if not name:
+        name = project.getName() + ".mvnlocalrepo"
+    return os.path.abspath(os.path.join(project.getWorkspace()\
+                                        .getLocalRepositoryDirectory(),
+                                        name))
+
 class MavenBuilder(RunSpecific):
 
     def __init__(self, run):

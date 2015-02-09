@@ -20,6 +20,7 @@ import os.path
 
 from gump import log
 #from gump.actor.mvnrepoproxy.proxycontrol import PROXY_CONFIG
+from gump.core.build.mvn import local_mvn_repo
 from gump.core.model.workspace import CommandWorkItem, \
     REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
     STATE_FAILED, STATE_SUCCESS, WORK_TYPE_BUILD
@@ -73,6 +74,9 @@ def getSysProperties(project):
                                                  property.value, '=')
     return properties
 
+def needsSeparateLocalRepository(project):
+    return project.gradle.needsSeparateLocalRepository()
+
 def getGradleCommand(project, executable='gradle'):
     """ Build a Gradle command for this project """
     gradle = project.gradle
@@ -107,6 +111,15 @@ def getGradleCommand(project, executable='gradle'):
     sysprops = getSysProperties(project)
     cmd.addNamedParameters(sysprops)
 
+    if needsSeparateLocalRepository(project):
+        localRepositoryDir = local_mvn_repo(project, gradle)
+    else:
+        localRepositoryDir = os.path.abspath(\
+                os.path.join(project.getWorkspace()
+                             .getLocalRepositoryDirectory(),
+                             "shared"))
+    cmd.addParameter("-Dmaven.repo.path=" + localRepositoryDir)
+
     #cmd.addParameter('--settings')
     #cmd.addParameter(locateGradleSettings(project))
 
@@ -116,9 +129,6 @@ def getGradleCommand(project, executable='gradle'):
             cmd.addParameter(taskParam)
 
     return cmd
-
-def needsSeparateLocalRepository(project):
-    return project.gradle.needsSeparateLocalRepository()
 
 class GradleBuilder(RunSpecific):
 
