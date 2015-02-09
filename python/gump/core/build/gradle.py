@@ -65,6 +65,14 @@ def getGradleProperties(project):
                                                  property.value, '=')
     return properties
 
+def getSysProperties(project):
+    """ Get sysproperties for a project """
+    properties = Parameters()
+    for property in project.getWorkspace().getSysProperties()+project.getGradle().getSysProperties():
+        properties.addPrefixedNamedParameter('-D', property.name, \
+                                                 property.value, '=')
+    return properties
+
 def getGradleCommand(project, executable='gradle'):
     """ Build a Gradle command for this project """
     gradle = project.gradle
@@ -96,6 +104,8 @@ def getGradleCommand(project, executable='gradle'):
 
     props = getGradleProperties(project)
     cmd.addNamedParameters(props)
+    sysprops = getSysProperties(project)
+    cmd.addNamedParameters(sysprops)
 
     #cmd.addParameter('--settings')
     #cmd.addParameter(locateGradleSettings(project))
