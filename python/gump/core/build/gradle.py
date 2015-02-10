@@ -264,7 +264,7 @@ class MavenRepoProxyPlugin implements Plugin<Gradle> {
             for (_name, prefix, url) in PROXY_CONFIG:
                 record_proxy(init_file, self.run.getWorkspace().mvnRepoProxyPort,
                              prefix, url)
-        init_file.write(""""
+        init_file.write("""
     ]
 
     void apply(Gradle gradle) {
