@@ -38,7 +38,8 @@ from time import strftime
 ###############################################################################
 
 def record_proxy(init_stream, port, prefix, uri):
-    init_stream.write("'%s': 'http://localhost:%s:%s'" % (uri, port, prefix))
+    init_stream.write("'%s': 'http://localhost:%s:%s',\n" % (uri.replace('\\', ''),
+                                                             port, prefix))
 
 def locateGradleProjectFile(project):
     """Return Gradle project file location"""
@@ -256,7 +257,8 @@ apply plugin:MavenRepoProxyPlugin
 
 class MavenRepoProxyPlugin implements Plugin<Gradle> {
 
-    private static final def REPOS_MAP = [""")
+    private static final def REPOS_MAP = [
+""")
                     % (project.getName(), strftime('%Y-%m-%d %H:%M:%S')))
         if not self.run.getEnvironment().noMvnRepoProxy:
             for (_name, prefix, url) in PROXY_CONFIG:
