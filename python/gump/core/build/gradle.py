@@ -19,7 +19,7 @@
 import os.path
 
 from gump import log
-#from gump.actor.mvnrepoproxy.proxycontrol import PROXY_CONFIG
+from gump.actor.mvnrepoproxy.proxycontrol import PROXY_CONFIG
 from gump.core.build.mvn import local_mvn_repo
 from gump.core.model.workspace import CommandWorkItem, \
     REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
@@ -37,26 +37,20 @@ from time import strftime
 # Classes
 ###############################################################################
 
-#def write_mirror_entry(props, prefix, mirror_of, port):
-#    props.write("""
-#    <mirror>
-#      <id>gump-%s</id>
-#      <name>Apache Gump proxying %s</name>
-#      <url>http://localhost:%s%s</url>
-#      <mirrorOf>%s</mirrorOf>
-#    </mirror>""" % (mirror_of, mirror_of, port, prefix, mirror_of) )
+def record_proxy(init_stream, port, prefix, uri):
+    init_stream.write("'%s': 'http://localhost:%s:%s'" % (uri, port, prefix))
 
 def locateGradleProjectFile(project):
     """Return Gradle project file location"""
     basedir = project.gradle.getBaseDirectory() or project.getBaseDirectory()
     return os.path.abspath(os.path.join(basedir, 'build.gradle'))
 
-#def locateMavenSettings(project):
-#    #
-#    # Where to put this:
-#    #
-#    basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
-#    return os.path.abspath(os.path.join(basedir, 'gump_mvn_settings.xml'))
+def locate_init_script(project):
+    #
+    # Where to put this:
+    #
+    basedir = project.gradle.getBaseDirectory() or project.getBaseDirectory()
+    return os.path.abspath(os.path.join(basedir, 'gump_init_script.gradle'))
 
 def getGradleProperties(project):
     """ Get properties for a project """
@@ -121,8 +115,8 @@ def getGradleCommand(project, executable='gradle'):
     cmd.addParameter("-Dmaven.repo.local=" + localRepositoryDir)
     cmd.addParameter('--refresh-dependencies')
 
-    #cmd.addParameter('--settings')
-    #cmd.addParameter(locateGradleSettings(project))
+    cmd.addParameter('--init-script')
+    cmd.addParameter(locate_init_script(project))
 
     # End with the task...
     if task:
@@ -146,7 +140,7 @@ class GradleBuilder(RunSpecific):
         log.debug('Run Gradle on Project: #[' + `project.getPosition()` + '] '\
                   + project.getName())
 
-        #self.performPreBuild(project, languageHelper, stats)
+        self.performPreBuild(project, languageHelper, stats)
 
         if project.okToPerformWork():
 
@@ -187,110 +181,115 @@ class GradleBuilder(RunSpecific):
                 catFileToFileHolder(project, gradleFile, FILE_TYPE_CONFIG)
 
 
-    # Do this even if not ok
-    #def performPreBuild(self, project, languageHelper, _stats):
-    #
-    #    # Gradle requires a build.properties to be generated...
-    #    if project.okToPerformWork():
-    #        try:
-    #            settingsFile = self.generateMvnSettings(project, languageHelper)
-    #            project.addDebug('(Apache Gump generated) Apache Gradle Settings in: ' + \
-    #                                 settingsFile)
-    #
-    #            try:
-    #                catFileToFileHolder(project, settingsFile,
-    #                    FILE_TYPE_CONFIG,
-    #                    os.path.basename(settingsFile))
-    #            except:
-    #                log.error('Display Settings [ ' + settingsFile + \
-    #                              '] Failed', exc_info = 1)
-    #
-    #        except Exception, details:
-    #            message = 'Generate Gradle Settings Failed:' + str(details)
-    #            log.error(message, exc_info = 1)
-    #            project.addError(message)
-    #            project.changeState(STATE_FAILED, REASON_PREBUILD_FAILED)
+    def performPreBuild(self, project, _languageHelper, _stats):
+
+        if project.okToPerformWork():
+            try:
+                init_script = self.generate_init_script(project)
+                project.addDebug('(Apache Gump generated) Gradle Init Script in: ' + \
+                                     init_script)
+
+                try:
+                    catFileToFileHolder(project, init_script,
+                        FILE_TYPE_CONFIG,
+                        os.path.basename(init_script))
+                except:
+                    log.error('Display Init Script [ ' + init_script + \
+                                  '] Failed', exc_info=1)
+
+            except Exception, details:
+                message = 'Generate Gradle Init Script Failed:' + str(details)
+                log.error(message, exc_info=1)
+                project.addError(message)
+                project.changeState(STATE_FAILED, REASON_PREBUILD_FAILED)
 
     def preview(self, project, _languageHelper, _stats):
         command = getGradleCommand(project)
         command.dump()
 
-#    def generateMvnSettings(self, project, _languageHelper):
-#        """Set repository for a Gradle project"""
+    def generate_init_script(self, project):
+        """Set repository for a Gradle project"""
+
+        init_script = locate_init_script(project)
+        # Ensure containing directory exists, or make it.
+        init_script_dir = os.path.dirname(init_script)
+        if not os.path.exists(init_script_dir):
+            project.addInfo('Making directory for Gradle Init Script: [' \
+                                + init_script_dir + ']')
+            os.makedirs(init_script_dir)
+
+        if os.path.exists(init_script):
+            project.addWarning('Overriding Gradle Init Script: [' + init_script \
+                                   + ']')
+
+        init_stream = open(init_script, 'w')
+
+        init_stream.write(("""/*
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
+
+/*
+# DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
 #
-#        settingsFile = locateGradleSettings(project)
-#        # Ensure containing directory exists, or make it.
-#        settingsdir = os.path.dirname(settingsFile)
-#        if not os.path.exists(settingsdir):
-#            project.addInfo('Making directory for Gradle settings: [' \
-#                                + settingsdir + ']')
-#            os.makedirs(settingsdir)
+# File Automatically Generated by Gump, see http://gump.apache.org/
 #
-#        if os.path.exists(settingsFile):
-#            project.addWarning('Overriding Gradle settings: [' + settingsFile \
-#                                   + ']')
+# Generated For : %s
+# Generated At  : %s
 #
-#        if needsSeparateLocalRepository(project):
-#            localRepositoryDir = self.locateLocalRepo(project)
-#        else:
-#            localRepositoryDir = os.path.abspath(\
-#                os.path.join(self.run.getWorkspace()
-#                             .getLocalRepositoryDirectory(), "shared")
-#                )
 #
-#        props = open(settingsFile, 'w')
-#
-#        props.write(("""<?xml version="1.0"?>
-#<!--
-#  Licensed to the Apache Software Foundation (ASF) under one or more
-#  contributor license agreements.  See the NOTICE file distributed with
-#  this work for additional information regarding copyright ownership.
-#  The ASF licenses this file to You under the Apache License, Version 2.0
-#  (the "License"); you may not use this file except in compliance with
-#  the License.  You may obtain a copy of the License at
-#
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-#-->
-#<!--
-## DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
-##
-## File Automatically Generated by Gump, see http://gump.apache.org/
-##
-## Generated For : %s
-## Generated At  : %s
-##
-##
-## DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
-#-->
-#<settings>
-#  <localRepository>%s</localRepository>""")
-#                    % (project.getName(), strftime('%Y-%m-%d %H:%M:%S'),
-#                       localRepositoryDir))
-#        if not self.run.getEnvironment().noMvnRepoProxy:
-#            props.write("<mirrors>")
-#            for (name, prefix, _url) in PROXY_CONFIG:
-#                write_mirror_entry(props, prefix, name, \
-#                                       self.run.getWorkspace().mvnRepoProxyPort)
-#            props.write("</mirrors>")
-#
-#        props.write("</settings>")
-#
-#        return settingsFile
-#
-#    def locateLocalRepo(self, project):
-#        #
-#        # Where to put the local repository
-#        #
-#        name = project.mvn.getLocalRepositoryName()
-#        if not name:
-#            name = project.getName() + ".mvnlocalrepo"
-#        return os.path.abspath(os.path.join(self.run.getWorkspace()\
-#                                                .getLocalRepositoryDirectory(),
-#                                            name
-#                                            ))
+# DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
+*/
+apply plugin:MavenRepoProxyPlugin
+
+class MavenRepoProxyPlugin implements Plugin<Gradle> {
+
+    private static final def REPOS_MAP = [""")
+                    % (project.getName(), strftime('%Y-%m-%d %H:%M:%S')))
+        if not self.run.getEnvironment().noMvnRepoProxy:
+            for (_name, prefix, url) in PROXY_CONFIG:
+                record_proxy(init_stream, self.run.getWorkspace().mvnRepoProxyPort,
+                             prefix, url)
+        init_stream.write(""""
+    ]
+
+    void apply(Gradle gradle) {
+        gradle.allprojects{ project ->
+            project.repositories {
+                all { ArtifactRepository repo ->
+                    if (repo instanceof MavenArtifactRepository) {
+                        def newUrl = REPOS_MAP.get(repo.url.toString()) ?: REPOS_MAP.get(swapTLS(repo.url))
+                        if (newUrl) {
+                            repo.url = newUrl
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def swapTLS(uri) {
+        swapScheme(uri, 'https', 'http') ?: swapScheme(uri, 'http', 'https')
+    }
+
+    def swapScheme(uri, fromScheme, toScheme) {
+        uri.scheme == fromScheme
+            ? new URI(toScheme, uri.schemeSpecificPart, uri.fragment).toString()
+            : null;
+    }
+}
+""")
+
+        return init_script
