@@ -56,7 +56,7 @@
         <td>No. Defaults to <em>project basedir</em>.</td>
       </tr>
       <tr>
-        <td>debug (Ant/Maven/NAnt only)</td>
+        <td>debug (Ant/Maven/NAnt/Gradle only)</td>
         <td>Set to "true" to turn on debugging.</td>
         <td>No</td>
       </tr>
@@ -64,9 +64,9 @@
     
     <section><title>property/arg</title>
 
-      <p>Java Property overrides to be passed to the Ant/Maven command
+      <p>Java Property overrides to be passed to the Ant/Maven/Gradle command
       or command line arguments passed to Script/Configure/Make.  The
-      Java builders Ant and Maven as well as NAnt use &lt;property&gt;
+      Java builders Ant, Maven and Gradle as well as NAnt use &lt;property&gt;
       while Script, Configure and Make use &lt;arg&gt; as the name of
       the nested element.</p>
 
@@ -147,8 +147,8 @@
       that has become a common enough practice that it makes sense to
       introduce this element.</p>
 
-      <p>Depend is only supported by the Java builders Ant and Maven
-        (any version).</p>
+      <p>Depend is only supported by the Java builders Ant, Maven
+        (any version) and Gradle.</p>
 
       <table>
         <tr>
@@ -184,7 +184,7 @@
 
     <section><title>jvmarg</title>
       <p>Additional command line parameters to pass to the Java
-      Virtual Machine running Ant or Maven (any version).  Doesn't
+      Virtual Machine running Ant, Maven (any version) and Gradle.  Doesn't
       have any effect on any of the other builders.</p>
 
       <table>
@@ -205,7 +205,7 @@
     <section><title>sysproperty</title>
       <p>Java system property to be passed to the Java Virtual Machine.</p>
 
-      <p>Sysproperty is only supported by the Ant builder.</p>
+      <p>Sysproperty is only supported by the Ant and Gradle builders.</p>
 
       <table>
         <tr>
@@ -669,6 +669,73 @@
         <td>The NAnt target to invoke. <em>This can be a comma
         separated list. Spaces are preserved.</em></td>
         <td>No. Defaults to the default target defined by the build file.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section><title>gradle</title>
+    <p>Specifies the arguments to be passed to <fork
+    href="http://gradle.org/">Gradle</fork>.</p>
+    
+    <p>The <fork href="http://gradle.org/">Gradle</fork>
+    component of Gump (&lt;gradle&gt;) uses a
+    <strong>pre-installed</strong> version of <fork
+    href="http://gradle.org">Gradle</fork>, it does
+    <strong>NOT</strong> bootstrap Gradle itself.</p>
+    
+    <p>
+      All gradle builds use the same local repository as the Maven
+      builds and are told to always refresh the dependency cache.
+      This can be overriden on a per build basis, see below.  The
+      local repository is wiped out after each Gump run.
+    </p>
+
+    <p>
+      The Gradle build uses the same mvn repository proxy used by Gump
+      for Apache Maven builds.  This is achieved by injecting a Gradle
+      Init-Script that replaces the URIs of all known configured Maven
+      Repositories - in particular <code>mavenCentral()</code>.
+    </p>  
+
+    <p>
+      Technically it is not necessary to declare the dependencies of a
+      gradle built project since artifacts will be retrieved from the
+      proxy even if Gump doesn't know about the dependency.  This can
+      only work if the dependency has already been built, though, so
+      it is still better to list all dependencies inside the Gump
+      descriptor in order to maintain correct build order.
+    </p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>task</td>
+        <td>The Gradle task to invoke.  <em>This can be a comma
+        separated list. Spaces are preserved.</em></td>
+        <td>No. Defaults to <strong>build</strong>.</td>
+      </tr>
+      <tr>
+        <td>separateLocalRepository</td>
+        <td>Normally all &lt;mvn&gt; and &lt;gradle&gt; builds share the same local
+          repository that will be removed after each complete Gump run.
+          Sometimes a project needs to use a separate local repository
+          from the others, the most common case is that a project needs
+          to be built against a released dependency instead of a Gump
+          built one in order to break a dependency cycle.<br/>
+          The value of this attribute can be a boolean or an
+          identifier.  If you use a boolean it simply en- or
+          disables a local repository separate from the other
+          directories and Gump will choose a directory name (if the
+          value is true).  If several projects are tightly related
+          and should share the same local repository different from
+          the other projects you can use an id instead of a boolean
+          and use the same id for each project.
+        </td>
+        <td>No. Defaults to <strong>false</strong>.</td>
       </tr>
     </table>
   </section>

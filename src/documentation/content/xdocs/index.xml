@@ -107,7 +107,9 @@ Gump project maintains its own dedicated server.
       So far Gump's support for Maven 2.x and later uses the most complex
       approach, for the full story see <link
       href="metadata/builder.html#mvn2">the section on the mvn2
-      builder</link>.
+      builder</link>.  Support for Gradle hooks into the approach
+      taken for Maven and uses the same local repositories and
+      repository proxy.
     </p>
 
     <p>
@@ -154,8 +156,8 @@ Gump project maintains its own dedicated server.
       </tr>
       <tr>
         <td><fork href="http://vmgump.apache.org/gump/public/">Apache
-            (vmgump - Ubuntu Linux 10.04)</fork> </td>
-        <td>OpenJDK 6</td>
+            (vmgump - Ubuntu Linux 14.04)</fork> </td>
+        <td>Oracle Java 8</td>
         <td>up to 4 times daily</td>
       </tr>
       <!--tr>
