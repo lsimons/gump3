@@ -37,8 +37,8 @@ from time import strftime
 # Classes
 ###############################################################################
 
-def record_proxy(init_stream, port, prefix, uri):
-    init_stream.write("'%s': 'http://localhost:%s:%s',\n" % (uri.replace('\\', ''),
+def record_proxy(init_file, port, prefix, uri):
+    init_file.write("'%s': 'http://localhost:%s:%s',\n" % (uri.replace('\\', ''),
                                                              port, prefix))
 
 def locateGradleProjectFile(project):
@@ -223,9 +223,9 @@ class GradleBuilder(RunSpecific):
             project.addWarning('Overriding Gradle Init Script: [' + init_script \
                                    + ']')
 
-        init_stream = open(init_script, 'w')
+        init_file = open(init_script, 'w')
 
-        init_stream.write(("""/*
+        init_file.write(("""/*
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
   this work for additional information regarding copyright ownership.
@@ -262,9 +262,9 @@ class MavenRepoProxyPlugin implements Plugin<Gradle> {
                     % (project.getName(), strftime('%Y-%m-%d %H:%M:%S')))
         if not self.run.getEnvironment().noMvnRepoProxy:
             for (_name, prefix, url) in PROXY_CONFIG:
-                record_proxy(init_stream, self.run.getWorkspace().mvnRepoProxyPort,
+                record_proxy(init_file, self.run.getWorkspace().mvnRepoProxyPort,
                              prefix, url)
-        init_stream.write(""""
+        init_file.write(""""
     ]
 
     void apply(Gradle gradle) {
