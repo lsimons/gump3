@@ -23,7 +23,7 @@ from gump.actor.mvnrepoproxy.proxycontrol import PROXY_CONFIG
 from gump.core.model.builder import MVN_VERSION2, MVN_VERSION3
 from gump.core.model.workspace import CommandWorkItem, \
     REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
-    STATE_FAILED, STATE_SUCCESS,  WORK_TYPE_BUILD
+    STATE_FAILED, STATE_SUCCESS, WORK_TYPE_BUILD
 from gump.core.run.gumprun import RunSpecific
 from gump.util.file import FILE_TYPE_CONFIG
 from gump.util.process.command import Cmd, CMD_STATE_SUCCESS, \
@@ -238,7 +238,7 @@ class MavenBuilder(RunSpecific):
                                    + ']')
 
         if needsSeparateLocalRepository(project):
-            localRepositoryDir = self.locateLocalRepo(project)
+            localRepositoryDir = local_mvn_repo(project, project.mvn)
         else:
             localRepositoryDir = os.path.abspath(\
                 os.path.join(self.run.getWorkspace()
@@ -290,14 +290,3 @@ class MavenBuilder(RunSpecific):
 
         return settingsFile
 
-    def locateLocalRepo(self, project):
-        #
-        # Where to put the local repository
-        #
-        name = project.mvn.getLocalRepositoryName()
-        if not name:
-            name = project.getName() + ".mvnlocalrepo"
-        return os.path.abspath(os.path.join(self.run.getWorkspace()\
-                                                .getLocalRepositoryDirectory(),
-                                            name
-                                            ))
