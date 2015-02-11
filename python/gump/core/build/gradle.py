@@ -38,8 +38,8 @@ from time import strftime
 ###############################################################################
 
 def record_proxy(init_file, port, prefix, uri):
-    init_file.write("'%s': 'http://localhost:%s:%s',\n" % (uri.replace('\\', ''),
-                                                             port, prefix))
+    init_file.write("'%s%s': 'http://localhost:%s:%s',\n"\
+                    % (uri.replace('\\', ''), prefix, port, prefix))
 
 def locateGradleProjectFile(project):
     """Return Gradle project file location"""
@@ -272,7 +272,7 @@ class MavenRepoProxyPlugin implements Plugin<Gradle> {
             project.repositories {
                 all { ArtifactRepository repo ->
                     if (repo instanceof MavenArtifactRepository) {
-                        def newUrl = REPOS_MAP.get(repo.url.toString()) ?: REPOS_MAP.get(swapTLS(repo.url))
+                        def newUrl = REPOS_MAP.get(stripTrailingSlash(repo.url)) ?: REPOS_MAP.get(swapTLS(repo.url))
                         if (newUrl) {
                             repo.url = newUrl
                         }
@@ -288,8 +288,13 @@ class MavenRepoProxyPlugin implements Plugin<Gradle> {
 
     def swapScheme(uri, fromScheme, toScheme) {
         uri.scheme == fromScheme
-            ? new URI(toScheme, uri.schemeSpecificPart, uri.fragment).toString()
+            ? stripTrailingSlash(new URI(toScheme, uri.schemeSpecificPart, uri.fragment))
             : null;
+    }
+
+    def stripTrailingSlash(uri) {
+        def s = uri.toString()
+        s.endsWith('/') ? s.substring(0, s.length() - 1) : s
     }
 }
 """)
