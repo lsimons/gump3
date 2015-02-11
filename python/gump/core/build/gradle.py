@@ -253,6 +253,8 @@ class GradleBuilder(RunSpecific):
 #
 # DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
 */
+import org.gradle.api.internal.artifacts.dependencies.DefaultDependencyArtifact
+
 apply plugin:MavenRepoProxyPlugin
 
 class MavenRepoProxyPlugin implements Plugin<Gradle> {
@@ -275,6 +277,15 @@ class MavenRepoProxyPlugin implements Plugin<Gradle> {
                         def newUrl = REPOS_MAP.get(stripTrailingSlash(repo.url)) ?: REPOS_MAP.get(swapTLS(repo.url))
                         if (newUrl) {
                             repo.url = newUrl
+                        }
+                    }
+                }
+            }
+            project.configurations {
+                all { config ->
+                    config.allDependencies.all { dep ->
+                        if (dep instanceof ModuleDependency && dep.artifacts.isEmpty()) {
+                            dep.addArtifact(new DefaultDependencyArtifact(dep.name, 'jar', 'jar', null, null))
                         }
                     }
                 }
