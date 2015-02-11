@@ -38,7 +38,7 @@ from time import strftime
 ###############################################################################
 
 def record_proxy(init_file, port, prefix, uri):
-    init_file.write("'%s%s': 'http://localhost:%s:%s',\n"\
+    init_file.write("'%s%s': 'http://localhost:%s%s',\n"\
                     % (uri.replace('\\', ''), prefix, port, prefix))
 
 def locateGradleProjectFile(project):
