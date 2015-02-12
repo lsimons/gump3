@@ -674,6 +674,10 @@
   </section>
 
   <section><title>gradle</title>
+
+    <p><strong>The Gradle builder is a work in progress and may not be
+    working correctly.</strong></p>
+
     <p>Specifies the arguments to be passed to <fork
     href="http://gradle.org/">Gradle</fork>.</p>
     
