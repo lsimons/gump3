@@ -267,7 +267,9 @@ class UseLatestSnapshots implements Plugin<Gradle> {
             project.repositories {""" % (project.getName(), strftime('%Y-%m-%d %H:%M:%S')))
         for (name, prefix, url) in SNAPSHOT_PROXIES:
             record_proxy(init_file, name, prefix, url)
-        init_file.write("""}
+        init_file.write("""
+                mavenLocal()
+            }
             project.configurations {
                 all { config ->
                     config.allDependencies.whenObjectAdded {
