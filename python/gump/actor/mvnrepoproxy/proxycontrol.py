@@ -38,7 +38,7 @@ SNAPSHOT_PROXIES = [
     ('apache.snapshots', '/repo/m2-snapshot-repository',
      'http\://people.apache.org'),
     ('apache.snapshots.https', '/snapshots',
-     'https://repository.apache.org'),
+     'https\://repository.apache.org'),
     ('sonatype-nexus-snapshots', '/content/repositories/snapshots',
      'https\://oss.sonatype.org')
     ]
