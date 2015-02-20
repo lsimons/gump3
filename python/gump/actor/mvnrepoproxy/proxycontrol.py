@@ -37,6 +37,8 @@ from gump.core.run.actor import AbstractRunActor, FinalizeRunEvent, \
 SNAPSHOT_PROXIES = [
     ('apache.snapshots', '/repo/m2-snapshot-repository',
      'http\://people.apache.org'),
+    ('apache.snapshots.https', '/snapshots',
+     'https://repository.apache.org'),
     ('sonatype-nexus-snapshots', '/content/repositories/snapshots',
      'https\://oss.sonatype.org')
     ]
@@ -54,7 +56,8 @@ PROXY_CONFIG = [
     SNAPSHOT_PROXIES[0],
     ('maven2-repository.dev.java.net', '/maven/2', 'http\://download.java.net'),
     ('m2.dev.java.net', '/maven/2', 'http\://download.java.net'),
-    SNAPSHOT_PROXIES[1]
+    SNAPSHOT_PROXIES[1],
+    SNAPSHOT_PROXIES[2]
     ]
 
 class MvnRepositoryProxyController(AbstractRunActor):
