@@ -678,9 +678,6 @@
     <p><strong>The Gradle builder is a work in progress and may not be
     working correctly.</strong></p>
 
-    <p>Specifies the arguments to be passed to <fork
-    href="http://gradle.org/">Gradle</fork>.</p>
-    
     <p>The <fork href="http://gradle.org/">Gradle</fork>
     component of Gump (&lt;gradle&gt;) uses a
     <strong>pre-installed</strong> version of <fork
@@ -695,19 +692,21 @@
     </p>
 
     <p>
-      The Gradle build uses the same mvn repository proxy used by Gump
-      for Apache Maven builds.  This is achieved by injecting a Gradle
-      Init-Script that replaces the URIs of all known configured Maven
-      Repositories - in particular <code>mavenCentral()</code>.
+      All gradle builds are run using a special init script that adds
+      all snapshot repositories known to Gump as well as the local
+      maven repository as repositories and changes the version of all
+      dependencies to <code>integration.latest</code>.  This means the
+      build will most likely use the latest SNAPSHOT build published
+      by the dependency - in general this is not the version just
+      built by Gump.
     </p>  
 
     <p>
       Technically it is not necessary to declare the dependencies of a
-      gradle built project since artifacts will be retrieved from the
-      proxy even if Gump doesn't know about the dependency.  This can
-      only work if the dependency has already been built, though, so
-      it is still better to list all dependencies inside the Gump
-      descriptor in order to maintain correct build order.
+      gradle built project since artifacts will be retrieved even if
+      Gump doesn't know about the dependency.  Still it is better to
+      list all dependencies inside the Gump descriptor in order to
+      maintain correct build order.
     </p>
 
     <table>
