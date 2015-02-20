@@ -158,7 +158,7 @@ Gump project maintains its own dedicated server.
         <td><fork href="http://vmgump.apache.org/gump/public/">Apache
             (vmgump - Ubuntu Linux 14.04)</fork> </td>
         <td>Oracle Java 8</td>
-        <td>up to 4 times daily</td>
+        <td>up to 3 times daily</td>
       </tr>
       <!--tr>
         <td><fork href="http://gump.zones.apache.org/gump/public/">Apache (FreeBSD)</fork> </td>
