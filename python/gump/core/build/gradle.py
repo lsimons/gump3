@@ -19,7 +19,7 @@
 import os.path
 
 from gump import log
-from gump.actor.mvnrepoproxy.proxycontrol import PROXY_CONFIG
+from gump.actor.mvnrepoproxy.proxycontrol import SNAPSHOT_PROXIES
 from gump.core.build.mvn import local_mvn_repo
 from gump.core.model.workspace import CommandWorkItem, \
     REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
@@ -37,9 +37,12 @@ from time import strftime
 # Classes
 ###############################################################################
 
-def record_proxy(init_file, port, prefix, uri):
-    init_file.write("'%s%s': 'http://localhost:%s%s',\n"\
-                    % (uri.replace('\\', ''), prefix, port, prefix))
+def record_proxy(init_file, name, prefix, uri):
+    init_file.write("""
+                maven {
+                    name "%s"
+                    url "%s%s"
+                }""" % (name, uri.replace('\\', ''), prefix))
 
 def locateGradleProjectFile(project):
     """Return Gradle project file location"""
@@ -225,7 +228,7 @@ class GradleBuilder(RunSpecific):
 
         init_file = open(init_script, 'w')
 
-        init_file.write(("""/*
+        init_file.write("""/*
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
   this work for additional information regarding copyright ownership.
@@ -253,60 +256,58 @@ class GradleBuilder(RunSpecific):
 #
 # DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
 */
-import org.gradle.api.internal.artifacts.dependencies.DefaultDependencyArtifact
+import org.gradle.api.internal.artifacts.dependencies.AbstractExternalModuleDependency
 
-apply plugin:MavenRepoProxyPlugin
+apply plugin:UseLatestSnapshots
 
-class MavenRepoProxyPlugin implements Plugin<Gradle> {
-
-    private static final def REPOS_MAP = [
-""")
-                    % (project.getName(), strftime('%Y-%m-%d %H:%M:%S')))
-        if not self.run.getEnvironment().noMvnRepoProxy:
-            for (_name, prefix, url) in PROXY_CONFIG:
-                record_proxy(init_file, self.run.getWorkspace().mvnRepoProxyPort,
-                             prefix, url)
-        init_file.write("""
-    ]
+class UseLatestSnapshots implements Plugin<Gradle> {
 
     void apply(Gradle gradle) {
         gradle.allprojects{ project ->
-            project.repositories {
-                all { ArtifactRepository repo ->
-                    if (repo instanceof MavenArtifactRepository) {
-                        def newUrl = REPOS_MAP.get(stripTrailingSlash(repo.url)) ?: REPOS_MAP.get(swapTLS(repo.url))
-                        if (newUrl) {
-                            repo.url = newUrl
-                        }
-                    }
-                }
-            }
+            project.repositories {""" % (project.getName(), strftime('%Y-%m-%d %H:%M:%S')))
+        for (name, prefix, url) in SNAPSHOT_PROXIES:
+            record_proxy(init_file, name, prefix, url)
+        init_file.write("""}
             project.configurations {
                 all { config ->
-                    config.allDependencies.all { dep ->
-                        if (dep instanceof ModuleDependency && dep.artifacts.isEmpty()) {
-                            dep.addArtifact(new DefaultDependencyArtifact(dep.name, 'jar', 'jar', null, null))
+                    config.allDependencies.whenObjectAdded {
+                        if (it instanceof ExternalModuleDependency
+                            && !(it instanceof GumpExternalModuleDependency)) {
+                            config.dependencies.add(new GumpExternalModuleDependency(it))
+                            config.dependencies.remove it
                         }
                     }
                 }
             }
         }
     }
+}
 
-    def swapTLS(uri) {
-        swapScheme(uri, 'https', 'http') ?: swapScheme(uri, 'http', 'https')
+class GumpExternalModuleDependency extends AbstractExternalModuleDependency {
+    GumpExternalModuleDependency(ExternalModuleDependency dep) {
+        super(dep.group, dep.name, "latest.integration", dep.configuration)
+    }
+    @Override
+    public boolean contentEquals(Dependency dependency) {
+        if (this == dependency) {
+            return true;
+        }
+        if (dependency == null || getClass() != dependency.getClass()) {
+            return false;
+        }
+
+        ExternalModuleDependency that = (ExternalModuleDependency) dependency;
+        return isContentEqualsFor(that);
+
     }
 
-    def swapScheme(uri, fromScheme, toScheme) {
-        uri.scheme == fromScheme
-            ? stripTrailingSlash(new URI(toScheme, uri.schemeSpecificPart, uri.fragment))
-            : null;
+    @Override
+    public GumpExternalModuleDependency copy() {
+        GumpExternalModuleDependency copiedModuleDependency = new GumpExternalModuleDependency(this);
+        copyTo(copiedModuleDependency);
+        return copiedModuleDependency;
     }
 
-    def stripTrailingSlash(uri) {
-        def s = uri.toString()
-        s.endsWith('/') ? s.substring(0, s.length() - 1) : s
-    }
 }
 """)
 

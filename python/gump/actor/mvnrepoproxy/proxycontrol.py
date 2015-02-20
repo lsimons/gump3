@@ -26,6 +26,21 @@ from gump.core.model.output import OUTPUT_POM
 from gump.core.run.actor import AbstractRunActor, FinalizeRunEvent, \
     InitializeRunEvent
 
+# list of tuples listing all snapshot repositories we want to mirror
+#   each tuple consists of a name, the path prefix that identifies the
+#   repository and the real repository URL without that prefix
+#   (properly escaped to be used in a Java .properties file).
+# Since different mvn projects use different names for the same
+#  repository it is possible to have multiple listings for a single
+#  repo.  Each name has to be unique as has to be the combination of
+#  prefix and URL (i.e. each prefix must uniquely map to a real URL)
+SNAPSHOT_PROXIES = [
+    ('apache.snapshots', '/repo/m2-snapshot-repository',
+     'http\://people.apache.org'),
+    ('sonatype-nexus-snapshots', '/content/repositories/snapshots',
+     'https\://oss.sonatype.org')
+    ]
+
 # list of tuples listing all repositories we want to mirror
 #   each tuple consists of a name, the path prefix that identifies the
 #   repository and the real repository URL without that prefix
@@ -36,12 +51,10 @@ from gump.core.run.actor import AbstractRunActor, FinalizeRunEvent, \
 #  prefix and URL (i.e. each prefix must uniquely map to a real URL)
 PROXY_CONFIG = [
     ('central', '/maven2', 'http\://repo1.maven.org'),
-    ('apache.snapshots', '/repo/m2-snapshot-repository',
-     'http\://people.apache.org'),
+    SNAPSHOT_PROXIES[0],
     ('maven2-repository.dev.java.net', '/maven/2', 'http\://download.java.net'),
     ('m2.dev.java.net', '/maven/2', 'http\://download.java.net'),
-    ('sonatype-nexus-snapshots', '/content/repositories/snapshots',
-     'https\://oss.sonatype.org')
+    SNAPSHOT_PROXIES[1]
     ]
 
 class MvnRepositoryProxyController(AbstractRunActor):
