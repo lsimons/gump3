@@ -23,7 +23,7 @@
 	<gump label="Apache Gump">
 	    <index href="index.html" label="Home"/>
 	    <status href="status.html" label="Status"/>
-	    <source href="https://svn.apache.org/repos/asf/gump/trunk" label="Source"/>
+	    <source href="https://svn.apache.org/repos/asf/gump/live" label="Source"/>
 	    <source href="https://svn.apache.org/repos/asf/gump/metadata" label="Metadata"/>
 	    <faq href="http://wiki.apache.org/gump/FrequentlyAskedQuestions" label="FAQ"/>
 	    <!--gettingstarted href="gettingstarted.html" label="Getting Started"/-->
