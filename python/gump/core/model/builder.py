@@ -544,3 +544,44 @@ class Gradle(Builder):
                 or self.local_repo in ['True', 'true']:
             return None
         return self.local_repo
+
+# represents an <nuget/> element
+class NuGet(Builder):
+    """ A NuGet command (within a project)"""
+    def __init__(self, dom, project):
+        Builder.__init__(self, dom, project)
+
+        # Import the command
+        self.command = self.getDomAttributeValue('command', 'restore')
+        self.solution = self.getDomAttributeValue('solution')
+
+    def hasCommand(self):
+        if self.command:
+            return True
+        return False
+
+    def getCommand(self):
+        return self.command
+
+    def hasSolution(self):
+        if self.solution:
+            return True
+        return False
+
+    def getSolution(self):
+        return self.solution
+
+    def expandDomProperties(self, project, workspace):
+        for pdom in self.getDomChildIterator('arg'):
+            self.expandDomProperty(pdom, project, workspace)
+            self.importProperty(pdom)
+
+    def dump(self, indent=0, output=sys.stdout):
+        """ Display the contents of this object """
+        Builder.dump(self, indent, output)
+        i = getIndent(indent+1)
+        if self.hasCommand():
+            output.write(i+'Command: ' + self.getCommand() + '\n')
+        if self.hasSolution():
+            output.write(i+'Solution: ' + self.getSolution() + '\n')
+

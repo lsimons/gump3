@@ -29,7 +29,8 @@ import gump.util.process.command
 from gump import log
 from gump.core.config import default
 from gump.core.model.builder import Ant, NAnt, Maven1, Maven, MvnInstall, \
-    MVN_VERSION2, MVN_VERSION3, Script, Configure, Make, Gradle, MSBuild
+    MVN_VERSION2, MVN_VERSION3, Script, Configure, Make, Gradle, MSBuild, \
+    NuGet
 from gump.core.model.depend import Dependable, importDomDependency
 from gump.core.model.misc import AddressPair, \
     Resultable, Positioned, Mkdir, Delete, Report, Work
@@ -83,6 +84,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         self.ant = None
         self.nant = None
         self.msbuild = None
+        self.nuget = None
         self.maven = None
         self.mvn = None
         self.script = None
@@ -178,6 +180,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             return True
         return False
 
+    def hasNuGet(self):
+        if self.nuget:
+            return True
+        return False
+
     def hasMaven(self):
         if self.maven:
             return True
@@ -216,6 +223,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
     def getMSBuild(self):
         return self.msbuild
+
+    def getNuGet(self):
+        return self.nuget
 
     def getMaven(self):
         return self.maven
@@ -470,6 +480,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         if self.hasDomChild('msbuild') and not packaged:
             self.msbuild = MSBuild(self.getDomChild('msbuild'), self)
             self.builder.append(self.msbuild)
+
+        # Import any <nuget part [if not packaged]
+        if self.hasDomChild('nuget') and not packaged:
+            self.msbuild = NuGet(self.getDomChild('nuget'), self)
+            self.builder.append(self.nuget)
 
         # Import any <maven part [if not packaged]
         for tag in ['maven', 'mvn1']:
