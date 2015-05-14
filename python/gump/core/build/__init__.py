@@ -23,6 +23,7 @@ __license__   = "http://www.apache.org/licenses/LICENSE-2.0"
 
 
 # tell Python what modules make up the gump.test package
-__all__ = ["builder", "ant","script","maven", "java","nant","configure","make","gradle"]
+__all__ = ["builder", "ant","script","maven", "java","nant","configure","make",
+           "gradle", "msbuild"]
 
     
