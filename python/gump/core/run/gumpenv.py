@@ -427,10 +427,10 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
                                                              '-help')
                     if self.noNAnt:
                         self.nant_command = 'nant'
-                    else:
-                        self.nant_command = 'NAnt.exe'
                 else:
-                    self.nant_command = 'NAnt'
+                    self.nant_command = 'NAnt.exe'
+            else:
+                self.nant_command = 'NAnt'
 
     def get_nant_command(self):
         self._check_nant()
@@ -447,10 +447,10 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
                                                              '/help')
                     if self.noNAnt:
                         self.nant_command = 'xbuild'
-                    else:
-                        self.nant_command = 'MSBuild.exe'
                 else:
-                    self.nant_command = 'MSBuild'
+                    self.nant_command = 'MSBuild.exe'
+            else:
+                self.nant_command = 'MSBuild'
 
     def get_msbuild_command(self):
         self._check_msbuild()
