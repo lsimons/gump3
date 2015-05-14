@@ -29,7 +29,7 @@ import gump.util.process.command
 from gump import log
 from gump.core.config import default
 from gump.core.model.builder import Ant, NAnt, Maven1, Maven, MvnInstall, \
-    MVN_VERSION2, MVN_VERSION3, Script, Configure, Make, Gradle
+    MVN_VERSION2, MVN_VERSION3, Script, Configure, Make, Gradle, MSBuild
 from gump.core.model.depend import Dependable, importDomDependency
 from gump.core.model.misc import AddressPair, \
     Resultable, Positioned, Mkdir, Delete, Report, Work
@@ -82,6 +82,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         #
         self.ant = None
         self.nant = None
+        self.msbuild = None
         self.maven = None
         self.mvn = None
         self.script = None
@@ -172,6 +173,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             return True
         return False
 
+    def hasMSBuild(self):
+        if self.msbuild:
+            return True
+        return False
+
     def hasMaven(self):
         if self.maven:
             return True
@@ -207,6 +213,9 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
     def getNAnt(self):
         return self.nant
+
+    def getMSBuild(self):
+        return self.msbuild
 
     def getMaven(self):
         return self.maven
@@ -457,6 +466,11 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.nant, self)
 
+        # Import any <msbuild part [if not packaged]
+        if self.hasDomChild('msbuild') and not packaged:
+            self.msbuild = MSBuild(self.getDomChild('msbuild'), self)
+            self.builder.append(self.msbuild)
+
         # Import any <maven part [if not packaged]
         for tag in ['maven', 'mvn1']:
             if self.hasDomChild(tag) and not packaged:
@@ -506,7 +520,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.script, self)
 
-        # Import any <nant part [if not packaged]
+        # Import any <make part [if not packaged]
         if self.hasDomChild('make') and not packaged:
             self.make = Make(self.getDomChild('make'), self)
             self.builder.append(self.make)
@@ -514,7 +528,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             # Copy over any XML errors/warnings
             # :TODO:#1: transferAnnotations(self.xml.make, self)
 
-        # Import any <nant part [if not packaged]
+        # Import any <configure part [if not packaged]
         if self.hasDomChild('configure') and not packaged:
             self.configure = Configure(self.getDomChild('configure'), self)
             self.builder.append(self.configure)

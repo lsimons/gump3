@@ -271,6 +271,11 @@ class NAnt(BaseAnt):
     """ A NAnt command (within a project) """
     pass
 
+# represents a <msbuild/> element
+class MSBuild(BaseAnt):
+    """ A MSBuild command (within a project) """
+    pass
+
 # represents an <maven/> element
 class Maven1(Builder):
     """ A Maven 1.x command (within a project)"""
