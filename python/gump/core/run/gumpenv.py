@@ -77,6 +77,8 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         self.nant_command = None
         self.noMSBuild = False
         self.msbuild_command = None
+        self.noNuGet = False
+        self.nuget_command = None
         self.noMaven = False
         self.noMaven2 = False
         self.noMaven3 = False
@@ -220,6 +222,7 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
 
         self._check_nant()
         self._check_msbuild()
+        self._check_nuget()
         self.noMono = self._checkWithDashVersion('mono', "no Mono runtime")
 
         self.noMake = self._checkWithDashVersion('make', "no make builds")
@@ -428,8 +431,10 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
                     if self.noNAnt:
                         self.nant_command = 'nant'
                 else:
+                    self.noNAnt = True
                     self.nant_command = 'NAnt.exe'
             else:
+                self.noNAnt = True
                 self.nant_command = 'NAnt'
 
     def get_nant_command(self):
@@ -442,21 +447,41 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         if not self.checked:
             if not self._checkWithDashVersion('MSBuild', "no MSBuild builds", '/help'):
                 if not self._checkWithDashVersion('MSBuild.exe', "no MSBUild builds", '/help'):
-                    self.noNAnt = self._checkWithDashVersion('xbuild',
+                    self.noMSBuild = self._checkWithDashVersion('xbuild',
                                                              "no MSBuild builds",
                                                              '/help')
-                    if self.noNAnt:
-                        self.nant_command = 'xbuild'
+                    if self.noMSBuild:
+                        self.msbuild_command = 'xbuild'
                 else:
-                    self.nant_command = 'MSBuild.exe'
+                    self.noMSBuild = True
+                    self.msbuild_command = 'MSBuild.exe'
             else:
-                self.nant_command = 'MSBuild'
+                self.noMSBuild = True
+                self.msbuild_command = 'MSBuild'
 
     def get_msbuild_command(self):
         self._check_msbuild()
         if not self.noMSBuild:
             return None
         return self.msbuild_command
+
+    def _check_nuget(self):
+        if not self.checked:
+            if not self._checkWithDashVersion('nuget', "no NuGet builds", 'help'):
+                self.noNuGet = self._checkWithDashVersion('nuget.exe',
+                                                          "no NuGet builds",
+                                                          'help'):
+                if self.noNuGet
+                    self.nuget_command = 'nuget.exe'
+            else:
+                self.noNuGet = True
+                self.nuget_command = 'nuget'
+
+    def get_nuget_command(self):
+        self._check_nuget()
+        if not self.noNuGet:
+            return None
+        return self.nuget_command
 
 if __name__ == '__main__':
     env = GumpEnvironment()
