@@ -75,6 +75,8 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         self.noMono = False
         self.noNAnt = False
         self.nant_command = None
+        self.noMSBuild = False
+        self.msbuild_command = None
         self.noMaven = False
         self.noMaven2 = False
         self.noMaven3 = False
@@ -217,6 +219,7 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
                                        cmd_env = {'M2_HOME' : self.m3_home})
 
         self._check_nant()
+        self._check_msbuild()
         self.noMono = self._checkWithDashVersion('mono', "no Mono runtime")
 
         self.noMake = self._checkWithDashVersion('make', "no make builds")
@@ -434,6 +437,26 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         if not self.noNAnt:
             return None
         return self.nant_command
+
+    def _check_msbuild(self):
+        if not self.checked:
+            if not self._checkWithDashVersion('MSBuild', "no MSBuild builds", '/help'):
+                if not self._checkWithDashVersion('MSBuild.exe', "no MSBUild builds", '/help'):
+                    self.noNAnt = self._checkWithDashVersion('xbuild',
+                                                             "no MSBuild builds",
+                                                             '/help')
+                    if self.noNAnt:
+                        self.nant_command = 'xbuild'
+                    else:
+                        self.nant_command = 'MSBuild.exe'
+                else:
+                    self.nant_command = 'MSBuild'
+
+    def get_msbuild_command(self):
+        self._check_msbuild()
+        if not self.noMSBuild:
+            return None
+        return self.msbuild_command
 
 if __name__ == '__main__':
     env = GumpEnvironment()
