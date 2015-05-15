@@ -470,8 +470,8 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
             if not self._checkWithDashVersion('nuget', "no NuGet builds", 'help'):
                 self.noNuGet = self._checkWithDashVersion('nuget.exe',
                                                           "no NuGet builds",
-                                                          'help'):
-                if self.noNuGet
+                                                          'help')
+                if self.noNuGet:
                     self.nuget_command = 'nuget.exe'
             else:
                 self.noNuGet = True
