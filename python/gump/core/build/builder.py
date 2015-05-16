@@ -46,14 +46,16 @@ from gump import log
 from gump.core.run.gumprun import *
 from gump.core.config import dir, default, basicConfig
 
-from gump.core.build.script import ScriptBuilder
 from gump.core.build.ant import AntBuilder
-from gump.core.build.gradle import GradleBuilder
-from gump.core.build.nant import NAntBuilder
-from gump.core.build.maven import Maven1Builder
-from gump.core.build.mvn import MavenBuilder
 from gump.core.build.configure import ConfigureBuilder
+from gump.core.build.gradle import GradleBuilder
 from gump.core.build.make import MakeBuilder
+from gump.core.build.maven import Maven1Builder
+from gump.core.build.msbuild import MSBuildBuilder
+from gump.core.build.mvn import MavenBuilder
+from gump.core.build.nant import NAntBuilder
+from gump.core.build.nuget import NuGetBuilder
+from gump.core.build.script import ScriptBuilder
 
 from gump.util import dump, display, getIndent, logResourceUtilization, \
                             invokeGarbageCollection
@@ -83,7 +85,9 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
         self.ant=AntBuilder(run)
         self.gradle=GradleBuilder(run)
         self.nant=NAntBuilder(run)
+        self.nuget=NuGetBuilder(run)
         self.maven=Maven1Builder(run)
+        self.msbuild=MSBuildBuilder(run)
         self.mvn=MavenBuilder(run)
         self.script=ScriptBuilder(run)
         self.configure = ConfigureBuilder(run)
@@ -142,8 +146,12 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                     self.ant.buildProject(project, languageHelper, stats)
                 elif project.hasNAnt():
                     self.nant.buildProject(project, languageHelper, stats)
+                elif project.hasNuGet():
+                    self.nuget.buildProject(project, languageHelper, stats)
                 elif project.hasMaven():
                     self.maven.buildProject(project, languageHelper, stats)
+                elif project.hasMSBuild():
+                    self.msbuild.buildProject(project, languageHelper, stats)
                 elif project.hasMvn():
                     self.mvn.buildProject(project, languageHelper, stats)
                 elif project.hasGradle():
@@ -492,8 +500,12 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
             self.ant.preview(project,  languageHelper, stats)
         elif project.hasNAnt():
             self.nant.preview(project,  languageHelper, stats)
+        elif project.hasNuGet():
+            self.nuget.preview(project,  languageHelper, stats)
         elif project.hasMaven():
             self.maven.preview(project,  languageHelper, stats)
+        elif project.hasMSBuild():
+            self.msbuild.preview(project,  languageHelper, stats)
         elif project.hasMvn():
             self.mvn.preview(project, languageHelper, stats);
         elif project.hasGradle():
