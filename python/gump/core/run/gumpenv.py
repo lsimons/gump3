@@ -222,7 +222,7 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
 
         self._check_nant()
         self._check_msbuild()
-        self._check_nuget()
+        //self._check_nuget()
         self.noMono = self._checkWithDashVersion('mono', "no Mono runtime")
 
         self.noMake = self._checkWithDashVersion('make', "no make builds")
