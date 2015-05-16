@@ -222,7 +222,7 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
 
         self._check_nant()
         self._check_msbuild()
-        //self._check_nuget()
+        self._check_nuget()
         self.noMono = self._checkWithDashVersion('mono', "no Mono runtime")
 
         self.noMake = self._checkWithDashVersion('make', "no make builds")
@@ -467,10 +467,10 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
 
     def _check_nuget(self):
         if not self.checked:
-            if not self._checkWithDashVersion('nuget', "no NuGet builds", 'help'):
+            if not self._checkWithDashVersion('nuget', "no NuGet builds", 'config'):
                 self.noNuGet = self._checkWithDashVersion('nuget.exe',
                                                           "no NuGet builds",
-                                                          'help')
+                                                          'config')
                 if self.noNuGet:
                     self.nuget_command = 'nuget.exe'
             else:
