@@ -86,7 +86,7 @@ class NuGetBuilder(RunSpecific):
         # Where to run this:
         basedir = nuget.getBaseDirectory() or project.getBaseDirectory()
 
-        cmd = Cmd(self.run.env.get_msbuild_command(),
+        cmd = Cmd(self.run.env.get_nuget_command(),
                   'buildscript_' + project.getModule().getName() + '_' + \
                   project.getName(), basedir)
         cmd.addParameter(nuget.getCommand())
