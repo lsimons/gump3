@@ -483,7 +483,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
         # Import any <nuget part [if not packaged]
         if self.hasDomChild('nuget') and not packaged:
-            self.msbuild = NuGet(self.getDomChild('nuget'), self)
+            self.nuget = NuGet(self.getDomChild('nuget'), self)
             self.builder.append(self.nuget)
 
         # Import any <maven part [if not packaged]
