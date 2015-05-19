@@ -56,7 +56,7 @@
         <td>No. Defaults to <em>project basedir</em>.</td>
       </tr>
       <tr>
-        <td>debug (Ant/Maven/NAnt/Gradle only)</td>
+        <td>debug (Ant/Maven/NAnt/Gradle/MSBuild only)</td>
         <td>Set to "true" to turn on debugging.</td>
         <td>No</td>
       </tr>
@@ -66,7 +66,7 @@
 
       <p>Java Property overrides to be passed to the Ant/Maven/Gradle command
       or command line arguments passed to Script/Configure/Make.  The
-      Java builders Ant, Maven and Gradle as well as NAnt use &lt;property&gt;
+      Java builders Ant, Maven, MSBuild and Gradle as well as NAnt use &lt;property&gt;
       while Script, Configure and Make use &lt;arg&gt; as the name of
       the nested element.</p>
 
@@ -673,6 +673,32 @@
     </table>
   </section>
 
+  <section><title>msbuild</title>
+    <p>Specifies the arguments to be passed to MSBuild or xbuild.
+    Gump will automatically detect whether MSBuild or xbuild is
+    present and run the appropriate tool - preferring MSBuild.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>buildfile</td>
+        <td>The MSBuild build file/project/solution to execute.
+        </td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>target</td>
+        <td>The MSBuild target to invoke. <em>This can be a comma
+        separated list. Spaces are preserved.</em></td>
+        <td>No. Defaults to the default target defined by the build file.</td>
+      </tr>
+    </table>
+  </section>
+
   <section><title>gradle</title>
 
     <p><strong>The Gradle builder is a work in progress and may not be
@@ -739,6 +765,36 @@
           and use the same id for each project.
         </td>
         <td>No. Defaults to <strong>false</strong>.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section><title>nuget</title>
+
+    <p><strong>Currenty the nuget builder will fetch what has been
+    specified in the <code>packages.config</code> rather than
+    replacing things with the latest version - which would be more in
+    line with Gump's purpose..</strong></p>
+
+    <p>The <fork href="http://nuget.org/">NuGet</fork> component of
+    Gump (&lt;nuget&gt;) uses a <strong>pre-installed</strong> version
+    of nuget.</p>
+    
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>command</td>
+        <td>The nuget command to execute.</td>
+        <td>No. Defaults to <strong>restore</strong>.</td>
+      </tr>
+      <tr>
+        <td>solution</td>
+        <td>The solution holding the package configuration.</td>
+        <td>Yes</td>
       </tr>
     </table>
   </section>
