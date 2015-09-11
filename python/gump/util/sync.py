@@ -207,7 +207,7 @@ class PathWalker(Annotatable):
                 if symlinks and os.path.islink(srcname):
                     if os.path.exists(dstname):
                         if os.path.islink(dstname) or os.path.isfile(dstname):
-                            os.remove(dstname)
+                            os.unlink(dstname)
                         else:
                             shutil.rmtree(dstname, True)
                     linkto = os.readlink(srcname)
