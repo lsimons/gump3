@@ -205,7 +205,7 @@ class PathWalker(Annotatable):
 
             try:
                 if symlinks and os.path.islink(srcname):
-                    if os.path.exists(dstname):
+                    if os.path.lexists(dstname):
                         if os.path.islink(dstname) or os.path.isfile(dstname):
                             os.unlink(dstname)
                         else:
@@ -346,7 +346,7 @@ class PathWalker(Annotatable):
                 log.debug("Attempting copy from [%s] to [%s]"
                           %(`srcname`, `dstname`))
             self.displayAction(True, ' U> ', dstname, reason)
-            if os.path.exists(dstname):
+            if os.path.lexists(dstname):
                 os.remove(dstname)
             shutil.copy2(srcname, dstname)
         #else:
