@@ -66,6 +66,7 @@ class GitUpdater(ScmUpdater):
         cmd = Cmd('git', 'update_' + module.getName(), 
                   module.getSourceControlStagingDirectory())
         cmd.addParameter('pull')
+        cmd.addParameter('--commit')
         maybe_make_quiet(module, cmd)
         cmd.addParameter(module.getScm().getRootUrl())
         cmd.addParameter(module.getScm().getBranch())
