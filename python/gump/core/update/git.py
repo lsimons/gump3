@@ -119,5 +119,5 @@ class GitUpdater(ScmUpdater):
             rst.addParameter('--hard')
             rst.addParameter('origin/' + module.getScm().getBranch())
             maybe_make_quiet(module, rst)
-            return [subs, rst]
+            return [rst, subs]
         return []
