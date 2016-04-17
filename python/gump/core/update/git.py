@@ -98,17 +98,26 @@ class GitUpdater(ScmUpdater):
 
     def getPostProcessCommands(self, module, isUpdate):
         """
-        Run git submodule update --init if this has been an update,
-        if it has been a clone command just before, its recursive flag
+        Run git submodule update --init and git reset --hard if this
+        has been an update.
+        If it has been a clone command just before, its recursive flag
         will already have taken care of everything.
         """
         if isUpdate:
-            cmd = Cmd('git', 'submodule_update_' + module.getName(), 
+            subs = Cmd('git', 'submodule_update_' + module.getName(), 
                       module.getSourceControlStagingDirectory())
-            cmd.addParameter('submodule')
-            cmd.addParameter('update')
-            cmd.addParameter('--init')
-            cmd.addParameter('--recursive')
-            maybe_make_quiet(module, cmd)
-            return [cmd]
+            subs.addParameter('submodule')
+            subs.addParameter('update')
+            subs.addParameter('--init')
+            subs.addParameter('--recursive')
+            maybe_make_quiet(module, subs)
+
+            # git reset --hard so changed .gitattributes are applied
+            rst = Cmd('git', 'reset_hard_' + module.getName(), 
+                      module.getSourceControlStagingDirectory())
+            rst.addParameter('reset')
+            rst.addParameter('--hard')
+            rst.addParameter('origin/' + module.getScm().getBranch())
+            maybe_make_quiet(module, rst)
+            return [subs, rst]
         return []
