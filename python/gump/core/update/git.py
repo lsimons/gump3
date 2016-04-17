@@ -96,7 +96,7 @@ class GitUpdater(ScmUpdater):
                                             tailFileToString(result.getOutput(),
                                                              1).rstrip())
 
-    def getPostProcessCommand(self, module, isUpdate):
+    def getPostProcessCommands(self, module, isUpdate):
         """
         Run git submodule update --init if this has been an update,
         if it has been a clone command just before, its recursive flag
@@ -110,5 +110,5 @@ class GitUpdater(ScmUpdater):
             cmd.addParameter('--init')
             cmd.addParameter('--recursive')
             maybe_make_quiet(module, cmd)
-            return cmd
-        return None
+            return [cmd]
+        return []

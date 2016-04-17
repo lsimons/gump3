@@ -143,8 +143,8 @@ class ScmUpdater(RunSpecific):
 
             if cmdResult.isOk():
                 # Execute any postprocessing that may be required
-                cmdPost = self.getPostProcessCommand(module, isUpdate)
-                if cmdPost:
+                cmdPosts = self.getPostProcessCommands(module, isUpdate)
+                for cmdPost in cmdPosts:
                     log.debug(module.getScm().getScmType().displayName + \
                               " Module PostProcess : " + \
                               module.getName() + ", Repository Name: " + \
@@ -153,6 +153,8 @@ class ScmUpdater(RunSpecific):
                     work = CommandWorkItem(WORK_TYPE_UPDATE, cmdPost, cmdResult)
                     module.performedWork(work)
                     module.repository.performedWork(work.clone())
+                    if not cmdResult.isOk():
+                        break
 
             # Update Context w/ Results
             if not cmdResult.isOk():
@@ -233,14 +235,14 @@ class ScmUpdater(RunSpecific):
         """
         return (True, '')
 
-    def getPostProcessCommand(self, module, isUpdate):
+    def getPostProcessCommands(self, module, isUpdate):
         """
-        Get a command that is supposed to post-process a checked-out
+        Get a list of commands that are supposed to post-process a checked-out
         or updated working copy.
 
-        This has been introduced in order to update git submodules and
+        This has first been introduced in order to update git submodules and
         is currently not used by any other scm updater.
 
-        This base implementation returns None
+        This base implementation returns an empty list.
         """
-        return None
+        return []
