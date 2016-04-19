@@ -505,6 +505,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         self.repository = repo
                         repo.addModule(self)
                         self.scm = create_scm_instance(s, dom, repo)
+                        self.scm.complete()
                     else:
                         self.changeState(STATE_FAILED, REASON_CONFIG_FAILED)
                         self.addError('No such repository [' +  str(repoName) \
