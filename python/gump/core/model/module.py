@@ -66,6 +66,10 @@ class ModuleScm(ModelObject):
         # Extract settings
         self.dir = self.getDomAttributeValue('dir')
 
+        # Check for debugging properties
+        self.setDebug(self.domAttributeIsTrue('debug'))
+        self.setVerbose(self.domAttributeIsTrue('verbose'))
+
     def getRootUrl(self):
         url = self.repository.getUrl()
         if url and self.hasDir():
@@ -505,7 +509,6 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
                         self.repository = repo
                         repo.addModule(self)
                         self.scm = create_scm_instance(s, dom, repo)
-                        self.scm.complete()
                     else:
                         self.changeState(STATE_FAILED, REASON_CONFIG_FAILED)
                         self.addError('No such repository [' +  str(repoName) \
