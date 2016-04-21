@@ -67,8 +67,8 @@ class GitUpdater(ScmUpdater):
         """
         log_repository_and_url(module, 'git')
 
-        refspec = '+refs/heads/' + module.getScm().getBranch() +
-                  ':refs/remotes/origin/' + module.getScm().getBranch()
+        refspec = '+refs/heads/' + module.getScm().getBranch() \
+                + ':refs/remotes/origin/' + module.getScm().getBranch()
 
         cmd = Cmd('git', 'update_' + module.getName(), 
                   module.getSourceControlStagingDirectory())
