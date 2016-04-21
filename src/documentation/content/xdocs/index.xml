@@ -36,8 +36,8 @@
 The Apache Gump continuous integration tool was the first one
 developed at
 the <fork href="http://www.apache.org/">Apache Software Foundation</fork>. It is written in Python and fully supports Apache Ant, 
-Apache Maven (1.x to 3.x) and other build tools. Gump is unique in that it builds and compiles software against 
-the latest development versions of those projects. This allows gump to detect potentially 
+Apache Maven (1.x to 3.x) and <link href="metadata/builder.html">other build tools</link>. Gump is unique in that it builds and compiles software against 
+the latest development versions of those projects. This allows Gump to detect potentially 
 incompatible changes to that software just a few hours after those changes are checked into the 
 version control system. Notifications are sent to the project team as soon as such a change is 
 detected, referencing more detailed reports available online.
@@ -54,7 +54,7 @@ Gump project maintains its own dedicated server.
   <section><title>How does Gump work?</title>
 
     <p>
-      With Gump, <link href="http://svn.apache.org/viewcvs/gump/project">
+      With Gump, <link href="http://svn.apache.org/viewcvs/gump/metadata/project">
       project</link> definitions are mapped from XML into in memory
       objects for processing. Scripts execute SCM update
       commands for every module which contains a project being built, and
@@ -87,16 +87,16 @@ Gump project maintains its own dedicated server.
     </p>
 
     <p>
-      In Ant's case
-    	Gump set's Ant's <link href="http://ant.apache.org/manual/sysclasspath.html">build.sysclasspath</link> to <strong>only</strong> and manages the system classpath:<br/>
-    	To quote Ant:<br/>
+      For builds using Apache Ant,
+    	Gump sets <link href="http://ant.apache.org/manual/sysclasspath.html">build.sysclasspath</link> property of Ant to <strong>only</strong> and manages the system classpath:<br/><br/>
+    	To quote Ant manual:<br/>
     	<em>Only the system classpath is used and classpaths specified in build files, etc are ignored. 
-                This situation could be considered as the person running the build file knows more about the environment than the person writing the build file</em>.<br/>
-      Note that Gump uses the svn trunk version of Ant when building Ant projects.
+            This situation could be considered as the person running the build file knows more about the environment than the person writing the build file</em>.<br/><br/>
+      Note that Gump uses the lastest version of Ant (from tip of master branch in their Git repository) when building Ant projects.
     </p>
 
     <p>
-      For Maven 1.x builds, Gump runs maven with the --offline switch
+      For Apache Maven 1.x builds, Gump runs Maven with the --offline switch
       and uses jar overrides.  Sometimes the artifact ids expected by
       maven and Gump's names of the jars don't match, in which case
       &lt;property&gt; elements have to be used to get the correct
@@ -104,10 +104,14 @@ Gump project maintains its own dedicated server.
     </p>
 
     <p>
-      So far Gump's support for Maven 2.x and later uses the most complex
-      approach, for the full story see <link
+      So far Gump's support for Apache Maven 2.x and later uses the most complex
+      approach, using a proxy server. For the full story see <link
       href="metadata/builder.html#mvn2">the section on the mvn2
-      builder</link>.  Support for Gradle hooks into the approach
+      builder</link>.
+    </p>
+
+    <p>
+      Support for Gradle hooks into the approach
       taken for Maven and uses the same local repositories and
       repository proxy.
     </p>
@@ -119,8 +123,7 @@ Gump project maintains its own dedicated server.
     </p>
 
     <p>
-      The results are captured into html pages that largely are consistent
-      with the style of the Jakarta project.  An extensive amount of hypertext
+      The results are captured into html pages. An extensive amount of hypertext
       links are added to allow quick and easy navigation, and failures are
       color coded on the main build page.
     </p>
