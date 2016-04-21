@@ -33,24 +33,23 @@
         module.</p>
     </section>
 
-    <section><title>Project Managment Committee</title>
+    <section><title>Project Management Committee (PMC)</title>
 
       <ul>
         <li>Bill Barker</li>
-        <li>Nicola Ken Barozzi</li>
         <li>Stefan Bodewig</li>
-        <li>Nick Chalko</li>
         <li>Adam Jack</li>
-        <li>Stefano Mazzocchi</li>
+        <li>Konstantin Kolinko</li>
         <li>Brett Porter</li>
         <li>Sam Ruby</li>
         <li>Scott Sanders</li>
-        <li>Leo Simons</li>
         <li>Davanum Srinivas</li>
+        <li>Sander Temme</li>
+        <li>Mark Thomas</li>
         <li>Martin van den Bemt</li>
       </ul>
 
-      <p>The Apache Gump Project Managment Committee can be contacted
+      <p>The Apache Gump Project Management Committee can be contacted
         at private@gump.apache.org.</p>
 
       <section><title>Emeritus PMC members</title>
@@ -58,6 +57,8 @@
         <ul>
           <li>Nicola Ken Barozzi</li>
           <li>Nick Chalko</li>
+          <li>Stefano Mazzocchi</li>
+          <li>Leo Simons</li>
         </ul>
       </section>
     </section>
