@@ -47,8 +47,15 @@ class GitUpdater(ScmUpdater):
             Build the appropriate GIT command for clone
         """
         log_repository_and_url(module, 'git')
+
+        # Setting core.logAllRefUpdates=false disables reflog support,
+        # so that subsequent updates do not waste time updating the
+        # reflog file, .git/logs/refs/remotes/origin/master.
+
         cmd = Cmd('git', 'update_' + module.getName(), 
                   module.getWorkspace().getSourceControlStagingDirectory())
+        cmd.addParameter('-c')
+        cmd.addParameter('core.logallrefupdates=false')
         cmd.addParameter('clone')
         maybe_make_quiet(module, cmd)
         cmd.addParameter('--recursive')
