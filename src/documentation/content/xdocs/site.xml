@@ -51,7 +51,7 @@
             <source href="index.html#Where+is+Gump%3F" label="Source"/>
 	    <wiki href="http://wiki.apache.org/gump" label="Wiki"/>
 	    <issues href="https://issues.apache.org/jira/browse/GUMP/" label="Issues"/>
-            <howtocontribute href="http://jakarta.apache.org/site/getinvolved.html" label="Get Involved"/>
+            <howtocontribute href="http://www.apache.org/foundation/getinvolved.html" label="Get Involved"/>
             <security href="http://www.apache.org/security/"
                       label="Reporting Security Issues"/>
             <whoweare href="whoweare.html" label="Who We Are"/>
