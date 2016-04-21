@@ -30,8 +30,8 @@
     <section><title>Mailing Lists</title>
 
       <p>Please read the <link
-      href="http://jakarta.apache.org/site/mail.html">guidelines of
-      the Jakarta Project</link> before subscribing and posting to the
+      href="http://www.apache.org/dev/contrib-email-tips.html">guidelines
+      for email contributors</link> before subscribing and posting to the
       Apache Gump general list as they apply to this list as well.</p>
 
       <p>Like almost all lists of the Apache Software Foundation,
@@ -63,7 +63,7 @@
           <strong>Low Traffic</strong>
           <link href="mailto:commits-subscribe@gump.apache.org">Subscribe</link>
           <link href="mailto:commits-unsubscribe@gump.apache.org">Unsubscribe</link>
-          <link href="http://mail-archives.apache.org/eyebrowse/SummarizeList?listId=279">Archive</link>
+          <link href="http://mail-archives.apache.org/mod_mbox/gump-commits/">Archive</link>
          </p>
 
         <p>This is the list where software and metadata commit messages (from CVS and SVN)
