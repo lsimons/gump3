@@ -60,15 +60,23 @@ class GitUpdater(ScmUpdater):
 
     def getUpdateCommand(self, module):
         """
-            Build the appropriate GIT command for pull
+            Build the appropriate GIT fetch command that pulls changes
+            from remote repository.
+            This command updates origin/branchName. The local branch is
+            updated by 'git reset --hard' that is executed later.
         """
         log_repository_and_url(module, 'git')
+
+        refspec = '+refs/heads/' + module.getScm().getBranch() +
+                  ':refs/remotes/origin/' + module.getScm().getBranch()
+
         cmd = Cmd('git', 'update_' + module.getName(), 
                   module.getSourceControlStagingDirectory())
-        cmd.addParameter('pull')
+        cmd.addParameter('fetch')
         maybe_make_quiet(module, cmd)
-        cmd.addParameter(module.getScm().getRootUrl())
-        cmd.addParameter(module.getScm().getBranch())
+        cmd.addParameter('--no-tags')
+        cmd.addParameter('origin')
+        cmd.addParameter(refspec)
         return cmd
 
     def workspaceMatchesModule(self, module):
@@ -98,26 +106,25 @@ class GitUpdater(ScmUpdater):
 
     def getPostProcessCommands(self, module, isUpdate):
         """
-        Run git submodule update --init and git reset --hard if this
+        Run git reset --hard and git submodule update --init if this
         has been an update.
         If it has been a clone command just before, its recursive flag
         will already have taken care of everything.
         """
         if isUpdate:
-            subs = Cmd('git', 'submodule_update_' + module.getName(), 
-                      module.getSourceControlStagingDirectory())
-            subs.addParameter('submodule')
-            subs.addParameter('update')
-            subs.addParameter('--init')
-            subs.addParameter('--recursive')
-            maybe_make_quiet(module, subs)
-
-            # git reset --hard so changed .gitattributes are applied
             rst = Cmd('git', 'reset_hard_' + module.getName(), 
                       module.getSourceControlStagingDirectory())
             rst.addParameter('reset')
             rst.addParameter('--hard')
-            rst.addParameter('origin/' + module.getScm().getBranch())
             maybe_make_quiet(module, rst)
+            rst.addParameter('origin/' + module.getScm().getBranch())
+
+            subs = Cmd('git', 'submodule_update_' + module.getName(), 
+                      module.getSourceControlStagingDirectory())
+            subs.addParameter('submodule')
+            maybe_make_quiet(module, subs)
+            subs.addParameter('update')
+            subs.addParameter('--init')
+            subs.addParameter('--recursive')
             return [rst, subs]
         return []
