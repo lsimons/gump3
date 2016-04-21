@@ -106,25 +106,28 @@ class GitUpdater(ScmUpdater):
             Run git branch and git config remote.origin.url
             to see whether the branch and URL match
         """
-        cmd = getCmdFromString('git branch',
-                               'check_workspace_branch_' + module.getName(), 
-                               module.getSourceControlStagingDirectory())
-        result = execute(cmd)
+        return (False, 'Unconditionally forcing a fresh working copy. This is a temporary solution to clean stale checkouts and to update configuration of git. 2016-04-22.')
 
-        if not result.isOk():
-            return (False, 'git branch returned ' + str(result.exit_code))
-        elif not result.hasOutput():
-            return (False, 'git branch didn\'t return any output.')
-
-        current_branch = extract_URL(result, BRANCH_REGEX, 'git branch')
-        if module.getScm().getBranch() != current_branch:
-            return (False, 'Expected branch \'' + module.getScm().getBranch() \
-                        + '\' but working copy was \'' + current_branch + '\'')
-
-        return match_workspace_template(module, 'git config remote.origin.url',
-                                        lambda result:
-                                            tailFileToString(result.getOutput(),
-                                                             1).rstrip())
+#
+#       cmd = getCmdFromString('git branch',
+#                              'check_workspace_branch_' + module.getName(), 
+#                              module.getSourceControlStagingDirectory())
+#       result = execute(cmd)
+#
+#       if not result.isOk():
+#           return (False, 'git branch returned ' + str(result.exit_code))
+#       elif not result.hasOutput():
+#           return (False, 'git branch didn\'t return any output.')
+#
+#       current_branch = extract_URL(result, BRANCH_REGEX, 'git branch')
+#       if module.getScm().getBranch() != current_branch:
+#           return (False, 'Expected branch \'' + module.getScm().getBranch() \
+#                       + '\' but working copy was \'' + current_branch + '\'')
+#
+#       return match_workspace_template(module, 'git config remote.origin.url',
+#                                       lambda result:
+#                                           tailFileToString(result.getOutput(),
+#                                                            1).rstrip())
 
     def getPostProcessCommands(self, module, isUpdate):
         """
