@@ -35,8 +35,8 @@
 
     <ul>
     <li><link href="builder.html">Build instructions</link>:
-    &lt;ant&gt;, &lt;nant&gt;, &lt;mvn1&gt;, &lt;mvn2&gt;, &lt;mvn3&gt;, &lt;configure&gt;,
-    &lt;gradle&gt;, &lt;make&gt; and &lt;script&gt;.<br/>
+    &lt;ant&gt;, &lt;nant&gt;, &lt;mvn1&gt;, &lt;mvn2&gt;, &lt;mvn3&gt;,
+    &lt;gradle&gt;, &lt;script&gt;, &lt;configure&gt;, &lt;make&gt; and &lt;msbuild&gt;.<br/>
           Describes how to produce the outputs from the inputs.</li>
     <li>Inputs: &lt;depend&gt;, &lt;option&gt;, and &lt;work&gt;.  Describes
     where to find the inputs (primarily jar files, but can be directories and
