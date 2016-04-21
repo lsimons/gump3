@@ -260,55 +260,6 @@
 
   </section>
 
-  <section><title>script</title>
-
-    <p>Specifies a script to be executed in order to make build a
-    project.</p>
-
-    <p>The assumption is that the script can be invoked in a platform
-    independent manner, though the contents of the script may be
-    platform specific.  Specifically, if the name of the script is
-    "name" and no file with the name "name" exists in the project's
-    basedir, it will be invoked as follows:</p>
-
-    <ul>
-      <li>On Windows/batch, "call .\name.bat"</li>
-      <li>On Unix/bash, "./name.sh"</li>
-    </ul>
-
-    <table>
-      <tr>
-        <th>Attribute</th>
-        <th>Description</th>
-        <th>Required?</th>
-      </tr>
-      <tr>
-        <td>name</td>
-        <td>The name of the script to execute.</td>
-        <td>Yes</td>
-      </tr>
-    </table>
-
-    <p>Additional command line arguments can be specified using nested
-    &lt;arg&gt; elements.  If the name of an arg start with "--" or
-    doesn't start with "-", then a single argument gets created from
-    one &lt;arg&gt; element, using "=" to join name and value.  If it
-    starts with a single "-", two arguments get created, one for the
-    name and one for the value.  For example:</p>
-
-    <source>
-      &lt;script name="foo"&gt;
-        &lt;arg name="--double-dash" value="1"/&gt;
-        &lt;arg name="-single-dash" value="2"/&gt;
-        &lt;arg name="no-dash" value="3"/&gt;
-      &lt;/script&gt;
-    </source>
-      <p>becomes</p>
-    <source>
-      ./foo --double-dash=1 -single-dash 2 no-dash=3
-    </source>
-  </section>
-
   <section><title>ant</title>
     <p>Specifies the arguments to be passed to <fork
     href="http://ant.apache.org/">Apache Ant</fork>.</p>
@@ -615,90 +566,6 @@
 
   </section>
 
-  <section><title>configure</title>
-
-    <p>Is a specialized version of <link href="#script">script</link>
-    with the fixed script name of "configure".</p>
-
-  </section>
-
-  <section><title>make</title>
-
-    <p>Specifies the arguments to be passed to make.</p>
-
-    <table>
-      <tr>
-        <th>Attribute</th>
-        <th>Description</th>
-        <th>Required?</th>
-      </tr>
-      <tr>
-        <td>makefile</td>
-        <td>The make file to execute.  Defaults to <strong>Makefile</strong>.
-        </td>
-        <td>No Defaults to <strong>Makefile</strong>.</td>
-      </tr>
-      <tr>
-        <td>target</td>
-        <td>The make target to invoke. <em>This can be a comma
-        separated list. Spaces are preserved.</em></td>
-        <td>No. Defaults to <strong>ALL</strong>.</td>
-      </tr>
-    </table>
-  </section>
-
-  <section><title>nant</title>
-    <p>Specifies the arguments to be passed to <fork
-    href="http://nant.sourceforge.org/">NAnt</fork>.</p>
-
-    <table>
-      <tr>
-        <th>Attribute</th>
-        <th>Description</th>
-        <th>Required?</th>
-      </tr>
-      <tr>
-        <td>buildfile</td>
-        <td>The NAnt build file to execute.  Defaults to
-        <strong>NAnt.build</strong>.
-        </td>
-        <td>No Defaults to <strong>NAnt.build</strong>.</td>
-      </tr>
-      <tr>
-        <td>target</td>
-        <td>The NAnt target to invoke. <em>This can be a comma
-        separated list. Spaces are preserved.</em></td>
-        <td>No. Defaults to the default target defined by the build file.</td>
-      </tr>
-    </table>
-  </section>
-
-  <section><title>msbuild</title>
-    <p>Specifies the arguments to be passed to MSBuild or xbuild.
-    Gump will automatically detect whether MSBuild or xbuild is
-    present and run the appropriate tool - preferring MSBuild.</p>
-
-    <table>
-      <tr>
-        <th>Attribute</th>
-        <th>Description</th>
-        <th>Required?</th>
-      </tr>
-      <tr>
-        <td>buildfile</td>
-        <td>The MSBuild build file/project/solution to execute.
-        </td>
-        <td>No</td>
-      </tr>
-      <tr>
-        <td>target</td>
-        <td>The MSBuild target to invoke. <em>This can be a comma
-        separated list. Spaces are preserved.</em></td>
-        <td>No. Defaults to the default target defined by the build file.</td>
-      </tr>
-    </table>
-  </section>
-
   <section><title>gradle</title>
 
     <p><strong>The Gradle builder is a work in progress and may not be
@@ -769,6 +636,113 @@
     </table>
   </section>
 
+  <section><title>script</title>
+
+    <p>Specifies a script to be executed in order to make build a
+    project.</p>
+
+    <p>The assumption is that the script can be invoked in a platform
+    independent manner, though the contents of the script may be
+    platform specific.  Specifically, if the name of the script is
+    "name" and no file with the name "name" exists in the project's
+    basedir, it will be invoked as follows:</p>
+
+    <ul>
+      <li>On Windows/batch, "call .\name.bat"</li>
+      <li>On Unix/bash, "./name.sh"</li>
+    </ul>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the script to execute.</td>
+        <td>Yes</td>
+      </tr>
+    </table>
+
+    <p>Additional command line arguments can be specified using nested
+    &lt;arg&gt; elements.  If the name of an arg start with "--" or
+    doesn't start with "-", then a single argument gets created from
+    one &lt;arg&gt; element, using "=" to join name and value.  If it
+    starts with a single "-", two arguments get created, one for the
+    name and one for the value.  For example:</p>
+
+    <source>
+      &lt;script name="foo"&gt;
+        &lt;arg name="--double-dash" value="1"/&gt;
+        &lt;arg name="-single-dash" value="2"/&gt;
+        &lt;arg name="no-dash" value="3"/&gt;
+      &lt;/script&gt;
+    </source>
+      <p>becomes</p>
+    <source>
+      ./foo --double-dash=1 -single-dash 2 no-dash=3
+    </source>
+  </section>
+
+  <section><title>configure</title>
+
+    <p>Is a specialized version of <link href="#script">script</link>
+    with the fixed script name of "configure".</p>
+
+  </section>
+
+  <section><title>make</title>
+
+    <p>Specifies the arguments to be passed to make.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>makefile</td>
+        <td>The make file to execute.  Defaults to <strong>Makefile</strong>.
+        </td>
+        <td>No Defaults to <strong>Makefile</strong>.</td>
+      </tr>
+      <tr>
+        <td>target</td>
+        <td>The make target to invoke. <em>This can be a comma
+        separated list. Spaces are preserved.</em></td>
+        <td>No. Defaults to <strong>ALL</strong>.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section><title>nant</title>
+    <p>Specifies the arguments to be passed to <fork
+    href="http://nant.sourceforge.org/">NAnt</fork>.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>buildfile</td>
+        <td>The NAnt build file to execute.  Defaults to
+        <strong>NAnt.build</strong>.
+        </td>
+        <td>No Defaults to <strong>NAnt.build</strong>.</td>
+      </tr>
+      <tr>
+        <td>target</td>
+        <td>The NAnt target to invoke. <em>This can be a comma
+        separated list. Spaces are preserved.</em></td>
+        <td>No. Defaults to the default target defined by the build file.</td>
+      </tr>
+    </table>
+  </section>
+
   <section><title>nuget</title>
 
     <p><strong>Currenty the nuget builder will fetch what has been
@@ -795,6 +769,32 @@
         <td>solution</td>
         <td>The solution holding the package configuration.</td>
         <td>Yes</td>
+      </tr>
+    </table>
+  </section>
+
+  <section><title>msbuild</title>
+    <p>Specifies the arguments to be passed to MSBuild or xbuild.
+    Gump will automatically detect whether MSBuild or xbuild is
+    present and run the appropriate tool - preferring MSBuild.</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Required?</th>
+      </tr>
+      <tr>
+        <td>buildfile</td>
+        <td>The MSBuild build file/project/solution to execute.
+        </td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>target</td>
+        <td>The MSBuild target to invoke. <em>This can be a comma
+        separated list. Spaces are preserved.</em></td>
+        <td>No. Defaults to the default target defined by the build file.</td>
       </tr>
     </table>
   </section>
