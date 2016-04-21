@@ -67,6 +67,21 @@ class GitUpdater(ScmUpdater):
         """
         log_repository_and_url(module, 'git')
 
+        # Typical output from this command when --quiet flag is not used:
+        #
+        # - If there was an update:
+        #  From git://github.com/openssl/openssl
+        #     e0e920b..a043d0b  master     -> origin/master
+        #
+        # - If there was no update:
+        # No output.
+        #
+        # Seeing repository URL is useful, but most of time there
+        # will be no output.
+        #
+        # The URL can be reliably obtained elsewhere (from configuration)
+        # thus I think that the use of --quiet flag by default is justified.
+
         refspec = '+refs/heads/' + module.getScm().getBranch() \
                 + ':refs/remotes/origin/' + module.getScm().getBranch()
 
@@ -112,11 +127,31 @@ class GitUpdater(ScmUpdater):
         will already have taken care of everything.
         """
         if isUpdate:
+
+            # Typical output from this 'git reset --hard' command when
+            # --quiet flag is not used (using openssl project as an example):
+            #
+            #  HEAD is now at a043d0b BIO socket connect failure was not handled correctly.
+            #
+            # That line can be preceded by several lines of progress output
+            # such as
+            #
+            #  Checking out files:  28% (646/2237)   
+            #
+            # but that is rare. It happens only when there are hundreds of
+            # changed files.
+            #
+            # This information is useful: it shows what source code is being
+            # built by Gump, and it is short.
+            #
+            # I see no need to suppress it with --quiet,
+            # thus maybe_make_quiet() call below is commented-out.
+
             rst = Cmd('git', 'reset_hard_' + module.getName(), 
                       module.getSourceControlStagingDirectory())
             rst.addParameter('reset')
             rst.addParameter('--hard')
-            maybe_make_quiet(module, rst)
+            # maybe_make_quiet(module, rst)
             rst.addParameter('origin/' + module.getScm().getBranch())
 
             subs = Cmd('git', 'submodule_update_' + module.getName(), 
