@@ -37,11 +37,13 @@
     <li><link href="builder.html">Build instructions</link>:
     &lt;ant&gt;, &lt;nant&gt;, &lt;mvn1&gt;, &lt;mvn2&gt;, &lt;mvn3&gt;,
     &lt;gradle&gt;, &lt;script&gt;, &lt;configure&gt;, &lt;make&gt; and &lt;msbuild&gt;.<br/>
-          Describes how to produce the outputs from the inputs.</li>
+    Describes how to produce the outputs from the inputs.
+    See also &lt;delete&gt; and &lt;mkdir&gt; below.
+    </li>
     <li>Inputs: &lt;depend&gt;, &lt;option&gt;, and &lt;work&gt;.  Describes
     where to find the inputs (primarily jar files, but can be directories and
     files).</li>
-    <li>Outputs: &lt;home&gt;, &lt;license&gt;, &lt;jar&gt;, &lt;pom&gt; and &lt;output&gt;.  Describes where to locate
+    <li>Outputs: &lt;home&gt;, &lt;license&gt;, &lt;output&gt;, &lt;jar&gt; and &lt;pom&gt;.  Describes where to locate
     the output files.</li>
     </ul>
 
@@ -84,6 +86,10 @@
     </table>
 
     <warning>vm is not currently implemented</warning>
+
+  </section>
+
+  <section><title>Inputs</title>
 
     <section><title>depend</title>
       <p>Specifies the name of a required prerequisite project.  If a
@@ -232,6 +238,10 @@
         </tr>
       </table>
     </section>
+
+  </section>
+
+  <section><title>Outputs</title>
 
     <section><title>home</title>
       <p>The home directory for a project is the directory which contains the
@@ -508,6 +518,10 @@
       <p>must be used.</p>
 
     </section-->
+
+  </section>
+
+  <section><title>Other</title>
 
     <section><title>report</title>
       <p>This declares where any sort of report - for example
