@@ -221,6 +221,12 @@
           <td>Remote git branch to pull from.</td>
           <td>No, defaults to "master".</td>
         </tr>
+        <tr>
+          <td>debug verbose</td>
+          <td>Setting either of these attributes to "true" removes --quiet flag
+          from git commands.</td>
+          <td>No, defaults to "false".</td>
+        </tr>
       </table>
     </section>
 
