@@ -33,7 +33,9 @@
 	</gump>
 	<results label="Results">
 	    <nightly href="http://vmgump.apache.org/gump/public/" label="Nightly"/>
+	    <!-- Removed. The jars built by vmgump are no longer published.
 	    <jars href="http://vmgump.apache.org/gump/public-jars/" label="Jars"/>
+	    -->
 	</results>
 	<!--
 	<menu label="Cross Reference">
