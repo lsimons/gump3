@@ -31,7 +31,7 @@ import sys
 
 from gump import log
 from gump.core.run.gumprun import *
-from gump.core.config import dir, default, basicConfig
+from gump.core.config import dir, default, basicConfig, setting
 
 from gump.util.note import Annotatable
 from gump.util.work import *
