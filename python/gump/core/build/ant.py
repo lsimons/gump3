@@ -101,6 +101,12 @@ class AntBuilder(gump.core.run.gumprun.RunSpecific):
         # The ant build file (or none == build.xml)
         buildfile = ant.getBuildFile()
     
+        # Optional 'timeout'
+        if ant.hasTimeout():
+            timeout = ant.getTimeout()
+        else:
+            timeout = setting.TIMEOUT
+
         # Optional 'verbose' or 'debug'
         verbose=ant.isVerbose()
         debug=ant.isDebug()
@@ -119,7 +125,7 @@ class AntBuilder(gump.core.run.gumprun.RunSpecific):
    
         # Run java on apache Ant...
         cmd=Cmd(javaCommand,'build_'+project.getModule().getName()+'_'+project.getName(),
-            basedir,{'CLASSPATH':classpath})
+            basedir,{'CLASSPATH':classpath}, timeout)
             
         # These are workspace + project system properties
         cmd.addNamedParameters(sysproperties)

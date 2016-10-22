@@ -236,6 +236,10 @@ class BaseAnt(Builder):
         self.target = self.getDomAttributeValue('target')
         # Import the buildfile
         self.buildfile = self.getDomAttributeValue('buildfile')
+        # Import the timeout
+        self.timeout = self.getDomAttributeValue('timeout')
+        if self.timeout is not None:
+            self.timeout = float(self.timeout)
 
     def hasTarget(self):
         if self.target:
@@ -253,6 +257,14 @@ class BaseAnt(Builder):
     def getBuildFile(self):
         return self.buildfile
 
+    def hasTimeout(self):
+        if self.timeout:
+            return True
+        return False
+
+    def getTimeout(self):
+        return self.timeout
+
     def dump(self, indent = 0, output = sys.stdout):
         """ Display the contents of this object """
         Builder.dump(self, indent, output)
@@ -261,6 +273,8 @@ class BaseAnt(Builder):
             output.write(i+'Target: ' + self.getTarget() + '\n')
         if self.hasBuildFile():
             output.write(i+'BuildFile: ' + self.getBuildFile() + '\n')
+        if self.timeout():
+            output.write(i+'Timeout: ' + self.getTimeout() + '\n')
 
 class Ant(BaseAnt): 
     """ An Ant command (within a project) """
