@@ -73,7 +73,7 @@ class MSBuildBuilder(RunSpecific):
             project.setBuilt(True)
 
             # Update context state based of the result
-            if not cmdResult.state == CMD_STATE_SUCCESS:
+            if cmdResult.state != CMD_STATE_SUCCESS:
                 reason = REASON_BUILD_FAILED
                 if cmdResult.state == CMD_STATE_TIMED_OUT:
                     reason = REASON_BUILD_TIMEDOUT
@@ -117,14 +117,14 @@ class MSBuildBuilder(RunSpecific):
         # Run MSBuild...
         cmd = Cmd(self.run.env.get_msbuild_command(),
                   'build_' + project.getModule().getName() + '_' + \
-                    project.getName(), 
+                    project.getName(),
                   basedir)
 
         # Allow MSBuild-level debugging...
-        if project.getWorkspace().isDebug() or project.isDebug() or debug: 
+        if project.getWorkspace().isDebug() or project.isDebug() or debug:
             cmd.addParameter('/verbosity:diagnostic')
         if project.getWorkspace().isVerbose() or project.isVerbose() \
-                or verbose: 
+                or verbose:
             cmd.addParameter('/verbosity:detailed')
 
         # These are from the project and/or workspace
@@ -132,7 +132,7 @@ class MSBuildBuilder(RunSpecific):
         cmd.addNamedParameters(properties)
 
         # target (or targets)...
-        if target: 
+        if target:
             cmd.addParameter('/target:' + target)
 
         # Pass the buildfile
@@ -145,6 +145,6 @@ class MSBuildBuilder(RunSpecific):
         """
                 Preview what an MSBuild build would look like.
         """
-        cmd = self.getMSBuildCommand(project) 
+        cmd = self.getMSBuildCommand(project)
         cmd.dump()
- 
+

@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from time import strftime
 import os.path
 
 from gump import log
@@ -30,8 +31,6 @@ from gump.util.process.command import Cmd, CMD_STATE_SUCCESS, \
     CMD_STATE_TIMED_OUT, Parameters
 from gump.util.process.launcher import execute
 from gump.util.tools import catFileToFileHolder
-
-from time import strftime
 
 ###############################################################################
 # Classes
@@ -67,7 +66,8 @@ def getGradleProperties(project):
 def getSysProperties(project):
     """ Get sysproperties for a project """
     properties = Parameters()
-    for property in project.getWorkspace().getSysProperties()+project.getGradle().getSysProperties():
+    for property in project.getWorkspace().getSysProperties() + \
+        project.getGradle().getSysProperties():
         properties.addPrefixedNamedParameter('-D', property.name, \
                                                  property.value, '=')
     return properties
@@ -169,7 +169,7 @@ class GradleBuilder(RunSpecific):
                 project.setBuilt(True)
 
                 # Update Context w/ Results
-                if not cmdResult.state == CMD_STATE_SUCCESS:
+                if cmdResult.state != CMD_STATE_SUCCESS:
                     reason = REASON_BUILD_FAILED
                     if cmdResult.state == CMD_STATE_TIMED_OUT:
                         reason = REASON_BUILD_TIMEDOUT
@@ -195,8 +195,8 @@ class GradleBuilder(RunSpecific):
 
                 try:
                     catFileToFileHolder(project, init_script,
-                        FILE_TYPE_CONFIG,
-                        os.path.basename(init_script))
+                                        FILE_TYPE_CONFIG,
+                                        os.path.basename(init_script))
                 except:
                     log.error('Display Init Script [ ' + init_script + \
                                   '] Failed', exc_info=1)

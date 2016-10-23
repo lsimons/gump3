@@ -6,11 +6,11 @@
 # The ASF licenses this file to You under the Apache License, Version 2.0
 # (the "License"); you may not use this file except in compliance with
 # the License.  You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, 
+# distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
@@ -52,7 +52,7 @@ class NAntBuilder(RunSpecific):
     def __init__(self, run):
         """
                 The NAnt Builder is a .NET Builder
-        """ 
+        """
         RunSpecific.__init__(self, run)
 
     def buildProject(self, project, _language, _stats):
@@ -81,7 +81,7 @@ class NAntBuilder(RunSpecific):
             project.setBuilt(True)
 
             # Update context state based of the result
-            if not cmdResult.state == CMD_STATE_SUCCESS:
+            if cmdResult.state != CMD_STATE_SUCCESS:
                 reason = REASON_BUILD_FAILED
                 if cmdResult.state == CMD_STATE_TIMED_OUT:
                     reason = REASON_BUILD_TIMEDOUT
@@ -128,7 +128,7 @@ class NAntBuilder(RunSpecific):
         # Run NAnt...
         cmd = Cmd(self.run.env.get_nant_command(),
                   'build_' + project.getModule().getName() + '_' + \
-                    project.getName(), 
+                    project.getName(),
                   basedir)
 
         # Launch with specified framework (e.g. mono-1.0.1) if
@@ -143,10 +143,10 @@ class NAntBuilder(RunSpecific):
         cmd.addNamedParameters(sysproperties)
 
         # Allow NAnt-level debugging...
-        if project.getWorkspace().isDebug() or project.isDebug() or debug: 
+        if project.getWorkspace().isDebug() or project.isDebug() or debug:
             cmd.addParameter('-debug')
         if project.getWorkspace().isVerbose() or project.isVerbose() \
-                or verbose: 
+                or verbose:
             cmd.addParameter('-verbose')
 
         # Some builds might wish for this information
@@ -164,7 +164,7 @@ class NAntBuilder(RunSpecific):
             cmd.addParameter('-buildfile', buildfile, ':')
 
         # End with the target (or targets)...
-        if target: 
+        if target:
             for targetParam in target.split(', '):
                 cmd.addParameter(targetParam)
 
@@ -174,6 +174,6 @@ class NAntBuilder(RunSpecific):
         """
                 Preview what an NAnt build would look like.
         """
-        cmd = self.getNAntCommand(project) 
+        cmd = self.getNAntCommand(project)
         cmd.dump()
- 
+

@@ -69,7 +69,7 @@ class NuGetBuilder(RunSpecific):
             project.setBuilt(True)
 
             # Update Context w/ Results
-            if not cmdResult.state == CMD_STATE_SUCCESS:
+            if cmdResult.state != CMD_STATE_SUCCESS:
                 reason = REASON_BUILD_FAILED
                 if cmdResult.state == CMD_STATE_TIMED_OUT:
                     reason = REASON_BUILD_TIMEDOUT
