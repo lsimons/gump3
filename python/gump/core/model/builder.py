@@ -31,6 +31,7 @@ from gump.util.domutils import domAttributeIsTrue, getDomAttributeValue, \
     getDomChild, getDomTextValue, hasDomAttribute, hasDomChild, \
     transferDomAttributes
 
+from gump.core.config import setting
 from gump.core.model.depend import INHERIT_NONE, ProjectDependency
 from gump.core.model.object import ModelObject
 from gump.core.model.property import Property, PropertyContainer
@@ -237,7 +238,9 @@ class Builder(ModelObject, PropertyContainer):
         return False
 
     def getTimeout(self):
-        return self.timeout
+        if self.timeout:
+            return self.timeout
+        return setting.TIMEOUT
 
 # represents an <ant/> element
 class BaseAnt(Builder):
