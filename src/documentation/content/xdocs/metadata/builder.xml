@@ -60,6 +60,12 @@
         <td>Set to "true" to turn on debugging.</td>
         <td>No</td>
       </tr>
+      <tr>
+        <td>timeout</td>
+        <td>Timeout after which a build is terminated if it doesn't
+        complete. Given in seconds</td>
+        <td>No. Defaults to 60 minutes.</td>
+      </tr>
     </table>
     
     <section><title>property/arg</title>
