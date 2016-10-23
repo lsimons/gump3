@@ -47,6 +47,11 @@ class Builder(ModelObject, PropertyContainer):
         # Store owning project
         self.project = project
 
+        # Import the timeout
+        self.timeout = self.getDomAttributeValue('timeout')
+        if self.timeout is not None:
+            self.timeout = float(self.timeout)
+
     def __str__(self):
         """
         Display what project this is on, if possible.
@@ -226,6 +231,14 @@ class Builder(ModelObject, PropertyContainer):
     def getBaseDirectory(self):
         return self.basedir
 
+    def hasTimeout(self):
+        if self.timeout:
+            return True
+        return False
+
+    def getTimeout(self):
+        return self.timeout
+
 # represents an <ant/> element
 class BaseAnt(Builder):
     """ An Ant command (within a project)"""
@@ -236,10 +249,6 @@ class BaseAnt(Builder):
         self.target = self.getDomAttributeValue('target')
         # Import the buildfile
         self.buildfile = self.getDomAttributeValue('buildfile')
-        # Import the timeout
-        self.timeout = self.getDomAttributeValue('timeout')
-        if self.timeout is not None:
-            self.timeout = float(self.timeout)
 
     def hasTarget(self):
         if self.target:
@@ -256,14 +265,6 @@ class BaseAnt(Builder):
 
     def getBuildFile(self):
         return self.buildfile
-
-    def hasTimeout(self):
-        if self.timeout:
-            return True
-        return False
-
-    def getTimeout(self):
-        return self.timeout
 
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
