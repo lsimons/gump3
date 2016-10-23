@@ -20,10 +20,10 @@ __license__ = "http://www.apache.org/licenses/LICENSE-2.0"
 
 from gump import log
 from gump.core.build.script import getArgs
+from gump.core.config import setting
 from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
     STATE_FAILED, STATE_SUCCESS
 from gump.core.run.gumprun import RunSpecific
-
 from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, \
     Cmd
 from gump.util.process.launcher import execute
@@ -86,9 +86,15 @@ class NuGetBuilder(RunSpecific):
         # Where to run this:
         basedir = nuget.getBaseDirectory() or project.getBaseDirectory()
 
+        # Optional 'timeout'
+        if nuget.hasTimeout():
+            timeout = nuget.getTimeout()
+        else:
+            timeout = setting.TIMEOUT
+
         cmd = Cmd(self.run.env.get_nuget_command(),
                   'buildscript_' + project.getModule().getName() + '_' + \
-                  project.getName(), basedir)
+                  project.getName(), basedir, timeout)
         cmd.addParameter(nuget.getCommand())
         cmd.addParameters(getArgs(nuget))
         if nuget.hasSolution():

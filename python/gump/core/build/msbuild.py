@@ -16,15 +16,14 @@
 # limitations under the License.
 
 from gump import log
+from gump.core.config import setting
+from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
+    REASON_PREBUILD_FAILED, STATE_FAILED, STATE_SUCCESS
 from gump.core.run.gumprun import RunSpecific
-
 from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, \
     Cmd, Parameters
 from gump.util.process.launcher import execute
 from gump.util.work import CommandWorkItem, WORK_TYPE_BUILD
-
-from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
-    REASON_PREBUILD_FAILED, STATE_FAILED, STATE_SUCCESS
 
 def getMSBuildProperties(project):
     """ Get properties for a project """
@@ -114,11 +113,17 @@ class MSBuildBuilder(RunSpecific):
         # Get properties
         properties = getMSBuildProperties(project)
 
+        # Optional 'timeout'
+        if msbuild.hasTimeout():
+            timeout = msbuild.getTimeout()
+        else:
+            timeout = setting.TIMEOUT
+
         # Run MSBuild...
         cmd = Cmd(self.run.env.get_msbuild_command(),
                   'build_' + project.getModule().getName() + '_' + \
-                    project.getName(),
-                  basedir)
+                  project.getName(),
+                  basedir, timeout)
 
         # Allow MSBuild-level debugging...
         if project.getWorkspace().isDebug() or project.isDebug() or debug:

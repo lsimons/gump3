@@ -21,6 +21,7 @@ import os.path
 
 from gump import log
 from gump.actor.mvnrepoproxy.proxycontrol import PROXY_CONFIG
+from gump.core.config import setting
 from gump.core.model.builder import MVN_VERSION2, MVN_VERSION3
 from gump.core.model.workspace import CommandWorkItem, \
     REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
@@ -81,9 +82,15 @@ def getMavenCommand(project, executable='mvn'):
     #
     basedir = maven.getBaseDirectory() or project.getBaseDirectory()
 
+    # Optional 'timeout'
+    if maven.hasTimeout():
+        timeout = maven.getTimeout()
+    else:
+        timeout = setting.TIMEOUT
+
     # Run Maven...
     cmd = Cmd(executable, 'build_' + project.getModule().getName() + '_' + \
-                project.getName(), basedir)
+                project.getName(), basedir, timeout)
 
     cmd.addParameter('--batch-mode')
 

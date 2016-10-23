@@ -22,6 +22,7 @@ import os.path
 from gump import log
 from gump.actor.mvnrepoproxy.proxycontrol import SNAPSHOT_PROXIES
 from gump.core.build.mvn import local_mvn_repo
+from gump.core.config import setting
 from gump.core.model.workspace import CommandWorkItem, \
     REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
     STATE_FAILED, STATE_SUCCESS, WORK_TYPE_BUILD
@@ -91,9 +92,15 @@ def getGradleCommand(project, executable='gradle'):
     #
     basedir = gradle.getBaseDirectory() or project.getBaseDirectory()
 
+    # Optional 'timeout'
+    if gradle.hasTimeout():
+        timeout = gradle.getTimeout()
+    else:
+        timeout = setting.TIMEOUT
+
     # Run Gradle...
     cmd = Cmd(executable, 'build_' + project.getModule().getName() + '_' + \
-                project.getName(), basedir)
+                project.getName(), basedir, timeout)
 
     #
     # Allow gradle-level debugging...

@@ -29,7 +29,7 @@ import os.path
 
 from gump import log
 from gump.core.build.script import getArgs
-#from gump.core.config import setting
+from gump.core.config import setting
 from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, STATE_FAILED,\
     STATE_SUCCESS
 from gump.core.run.gumprun import RunSpecific
@@ -96,8 +96,14 @@ class ConfigureBuilder(RunSpecific):
         # The script
         scriptfile = os.path.abspath(os.path.join(basedir, 'configure'))
 
+        # Optional 'timeout'
+        if configure.hasTimeout():
+            timeout = configure.getTimeout()
+        else:
+            timeout = setting.TIMEOUT
+
         cmd = Cmd(scriptfile, 'buildscript_'+project.getModule().getName()+'_'+project.getName(),
-                  basedir)
+                  basedir, timeout)
         cmd.addParameters(getArgs(configure))
 
         return cmd

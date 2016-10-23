@@ -16,15 +16,14 @@
 # limitations under the License.
 
 from gump import log
+from gump.core.config import setting
+from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
+    REASON_PREBUILD_FAILED, STATE_FAILED, STATE_SUCCESS
 from gump.core.run.gumprun import RunSpecific
-
 from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, \
     Cmd, Parameters
 from gump.util.process.launcher import execute
 from gump.util.work import CommandWorkItem, WORK_TYPE_BUILD
-
-from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
-    REASON_PREBUILD_FAILED, STATE_FAILED, STATE_SUCCESS
 
 def getNAntProperties(project):
     """ Get properties for a project """
@@ -125,11 +124,17 @@ class NAntBuilder(RunSpecific):
         # Get system properties
         sysproperties = getNAntSysProperties(project)
 
+        # Optional 'timeout'
+        if nant.hasTimeout():
+            timeout = nant.getTimeout()
+        else:
+            timeout = setting.TIMEOUT
+
         # Run NAnt...
         cmd = Cmd(self.run.env.get_nant_command(),
                   'build_' + project.getModule().getName() + '_' + \
                     project.getName(),
-                  basedir)
+                  basedir, timeout)
 
         # Launch with specified framework (e.g. mono-1.0.1) if
         # required.

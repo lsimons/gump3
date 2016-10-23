@@ -27,11 +27,11 @@ import time
 import gump
 
 from gump import log
+from gump.core.config import setting
 from gump.core.model.workspace import CommandWorkItem, \
     REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
-    STATE_FAILED, STATE_SUCCESS,  WORK_TYPE_BUILD
+    STATE_FAILED, STATE_SUCCESS, WORK_TYPE_BUILD
 from gump.core.run.gumprun import RunSpecific
-
 from gump.util.file import FILE_TYPE_CONFIG
 from gump.util.process.command import Cmd, CMD_STATE_SUCCESS, \
     CMD_STATE_TIMED_OUT
@@ -56,9 +56,15 @@ def getMavenCommand(project):
     #
     basedir = maven.getBaseDirectory() or project.getBaseDirectory()
 
+    # Optional 'timeout'
+    if maven.hasTimeout():
+        timeout = maven.getTimeout()
+    else:
+        timeout = setting.TIMEOUT
+
     # Run Maven...
     cmd = Cmd('maven', 'build_' + project.getModule().getName() + '_' + \
-                  project.getName(), basedir)
+                  project.getName(), basedir, timeout)
 
     #
     # Allow maven-level debugging...
@@ -256,7 +262,7 @@ class Maven1Builder(RunSpecific):
 
             except Exception, details:
                 message = 'Generate Maven Properties Failed:' + str(details)
-                log.error(message, exc_info = 1)
+                log.error(message, exc_info=1)
                 project.addError(message)
                 project.changeState(STATE_FAILED, REASON_PREBUILD_FAILED)
 

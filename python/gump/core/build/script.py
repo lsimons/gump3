@@ -30,10 +30,9 @@ import os.path
 
 from gump import log
 from gump.core.run.gumprun import RunSpecific
-#from gump.core.config import setting
+from gump.core.config import setting
 from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, STATE_FAILED,\
     STATE_SUCCESS
-
 from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, Cmd, Parameters
 from gump.util.process.launcher import execute
 from gump.util.work import CommandWorkItem, WORK_TYPE_BUILD
@@ -131,10 +130,15 @@ class ScriptBuilder(RunSpecific):
         # Needed for (at least) a compiler...
         (classpath, bootclasspath) = languageHelper.getClasspaths(project)
 
+        # Optional 'timeout'
+        if script.hasTimeout():
+            timeout = script.getTimeout()
+        else:
+            timeout = setting.TIMEOUT
+
         cmd = Cmd(scriptfile,
                   'buildscript_'+project.getModule().getName()+'_'+project.getName(),
-                  basedir,
-                  {'CLASSPATH':classpath})
+                  basedir, {'CLASSPATH':classpath}, timeout)
 
         cmd.addParameters(getArgs(script))
 
