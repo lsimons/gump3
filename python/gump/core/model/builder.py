@@ -6,9 +6,9 @@
 # The ASF licenses this file to You under the Apache License, Version 2.0
 # (the "License"); you may not use this file except in compliance with
 # the License.  You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -91,7 +91,7 @@ class Builder(ModelObject, PropertyContainer):
                 pname = getDomAttributeValue(ddom, 'project')
                 pelement.setAttribute('name', pname)
                 project.addWarning('Unnamed property for [' + project.name \
-                                       + '] in depend on: ' + pname )
+                                       + '] in depend on: ' + pname)
 
             # :TODO: AJ added this, no idea if it is right/needed.
             if hasDomAttribute(ddom, 'id'):
@@ -105,7 +105,7 @@ class Builder(ModelObject, PropertyContainer):
 
             # Store it
             self.expandDomProperty(pelement, project, workspace)
-            self.importProperty(pelement) 
+            self.importProperty(pelement)
 
             # Stash the constructed property DOM (the doc above the element)
             if not hasattr(project, 'extraDoms'):
@@ -114,7 +114,7 @@ class Builder(ModelObject, PropertyContainer):
 
     def expandDomProperties(self, project, workspace):
         #
-        # convert Ant property elements which reference a project 
+        # convert Ant property elements which reference a project
         # into dependencies
         #
         for pdom in self.getDomChildIterator('property'):
@@ -122,7 +122,7 @@ class Builder(ModelObject, PropertyContainer):
             self.importProperty(pdom)
 
         #
-        # convert Ant sysproperty elements which reference a project 
+        # convert Ant sysproperty elements which reference a project
         # into dependencies
         #
         for spdom in self.getDomChildIterator('sysproperty'):
@@ -147,12 +147,12 @@ class Builder(ModelObject, PropertyContainer):
             return
 
         # If the pdom is not as simple as srcdir
-        reference = getDomAttributeValue(pdom, 'reference') 
+        reference = getDomAttributeValue(pdom, 'reference')
         if reference == 'srcdir':
             return
 
         # If it isn't already a classpath dependency
-        if project.hasFullDependencyOnNamedProject(projectName): 
+        if project.hasFullDependencyOnNamedProject(projectName):
             self.addDebug('Dependency on ' + projectName + \
                     ' exists, no need to add for property ' + \
                         name + '.')
@@ -164,20 +164,20 @@ class Builder(ModelObject, PropertyContainer):
         # Runtime?
         runtime = domAttributeIsTrue(pdom, 'runtime')
 
-        if workspace.hasProject(projectName): 
+        if workspace.hasProject(projectName):
 
             # A Property
             noclasspath = not hasDomAttribute(pdom, 'classpath')
 
             # Add a dependency (to bring property)
-            dependency = ProjectDependency(project,       \
-                            workspace.getProject(projectName),  \
-                            INHERIT_NONE,       \
-                            runtime,
-                            False,      \
-                            ids,
-                            noclasspath,
-                            'Property Dependency for ' + name)
+            dependency = ProjectDependency(project,
+                                           workspace.getProject(projectName),
+                                           INHERIT_NONE,
+                                           runtime,
+                                           False,
+                                           ids,
+                                           noclasspath,
+                                           'Property Dependency for ' + name)
 
 
             # Add depend to project...
@@ -202,10 +202,10 @@ class Builder(ModelObject, PropertyContainer):
 
         if self.hasDomAttribute('basedir'):
             self.basedir = os.path.abspath(os.path.join(
-                    self.project.getModule().getWorkingDirectory()
-                    or dir.base,
-                    self.getDomAttributeValue('basedir')
-                    ))
+                self.project.getModule().getWorkingDirectory()
+                or dir.base,
+                self.getDomAttributeValue('basedir')
+            ))
         else:
             self.basedir = self.project.getBaseDirectory()
 
@@ -215,7 +215,7 @@ class Builder(ModelObject, PropertyContainer):
 
         self.setComplete(True)
 
-    def dump(self, indent = 0, output = sys.stdout):
+    def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         i = getIndent(indent)
         output.write(i + self.__class__.__name__ + '\n')
@@ -265,7 +265,7 @@ class BaseAnt(Builder):
     def getTimeout(self):
         return self.timeout
 
-    def dump(self, indent = 0, output = sys.stdout):
+    def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         Builder.dump(self, indent, output)
         i = getIndent(indent+1)
@@ -276,7 +276,7 @@ class BaseAnt(Builder):
         if self.timeout():
             output.write(i+'Timeout: ' + self.getTimeout() + '\n')
 
-class Ant(BaseAnt): 
+class Ant(BaseAnt):
     """ An Ant command (within a project) """
     pass
 
@@ -302,7 +302,7 @@ class Maven1(Builder):
     def getGoal(self):
         return self.goal
 
-    def dump(self, indent = 0, output = sys.stdout):
+    def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         Builder.dump(self, indent, output)
         i = getIndent(indent + 1)
@@ -313,10 +313,10 @@ MVN_VERSION3 = '3'
 
 # represents an <mvn/> element
 class Maven(Builder):
-    
+
     """ A Maven 2.x/3.x command (within a project)"""
 
-    def __init__(self, dom, project, version = MVN_VERSION2):
+    def __init__(self, dom, project, version=MVN_VERSION2):
         Builder.__init__(self, dom, project)
 
         self.goal = self.getDomAttributeValue('goal', 'package')
@@ -334,7 +334,7 @@ class Maven(Builder):
         """ The profile to use, may be None """
         return self.profile
 
-    def dump(self, indent = 0, output = sys.stdout):
+    def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         Builder.dump(self, indent, output)
         i = getIndent(indent + 1)
@@ -371,7 +371,7 @@ class MvnInstall(Maven):
     VERSION = 'version'
     GROUP_ID = 'groupId'
 
-    def __init__(self, dom, project, version = MVN_VERSION2):
+    def __init__(self, dom, project, version=MVN_VERSION2):
         Maven.__init__(self, dom, project, version)
         self.goal = MvnInstall.GOAL
         self.packaging = self.getDomAttributeValue(MvnInstall.PACKAGING,
@@ -394,7 +394,7 @@ class MvnInstall(Maven):
         self._add_property(impl, MvnInstall.FILE, self.file)
         if self.artifactVersion:
             self._add_property(impl, MvnInstall.VERSION, self.artifactVersion)
-        elif not self.packaging == MvnInstall.POM:
+        elif self.packaging != MvnInstall.POM:
             project.addError("version attribute is mandatory if the file is"
                              + " not a POM.")
 
@@ -409,7 +409,7 @@ class MvnInstall(Maven):
             try:
                 pomDoc = self._read_pom()
                 root = pomDoc.documentElement
-                if not root.tagName == 'project':
+                if root.tagName != 'project':
                     self.project.addError('file is not a POM, its root element'
                                           + ' is ' + root.tagName)
                     return
@@ -446,7 +446,7 @@ class MvnInstall(Maven):
         self.importProperty(_create_dom_property(impl, name, value))
 
     def _read_pom(self):
-        """ locates the POM, parses it and returns it as DOM Document """ 
+        """ locates the POM, parses it and returns it as DOM Document """
         pom = os.path.join(self.getBaseDirectory(), self.file)
         return xml.dom.minidom.parse(pom)
 
@@ -478,7 +478,7 @@ class Configure(Builder):
 
     def expandDomProperties(self, project, workspace):
         #
-        # convert Ant property elements which reference a project 
+        # convert Ant property elements which reference a project
         # into dependencies
         #
         for pdom in self.getDomChildIterator('arg'):
@@ -542,7 +542,7 @@ class Gradle(Builder):
         """ The task to execute """
         return self.task
 
-    def dump(self, indent = 0, output = sys.stdout):
+    def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         Builder.dump(self, indent, output)
         i = getIndent(indent + 1)
