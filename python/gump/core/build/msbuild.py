@@ -123,7 +123,7 @@ class MSBuildBuilder(RunSpecific):
         cmd = Cmd(self.run.env.get_msbuild_command(),
                   'build_' + project.getModule().getName() + '_' + \
                   project.getName(),
-                  basedir, timeout)
+                  basedir, timeout=timeout)
 
         # Allow MSBuild-level debugging...
         if project.getWorkspace().isDebug() or project.isDebug() or debug:

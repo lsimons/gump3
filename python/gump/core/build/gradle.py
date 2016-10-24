@@ -100,7 +100,7 @@ def getGradleCommand(project, executable='gradle'):
 
     # Run Gradle...
     cmd = Cmd(executable, 'build_' + project.getModule().getName() + '_' + \
-                project.getName(), basedir, timeout)
+                project.getName(), basedir, timeout=timeout)
 
     #
     # Allow gradle-level debugging...

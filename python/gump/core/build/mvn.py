@@ -90,7 +90,7 @@ def getMavenCommand(project, executable='mvn'):
 
     # Run Maven...
     cmd = Cmd(executable, 'build_' + project.getModule().getName() + '_' + \
-                project.getName(), basedir, timeout)
+                project.getName(), basedir, timeout=timeout)
 
     cmd.addParameter('--batch-mode')
 

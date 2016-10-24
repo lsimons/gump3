@@ -106,7 +106,7 @@ class MakeBuilder(RunSpecific):
             timeout = setting.TIMEOUT
 
         cmd = Cmd(makeCommand, 'build_'+project.getModule().getName()+'_'+project.getName(),
-                  basedir, timeout)
+                  basedir, timeout=timeout)
 
         # Pass the makefile
         if makefile:

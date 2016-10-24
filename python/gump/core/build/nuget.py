@@ -94,7 +94,7 @@ class NuGetBuilder(RunSpecific):
 
         cmd = Cmd(self.run.env.get_nuget_command(),
                   'buildscript_' + project.getModule().getName() + '_' + \
-                  project.getName(), basedir, timeout)
+                  project.getName(), basedir, timeout=timeout)
         cmd.addParameter(nuget.getCommand())
         cmd.addParameters(getArgs(nuget))
         if nuget.hasSolution():

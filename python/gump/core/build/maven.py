@@ -64,7 +64,7 @@ def getMavenCommand(project):
 
     # Run Maven...
     cmd = Cmd('maven', 'build_' + project.getModule().getName() + '_' + \
-                  project.getName(), basedir, timeout)
+                  project.getName(), basedir, timeout=timeout)
 
     #
     # Allow maven-level debugging...

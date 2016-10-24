@@ -103,7 +103,7 @@ class ConfigureBuilder(RunSpecific):
             timeout = setting.TIMEOUT
 
         cmd = Cmd(scriptfile, 'buildscript_'+project.getModule().getName()+'_'+project.getName(),
-                  basedir, timeout)
+                  basedir, timeout=timeout)
         cmd.addParameters(getArgs(configure))
 
         return cmd

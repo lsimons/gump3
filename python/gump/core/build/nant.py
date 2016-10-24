@@ -134,7 +134,7 @@ class NAntBuilder(RunSpecific):
         cmd = Cmd(self.run.env.get_nant_command(),
                   'build_' + project.getModule().getName() + '_' + \
                     project.getName(),
-                  basedir, timeout)
+                  basedir, timeout=timeout)
 
         # Launch with specified framework (e.g. mono-1.0.1) if
         # required.
