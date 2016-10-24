@@ -16,75 +16,44 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-__revision__  = "$Rev: 36667 $"
-__date__      = "$Date: 2004-08-20 08:55:45 -0600 (Fri, 20 Aug 2004) $"
-__copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
-__license__   = "http://www.apache.org/licenses/LICENSE-2.0"
-
-
 """
 	An Ant builder (uses ant to build projects)
 """
 
-from gump import log
+from gump.core.build.basebuilder import BaseBuilder, get_command_skeleton, \
+    is_debug_enabled, is_verbose_enabled
+from gump.util.process.command import Parameters
 
-from gump.core.config import setting
-from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, STATE_FAILED,\
-    STATE_SUCCESS
+def get_ant_properties(project):
+    """ Get properties for a project """
+    properties = Parameters()
+    for prop in project.getWorkspace().getProperties() + project.getAnt().getProperties():
+        properties.addPrefixedNamedParameter('-D', prop.name, prop.getValue(), '=')
+    return properties
 
-from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, Cmd, Parameters
-from gump.util.process.launcher import execute
-from gump.core.run.gumprun import RunSpecific
-from gump.util.work import CommandWorkItem, WORK_TYPE_BUILD
+def get_ant_sysproperties(project):
+    """ Get sysproperties for a project """
+    properties = Parameters()
+    for prop in project.getWorkspace().getSysProperties() + project.getAnt().getSysProperties():
+        properties.addPrefixedNamedParameter('-D', prop.name, prop.value, '=')
+    return properties
 
-class AntBuilder(RunSpecific):
+class AntBuilder(BaseBuilder):
+    """
+	An Ant builder (uses ant to build projects)
+    """
 
     def __init__(self, run):
         """
         	The Ant Builder is a Java Builder
     	"""
-        RunSpecific.__init__(self, run)
+        BaseBuilder.__init__(self, run, 'Ant')
 
-    def buildProject(self, project, language, stats):
-        """
-        	Build a project using Ant, based off the <ant metadata.
-
-        	Note: switch on -verbose|-debug based of the stats for this
-        	project, i.e. how long in a state of failure.
-        """
-
-        workspace = self.run.getWorkspace()
-
-        log.info('Run Ant on Project: #[' + `project.getPosition()` + '] : ' + project.getName())
-
-        # Get the appropriate build command...
-        cmd = self.getAntCommand(project, language, self.run.getEnvironment().getJavaCommand())
-
-        if cmd:
-            # Execute the command ....
-            cmdResult = execute(cmd, workspace.tmpdir)
-
-            # Update context with the fact that this work was done
-            work = CommandWorkItem(WORK_TYPE_BUILD, cmd, cmdResult)
-            project.performedWork(work)
-            project.setBuilt(True)
-
-            # Update context state based of the result
-            if cmdResult.state != CMD_STATE_SUCCESS:
-                reason = REASON_BUILD_FAILED
-                if cmdResult.state == CMD_STATE_TIMED_OUT:
-                    reason = REASON_BUILD_TIMEDOUT
-                project.changeState(STATE_FAILED, reason)
-            else:
-                # For now, things are going good...
-                project.changeState(STATE_SUCCESS)
-
-    def getAntCommand(self, project, language, javaCommand='java'):
+    def get_command(self, project, language):
         """
         	Build an ANT command for this project, based on the <ant metadata
    			select targets and build files as appropriate.
         """
-
         # The original model information...
         ant = project.ant
         # The ant target (or none == ant default target)
@@ -93,34 +62,15 @@ class AntBuilder(RunSpecific):
         # The ant build file (or none == build.xml)
         buildfile = ant.getBuildFile()
 
-        # Optional 'timeout'
-        if ant.hasTimeout():
-            timeout = ant.getTimeout()
-        else:
-            timeout = setting.TIMEOUT
-
-        # Optional 'verbose' or 'debug'
-        verbose = ant.isVerbose()
-        debug = ant.isDebug()
-
-        # Where to run this:
-        basedir = ant.getBaseDirectory() or project.getBaseDirectory()
-
         # Build a classpath (based upon dependencies)
         (classpath, bootclasspath) = language.getClasspaths(project)
 
-        # Get properties
-        properties = self.getAntProperties(project)
-
-        # Get system properties
-        sysproperties = self.getAntSysProperties(project)
-
         # Run java on apache Ant...
-        cmd = Cmd(javaCommand, 'build_' + project.getModule().getName() + '_' + project.getName(),
-                  basedir, {'CLASSPATH' : classpath}, timeout)
+        cmd = get_command_skeleton(project, self.run.getEnvironment().getJavaCommand(),
+                                   ant, {'CLASSPATH' : classpath})
 
         # These are workspace + project system properties
-        cmd.addNamedParameters(sysproperties)
+        cmd.addNamedParameters(get_ant_sysproperties(project))
 
         # Add BOOTCLASSPATH
         if bootclasspath:
@@ -135,21 +85,21 @@ class AntBuilder(RunSpecific):
         cmd.addParameter('org.apache.tools.ant.Main')
 
         # Allow ant-level debugging...
-        if project.getWorkspace().isDebug() or project.isDebug() or debug:
+        if is_debug_enabled(project, ant):
             cmd.addParameter('-debug')
-        if project.getWorkspace().isVerbose()  or project.isVerbose() or verbose:
+        if is_verbose_enabled(project, ant):
             cmd.addParameter('-verbose')
 
         # Some builds might wish for this information
         # :TODO: Grant greater access to Gump variables from
         # within.
-        mergeFile = project.getWorkspace().getMergeFile()
-        if mergeFile:
-            cmd.addPrefixedParameter('-D', 'gump.merge', str(mergeFile), '=')
+        merge_file = project.getWorkspace().getMergeFile()
+        if merge_file:
+            cmd.addPrefixedParameter('-D', 'gump.merge', str(merge_file), '=')
 
         # These are from the project and/or workspace
         # These are 'normal' properties.
-        cmd.addNamedParameters(properties)
+        cmd.addNamedParameters(get_ant_properties(project))
 
         # Pass the buildfile
         if buildfile:
@@ -157,29 +107,7 @@ class AntBuilder(RunSpecific):
 
         # End with the target (or targets)...
         if target:
-            for targetParam in target.split(','):
-                cmd.addParameter(targetParam)
+            for single_target in target.split(','):
+                cmd.addParameter(single_target)
 
         return cmd
-
-    def getAntProperties(self, project):
-        """ Get properties for a project """
-        properties = Parameters()
-        for property in project.getWorkspace().getProperties() + project.getAnt().getProperties():
-            properties.addPrefixedNamedParameter('-D', property.name, property.getValue(), '=')
-        return properties
-
-    def getAntSysProperties(self, project):
-        """ Get sysproperties for a project """
-        properties = Parameters()
-        for property in project.getWorkspace().getSysProperties() + \
-            project.getAnt().getSysProperties():
-            properties.addPrefixedNamedParameter('-D', property.name, property.value, '=')
-        return properties
-
-    def preview(self, project, language, stats):
-        """
-        	Preview what an Ant build would look like.
-        """
-        cmd = self.getAntCommand(project, language)
-        cmd.dump()
