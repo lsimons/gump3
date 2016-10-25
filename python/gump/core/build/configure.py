@@ -15,78 +15,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-__revision__  = "$Rev: 36667 $"
-__date__      = "$Date: 2004-08-20 08:55:45 -0600 (Fri, 20 Aug 2004) $"
-__copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
-__license__   = "http://www.apache.org/licenses/LICENSE-2.0"
-
-
 """
 	An configure builder (uses ./configure to build projects)
 """
 
 import os.path
 
-from gump import log
-from gump.core.build.script import getArgs
-from gump.core.config import setting
-from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, STATE_FAILED,\
-    STATE_SUCCESS
-from gump.core.run.gumprun import RunSpecific
-
-from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, Cmd
-from gump.util.process.launcher import execute
-from gump.util.work import CommandWorkItem, WORK_TYPE_BUILD
+from gump.core.build.basebuilder import BaseBuilder, get_args, get_command_skeleton
 
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class ConfigureBuilder(RunSpecific):
+class ConfigureBuilder(BaseBuilder):
+    """
+	An configure builder (uses ./configure to build projects)
+    """
 
     def __init__(self, run):
         """
         A configure 'builder'
         """
-        RunSpecific.__init__(self, run)
+        BaseBuilder.__init__(self, run, 'Project\'s configure script')
 
-    def buildProject(self, project, languageHelper, stats):
-        """
-        Run a project's configure script (doesn't support Windows, yet)
-        """
-
-        workspace = self.run.getWorkspace()
-
-        log.info('Run Project\'s configure script: #[' + `project.getPosition()` +\
-                 '] : ' + project.getName())
-
-        #
-        # Get the appropriate build command...
-        #
-        cmd = self.getConfigureCommand(project)
-
-        if cmd:
-            # Execute the command ....
-            cmdResult = execute(cmd, workspace.tmpdir)
-
-            # Update Context
-            work = CommandWorkItem(WORK_TYPE_BUILD, cmd, cmdResult)
-            project.performedWork(work)
-            project.setBuilt(True)
-
-            # Update Context w/ Results
-            if cmdResult.state != CMD_STATE_SUCCESS:
-                reason = REASON_BUILD_FAILED
-                if cmdResult.state == CMD_STATE_TIMED_OUT:
-                    reason = REASON_BUILD_TIMEDOUT
-                project.changeState(STATE_FAILED, reason)
-
-            else:
-                # For now, things are going good...
-                project.changeState(STATE_SUCCESS)
-
-    def getConfigureCommand(self, project):
+    def get_command(self, project, _language):
         """ Return the command object for a <configure entry """
         configure = project.configure
 
@@ -96,21 +49,7 @@ class ConfigureBuilder(RunSpecific):
         # The script
         scriptfile = os.path.abspath(os.path.join(basedir, 'configure'))
 
-        # Optional 'timeout'
-        if configure.hasTimeout():
-            timeout = configure.getTimeout()
-        else:
-            timeout = setting.TIMEOUT
-
-        cmd = Cmd(scriptfile, 'buildscript_'+project.getModule().getName()+'_'+project.getName(),
-                  basedir, timeout=timeout)
-        cmd.addParameters(getArgs(configure))
+        cmd = get_command_skeleton(project, scriptfile, configure)
+        cmd.addParameters(get_args(configure))
 
         return cmd
-
-    def preview(self, project, languageHelper, stats):
-        """
-        Preview what this would do
-        """
-        cmd = self.getConfigureCommand(project)
-        cmd.dump()

@@ -21,7 +21,8 @@ from gump import log
 from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
     STATE_FAILED, STATE_SUCCESS
 from gump.core.run.gumprun import RunSpecific
-from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, Cmd
+from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, Cmd, \
+    Parameters
 from gump.util.process.launcher import execute
 from gump.util.work import CommandWorkItem, WORK_TYPE_BUILD
 
@@ -46,6 +47,20 @@ def is_verbose_enabled(project, builder=None):
     """
     return project.getWorkspace().isVerbose() or project.isVerbose() or \
         (builder and builder.isVerbose())
+
+def get_args(builder):
+    """ Get command line args for a builder that supports args """
+    args = Parameters()
+    for arg in builder.getProperties():
+        if arg.name.startswith('--') or not arg.name.startswith('-'):
+            if arg.value and arg.value != "*Unset*": # TODO: fix this properly. Ugly!
+                args.addNamedParameter(arg.name, arg.value, '=')
+            else:
+                args.addParameter(arg.name)
+        else:
+            args.addParameter(arg.name)
+            args.addParameter(arg.value)
+    return args
 
 class BaseBuilder(RunSpecific):
     """

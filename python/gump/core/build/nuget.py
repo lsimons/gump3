@@ -15,25 +15,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-__copyright__ = "Copyright (c) 1999-2015 Apache Software Foundation"
-__license__ = "http://www.apache.org/licenses/LICENSE-2.0"
+"""
+    A NuGet builder http://www.nuget.org/
+"""
 
-from gump import log
-from gump.core.build.script import getArgs
-from gump.core.config import setting
-from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
-    STATE_FAILED, STATE_SUCCESS
-from gump.core.run.gumprun import RunSpecific
-from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, \
-    Cmd
-from gump.util.process.launcher import execute
-from gump.util.work import CommandWorkItem, WORK_TYPE_BUILD
+from gump.core.build.basebuilder import BaseBuilder, get_args, get_command_skeleton
 
 ###############################################################################
 # Classes
 ###############################################################################
 
-class NuGetBuilder(RunSpecific):
+class NuGetBuilder(BaseBuilder):
     """
     A NuGet builder http://www.nuget.org/
     """
@@ -42,69 +34,16 @@ class NuGetBuilder(RunSpecific):
         """
         A NuGet 'builder'
         """
-        RunSpecific.__init__(self, run)
+        BaseBuilder.__init__(self, run, 'NuGet')
 
-    def buildProject(self, project, _languageHelper, _stats):
-        """
-        Run a NuGet command
-        """
-
-        workspace = self.run.getWorkspace()
-
-        log.info('Run NuGet on: #[' + `project.getPosition()` + '] : ' + \
-                 project.getName())
-
-        #
-        # Get the appropriate build command...
-        #
-        cmd = self.getNuGetCommand(project)
-
-        if cmd:
-            # Execute the command ....
-            cmdResult = execute(cmd, workspace.tmpdir)
-
-            # Update Context
-            work = CommandWorkItem(WORK_TYPE_BUILD, cmd, cmdResult)
-            project.performedWork(work)
-            project.setBuilt(True)
-
-            # Update Context w/ Results
-            if cmdResult.state != CMD_STATE_SUCCESS:
-                reason = REASON_BUILD_FAILED
-                if cmdResult.state == CMD_STATE_TIMED_OUT:
-                    reason = REASON_BUILD_TIMEDOUT
-                project.changeState(STATE_FAILED, reason)
-
-            else:
-                # For now, things are going good...
-                project.changeState(STATE_SUCCESS)
-
-    def getNuGetCommand(self, project):
+    def get_command(self, project, _language):
         """ Return the command object for a <nuget entry """
         nuget = project.nuget
 
-        # Where to run this:
-        basedir = nuget.getBaseDirectory() or project.getBaseDirectory()
-
-        # Optional 'timeout'
-        if nuget.hasTimeout():
-            timeout = nuget.getTimeout()
-        else:
-            timeout = setting.TIMEOUT
-
-        cmd = Cmd(self.run.env.get_nuget_command(),
-                  'buildscript_' + project.getModule().getName() + '_' + \
-                  project.getName(), basedir, timeout=timeout)
+        cmd = get_command_skeleton(project, self.run.env.get_nuget_command(), nuget)
         cmd.addParameter(nuget.getCommand())
-        cmd.addParameters(getArgs(nuget))
+        cmd.addParameters(get_args(nuget))
         if nuget.hasSolution():
             cmd.addParameter(nuget.getSolution())
 
         return cmd
-
-    def preview(self, project, _languageHelper, _stats):
-        """
-        Preview what this would do
-        """
-        command = self.getNuGetCommand(project)
-        command.dump()

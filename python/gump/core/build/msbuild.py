@@ -15,17 +15,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from gump import log
-from gump.core.config import setting
-from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
-    REASON_PREBUILD_FAILED, STATE_FAILED, STATE_SUCCESS
-from gump.core.run.gumprun import RunSpecific
-from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, \
-    Cmd, Parameters
-from gump.util.process.launcher import execute
-from gump.util.work import CommandWorkItem, WORK_TYPE_BUILD
+"""
+        A MSBuild builder (uses MSBuild or Mono's xbuild to build projects)
+"""
 
-def getMSBuildProperties(project):
+from gump import log
+from gump.core.build.basebuilder import BaseBuilder, get_command_skeleton, \
+    is_debug_enabled, is_verbose_enabled
+from gump.core.model.state import REASON_PREBUILD_FAILED, STATE_FAILED
+from gump.util.process.command import Parameters
+
+def get_msbuild_properties(project):
     """ Get properties for a project """
     properties = Parameters()
     props = project.getWorkspace().getProperties() + \
@@ -34,7 +34,7 @@ def getMSBuildProperties(project):
         properties.addPrefixedNamedParameter('/p:', prop.name, prop.value, '=')
     return properties
 
-class MSBuildBuilder(RunSpecific):
+class MSBuildBuilder(BaseBuilder):
     """
         A MSBuild builder (uses MSBuild or Mono's xbuild to build projects)
     """
@@ -44,44 +44,9 @@ class MSBuildBuilder(RunSpecific):
         """
                 The MSBuild Builder is a .NET Builder
         """
-        RunSpecific.__init__(self, run)
+        BaseBuilder.__init__(self, run, 'MSBuild')
 
-    def buildProject(self, project, _language, _stats):
-        """
-                Build a project using MSBuild, based off the <msbuild metadata.
-
-                Note: switch on -verbose|-debug based of the stats for this
-                project, i.e. how long in a state of failure.
-        """
-
-        workspace = self.run.getWorkspace()
-
-        log.info('Run MSBuild on Project: #[' + `project.getPosition()` + \
-                     '] : ' + project.getName())
-
-        # Get the appropriate build command...
-        cmd = self.getMSBuildCommand(project)
-
-        if cmd:
-            # Execute the command ....
-            cmdResult = execute(cmd, workspace.tmpdir)
-
-            # Update context with the fact that this work was done
-            work = CommandWorkItem(WORK_TYPE_BUILD, cmd, cmdResult)
-            project.performedWork(work)
-            project.setBuilt(True)
-
-            # Update context state based of the result
-            if cmdResult.state != CMD_STATE_SUCCESS:
-                reason = REASON_BUILD_FAILED
-                if cmdResult.state == CMD_STATE_TIMED_OUT:
-                    reason = REASON_BUILD_TIMEDOUT
-                project.changeState(STATE_FAILED, reason)
-            else:
-                # For now, things are going good...
-                project.changeState(STATE_SUCCESS)
-
-    def getMSBuildCommand(self, project):
+    def get_command(self, project, _language):
         """
         Build an MSBuild command for this project, based on the <msbuild metadata
         select targets and build files as appropriate.
@@ -103,38 +68,18 @@ class MSBuildBuilder(RunSpecific):
         # The msbuild build file (or none == Solution/Project in current folder)
         buildfile = msbuild.getBuildFile()
 
-        # Optional 'verbose' or 'debug'
-        verbose = msbuild.isVerbose()
-        debug = msbuild.isDebug()
-
-        # Where to run this:
-        basedir = msbuild.getBaseDirectory() or project.getBaseDirectory()
-
-        # Get properties
-        properties = getMSBuildProperties(project)
-
-        # Optional 'timeout'
-        if msbuild.hasTimeout():
-            timeout = msbuild.getTimeout()
-        else:
-            timeout = setting.TIMEOUT
-
         # Run MSBuild...
-        cmd = Cmd(self.run.env.get_msbuild_command(),
-                  'build_' + project.getModule().getName() + '_' + \
-                  project.getName(),
-                  basedir, timeout=timeout)
+        cmd = get_command_skeleton(project, self.run.env.get_msbuild_command(), msbuild)
 
         # Allow MSBuild-level debugging...
-        if project.getWorkspace().isDebug() or project.isDebug() or debug:
+        if is_debug_enabled(project, msbuild):
             cmd.addParameter('/verbosity:diagnostic')
-        if project.getWorkspace().isVerbose() or project.isVerbose() \
-                or verbose:
+        if is_verbose_enabled(project, msbuild):
             cmd.addParameter('/verbosity:detailed')
 
         # These are from the project and/or workspace
         # These are 'normal' properties.
-        cmd.addNamedParameters(properties)
+        cmd.addNamedParameters(get_msbuild_properties(project))
 
         # target (or targets)...
         if target:
@@ -145,11 +90,3 @@ class MSBuildBuilder(RunSpecific):
             cmd.addParameter(buildfile)
 
         return cmd
-
-    def preview(self, project, _language, _stats):
-        """
-                Preview what an MSBuild build would look like.
-        """
-        cmd = self.getMSBuildCommand(project)
-        cmd.dump()
-
