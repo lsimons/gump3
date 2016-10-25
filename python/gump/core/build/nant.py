@@ -14,23 +14,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""
+        A NAnt builder (uses nant to build projects)
+"""
 
 from gump import log
-from gump.core.config import setting
-from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
-    REASON_PREBUILD_FAILED, STATE_FAILED, STATE_SUCCESS
-from gump.core.run.gumprun import RunSpecific
-from gump.util.process.command import CMD_STATE_SUCCESS, CMD_STATE_TIMED_OUT, \
-    Cmd, Parameters
-from gump.util.process.launcher import execute
-from gump.util.work import CommandWorkItem, WORK_TYPE_BUILD
+from gump.core.build.basebuilder import BaseBuilder, get_command_skeleton, \
+    is_debug_enabled, is_verbose_enabled
+from gump.core.model.state import REASON_PREBUILD_FAILED, STATE_FAILED
+from gump.util.process.command import Parameters
 
-def getNAntProperties(project):
+def get_nant_properties(project):
     """ Get properties for a project """
     return collect_properties(project.getWorkspace().getProperties() + \
                                   project.getNAnt().getProperties())
 
-def getNAntSysProperties(project):
+def get_nant_sysproperties(project):
     """ Get sysproperties for a project """
     return collect_properties(project.getWorkspace().getSysProperties() + \
                                   project.getNAnt().getSysProperties())
@@ -42,7 +41,7 @@ def collect_properties(props):
         properties.addPrefixedNamedParameter('-D:', prop.name, prop.value, '=')
     return properties
 
-class NAntBuilder(RunSpecific):
+class NAntBuilder(BaseBuilder):
     """
         A NAnt builder (uses nant to build projects)
     """
@@ -52,44 +51,9 @@ class NAntBuilder(RunSpecific):
         """
                 The NAnt Builder is a .NET Builder
         """
-        RunSpecific.__init__(self, run)
+        BaseBuilder.__init__(self, run, 'NAnt')
 
-    def buildProject(self, project, _language, _stats):
-        """
-                Build a project using NAnt, based off the <nant metadata.
-
-                Note: switch on -verbose|-debug based of the stats for this
-                project, i.e. how long in a state of failure.
-        """
-
-        workspace = self.run.getWorkspace()
-
-        log.info('Run NAnt on Project: #[' + `project.getPosition()` + \
-                     '] : ' + project.getName())
-
-        # Get the appropriate build command...
-        cmd = self.getNAntCommand(project)
-
-        if cmd:
-            # Execute the command ....
-            cmdResult = execute(cmd, workspace.tmpdir)
-
-            # Update context with the fact that this work was done
-            work = CommandWorkItem(WORK_TYPE_BUILD, cmd, cmdResult)
-            project.performedWork(work)
-            project.setBuilt(True)
-
-            # Update context state based of the result
-            if cmdResult.state != CMD_STATE_SUCCESS:
-                reason = REASON_BUILD_FAILED
-                if cmdResult.state == CMD_STATE_TIMED_OUT:
-                    reason = REASON_BUILD_TIMEDOUT
-                project.changeState(STATE_FAILED, reason)
-            else:
-                # For now, things are going good...
-                project.changeState(STATE_SUCCESS)
-
-    def getNAntCommand(self, project):
+    def get_command(self, project, _language):
         """
         Build an NANT command for this project, based on the <nant metadata
         select targets and build files as appropriate.
@@ -111,58 +75,35 @@ class NAntBuilder(RunSpecific):
         # The nant build file (or none == build.xml)
         buildfile = nant.getBuildFile()
 
-        # Optional 'verbose' or 'debug'
-        verbose = nant.isVerbose()
-        debug = nant.isDebug()
-
-        # Where to run this:
-        basedir = nant.getBaseDirectory() or project.getBaseDirectory()
-
-        # Get properties
-        properties = getNAntProperties(project)
-
-        # Get system properties
-        sysproperties = getNAntSysProperties(project)
-
-        # Optional 'timeout'
-        if nant.hasTimeout():
-            timeout = nant.getTimeout()
-        else:
-            timeout = setting.TIMEOUT
-
         # Run NAnt...
-        cmd = Cmd(self.run.env.get_nant_command(),
-                  'build_' + project.getModule().getName() + '_' + \
-                    project.getName(),
-                  basedir, timeout=timeout)
+        cmd = get_command_skeleton(project, self.run.env.get_nant_command(), nant)
 
         # Launch with specified framework (e.g. mono-1.0.1) if
         # required.
         workspace = self.run.getWorkspace()
         if workspace.hasDotNetInformation():
-            dotnetInfo = workspace.getDotNetInformation()
-            if dotnetInfo.hasFramework():
-                cmd.addParameter('-t:', dotnetInfo.getFramework(), '')
+            dotnet_info = workspace.getDotNetInformation()
+            if dotnet_info.hasFramework():
+                cmd.addParameter('-t:', dotnet_info.getFramework(), '')
 
         # These are workspace + project system properties
-        cmd.addNamedParameters(sysproperties)
+        cmd.addNamedParameters(get_nant_sysproperties(project))
 
         # Allow NAnt-level debugging...
-        if project.getWorkspace().isDebug() or project.isDebug() or debug:
+        if is_debug_enabled(project, nant):
             cmd.addParameter('-debug')
-        if project.getWorkspace().isVerbose() or project.isVerbose() \
-                or verbose:
+        if is_verbose_enabled(project, nant):
             cmd.addParameter('-verbose')
 
         # Some builds might wish for this information
         # :TODO: Grant greater access to Gump variables from
         # within.
-        mergeFile = project.getWorkspace().getMergeFile()
-        if mergeFile:
-            cmd.addPrefixedParameter('-D:', 'gump.merge', str(mergeFile), '=')
+        merge_file = project.getWorkspace().getMergeFile()
+        if merge_file:
+            cmd.addPrefixedParameter('-D:', 'gump.merge', str(merge_file), '=')
         # These are from the project and/or workspace
         # These are 'normal' properties.
-        cmd.addNamedParameters(properties)
+        cmd.addNamedParameters(get_nant_properties(project))
 
         # Pass the buildfile
         if buildfile:
@@ -170,15 +111,7 @@ class NAntBuilder(RunSpecific):
 
         # End with the target (or targets)...
         if target:
-            for targetParam in target.split(', '):
-                cmd.addParameter(targetParam)
+            for single_target in target.split(','):
+                cmd.addParameter(single_target)
 
         return cmd
-
-    def preview(self, project, _language, _stats):
-        """
-                Preview what an NAnt build would look like.
-        """
-        cmd = self.getNAntCommand(project)
-        cmd.dump()
-
