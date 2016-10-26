@@ -62,6 +62,10 @@ def get_args(builder):
             args.addParameter(arg.value)
     return args
 
+def needs_separate_local_repository(builder):
+    """ Does the given builder signal it needs a separate local repo? """
+    return builder.needsSeparateLocalRepository()
+
 class BaseBuilder(RunSpecific):
     """
     Base class for all builders.
