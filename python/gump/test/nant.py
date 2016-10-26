@@ -60,7 +60,7 @@ class NAntTestSuite(UnitTestSuite):
     def testNAntCommand(self):                
         self.assertTrue('NAnt project has a NAnt object', self.nant1.hasNAnt())        
   
-        cmd=self.nantBuilder.getNAntCommand(self.nant1)
+        cmd=self.nantBuilder.get_command(self.nant1, None)
         
         #cmd.dump()
         
