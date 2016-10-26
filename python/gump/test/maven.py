@@ -27,7 +27,7 @@ import types, StringIO
 from gump import log
 import gump.core.config
 from gump.core.model.state import *
-from gump.core.build.maven import generateMavenProperties, getMavenCommand
+from gump.core.build.maven import generate_maven_properties, get_maven_command
 
 import gump.core.language.java
 

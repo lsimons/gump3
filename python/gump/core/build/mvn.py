@@ -16,28 +16,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+    Builder for Maven 2.x/3.x using Gump's repository proxy.
+"""
+
 from time import strftime
 import os.path
 
 from gump import log
+from gump.core.build.basebuilder import BaseBuilder, get_command_skeleton, \
+    is_debug_enabled, is_verbose_enabled, local_mvn_repo, \
+    needs_separate_local_repository
 from gump.actor.mvnrepoproxy.proxycontrol import PROXY_CONFIG
-from gump.core.config import setting
 from gump.core.model.builder import MVN_VERSION2, MVN_VERSION3
-from gump.core.model.workspace import CommandWorkItem, \
-    REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
-    STATE_FAILED, STATE_SUCCESS, WORK_TYPE_BUILD
-from gump.core.run.gumprun import RunSpecific
+from gump.core.model.workspace import REASON_PREBUILD_FAILED, STATE_FAILED
 from gump.util.file import FILE_TYPE_CONFIG
-from gump.util.process.command import Cmd, CMD_STATE_SUCCESS, \
-    CMD_STATE_TIMED_OUT, Parameters
-from gump.util.process.launcher import execute
+from gump.util.process.command import Parameters
 from gump.util.tools import catFileToFileHolder
 
-###############################################################################
-# Classes
-###############################################################################
-
 def write_mirror_entry(props, prefix, mirror_of, port):
+    """ adds an entry for a repository mirror """
     props.write("""
     <mirror>
       <id>gump-%s</id>
@@ -46,68 +44,47 @@ def write_mirror_entry(props, prefix, mirror_of, port):
       <mirrorOf>%s</mirrorOf>
     </mirror>""" % (mirror_of, mirror_of, port, prefix, mirror_of))
 
-def locateMavenProjectFile(project):
+def locate_pom(project):
     """Return Maven project file location"""
     basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
     return os.path.abspath(os.path.join(basedir, 'pom.xml'))
 
-def locateMavenSettings(project):
-    #
-    # Where to put this:
-    #
+def locate_settings(project):
+    """ absolute path to the generated mvn settings """
     basedir = project.mvn.getBaseDirectory() or project.getBaseDirectory()
     return os.path.abspath(os.path.join(basedir, 'gump_mvn_settings.xml'))
 
-def getMavenProperties(project):
+def get_properties(project):
     """ Get properties for a project """
     properties = Parameters()
-    for property in project.getMvn().getProperties():
-        properties.addPrefixedNamedParameter('-D', property.name, \
-                                                 property.value, '=')
+    for prop in project.getMvn().getProperties():
+        properties.addPrefixedNamedParameter('-D', prop.name, prop.value, '=')
     return properties
 
-def getMavenCommand(project, executable='mvn'):
+def get_mvn_command(project, executable='mvn'):
     """ Build an Maven command for this project """
     maven = project.mvn
 
     # The maven goal (or none == maven default goal)
     goal = maven.getGoal()
 
-    # Optional 'verbose' or 'debug'
-    verbose = maven.isVerbose()
-    debug = maven.isDebug()
-
-    #
-    # Where to run this:
-    #
-    basedir = maven.getBaseDirectory() or project.getBaseDirectory()
-
-    # Optional 'timeout'
-    if maven.hasTimeout():
-        timeout = maven.getTimeout()
-    else:
-        timeout = setting.TIMEOUT
-
     # Run Maven...
-    cmd = Cmd(executable, 'build_' + project.getModule().getName() + '_' + \
-                project.getName(), basedir, timeout=timeout)
+    cmd = get_command_skeleton(project, executable, maven)
 
     cmd.addParameter('--batch-mode')
 
     #
     # Allow maven-level debugging...
     #
-    if project.getWorkspace().isDebug() or project.isDebug() or debug:
+    if is_debug_enabled(project, maven):
         cmd.addParameter('--debug')
-    if project.getWorkspace().isVerbose() \
-            or project.isVerbose() or verbose:
+    if is_verbose_enabled(project, maven):
         cmd.addParameter('--exception')
 
-    props = getMavenProperties(project)
-    cmd.addNamedParameters(props)
+    cmd.addNamedParameters(get_properties(project))
 
     cmd.addParameter('--settings')
-    cmd.addParameter(locateMavenSettings(project))
+    cmd.addParameter(locate_settings(project))
 
     profile = maven.getProfile()
     if profile:
@@ -115,143 +92,103 @@ def getMavenCommand(project, executable='mvn'):
 
     # End with the goal...
     if goal:
-        for goalParam in goal.split(','):
-            cmd.addParameter(goalParam)
+        for single_goal in goal.split(','):
+            cmd.addParameter(single_goal)
 
     return cmd
 
-def needsSeparateLocalRepository(project):
-    return project.mvn.needsSeparateLocalRepository()
+###############################################################################
+# Classes
+###############################################################################
 
-def local_mvn_repo(project, build_element):
-    #
-    # Where to put the local repository
-    #
-    name = build_element.getLocalRepositoryName()
-    if not name:
-        name = project.getName() + ".mvnlocalrepo"
-    return os.path.abspath(os.path.join(project.getWorkspace()\
-                                        .getLocalRepositoryDirectory(),
-                                        name))
+class MavenBuilder(BaseBuilder):
 
-class MavenBuilder(RunSpecific):
+    """
+    Builder for Maven 2.x/3.x using Gump's repository proxy.
+    """
 
     def __init__(self, run):
-        RunSpecific.__init__(self, run)
+        BaseBuilder.__init__(self, run, 'Maven')
 
-    def buildProject(self, project, languageHelper, stats):
+    def get_command(self, project, language):
         """
         Build a Maven 2.x/3.x project
         """
 
-        workspace = self.run.getWorkspace()
+        #
+        # Get the appropriate build command...
+        #
+        home = None
+        if project.getMvn().getVersion() == MVN_VERSION2:
+            home = self.run.env.m2_home
+        elif project.getMvn().getVersion() == MVN_VERSION3:
+            home = self.run.env.m3_home
 
-        log.debug('Run Maven on Project: #[' + `project.getPosition()` + '] '\
-                  + project.getName())
+        if home:
+            cmd = get_mvn_command(project, home + '/bin/mvn')
+            cmd.addEnvironment('M2_HOME', home)
+        else:
+            cmd = get_mvn_command(project)
 
-        self.performPreBuild(project, languageHelper, stats)
+        if cmd:
+            # Get/set JVM properties
+            jvmargs = language.getJVMArgs(project)
+            if jvmargs and len(jvmargs.items()) > 0:
+                cmd.addEnvironment('MAVEN_OPTS', jvmargs.formatCommandLine())
+        return cmd
 
-        if project.okToPerformWork():
+    def pre_build(self, project, _language, _stats):
+        try:
+            settings = self.generate_mvn_settings(project, languageHelper)
+            project.addDebug('(Apache Gump generated) Apache Maven Settings in: ' + \
+                             settings)
 
-            #
-            # Get the appropriate build command...
-            #
-            home = None
-            if project.getMvn().getVersion() == MVN_VERSION2:
-                home = self.run.env.m2_home
-            elif project.getMvn().getVersion() == MVN_VERSION3:
-                home = self.run.env.m3_home
-
-            if home:
-                cmd = getMavenCommand(project, home + '/bin/mvn')
-                cmd.addEnvironment('M2_HOME', home)
-            else:
-                cmd = getMavenCommand(project)
-
-            if cmd:
-                # Get/set JVM properties
-                jvmargs = languageHelper.getJVMArgs(project)
-                if jvmargs and len(jvmargs.items()) > 0:
-                    cmd.addEnvironment('MAVEN_OPTS',
-                                       jvmargs.formatCommandLine())
-
-                # Execute the command ....
-                cmdResult = execute(cmd, workspace.tmpdir)
-
-                # Update Context
-                work = CommandWorkItem(WORK_TYPE_BUILD, cmd, cmdResult)
-                project.performedWork(work)
-                project.setBuilt(True)
-
-                # Update Context w/ Results
-                if cmdResult.state != CMD_STATE_SUCCESS:
-                    reason = REASON_BUILD_FAILED
-                    if cmdResult.state == CMD_STATE_TIMED_OUT:
-                        reason = REASON_BUILD_TIMEDOUT
-                    project.changeState(STATE_FAILED, reason)
-                else:
-                    # For now, things are going good...
-                    project.changeState(STATE_SUCCESS)
-
-        if project.wasBuilt():
-            pomFile = locateMavenProjectFile(project)
-            if os.path.exists(pomFile):
-                project.addDebug('Maven POM in: ' + pomFile)
-                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG)
-
-
-    # Do this even if not ok
-    def performPreBuild(self, project, languageHelper, _stats):
-
-        # Maven requires a build.properties to be generated...
-        if project.okToPerformWork():
             try:
-                settingsFile = self.generateMvnSettings(project, languageHelper)
-                project.addDebug('(Apache Gump generated) Apache Maven Settings in: ' + \
-                                     settingsFile)
+                catFileToFileHolder(project, settings, FILE_TYPE_CONFIG,
+                                    os.path.basename(settings))
+            except:
+                log.error('Display Settings [ ' + settings + \
+                          '] Failed', exc_info=1)
 
-                try:
-                    catFileToFileHolder(project, settingsFile,
-                                        FILE_TYPE_CONFIG,
-                                        os.path.basename(settingsFile))
-                except:
-                    log.error('Display Settings [ ' + settingsFile + \
-                                  '] Failed', exc_info=1)
+        except Exception, details:
+            message = 'Generate Maven Settings Failed:' + str(details)
+            log.error(message, exc_info=1)
+            project.addError(message)
+            project.changeState(STATE_FAILED, REASON_PREBUILD_FAILED)
 
-            except Exception, details:
-                message = 'Generate Maven Settings Failed:' + str(details)
-                log.error(message, exc_info=1)
-                project.addError(message)
-                project.changeState(STATE_FAILED, REASON_PREBUILD_FAILED)
+    def post_build(self, project, _language, _stats):
+        """
+        Attach pom to output.
+        """
+        pom = locate_pom(project)
+        if os.path.exists(pom):
+            project.addDebug('Maven POM in: ' + pom)
+            catFileToFileHolder(project, pom, FILE_TYPE_CONFIG)
 
-    def preview(self, project, _languageHelper, _stats):
-        command = getMavenCommand(project)
-        command.dump()
 
-    def generateMvnSettings(self, project, _languageHelper):
+    def generate_mvn_settings(self, project, _language):
         """Set repository for a Maven project"""
 
-        settingsFile = locateMavenSettings(project)
+        settings = locate_settings(project)
         # Ensure containing directory exists, or make it.
-        settingsdir = os.path.dirname(settingsFile)
+        settingsdir = os.path.dirname(settings)
         if not os.path.exists(settingsdir):
             project.addInfo('Making directory for Maven settings: [' \
                                 + settingsdir + ']')
             os.makedirs(settingsdir)
 
-        if os.path.exists(settingsFile):
-            project.addWarning('Overriding Maven settings: [' + settingsFile \
+        if os.path.exists(settings):
+            project.addWarning('Overriding Maven settings: [' + settings \
                                    + ']')
 
-        if needsSeparateLocalRepository(project):
-            localRepositoryDir = local_mvn_repo(project, project.mvn)
+        if needs_separate_local_repository(project.mvn):
+            local_repo = local_mvn_repo(project, project.mvn)
         else:
-            localRepositoryDir = os.path.abspath(\
+            local_repo = os.path.abspath(\
                 os.path.join(self.run.getWorkspace()
-                             .getLocalRepositoryDirectory(), "shared")
-                                                )
+                             .getLocalRepositoryDirectory(), "shared"))
 
-        props = open(settingsFile, 'w')
+        props = open(settings, 'w')
 
         props.write(("""<?xml version="1.0"?>
 <!--
@@ -283,8 +220,7 @@ class MavenBuilder(RunSpecific):
 -->
 <settings>
   <localRepository>%s</localRepository>""")
-                    % (project.getName(), strftime('%Y-%m-%d %H:%M:%S'),
-                       localRepositoryDir))
+                    % (project.getName(), strftime('%Y-%m-%d %H:%M:%S'), local_repo))
         if not self.run.getEnvironment().noMvnRepoProxy:
             props.write("<mirrors>")
             for (name, prefix, _url) in PROXY_CONFIG:
@@ -294,5 +230,5 @@ class MavenBuilder(RunSpecific):
 
         props.write("</settings>")
 
-        return settingsFile
+        return settings
 

@@ -17,6 +17,8 @@
 
 """Utility functions and a base class for Gump builders."""
 
+import os.path
+
 from gump import log
 from gump.core.model.state import REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, \
     STATE_FAILED, STATE_SUCCESS
@@ -65,6 +67,15 @@ def get_args(builder):
 def needs_separate_local_repository(builder):
     """ Does the given builder signal it needs a separate local repo? """
     return builder.needsSeparateLocalRepository()
+
+def local_mvn_repo(project, builder):
+    """ Returns absolute path of the builder's local mvn repo """
+    name = builder.getLocalRepositoryName()
+    if not name:
+        name = project.getName() + ".mvnlocalrepo"
+    return os.path.abspath(os.path.join(project.getWorkspace()\
+                                        .getLocalRepositoryDirectory(),
+                                        name))
 
 class BaseBuilder(RunSpecific):
     """

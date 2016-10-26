@@ -26,10 +26,10 @@ from time import strftime
 import os.path
 
 from gump import log
-from gump.core.build.basebuilder import BaseBuilder, get_command_skeleton, \
-    is_debug_enabled, is_verbose_enabled, needs_separate_local_repository
 from gump.actor.mvnrepoproxy.proxycontrol import SNAPSHOT_PROXIES
-from gump.core.build.mvn import local_mvn_repo
+from gump.core.build.basebuilder import BaseBuilder, get_command_skeleton, \
+    is_debug_enabled, is_verbose_enabled, local_mvn_repo, \
+    needs_separate_local_repository
 from gump.core.model.workspace import REASON_PREBUILD_FAILED, STATE_FAILED
 from gump.util.file import FILE_TYPE_CONFIG
 from gump.util.process.command import Parameters
