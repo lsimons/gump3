@@ -71,13 +71,20 @@ class BaseBuilder(RunSpecific):
         RunSpecific.__init__(self, run)
         self.name = name
 
-    def buildProject(self, project, language, _stats):
+    def buildProject(self, project, language, stats):
         """
         Build the project using the configured command.
         """
         log.info('Run ' + self.name + ' on Project: #[' + `project.getPosition()` + \
                      '] : ' + project.getName())
-        self.execute_and_record_build_result(project, self.get_command(project, language))
+
+        self.pre_build(project, language, stats)
+
+        if project.okToPerformWork():
+            self.execute_and_record_build_result(project,
+                                                 self.get_command(project, language))
+        if project.wasBuilt():
+            self.post_build(project, language, stats)
 
     def preview(self, project, language, _stats):
         """
@@ -117,5 +124,17 @@ class BaseBuilder(RunSpecific):
     def get_command(self, _project, _language):
         """
         Get the command that builds the project.
+        """
+        return None
+
+    def pre_build(self, _project, _language, _stats):
+        """
+        Perform any actions required before starting the actual build command.
+        """
+        return None
+
+    def post_build(self, _project, _language, _stats):
+        """
+        Perform any actions required to clean up after the actual build.
         """
         return None
