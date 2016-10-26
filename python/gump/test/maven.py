@@ -62,12 +62,12 @@ class MavenTestSuite(UnitTestSuite):
     def testMavenProperties(self):
                 
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())        
-        generateMavenProperties(self.maven1, self.javaHelper, 'test/unit-testing-maven.properties')
+        generate_maven_properties(self.maven1, self.javaHelper, 'test/unit-testing-maven.properties')
         
     def testMavenCommand(self):                
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())        
   
-        cmd = getMavenCommand(self.maven1)
+        cmd = get_maven_command(self.maven1)
         
         # cmd.dump()
         

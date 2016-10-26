@@ -16,63 +16,42 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-__revision__  = "$Rev: 36667 $"
-__date__      = "$Date: 2004-08-20 08:55:45 -0600 (Fri, 20 Aug 2004) $"
-__copyright__ = "Copyright (c) 1999-2004 Apache Software Foundation"
-__license__   = "http://www.apache.org/licenses/LICENSE-2.0"
-
+"""
+    Builder for Maven 1.x uses a properties file with paths to dependencies.
+"""
 
 import os.path
 import time
 import gump
 
 from gump import log
-from gump.core.config import setting
-from gump.core.model.workspace import CommandWorkItem, \
-    REASON_BUILD_FAILED, REASON_BUILD_TIMEDOUT, REASON_PREBUILD_FAILED, \
-    STATE_FAILED, STATE_SUCCESS, WORK_TYPE_BUILD
-from gump.core.run.gumprun import RunSpecific
+from gump.core.build.basebuilder import BaseBuilder, get_command_skeleton, \
+    is_debug_enabled, is_verbose_enabled
+from gump.core.model.workspace import REASON_PREBUILD_FAILED, STATE_FAILED
 from gump.util.file import FILE_TYPE_CONFIG
-from gump.util.process.command import Cmd, CMD_STATE_SUCCESS, \
-    CMD_STATE_TIMED_OUT
-from gump.util.process.launcher import execute
 from gump.util.tools import catFileToFileHolder
 
 #
 # Build an Maven command for this project
 #
-def getMavenCommand(project):
+def get_maven_command(project):
+    """
+    Sets up the maven command line based on the <maven element.
+    """
     maven = project.maven
 
     # The maven goal (or none == maven default goal)
     goal = maven.getGoal()
 
-    # Optional 'verbose' or 'debug'
-    verbose = maven.isVerbose()
-    debug = maven.isDebug()
-
-    #
-    # Where to run this:
-    #
-    basedir = maven.getBaseDirectory() or project.getBaseDirectory()
-
-    # Optional 'timeout'
-    if maven.hasTimeout():
-        timeout = maven.getTimeout()
-    else:
-        timeout = setting.TIMEOUT
-
     # Run Maven...
-    cmd = Cmd('maven', 'build_' + project.getModule().getName() + '_' + \
-                  project.getName(), basedir, timeout=timeout)
+    cmd = get_command_skeleton(project, 'maven', maven)
 
     #
     # Allow maven-level debugging...
     #
-    if project.getWorkspace().isDebug() or project.isDebug() or debug:
+    if is_debug_enabled(project, maven):
         cmd.addParameter('--debug')
-    if project.getWorkspace().isVerbose()  or project.isVerbose() \
-            or verbose:
+    if is_verbose_enabled(project, maven):
         cmd.addParameter('--exception')
 
     #
@@ -82,13 +61,13 @@ def getMavenCommand(project):
 
     # End with the goal...
     if goal:
-        for goalParam in goal.split(', '):
-            cmd.addParameter(goalParam)
+        for single_goal in goal.split(', '):
+            cmd.addParameter(single_goal)
 
     return cmd
 
-# The propertiesFile parameter is primarily for testing.
-def generateMavenProperties(project, languageHelper, propertiesFile=None):
+# The props_file parameter is primarily for testing.
+def generate_maven_properties(project, language, props_file=None):
     """Set properties/overrides for a Maven project"""
 
     #:TODO: Does Maven have the idea of system properties?
@@ -97,23 +76,23 @@ def generateMavenProperties(project, languageHelper, propertiesFile=None):
     # Where to put this:
     #
     basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
-    if not propertiesFile:
-        propertiesFile = os.path.abspath(os.path.join(basedir,
-                                                      'build.properties'))
+    if not props_file:
+        props_file = os.path.abspath(os.path.join(basedir,
+                                                  'build.properties'))
 
     # Ensure containing directory exists, or make it.
-    propsdir = os.path.dirname(propertiesFile)
+    propsdir = os.path.dirname(props_file)
     if not os.path.exists(propsdir):
         project.addInfo('Making directory for Maven properties: [' + \
                             propsdir + ']')
         os.makedirs(propsdir)
 
-    if os.path.exists(propertiesFile):
+    if os.path.exists(props_file):
         project.addWarning('Overriding Maven properties: [' + \
-                               propertiesFile + ']')
+                               props_file + ']')
 
 
-    props = open(propertiesFile, 'w')
+    props = open(props_file, 'w')
 
     props.write(("""# ------------------------------------------------------------------------
 # DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT  DO NOT EDIT
@@ -131,13 +110,13 @@ def generateMavenProperties(project, languageHelper, propertiesFile=None):
     #
     # Output basic properties
     #
-    for property in project.getWorkspace().getProperties() + \
+    for prop in project.getWorkspace().getProperties() + \
             project.getMaven().getProperties():
         # build.sysclasspath makes Maven sick.
-        if 'build.sysclasspath' != property.name:
+        if  prop.name != 'build.sysclasspath':
             props.write(('%s = %s\n') % \
-                            (property.name,
-                             property.value.replace('\\', '/'))
+                            (prop.name,
+                             prop.value.replace('\\', '/'))
                        )
 
     #
@@ -154,25 +133,25 @@ maven.jar.override = on
 # ------------------------------------------------------------------------
 """)
 
-    (classpath, bootclasspath) = languageHelper.getClasspathObjects(project)
+    (classpath, bootclasspath) = language.getClasspathObjects(project)
 
     # :TODO: write...
-    for annotatedPath in classpath.getPathParts() + \
+    for annotated_path in classpath.getPathParts() + \
             bootclasspath.getPathParts():
-        if isinstance(annotatedPath, gump.core.language.path.AnnotatedPath):
+        if isinstance(annotated_path, gump.core.language.path.AnnotatedPath):
             props.write(('# Contributor: %s\nmaven.jar.%s = %s\n') % \
-                (annotatedPath.getContributor(),
-                 annotatedPath.getId(),
-                 annotatedPath.getPath().replace('\\', '/')))
+                (annotated_path.getContributor(),
+                 annotated_path.getId(),
+                 annotated_path.getPath().replace('\\', '/')))
 
-    return propertiesFile
+    return props_file
 
-def locateMavenProjectPropertiesFile(project):
+def locate_maven_project_props(project):
     """Return Maven project properties file location"""
     basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
     return os.path.abspath(os.path.join(basedir, 'project.properties'))
 
-def locateMavenProjectFile(project):
+def locate_maven_pom(project):
     """Return Maven project file location"""
     basedir = project.maven.getBaseDirectory() or project.getBaseDirectory()
     return os.path.abspath(os.path.join(basedir, 'project.xml'))
@@ -181,83 +160,41 @@ def locateMavenProjectFile(project):
 # Classes
 ###############################################################################
 
-class Maven1Builder(RunSpecific):
+class Maven1Builder(BaseBuilder):
+    """
+    Builder for Maven 1.x uses a properties file with paths to dependencies.
+    """
 
     def __init__(self, run):
-        RunSpecific.__init__(self, run)
+        BaseBuilder.__init__(self, run, 'Maven')
 
-    def buildProject(self, project, languageHelper, stats):
+    def get_command(self, project, language):
         """
-        Build a Maven project
+        Set up the Cmd instance for running Maven
         """
+        cmd = get_maven_command(project)
+        if cmd:
+            jvmargs = language.getJVMArgs(project)
+            if jvmargs and len(jvmargs.items()) > 0:
+                cmd.addEnvironment('MAVEN_OPTS', jvmargs.formatCommandLine())
+        return cmd
 
-        workspace = self.run.getWorkspace()
-
-        log.debug('Run Maven on Project: #[' + `project.getPosition()` + \
-                      '] ' + project.getName())
-
-        self.performPreBuild(project, languageHelper, stats)
-
-        if project.okToPerformWork():
-
-            #
-            # Get the appropriate build command...
-            #
-            cmd = getMavenCommand(project)
-
-            if cmd:
-                # Get/set JVM properties
-                jvmargs = languageHelper.getJVMArgs(project)
-                if jvmargs and len(jvmargs.items()) > 0:
-                    cmd.addEnvironment('MAVEN_OPTS',
-                                       jvmargs.formatCommandLine())
-
-                # Execute the command ....
-                cmdResult = execute(cmd, workspace.tmpdir)
-
-                # Update Context
-                work = CommandWorkItem(WORK_TYPE_BUILD, cmd, cmdResult)
-                project.performedWork(work)
-                project.setBuilt(True)
-
-                # Update Context w/ Results
-                if cmdResult.state != CMD_STATE_SUCCESS:
-                    reason = REASON_BUILD_FAILED
-                    if cmdResult.state == CMD_STATE_TIMED_OUT:
-                        reason = REASON_BUILD_TIMEDOUT
-                    project.changeState(STATE_FAILED, reason)
-                else:
-                    # For now, things are going good...
-                    project.changeState(STATE_SUCCESS)
-
-        if project.wasBuilt():
-            pomFile = locateMavenProjectFile(project)
-            if os.path.exists(pomFile):
-                project.addDebug('Maven POM in: ' + pomFile)
-                catFileToFileHolder(project, pomFile, FILE_TYPE_CONFIG)
-
-            projpFile = locateMavenProjectPropertiesFile(project)
-            if os.path.exists(projpFile):
-                project.addDebug('Maven project properties in: ' + projpFile)
-                catFileToFileHolder(project, projpFile, FILE_TYPE_CONFIG)
-
-        # Do this even if not ok
-    def performPreBuild(self, project, languageHelper, _stats):
-
-        # Maven requires a build.properties to be generated...
+    def pre_build(self, project, language, _stats):
+        """
+        Generate build.properties
+        """
         if project.okToPerformWork():
             try:
-                propertiesFile = generateMavenProperties(project,
-                                                         languageHelper)
+                props_file = generate_maven_properties(project, language)
                 project.addDebug('(Apache Gump generated) Apache Maven Properties in: ' + \
-                                     propertiesFile)
+                                 props_file)
 
                 try:
-                    catFileToFileHolder(project, propertiesFile,
+                    catFileToFileHolder(project, props_file,
                                         FILE_TYPE_CONFIG,
-                                        os.path.basename(propertiesFile))
+                                        os.path.basename(props_file))
                 except:
-                    log.error('Display Properties [ ' + propertiesFile + \
+                    log.error('Display Properties [ ' + props_file + \
                                   '] Failed', exc_info=1)
 
             except Exception, details:
@@ -266,7 +203,17 @@ class Maven1Builder(RunSpecific):
                 project.addError(message)
                 project.changeState(STATE_FAILED, REASON_PREBUILD_FAILED)
 
-    def preview(self, project, _languageHelper, _stats):
-        cmd = getMavenCommand(project)
-        cmd.dump()
+    def post_build(self, project, _language, _stats):
+        """
+        Attach POM and build.properties to output.
+        """
+        pom = locate_maven_pom(project)
+        if os.path.exists(pom):
+            project.addDebug('Maven POM in: ' + pom)
+            catFileToFileHolder(project, pom, FILE_TYPE_CONFIG)
+
+        props = locate_maven_project_props(project)
+        if os.path.exists(props):
+            project.addDebug('Maven project properties in: ' + props)
+            catFileToFileHolder(project, props, FILE_TYPE_CONFIG)
 
