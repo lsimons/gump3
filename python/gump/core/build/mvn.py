@@ -137,9 +137,9 @@ class MavenBuilder(BaseBuilder):
                 cmd.addEnvironment('MAVEN_OPTS', jvmargs.formatCommandLine())
         return cmd
 
-    def pre_build(self, project, _language, _stats):
+    def pre_build(self, project, language, _stats):
         try:
-            settings = self.generate_mvn_settings(project, languageHelper)
+            settings = self.generate_mvn_settings(project, language)
             project.addDebug('(Apache Gump generated) Apache Maven Settings in: ' + \
                              settings)
 
