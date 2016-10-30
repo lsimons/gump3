@@ -153,7 +153,7 @@
       </p>
 
       <p>A list of some of the packages you might want to install can be found
-      <link href="http://vmgump.apache.org/gump/public/packages.html">
+      <link href="http://vmgump-vm3.apache.org/packages.html">
       here</link>.</p>
 
       <p><strong>JDK 1.4</strong> includes both <code>jaxp</code> and <code>jsse</code>

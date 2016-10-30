@@ -32,7 +32,7 @@
             <nagged href="nagged.html"/>
 	</gump>
 	<results label="Results">
-	    <nightly href="http://vmgump.apache.org/gump/public/" label="Nightly"/>
+	    <nightly href="http://vmgump-vm3.apache.org/" label="Nightly"/>
 	    <!-- Removed. The jars built by vmgump are no longer published.
 	    <jars href="http://vmgump.apache.org/gump/public-jars/" label="Jars"/>
 	    -->
