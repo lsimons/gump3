@@ -18,11 +18,11 @@
 
 <!--
    A tiny build file that syncs the generated site with the checked
-   out working copy of .../gump/site/ so that you don't have to remember
+   out working copy of .../site/ so that you don't have to remember
    to copy files over (or even think about which files have changed).
 
-   Requires Ant 1.7 (CVS of 2005-02 or later will do) in order to have
-   sync support the preserveInTarget element.
+   Requires Ant 1.7 in order to have sync support the preserveInTarget
+   element.
 -->
 <project name="sync-generated-docs-with-site-dir" default="site-sync">
   <!-- where is the generated site? -->
@@ -40,6 +40,8 @@
       <preserveInTarget defaultexcludes="false">
         <include name="**/.svn/**"/>
         <include name="doap_Gump.rdf"/>
+        <include name="images/gump-logo.png"/>
+        <include name="repoproxy-0.5.zip"/>
       </preserveInTarget>
 
     </sync>
