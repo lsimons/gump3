@@ -63,7 +63,7 @@ which will be used to configure the chosen Forrest skin.
        default skin: renders it at the top -->
   <project-name>Apache Gump&#x2122;</project-name>
   <project-description>Continous Integration Tool: Apache Gump</project-description>
-  <project-url>http://gump.apache.org/</project-url>
+  <project-url>https://gump.apache.org/</project-url>
   <project-logo>images/gump-logo-tm.png</project-logo>
   <!-- Alternative static image:
   <project-logo>images/project-logo.gif</project-logo> -->
@@ -72,7 +72,7 @@ which will be used to configure the chosen Forrest skin.
        default skin: renders it at the top-left corner
   <group-name>Apache</group-name>
   <group-description>Apache Software Foundation</group-description>
-  <group-url>http://www.apache.org/</group-url>
+  <group-url>https://www.apache.org/</group-url>
   <group-logo>images/apache-gump.png</group-logo>
   Alternative static image:
   <group-logo>images/group-logo.gif</group-logo> -->
@@ -89,7 +89,7 @@ which will be used to configure the chosen Forrest skin.
   <vendor>The Apache Software Foundation.</vendor>
 <!-- The optional copyright-link URL will be used as a link in the
     copyright statement -->
-  <copyright-link>http://www.apache.org/licenses/</copyright-link>
+  <copyright-link>https://www.apache.org/licenses/</copyright-link>
 <!-- Optional text trademark statement below the copyright statement -->
   <trademark-statement>
     Apache Gump, Gump, Apache, the Apache feather logo, and the Apache Gump
@@ -107,8 +107,8 @@ which will be used to configure the chosen Forrest skin.
     directory.
   -->
   <trail>
-    <link1 name="Apache" href="http://www.apache.org/"/>
-    <link2 name="Gump" href="http://gump.apache.org/"/>
+    <link1 name="Apache" href="https://www.apache.org/"/>
+    <link2 name="Gump" href="https://gump.apache.org/"/>
     <link3 name="" href=""/>
   </trail>
 <!-- Configure the TOC, i.e. the Table of Contents.
@@ -176,7 +176,7 @@ which will be used to configure the chosen Forrest skin.
       <motd-page location="page">
         How to enable this MOTD is on this page.
       </motd-page>
-      <motd-page-url>http://forrest.apache.org/docs/faq.html</motd-page-url>
+      <motd-page-url>https://forrest.apache.org/docs/faq.html</motd-page-url>
     </motd-option>
   </motd>
 <!--
@@ -437,14 +437,14 @@ which will be used to configure the chosen Forrest skin.
   <credits>
     <credit box-location="alt2">
       <name>ApacheCon</name>
-      <url>http://www.apache.org/events/current-event.html</url>
-      <image>http://www.apache.org/events/current-event-125x125.png</image>
+      <url>https://www.apache.org/events/current-event.html</url>
+      <image>https://www.apache.org/events/current-event-125x125.png</image>
       <width>125</width>
       <height>125</height>
     </credit>
     <credit>
       <name>Built with Apache Forrest</name>
-      <url>http://forrest.apache.org/</url>
+      <url>https://forrest.apache.org/</url>
       <image>images/built-with-forrest-button.png</image>
       <width>88</width>
       <height>31</height>
@@ -455,7 +455,7 @@ which will be used to configure the chosen Forrest skin.
 <!--
     <credit role="pdf">
       <name>Built with Apache Forrest</name>
-      <url>http://forrest.apache.org/</url>
+      <url>https://forrest.apache.org/</url>
     </credit>
     -->
   </credits>

@@ -35,7 +35,7 @@
   <p>
 The Apache Gump continuous integration tool was the first one
 developed at
-the <fork href="http://www.apache.org/">Apache Software Foundation</fork>. It is written in Python and fully supports Apache Ant, 
+the <fork href="https://www.apache.org/">Apache Software Foundation</fork>. It is written in Python and fully supports Apache Ant, 
 Apache Maven (1.x to 3.x) and <link href="metadata/builder.html">other build tools</link>. Gump is unique in that it builds and compiles software against 
 the latest development versions of those projects. This allows Gump to detect potentially 
 incompatible changes to that software just a few hours after those changes are checked into the 
@@ -54,7 +54,7 @@ Gump project maintains its own dedicated server.
   <section><title>How does Gump work?</title>
 
     <p>
-      With Gump, <link href="http://svn.apache.org/viewcvs/gump/metadata/project">
+      With Gump, <link href="https://svn.apache.org/viewcvs/gump/metadata/project">
       project</link> definitions are mapped from XML into in memory
       objects for processing. Scripts execute SCM update
       commands for every module which contains a project being built, and
@@ -88,7 +88,7 @@ Gump project maintains its own dedicated server.
 
     <p>
       For builds using Apache Ant,
-    	Gump sets <link href="http://ant.apache.org/manual/sysclasspath.html">build.sysclasspath</link> property of Ant to <strong>only</strong> and manages the system classpath:<br/><br/>
+    	Gump sets <link href="https://ant.apache.org/manual/sysclasspath.html">build.sysclasspath</link> property of Ant to <strong>only</strong> and manages the system classpath:<br/><br/>
     	To quote Ant manual:<br/>
     	<em>Only the system classpath is used and classpaths specified in build files, etc are ignored. 
             This situation could be considered as the person running the build file knows more about the environment than the person writing the build file</em>.<br/><br/>
@@ -181,7 +181,7 @@ Gump project maintains its own dedicated server.
   <section><title>Who is Gump?</title>
     <p>
       Gump was named after
-      <fork href="http://www.google.com/search?q=Forrest+Gump">Forrest Gump</fork>,
+      <fork href="https://www.google.com/search?q=Forrest+Gump">Forrest Gump</fork>,
       the title character in a movie.  The process for building was to do a
       "Generate", followed by cvs "Updates", followed by a "Build All".  This
       was repetitive, so a command was created to combine these operations -

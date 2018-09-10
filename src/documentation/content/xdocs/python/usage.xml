@@ -50,8 +50,8 @@
 
 	<ul>
 		<li>install gump as per <link href="site:gettingstarted">here</link></li>
-		<li>install (or have available) Python 2.3 <fork href="http://www.activestate.com/Products/ActivePython/">e.g ActiveState Python</fork></li>
-		<li>install (or have available) <fork href="http://www.wxpython.org/">wxwindows</fork></li>
+		<li>install (or have available) Python 2.3 <fork href="https://www.activestate.com/Products/ActivePython/">e.g ActiveState Python</fork></li>
+		<li>install (or have available) <fork href="https://www.wxpython.org/">wxwindows</fork></li>
 		<li>open a shell and do or something equivalent:
 		</li>
 	</ul>		
@@ -81,8 +81,8 @@ More detailed information on what is being done can be found in the console wind
 	<ul>
 
 		<li>install gump as per <link href="site:gettingstarted">here</link></li>
-		<li>install (or have available) Python 2.3 <fork href="http://www.activestate.com/Products/ActivePython/">e.f ActiveState Python</fork></li>
-		<li>install (or have available) <fork href="http://www.wxpython.org/">wxwindows</fork></li>
+		<li>install (or have available) Python 2.3 <fork href="https://www.activestate.com/Products/ActivePython/">e.f ActiveState Python</fork></li>
+		<li>install (or have available) <fork href="https://www.wxpython.org/">wxwindows</fork></li>
 		<li>open a shell and do or something equivalent:
 		</li>
 	</ul>		
@@ -109,8 +109,8 @@ python gump/build.py -w ../myworkspace.xml all
 <!--
 == Automating the "integration process" using integrate.py ==
 
-* install 'regular' gump as per http://gump.apache.org/usage.html
-* install [http://www.activestate.com/Products/ActivePython/ Python 2.3]
+* install 'regular' gump as per https://gump.apache.org/usage.html
+* install [https://www.activestate.com/Products/ActivePython/ Python 2.3]
 * open a shell and do something similar to:
 <source>
 SET PYTHONPATH=C:\gump\python

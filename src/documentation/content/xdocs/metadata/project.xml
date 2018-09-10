@@ -526,7 +526,7 @@
     <section><title>report</title>
       <p>This declares where any sort of report - for example
         the outputs of the
-      <link href="http://ant.apache.org/manual/Tasks/junitreport.html">junitreport</link>
+      <link href="https://ant.apache.org/manual/Tasks/junitreport.html">junitreport</link>
       tool - are placed.</p>
    
       <p>The name <code>junitreport</code> can be used as a synonym

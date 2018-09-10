@@ -268,7 +268,7 @@
 
   <section><title>ant</title>
     <p>Specifies the arguments to be passed to <fork
-    href="http://ant.apache.org/">Apache Ant</fork>.</p>
+    href="https://ant.apache.org/">Apache Ant</fork>.</p>
 
     <table>
       <tr>
@@ -294,17 +294,17 @@
 
   <section><title>mvn1</title>
     <p>Specifies the arguments to be passed to <fork
-    href="http://maven.apache.org/">Apache Maven 1.x</fork>.</p>
+    href="https://maven.apache.org/">Apache Maven 1.x</fork>.</p>
     
-    <p>The <fork href="http://maven.apache.org/">Maven 1.x</fork>
+    <p>The <fork href="https://maven.apache.org/">Maven 1.x</fork>
     component of Gump (&lt;mvn1&gt;) uses a
     <strong>pre-installed</strong> version of <fork
-    href="http://maven.apache.org">Maven</fork>, it does
+    href="https://maven.apache.org">Maven</fork>, it does
     <strong>NOT</strong> bootstrap Maven from svn trunk.</p>
     
     <p>Gump generates a <strong>build.properties</strong> file for
     Maven, in which it specifies the jar <link
-    href="http://maven.apache.org/reference/user-guide.html#Overriding_Stated_Dependencies">overrides</link>,
+    href="https://maven.apache.org/reference/user-guide.html#Overriding_Stated_Dependencies">overrides</link>,
     and also any <link href="project.html#property">properties</link>
     that are passes into the &lt;maven&gt; element.</p>
     
@@ -333,12 +333,12 @@
 
   <section><title>mvn2</title>
     <p>Specifies the arguments to be passed to <fork
-    href="http://maven.apache.org/">Apache Maven 2.x</fork>.</p>
+    href="https://maven.apache.org/">Apache Maven 2.x</fork>.</p>
     
-    <p>The <fork href="http://maven.apache.org/">Maven 2.x</fork>
+    <p>The <fork href="https://maven.apache.org/">Maven 2.x</fork>
     component of Gump (&lt;mvn2&gt;) uses a
     <strong>pre-installed</strong> version of <fork
-    href="http://maven.apache.org">Maven 2.x</fork>, it does
+    href="https://maven.apache.org">Maven 2.x</fork>, it does
     <strong>NOT</strong> bootstrap Maven from svn trunk.</p>
     
     <p>
@@ -531,12 +531,12 @@
 
   <section><title>mvn3</title>
     <p>Specifies the arguments to be passed to <fork
-    href="http://maven.apache.org/">Apache Maven 3.x</fork>.</p>
+    href="https://maven.apache.org/">Apache Maven 3.x</fork>.</p>
     
-    <p>The <fork href="http://maven.apache.org/">Maven 3.x</fork>
+    <p>The <fork href="https://maven.apache.org/">Maven 3.x</fork>
     component of Gump (&lt;mvn3&gt;) uses a
     <strong>pre-installed</strong> version of <fork
-    href="http://maven.apache.org">Maven 3.x</fork>, it does
+    href="https://maven.apache.org">Maven 3.x</fork>, it does
     <strong>NOT</strong> bootstrap Maven from svn trunk.</p>
 
     <p>The mvn3 builder works the same way as
@@ -577,10 +577,10 @@
     <p><strong>The Gradle builder is a work in progress and may not be
     working correctly.</strong></p>
 
-    <p>The <fork href="http://gradle.org/">Gradle</fork>
+    <p>The <fork href="https://gradle.org/">Gradle</fork>
     component of Gump (&lt;gradle&gt;) uses a
     <strong>pre-installed</strong> version of <fork
-    href="http://gradle.org">Gradle</fork>, it does
+    href="https://gradle.org">Gradle</fork>, it does
     <strong>NOT</strong> bootstrap Gradle itself.</p>
     
     <p>
@@ -725,7 +725,7 @@
 
   <section><title>nant</title>
     <p>Specifies the arguments to be passed to <fork
-    href="http://nant.sourceforge.org/">NAnt</fork>.</p>
+    href="https://nant.sourceforge.org/">NAnt</fork>.</p>
 
     <table>
       <tr>
@@ -756,7 +756,7 @@
     replacing things with the latest version - which would be more in
     line with Gump's purpose..</strong></p>
 
-    <p>The <fork href="http://nuget.org/">NuGet</fork> component of
+    <p>The <fork href="https://nuget.org/">NuGet</fork> component of
     Gump (&lt;nuget&gt;) uses a <strong>pre-installed</strong> version
     of nuget.</p>
     

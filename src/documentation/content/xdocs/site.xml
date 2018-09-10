@@ -25,10 +25,10 @@
 	    <status href="status.html" label="Status"/>
 	    <source href="https://svn.apache.org/repos/asf/gump/live" label="Source"/>
 	    <source href="https://svn.apache.org/repos/asf/gump/metadata" label="Metadata"/>
-	    <faq href="http://wiki.apache.org/gump/FrequentlyAskedQuestions" label="FAQ"/>
+	    <faq href="https://wiki.apache.org/gump/FrequentlyAskedQuestions" label="FAQ"/>
 	    <!--gettingstarted href="gettingstarted.html" label="Getting Started"/-->
 	    <!--todo href="todo.html" label="Help Wanted"/-->
-            <license href="http://www.apache.org/licenses/" label="License"/>
+            <license href="https://www.apache.org/licenses/" label="License"/>
             <nagged href="nagged.html"/>
 	</gump>
 	<results label="Results">
@@ -49,19 +49,19 @@
 	<getinvolved label="Community">
             <mail href="mail.html" label="Mailing Lists"/>
             <source href="index.html#Where+is+Gump%3F" label="Source"/>
-	    <wiki href="http://wiki.apache.org/gump" label="Wiki"/>
+	    <wiki href="https://wiki.apache.org/gump" label="Wiki"/>
 	    <issues href="https://issues.apache.org/jira/browse/GUMP/" label="Issues"/>
-            <howtocontribute href="http://www.apache.org/foundation/getinvolved.html" label="Get Involved"/>
-            <security href="http://www.apache.org/security/"
+            <howtocontribute href="https://www.apache.org/foundation/getinvolved.html" label="Get Involved"/>
+            <security href="https://www.apache.org/security/"
                       label="Reporting Security Issues"/>
             <whoweare href="whoweare.html" label="Who We Are"/>
             <bylaws href="bylaws.html" label="Project Bylaws"/>
 	</getinvolved>
 
         <sponsorship label="Sponsorship">
-            <program href="http://www.apache.org/foundation/sponsorship.html"
+            <program href="https://www.apache.org/foundation/sponsorship.html"
               label="Donate"/>
-            <thanks href="http://www.apache.org/foundation/thanks.html"
+            <thanks href="https://www.apache.org/foundation/thanks.html"
               label="Thanks"/>
         </sponsorship>
 
@@ -82,7 +82,7 @@
 	</python>
 
   <external-refs>
-    <forrest href="http://forrest.apache.org/">
+    <forrest href="https://forrest.apache.org/">
       <linking href="docs/linking.html"/>
       <validation href="docs/validation.html"/>
       <webapp href="docs/your-project.html#webapp"/>
@@ -94,8 +94,8 @@
         <debug-validation href="#debug-validation"/>
       </dev>
       </forrest>
-    <forrest-zone href="http://forrest.zones.apache.org/"/>
-    <cocoon href="http://cocoon.apache.org/"/>
-    <xml.apache.org href="http://xml.apache.org/"/>
+    <forrest-zone href="https://forrest.zones.apache.org/"/>
+    <cocoon href="https://cocoon.apache.org/"/>
+    <xml.apache.org href="https://xml.apache.org/"/>
   </external-refs>
 </site>

@@ -30,7 +30,7 @@
     <section><title>Mailing Lists</title>
 
       <p>Please read the <link
-      href="http://www.apache.org/dev/contrib-email-tips.html">guidelines
+      href="https://www.apache.org/dev/contrib-email-tips.html">guidelines
       for email contributors</link> before subscribing and posting to the
       Apache Gump general list as they apply to this list as well.</p>
 
@@ -46,8 +46,8 @@
           <strong>Medium Traffic</strong>
           <link href="mailto:general-subscribe@gump.apache.org">Subscribe</link>
           <link href="mailto:general-unsubscribe@gump.apache.org">Unsubscribe</link>
-          <link href="http://mail-archives.apache.org/mod_mbox/gump-general/">Archive</link>
-          <link href="http://marc.info/?l=gump&amp;r=1&amp;w=2">alternative Archive</link>
+          <link href="https://mail-archives.apache.org/mod_mbox/gump-general/">Archive</link>
+          <link href="https://marc.info/?l=gump&amp;r=1&amp;w=2">alternative Archive</link>
         </p>
 
         <p>This is the list where participating developers, users and
@@ -63,7 +63,7 @@
           <strong>Low Traffic</strong>
           <link href="mailto:commits-subscribe@gump.apache.org">Subscribe</link>
           <link href="mailto:commits-unsubscribe@gump.apache.org">Unsubscribe</link>
-          <link href="http://mail-archives.apache.org/mod_mbox/gump-commits/">Archive</link>
+          <link href="https://mail-archives.apache.org/mod_mbox/gump-commits/">Archive</link>
          </p>
 
         <p>This is the list where software and metadata commit messages (from CVS and SVN)

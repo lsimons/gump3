@@ -35,17 +35,17 @@
       resolved, etc.</p>
 
       <p>Gump is a project of the <link
-      href="http://www.apache.org/foundation/">Apache Software
+      href="https://www.apache.org/foundation/">Apache Software
       Foundation</link>.  The foundation holds the copyright on Apache
       code including the code in the Gump codebase. The <link
-      href="http://www.apache.org/foundation/faq.html">foundation
+      href="https://www.apache.org/foundation/faq.html">foundation
       FAQ</link> explains the operation and background of the
       foundation.</p>
 
       <p>Gump is typical of Apache projects in that it operates under
       a set of principles, known collectively as the "Apache Way". If
       you are new to Apache development, please refer to the <link
-      href=" http://incubator.apache.org/">Incubator project</link>
+      href=" https://incubator.apache.org/">Incubator project</link>
       for more information on how Apache projects operate.</p>
     </section>
 
@@ -105,7 +105,7 @@
         <p>All Apache committers are required to have a signed
         Contributor License Agreement (CLA) on file with the Apache
         Software Foundation. There is a <link
-        href="http://www.apache.org/dev/committers.html">Committer
+        href="https://www.apache.org/dev/committers.html">Committer
         FAQ</link> which provides more details on the requirements for
         Committers.</p>
 

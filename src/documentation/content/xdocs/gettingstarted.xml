@@ -97,13 +97,13 @@
       	<p>One of these two is required.</p>
       	<ul>
       		<li>CVS -- Concurrent Versioning System</li>
-      		<li>SVN -- <fork href="http://subversion.tigris.org">Subversion</fork></li>
+      		<li>SVN -- <fork href="https://subversion.apache.org">Subversion</fork></li>
       	</ul>
       	</section>
       	<section><title>Jar Downloading</title>
       	<p>This is optional.</p>
       	<ul>
-      		<li>Depot -- <fork href="http://incubator.apache.org/depot">Depot Updater</fork></li>
+      		<li>Depot -- <fork href="https://incubator.apache.org/depot">Depot Updater</fork></li>
       	</ul>
 		</section>
 	  </section>

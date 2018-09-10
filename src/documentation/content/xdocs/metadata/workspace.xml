@@ -416,7 +416,7 @@
 	
 	
     <section><title>database</title>
-      <p>Gump will utilize a <fork href="http://mysql.org">MySQL</fork> database
+      <p>Gump will utilize a <fork href="https://mysql.org">MySQL</fork> database
 		for storing statistics and run information. Without this element Gump
 		will default to using a DBM database (not currently available on with Python on Microsoft &trade; platforms)
 		for statistics.

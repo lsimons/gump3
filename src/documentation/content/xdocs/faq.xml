@@ -84,7 +84,7 @@
               definition for a project I'm a committer on...how do I get
               the change to be made?</title>
     		<p><strong>Answer: </strong>The 
-              <link href="http://svn.apache.org/viewvc/gump/metadata/">
+              <link href="https://svn.apache.org/viewvc/gump/metadata/">
               gump svn repository</link> is open to all ASF committers.
               Simply check it out and commit your changes.  It is highly
               recommended that you build the "gen" target first of the
@@ -110,7 +110,7 @@
     		<p><strong>Answer: </strong>That's supported too, as long as your project supports
               viewcvs or equivalent.  Simply put the URL of the project
               definition in the 
-              <link href="http://svn.apache.org/viewvc/gump/metadata/profile/gump.xml?content-type=text/vnd.viewcvs-markup">
+              <link href="https://svn.apache.org/viewvc/gump/metadata/profile/gump.xml?content-type=text/vnd.viewcvs-markup">
               gump profile</link>.  However, if you are an ASF committer, why
               not consider leaving it in the gump svn repository, that
               way others can also help out too?
