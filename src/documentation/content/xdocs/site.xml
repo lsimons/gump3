@@ -26,7 +26,7 @@
 	    <source href="https://svn.apache.org/repos/asf/gump/live" label="Source"/>
 	    <source href="https://svn.apache.org/repos/asf/gump/metadata" label="Metadata"/>
 	    <faq href="https://wiki.apache.org/gump/FrequentlyAskedQuestions" label="FAQ"/>
-	    <!--gettingstarted href="gettingstarted.html" label="Getting Started"/-->
+	    <gettingstarted href="gettingstarted.html" />
 	    <!--todo href="todo.html" label="Help Wanted"/-->
             <license href="https://www.apache.org/licenses/" label="License"/>
             <nagged href="nagged.html"/>
