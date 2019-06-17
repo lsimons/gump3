@@ -79,7 +79,7 @@ Gump project maintains its own dedicated server.
 
     <p>
       The <fork
-      href="http://vmgump-vm3.apache.org/apache-httpd/apache-httpd-buildconf/index.html">Apache HTTPd
+      href="http://vmgump.apache.org/apache-httpd/apache-httpd-buildconf/index.html">Apache HTTPd
         builds</fork> are an example for a build process that supports
       Gump.  HTTPd needs APR and Gump can provide the path to the
       freshly built APR files as command line options to the buildconf
@@ -129,7 +129,7 @@ Gump project maintains its own dedicated server.
     </p>
 
     <p>
-      The "official" Gump run on vmgump-vm3 will optionally send
+      The "official" Gump run on vmgump will optionally send
       e-mails to various newsgroups upon build failures.
     </p>
   </section>
@@ -158,7 +158,7 @@ Gump project maintains its own dedicated server.
         <th>Comments</th>
       </tr>
       <tr>
-        <td><fork href="http://vmgump-vm3.apache.org/">Apache
+        <td><fork href="http://vmgump.apache.org/">Apache
             (vmgump - Ubuntu Linux 14.04)</fork> </td>
         <td>Oracle Java 8</td>
         <td>up to 4 times daily</td>
