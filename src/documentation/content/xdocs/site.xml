@@ -25,7 +25,7 @@
 	    <status href="status.html" label="Status"/>
 	    <source href="https://svn.apache.org/repos/asf/gump/live" label="Source"/>
 	    <source href="https://svn.apache.org/repos/asf/gump/metadata" label="Metadata"/>
-	    <faq href="https://wiki.apache.org/gump/FrequentlyAskedQuestions" label="FAQ"/>
+	    <faq href="https://cwiki.apache.org/confluence/display/GUMP/FrequentlyAskedQuestions" label="FAQ"/>
 	    <gettingstarted href="gettingstarted.html" />
 	    <!--todo href="todo.html" label="Help Wanted"/-->
             <license href="https://www.apache.org/licenses/" label="License"/>
@@ -49,7 +49,7 @@
 	<getinvolved label="Community">
             <mail href="mail.html" label="Mailing Lists"/>
             <source href="index.html#Where+is+Gump%3F" label="Source"/>
-	    <wiki href="https://wiki.apache.org/gump" label="Wiki"/>
+	    <wiki href="https://cwiki.apache.org/confluence/display/GUMP" label="Wiki"/>
 	    <issues href="https://issues.apache.org/jira/browse/GUMP/" label="Issues"/>
             <howtocontribute href="https://www.apache.org/foundation/getinvolved.html" label="Get Involved"/>
             <security href="https://www.apache.org/security/"

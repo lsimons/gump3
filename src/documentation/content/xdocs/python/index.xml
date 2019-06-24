@@ -28,7 +28,7 @@
 <body>
   <section><title>Apache Python Gump</title>
   <p>
-    See the <link href="https://wiki.apache.org/gump/GumpPython">background</link> on why
+    See the <link href="https://cwiki.apache.org/confluence/display/GUMP/GumpPython">background</link> on why
     the Apache Python Gump re-write was initiated.
   </p>
   
