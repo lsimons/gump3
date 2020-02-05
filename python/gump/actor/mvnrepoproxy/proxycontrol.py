@@ -52,7 +52,7 @@ SNAPSHOT_PROXIES = [
 #  repo.  Each name has to be unique as has to be the combination of
 #  prefix and URL (i.e. each prefix must uniquely map to a real URL)
 PROXY_CONFIG = [
-    ('central', '/maven2', 'http\://repo1.maven.org'),
+    ('central', '/maven2', 'https\://repo1.maven.org'),
     SNAPSHOT_PROXIES[0],
     ('maven2-repository.dev.java.net', '/maven/2', 'http\://download.java.net'),
     ('m2.dev.java.net', '/maven/2', 'http\://download.java.net'),
