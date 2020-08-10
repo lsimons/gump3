@@ -222,13 +222,16 @@ class MavenBuilder(BaseBuilder):
   <localRepository>%s</localRepository>""")
                     % (project.getName(), strftime('%Y-%m-%d %H:%M:%S'), local_repo))
         if not self.run.getEnvironment().noMvnRepoProxy:
-            props.write("<mirrors>")
+            props.write("""
+  <mirrors>""")
             for (name, prefix, _url) in PROXY_CONFIG:
                 write_mirror_entry(props, prefix, name, \
                                        self.run.getWorkspace().mvnRepoProxyPort)
-            props.write("</mirrors>")
+            props.write("""
+  </mirrors>""")
 
-        props.write("</settings>")
+        props.write("""
+</settings>""")
 
         return settings
 
