@@ -176,10 +176,10 @@ class GumpRun(gump.util.timing.Timeable,gump.util.work.Workable,gump.util.note.A
             self.log.debug('Registered Actor : ' + `actor`)    
             
         
-    def _dispatchEvent(self,event):    	
-    	"""
-    		Perform the dispatch
-    	"""
+    def _dispatchEvent(self,event):        
+        """
+            Perform the dispatch
+        """
         self.log.debug('Dispatch Event : ' + `event`)        
         for actor in self.actors:
             #self.log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
@@ -187,9 +187,9 @@ class GumpRun(gump.util.timing.Timeable,gump.util.work.Workable,gump.util.note.A
         gump.util.inspectGarbageCollection(`event`)
             
     def _dispatchRequest(self,request):
-    	"""
-    		Perform the dispatch
-    	"""
+        """
+            Perform the dispatch
+        """
         self.log.debug('Dispatch Request : ' + `request`)    
         for actor in self.actors:
             #self.log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
@@ -198,14 +198,14 @@ class GumpRun(gump.util.timing.Timeable,gump.util.work.Workable,gump.util.note.A
             
     def generateEvent(self,entity):
         """
-    		Fire off an entity event.
-    	"""
+            Fire off an entity event.
+        """
         self._dispatchEvent(EntityRunEvent(self, entity))
         
     def generateRequest(self,type):
-    	"""
-    		Fire off a typed request.
-    	"""
+        """
+            Fire off a typed request.
+        """
         self._dispatchRequest(RunRequest(self, type))
    
         
