@@ -30,7 +30,7 @@ from gump.util import getIndent
 class Server(NamedModelObject):
     """A named server"""
     def __init__(self,name,dom,workspace):
-    	NamedModelObject.__init__(self,name,dom,workspace)
+        NamedModelObject.__init__(self,name,dom,workspace)
         
         self.resolver=None
             
