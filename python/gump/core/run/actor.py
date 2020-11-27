@@ -17,15 +17,15 @@
 # limitations under the License.
 
 """
-	An actor works upon the context tree. Events (and in the future,
-	perhaps Requests) are passed to the Actor, and the Actor performs
-	it's work.
-	
-	Example actors are:
-	
-		Statistician (keeps track of statistics, in a DB)
-		TimeKeeper (keeps track of time spent on various things)
-		Documenter (writes HTML for the work)
+    An actor works upon the context tree. Events (and in the future,
+    perhaps Requests) are passed to the Actor, and the Actor performs
+    it's work.
+    
+    Example actors are:
+    
+        Statistician (keeps track of statistics, in a DB)
+        TimeKeeper (keeps track of time spent on various things)
+        Documenter (writes HTML for the work)
 """
 
 import os.path
@@ -168,11 +168,11 @@ class AbstractRunActor(RunActor):
         
         # Hack for bad data.
         if project.inModule():   
-        	self.log.debug('Process Project [' + `project` + '] using [' + `self` + ']')        
-        	self.processProject(project)
-     	else:
+            self.log.debug('Process Project [' + `project` + '] using [' + `self` + ']')        
+            self.processProject(project)
+         else:
             self.log.debug('Skip Project (not in module) [' + `project` + '] for [' + `self` + ']')        
-        	   
+               
     def _processOtherEvent(self,event):
         """
         Call a method called 'processOtherEvent(event)', if it
