@@ -39,36 +39,36 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
     def __init__(self,dom,owner=None):
                 
         # Can scribble on this thing...
-    	Annotatable.__init__(self)
-    	
-    	# Holds work (with state)
-    	Workable.__init__(self)
-    	
-    	# Holds file references
-    	FileHolder.__init__(self)
-    	
-    	# Can propogate states
+        Annotatable.__init__(self)
+        
+        # Holds work (with state)
+        Workable.__init__(self)
+        
+        # Holds file references
+        FileHolder.__init__(self)
+        
+        # Can propogate states
         Propogatable.__init__(self)
 
         # Can propogate states
         Ownable.__init__(self,owner)
 
         # The DOM model
-    	self.dom=dom
-    	if dom.nodeType==xml.dom.Node.DOCUMENT_NODE:
-    	    self.element=dom.documentElement
+        self.dom=dom
+        if dom.nodeType==xml.dom.Node.DOCUMENT_NODE:
+            self.element=dom.documentElement
         else:
             self.element=self.dom
-    	
-    	self.spliced=False
-    	
-    	self.debug=False
-    	self.verbose=False
-    	self.metadata=None
-    	
+        
+        self.spliced=False
+        
+        self.debug=False
+        self.verbose=False
+        self.metadata=None
+        
         self.resolutionPerformed=False
         self.completionPerformed=False
-        	
+            
     def __repr__(self):
         return str(self)
         
@@ -87,7 +87,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
        
     def shutdownDom(self): 
         """       
-            Shut this object's DOM down, to conserve memory after it is 'done with'.           
+            Shut this object's DOM down, to conserve memory after it is 'done with'.
         """
         if self.dom:            
             if self.element:
@@ -100,8 +100,8 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
             
     def shutdown(self):
         """       
-        	Shut this object down to the bare minimim,
-        	to conserve memory after it is 'done with'.       	
+            Shut this object down to the bare minimim,
+            to conserve memory after it is 'done with'.           
         """
      
             
@@ -272,7 +272,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         # log.debug("Splice: " + `dom`) 
         spliceDom(self.element,dom)
         self.setSpliced(True) 
-                            	
+                                
     def complete(self):
         if self.isComplete(): return    
         
@@ -286,14 +286,14 @@ class NamedModelObject(ModelObject):
     """Context for a single entity"""
     def __init__(self,name,dom,owner=None):
                 
-    	ModelObject.__init__(self,dom,owner)
+        ModelObject.__init__(self,dom,owner)
         
         
-    	
-    	# Named
-    	self.name=name
-    	if not name:
-    	    raise RuntimeError, self.__class__.__name__ + ' needs a name.'
+        
+        # Named
+        self.name=name
+        if not name:
+            raise RuntimeError, self.__class__.__name__ + ' needs a name.'
             
         self.hash=0
         
