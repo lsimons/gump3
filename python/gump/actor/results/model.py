@@ -37,17 +37,17 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
     def __init__(self,name,dom=None,owner=None):
                 
         # Can scribble on this thing...
-    	Annotatable.__init__(self)
+        Annotatable.__init__(self)
 
         # Can be owned
         Ownable.__init__(self,owner)
 
         # Holds a state
         Stateful.__init__(self)
-    	
-    	# Named
-    	self.name=name
-    	
+        
+        # Named
+        self.name=name
+        
         # The DOM model
         if dom: 
             self.dom=dom
@@ -60,8 +60,8 @@ class ResultModelObject(Annotatable,Ownable,Stateful):
             self.element=None
  
         # Internals...
-    	self.completionPerformed=False
-    	
+        self.completionPerformed=False
+        
     def __del__(self):
         Ownable.__del__(self)
         
@@ -206,20 +206,20 @@ class ResultsSet(dict):
 # represents a <workspaceResult/> element
 class WorkspaceResult(ResultModelObject):
     def __init__(self,name,dom=None,owner=None):
-    	ResultModelObject.__init__(self,name,dom,owner)    
-    	
-    	#
-    	# Results per module
-    	#
-    	self.moduleResults 	=	{}
-    	self.projectResults 	=	{}
-    	
-    	self.startDateTimeUtc=''
-    	self.startDateTime=''
-    	self.endDateTimeUtc=''
-    	self.endDateTime=''
-    	self.timezone=''
-    	self.timezoneOffset=''
+        ResultModelObject.__init__(self,name,dom,owner)    
+        
+        #
+        # Results per module
+        #
+        self.moduleResults     =    {}
+        self.projectResults     =    {}
+        
+        self.startDateTimeUtc=''
+        self.startDateTime=''
+        self.endDateTimeUtc=''
+        self.endDateTime=''
+        self.timezone=''
+        self.timezoneOffset=''
 
     #
     # Lists...
@@ -324,13 +324,13 @@ class WorkspaceResult(ResultModelObject):
 # represents a <moduleResult/> element
 class ModuleResult(ResultModelObject):
     def __init__(self,name,dom=None,owner=None):
-    	ResultModelObject.__init__(self,name,dom,owner)    
-    	
-    	# 
-    	# Results per project
-    	#
-    	self.projectResults 	=	{}    
-    	
+        ResultModelObject.__init__(self,name,dom,owner)    
+        
+        # 
+        # Results per project
+        #
+        self.projectResults     =    {}    
+        
     def setProjectResult(self,projectResult):
         self.projectResults[projectResult.getName()] = projectResult
         # Attach oneself as owner...
@@ -379,7 +379,7 @@ class ModuleResult(ResultModelObject):
 # represents a <projectResult/> element
 class ProjectResult(ResultModelObject):
     def __init__(self,name,dom=None,owner=None):
-    	ResultModelObject.__init__(self,name,dom,owner)    
+        ResultModelObject.__init__(self,name,dom,owner)    
 
     def createDom(self, document, element):
         if self.hasDom(): return
