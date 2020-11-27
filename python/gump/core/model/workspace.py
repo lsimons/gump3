@@ -100,19 +100,19 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     """
     def __init__(self,name,dom):
                 
-    	NamedModelObject.__init__(self,name,dom)   
-    	 
-    	PropertyContainer.__init__(self)    
-    	Statable.__init__(self)
-    	Resultable.__init__(self)
-    		
-    	# Named repositories (e.g. CVS,SVN,etc.)
-    	# Named modules
-    	# Named projects
-    	# Named profiles
-    	# Named servers
-    	# Named trackers
-    	self.repositories={}
+        NamedModelObject.__init__(self,name,dom)   
+         
+        PropertyContainer.__init__(self)    
+        Statable.__init__(self)
+        Resultable.__init__(self)
+
+        # Named repositories (e.g. CVS,SVN,etc.)
+        # Named modules
+        # Named projects
+        # Named profiles
+        # Named servers
+        # Named trackers
+        self.repositories={}
         self.modules={}
         self.projects={}
         self.profiles={}
@@ -163,14 +163,14 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         
     def getPythonServers(self):
         """
-        	Return the Python servers
+            Return the Python servers
         """
         return [server for server in self.getServers() if server.isPython() ]
         
     def hasMultiplePythonServers(self):
         """
-        	Has more than one server (typically, for assuming that this one
-        	is the one, if one, so not doing server stuff).
+            Has more than one server (typically, for assuming that this one
+            is the one, if one, so not doing server stuff).
         """
         return len(self.getPythonServers()) > 1
         
@@ -301,7 +301,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         # Import overrides from DOM
         transferDomInfo(self.element, 
                         self, 
-                        {	'jardir':'repodir',
+                        {   'jardir':'repodir',
                             'banner-image':'bannerImage',
                             'banner-link' :'bannerLink'})
     
@@ -321,8 +321,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         if not os.path.exists(self.cvsdir): os.makedirs(self.cvsdir)
     
         # Get all properties
-    	PropertyContainer.importProperties(self,self.element)    	
-    	
+        PropertyContainer.importProperties(self,self.element)        
+        
         # Complete all profiles
         for profile in self.profiles.values(): 
             profile.complete(self)
@@ -534,10 +534,10 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
 
     def getObjectForTag(self,tag,dom,name=None):
         """
-        	If we are parsing  document (given this object as
-        	parent context) then construct the child appropriately.
-        	Sometimes that means splicing the new XML into the
-        	existing.
+            If we are parsing  document (given this object as
+            parent context) then construct the child appropriately.
+            Sometimes that means splicing the new XML into the
+            existing.
         """
         object=None
         
@@ -589,8 +589,8 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     def resolve(self):
         """
         
-        	Work through the child elements extracting the
-        	main objects.
+            Work through the child elements extracting the
+            main objects.
         
         """
         if self.isResolved(): return
