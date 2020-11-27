@@ -170,7 +170,7 @@ class AbstractRunActor(RunActor):
         if project.inModule():   
             self.log.debug('Process Project [' + `project` + '] using [' + `self` + ']')        
             self.processProject(project)
-         else:
+        else:
             self.log.debug('Skip Project (not in module) [' + `project` + '] for [' + `self` + ']')        
                
     def _processOtherEvent(self,event):
