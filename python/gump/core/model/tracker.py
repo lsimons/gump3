@@ -31,7 +31,7 @@ from gump.util.domutils import *
 class Tracker(NamedModelObject):
     """A named Tracker"""
     def __init__(self,name,xml,workspace):
-    	NamedModelObject.__init__(self,name,xml,workspace)
+        NamedModelObject.__init__(self,name,xml,workspace)
         
         self.resolver=None
             
