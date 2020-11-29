@@ -56,7 +56,7 @@ def runCommand(command, args = '', dir = None, outputFile = None):
             if not os.path.exists(cwdpath):
                 os.makedirs(dir)
             os.chdir(cwdpath)
-        except Exception as details :
+        except Exception, details :
             # Log the problem and re-raise
             log.write('Failed to create/change CWD [' + cwdpath + \
                           ']. Details: ' + str(details) + '\n')
@@ -97,7 +97,7 @@ def runCommand(command, args = '', dir = None, outputFile = None):
             os.remove(outputFile)
 
         if exit_code:
-            log.write('Process Exit Code : ' + repr(exit_code) + '\n')
+            log.write('Process Exit Code : ' + `exit_code` + '\n')
 
     finally:
         if originalCWD:
@@ -131,8 +131,8 @@ def sendEmail(toaddr, fromaddr, subject, data, server, port = 25):
         server.sendmail(fromaddr, toaddr, rawdata)
         server.quit()
 
-    except Exception as details:
-        print ('Failed to send mail: ' + str(details))
+    except Exception, details:
+        print 'Failed to send mail: ' + str(details)
 
 def writeRunLogEntry(entry):
     # Enable a run log
@@ -144,12 +144,12 @@ def writeRunLogEntry(entry):
         try:
             runlog.write(time.strftime('%d %b %Y %H:%M:%S'))
             runlog.write(' : ')
-            runlog.write(repr(os.getpid()))
+            runlog.write(`os.getpid()`)
             runlog.write(' : ')
             runlog.write(entry)
             runlog.write('\n')
-        except Exception as details:
-            print ('Failed to write to runlog : ' + str(details))
+        except Exception, details:
+            print 'Failed to write to runlog : ' + str(details)
     finally:
         if runlog:
             runlog.close()
@@ -180,14 +180,14 @@ def establishLock(lockFile):
         writeRunLogEntry('False Start. The lock file [%s] exists%s' % \
                              (lockFile, info))
 
-        print ("""The lock file [%s] exists%s. 
+        print """The lock file [%s] exists%s. 
 Either Gump is still running, or it terminated very abnormally.
 Please resolve this (waiting or removing the lock file) before retrying.
-        """ % (lockFile, info))
+        """ % (lockFile, info)
         sys.exit(1)
 
     # Leave a mark...
-    lock.write(repr(os.getpid()))
+    lock.write(`os.getpid()`)
     lock.flush()
 
     return lock
@@ -239,8 +239,8 @@ def tailFile(file, lines, _eol = None, _marker = None):
         finally:
             if o:
                 o.close()
-    except Exception as details:
-        print ('Failed to tail :' + file + ' : ' + str(details))
+    except Exception, details:
+        print 'Failed to tail :' + file + ' : ' + str(details)
 
     return taillines
 
@@ -317,10 +317,10 @@ def doRun():
             log.write('- GUMP run @  UTC    : ' + \
                           time.strftime('%d %b %Y %H:%M:%S',
                                         time.gmtime()) + '\n')
-            log.write('- GUMP run by Python : ' + repr(sys.version) + '\n')
-            log.write('- GUMP run by Python : ' + repr(sys.executable) + '\n')
+            log.write('- GUMP run by Python : ' + `sys.version` + '\n')
+            log.write('- GUMP run by Python : ' + `sys.executable` + '\n')
             log.write('- GUMP run by Gump   : ' + GUMP_VERSION + '\n')
-            log.write('- GUMP run on OS     : ' + repr(os.name) + '\n')
+            log.write('- GUMP run on OS     : ' + `os.name` + '\n')
             log.write('- GUMP run in env    : \n')
 
             for envkey in os.environ.keys():
@@ -365,7 +365,7 @@ def doRun():
                 # LSD: this is kinda lame way to parse this
                 #      better to just validate against a DTD
                 raise RuntimeError('Need one (only) <workspace> tag. Found ' + \
-                           repr( workspaceElementList.length) + '.')
+                           ` workspaceElementList.length` + '.')
             wsw = workspaceElementList.item(0)
             wsName = wsw.getAttribute('name')
             # Extract the base directory
@@ -498,7 +498,7 @@ def doRun():
                 catFile(publishedLog, logFile, logTitle)
                 publishedLog.close()
                 published = True
-            except Exception as details:
+            except Exception, details:
                 print 'Failed to publish log file. ', str(details)
                 published = False
         else:
@@ -557,7 +557,7 @@ def doRun():
 
             else:
                 print 'Unable to mail failure report : ' + \
-                    repr([mailserver, mailport, mailto, mailfrom])
+                    `[mailserver, mailport, mailto, mailfrom]`
 
 
     writeRunLogEntry('Complete [%s svn:%s, run:%s]' % \
