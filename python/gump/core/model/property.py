@@ -144,6 +144,7 @@ class Property(NamedModelObject):
                 responsibleParty.addError('No project specified.')
 
         elif self.hasDomAttribute('path'):
+
             # If a property on a project..
             if not parent == workspace: 
                 relativeProject = None
@@ -166,9 +167,11 @@ class Property(NamedModelObject):
                     # Path relative to module's srcdir (doesn't work
                     # in workspace)
                     path = self.getDomAttributeValue('path')
-                    self.value = os.path.abspath(os.path.join(    \
+                    joinedPath = os.path.join(    \
                             relativeProject.getModule().getWorkingDirectory(), 
-                            path))
+                            path)
+                    absPath = os.path.abspath(joinedPath)
+                    self.value = absPath
             else:
                 responsibleParty.addError( \
                     'Can\'t have path on property on workspace: ' \
@@ -180,7 +183,7 @@ class Property(NamedModelObject):
         #
         # Do we have a value yet?
         #
-        if not blankOk and  self.value is not None:
+        if not blankOk and self.value is None:
             responsibleParty.addError('Unhandled Property: ' \
                                           + self.getName() + ' on: ' \
                                           + str(parent))

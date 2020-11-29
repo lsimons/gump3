@@ -143,6 +143,19 @@ class ModelTestSuite(UnitTestSuite):
         self.assertFalse('Repository has Password',repo2.hasPassword())
         self.assertNone('Repository Password',repo2.getPassword())
 
+    def testConfigure(self):
+        self.assertNotNone('Got project1', self.project1)
+        self.assertTrue('Got project1 configure', self.project1.hasConfigure())
+        configure = self.project1.getConfigure() 
+        self.assertTrue('Has properties', configure.hasProperties())
+        properties = configure.getProperties()
+        self.assertNotNone('Has properties', properties)
+        for prop in properties:
+            self.assertNotNone('Has property name', prop.name)
+            self.assertNotEmptySequence('Has property name', prop.name)      
+            self.assertNotNone('Has property value', prop.value)
+            self.assertNotEmptySequence('Has property value', prop.value)      
+
     def testComparisons(self):
         project1 = self.project1
         project2 = self.project2

@@ -12,6 +12,13 @@
          to="project1@jakarta.apache.org"/>
          
   <project name="project1">
+
+    <configure>
+      <arg name="--prefix" path="dest-@@DATE@@"/>
+      <arg name="--prefix1" path="dest1"/>
+      <arg name="--prefix2" value="dest1"/>
+    </configure>
+
     <package>org.apache.project1</package>
 
     <script name="gumpscript"/>
