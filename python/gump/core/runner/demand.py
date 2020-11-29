@@ -189,7 +189,7 @@ class OnDemandRunner(GumpRunner):
             
                     # W/ multiple project in one module, it may be done
                     if not module.isUpdated():
-                        self.log.debug('Update module *inlined* (not in background thread) ' + `module` + '.')     
+                        self.log.debug('Update module *inlined* (not in background thread) ' + repr(module) + '.')     
                         inlined+=1
                         self.performUpdate(module)
 
@@ -234,7 +234,7 @@ class UpdateWork:
         self.module=module
         
     def __str__(self):
-        return 'UpdateWork:'+`self.module`
+        return 'UpdateWork:'+repr(self.module)
         
 class UpdateWorker(WorkerThread):
     """

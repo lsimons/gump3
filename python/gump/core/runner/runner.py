@@ -156,7 +156,7 @@ class GumpRunner(RunSpecific):
             try:
                 import gump.actor.mysql.databaser
                 self.run.registerActor(gump.actor.mysql.databaser.Databaser(self.run))
-            except Exception, details:
+            except Exception as details:
                 self.log.warning('Unable to register Database Actor :  %s ' % details,
                             exc_info=1)
 
@@ -167,7 +167,7 @@ class GumpRunner(RunSpecific):
             try:
                 import gump.actor.history.historical
                 self.run.registerActor(gump.actor.history.historical.Historical(self.run))
-            except Exception, details:
+            except Exception as details:
                 self.log.warning('Unable to register Historical Database Actor :  %s ' % details,
                             exc_info=1)
 
@@ -205,7 +205,7 @@ class GumpRunner(RunSpecific):
             try:
                 import gump.actor.rdf.describer
                 self.run.registerActor(gump.actor.rdf.describer.RDFDescriber(self.run))
-            except Exception, details:
+            except Exception as details:
                 self.log.warning('Unable to register RDF Describer :  %s ' % details,
                             exc_info=1)
 
@@ -250,14 +250,12 @@ class GumpRunner(RunSpecific):
         Does the actual gump work by delegating to the performRun(run) method of a subclass.
         """
         if not hasattr(self,'performRun'):
-            raise RuntimeError, \
-                    'Class [' + `self.__class__` + '] needs a performRun(self,run)'
+            raise RuntimeError('Class [' + repr(self.__class__) + '] needs a performRun(self,run)')
 
         if not callable(self.performRun):
-            raise RuntimeError, \
-                    'Class [' + `self.__class__` + '] needs a callable performRun(self,run)'
+            raise RuntimeError('Class [' + repr(self.__class__) + '] needs a callable performRun(self,run)')
 
-        self.log.debug('Perform run using [' + `self` + ']')
+        self.log.debug('Perform run using [' + repr(self) + ']')
 
         return self.performRun()
 

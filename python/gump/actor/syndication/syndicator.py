@@ -24,8 +24,6 @@ import os
 import sys
 import logging
 
-from string import lower, capitalize
-
 from gump import log
 from gump.core.run.gumprun import *
 from gump.core.run.actor import AbstractRunActor

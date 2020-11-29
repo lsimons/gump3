@@ -32,7 +32,7 @@ import pprint
 from gump import log
 from gump.core.gumpinit import gumpinit
 
-import gump.repository.artifact
+import gump.actor.repository.artifact
 
 # static void main()
 if __name__=='__main__':
@@ -41,19 +41,19 @@ if __name__=='__main__':
     result = 1
     
     if not len(sys.argv) >= 1:
-        raise RuntimeError, 'Usage: repo.py \'repo directory\' [\'clean\']'
+        raise RuntimeError('Usage: repo.py \'repo directory\' [\'clean\']')
         
     dir   = sys.argv[1]
     clean = len(sys.argv) == 2
     
-    if not os.path.exists(dir): raise RuntimeError, 'No such directory : ' + `dir`    
-    if not os.path.isdir(dir): raise RuntimeError, 'Not a directory : ' + `dir`  
+    if not os.path.exists(dir): raise RuntimeError('No such directory : ' + repr(dir))    
+    if not os.path.isdir(dir): raise RuntimeError('Not a directory : ' + repr(dir))  
            
     repo=gump.repository.artifact.ArtifactRepository(dir)
 
     for group in repo.getGroups():
-        print '---------------------------------------------------------'
-        print 'Group : ' + group
+        print('---------------------------------------------------------')
+        print('Group : ' + group)
         pprint.pprint(repo.extractGroup(group))
     
     log.info('Gump Repository Tool Complete. Exit code:' + str(result))
