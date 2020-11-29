@@ -140,7 +140,7 @@ def writeRunLogEntry(entry):
     runlogFile = os.path.abspath(os.path.join('log', runlogFileName))
     runlog = None
     try:
-        runlog = open(runlogFile, 'a', 0) # Unbuffered...
+        runlog = open(runlogFile, 'a')
         try:
             runlog.write(time.strftime('%d %b %Y %H:%M:%S'))
             runlog.write(' : ')
@@ -163,7 +163,7 @@ def establishLock(lockFile):
         import fcntl
 
         try:
-            lock = open(lockFile, 'a + ')
+            lock = open(lockFile, 'a')
             fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         except:
             failed = 1
@@ -252,7 +252,7 @@ def run_prepost_script(env_var, script_type):
     runs a local PRE or POST script if the corresponding environment
     variable has been specified and the script exists.
     """
-    if os.environ.has_key(env_var):
+    if env_var in os.environ:
         pp_script = os.environ[env_var]
         if not os.path.exists(pp_script):
             pp_script = os.path.join(start_dir, pp_script)
@@ -329,7 +329,7 @@ def doRun():
 
             # Workspace is the hostname, unless overridden
             workspaceName = os.path.abspath('metadata/' + hostname + '.xml')
-            if os.environ.has_key('GUMP_WORKSPACE'):
+            if 'GUMP_WORKSPACE' in os.environ:
                 workspaceName = os.environ['GUMP_WORKSPACE'] + '.xml'
             if len(args)>2 and args[1] in ['-w', '--workspace']:
                 workspaceName = args[2]
@@ -337,7 +337,7 @@ def doRun():
             workspacePath = workspaceName
 
             projectsExpr = 'all'
-            if os.environ.has_key('GUMP_PROJECTS'):
+            if 'GUMP_PROJECTS' in os.environ:
                 projectsExpr = os.environ['GUMP_PROJECTS']
             if len(args)>1:
                 projectsExpr = args[1]
@@ -400,7 +400,7 @@ def doRun():
 
             # Add Gump to Python Path...
             pythonPath = ''
-            if os.environ.has_key('PYTHONPATH'):
+            if 'PYTHONPATH' in os.environ:
                 pythonPath = os.environ['PYTHONPATH']
                 pythonPath += os.pathsep
             pythonDir = str(os.path.abspath(os.path.join(os.getcwd(),
@@ -420,8 +420,8 @@ def doRun():
                         os.remove(fullname)
 
             # Update Gump code from SVN
-            if not os.environ.has_key('GUMP_NO_SVN_UPDATE') and \
-                not os.environ.has_key('GUMP_NO_SCM_UPDATE'):
+            if not 'GUMP_NO_SVN_UPDATE' in os.environ and \
+                not 'GUMP_NO_SCM_UPDATE' in os.environ:
                 svnExit = runCommand('svn', 'update --non-interactive')
             else:
                 log.write('SVN update skipped per environment setting.\n')
@@ -494,15 +494,15 @@ def doRun():
                                         logFileName)))
 
             try:
-                publishedLog = open(publishedLogFile, 'w', 0) # Unbuffered...
+                publishedLog = open(publishedLogFile, 'w')
                 catFile(publishedLog, logFile, logTitle)
                 publishedLog.close()
                 published = True
             except Exception as details:
-                print 'Failed to publish log file. ', str(details)
+                print ('Failed to publish log file. ', str(details))
                 published = False
         else:
-            print 'Unable to publish log file.'
+            print ('Unable to publish log file.')
 
         if result:
             # Cat to screen (if running to screen)
@@ -556,8 +556,8 @@ def doRun():
                           mailport)
 
             else:
-                print 'Unable to mail failure report : ' + \
-                    repr([mailserver, mailport, mailto, mailfrom])
+                print ('Unable to mail failure report : ' + \
+                    repr([mailserver, mailport, mailto, mailfrom]))
 
 
     writeRunLogEntry('Complete [%s svn:%s, run:%s]' % \
@@ -583,7 +583,7 @@ if not os.path.isdir(logDir):
 runDateTime = time.strftime('%d%m%Y_%H%M%S')
 logFileName = 'gump_log_' + runDateTime + '.txt'
 logFile = os.path.abspath(os.path.join(logDir, logFileName))
-log = open(logFile, 'w', 0) # Unbuffered...
+log = open(logFile, 'w')
 
 if '--debug' in sys.argv:
     import pdb
