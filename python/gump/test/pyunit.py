@@ -230,6 +230,7 @@ class UnitTestSuite(Testable):
             # If arguments, they are patterns to match
             if ptrns:
                 for pattern in ptrns:
+                    #print("Pattern : " + name + " - " + pattern)
                     try:
                         if pattern == "all":
                             pattern = '*'
@@ -301,7 +302,7 @@ class TestRunner:
         initializeGarbageCollection()
 
         # Sort to resolve dependency order
-        runOrder = self.suites # createOrderedList(self.suites)
+        runOrder = self.suites # TEMPORARY createOrderedList(self.suites)
 
         testsRun = 0
         problems = []

@@ -22,7 +22,7 @@ import datetime
 import os
 import sys
 import logging
-#TEMPORARY import anydbm
+import dbm
 
 from gump import log
 from gump.core.config import *
@@ -42,9 +42,6 @@ class MockDB(dict):
     def __init(self):
         pass 
 
-    def has_key(self,key):
-        return key in self
- 
 class StatisticsDB:
     """
     	Statistics Database Interface
@@ -60,10 +57,10 @@ class StatisticsDB:
             
         # Unfortuantely Python on M$ does not have an implementation (yet)
         log.debug('Open Statistic Database:' + self.dbpath)
-        #TEMPORARY if not os.name == 'dos' and not os.name == 'nt':
-        #    self.db		=	anydbm.open(self.dbpath,'c')
-        #else:
-        self.db=MockDB()
+        if not os.name == 'dos' and not os.name == 'nt':
+            self.db=dbm.open(self.dbpath,'c')
+        else:
+            self.db=MockDB()
  
                 
     # Workspace
@@ -195,13 +192,13 @@ class StatisticsDB:
     def _get(self,key):
         key=str(key)
         val=''
-        if self.db.has_key(key): val=str(self.db[key])
+        if key in self.db: val=self.db[key].decode(encoding="utf-8")
         return val
         
     def _getInt(self,key):
         key=str(key)
         val=0
-        if self.db.has_key(key): val=int(self.db[key])
+        if key in self.db: val=int(self.db[key])
         return val
         
     def _getFloat(self,key):
@@ -210,7 +207,7 @@ class StatisticsDB:
         """
         key=str(key)
         val=0.0
-        if self.db.has_key(key): val=float(self.db[key])
+        if key in self.db: val=float(self.db[key])
         return val
         
     def _getDate(self,key):
@@ -220,7 +217,7 @@ class StatisticsDB:
         dateF=self._get(key)
         
         if dateF:
-            #print 'dateF ' + dateF
+            #print('dateF ' + dateF)
             if not ' ' in dateF:
                 # Historical float perhaps?
                 date=datetime.datetime.utcfromtimestamp(int(dateF))

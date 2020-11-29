@@ -106,7 +106,7 @@ class Repository(NamedModelObject, Statable):
         self.modules = []
 
     def __lt__(self, other):
-        return self.name < other.name # TEMPORARY
+        return self.name < other.name
 
 
     def complete(self, workspace):

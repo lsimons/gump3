@@ -35,7 +35,7 @@ class Server(NamedModelObject):
         self.resolver=None
 
     def __lt__(self, other):
-        return self.name < other.name # TEMPORARY
+        return self.name < other.name
             
     def complete(self,workspace):      
     

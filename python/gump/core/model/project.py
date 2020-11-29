@@ -133,10 +133,10 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         Positioned.__del__(self)
 
     def __lt__(self, other):
-        return self.name < other.name # TEMPORARY
+        return self.name < other.name
 
     def __gt__(self, other):
-        return self.name > other.name # TEMPORARY
+        return self.name > other.name
 
     def hasNotifys(self):
         """

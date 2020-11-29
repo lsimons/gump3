@@ -49,7 +49,9 @@ class SyndicatorTestSuite(UnitTestSuite):
         
         
         self.rss=RSSSyndicator(self.run)
+        self.rss.prepareRun()
         self.atom=AtomSyndicator(self.run)
+        self.atom.prepareRun()
         
     def testRSSSyndicateModule(self):
         self.rss.syndicateModule(self.module1)
