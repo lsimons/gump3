@@ -272,7 +272,7 @@ The following %s notify%s should have been sent
         # Form the subject
         subject=self.workspace.prefix+	\
                 ': Module '+module.getName()+' '+	\
-                lower(stateDescription(module.getState()))
+                stateDescription(module.getState()).lower()
                     
         if notification.isWarning():
             subject += ', but with warnings.'
@@ -292,7 +292,7 @@ The following %s notify%s should have been sent
         # Form the subject
         subject=self.workspace.prefix+': Project '+ project.getName()	\
             + ' (in module ' + module.getName() + ') ' \
-            + lower(stateDescription(project.getState()))
+            + stateDescription(project.getState()).lower()
             
         if notification.isWarning():
             subject += ', but with warnings.'

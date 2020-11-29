@@ -19,7 +19,7 @@ import os
 import os.path
 import tempfile
 import time
-import urllib
+import urllib.request, urllib.parse
 
 from gump import log
 from gump.core.model.output import OUTPUT_POM
@@ -97,8 +97,8 @@ class MvnRepositoryProxyController(AbstractRunActor):
             self.saveLogAndStop()
 
     def publish(self, groupId, artifactId, fileName):
-        urllib.urlopen(self.proxyURL + 'addartifact',
-                       urllib.urlencode({'groupId': groupId,
+        urllib.request.urlopen(self.proxyURL + 'addartifact',
+                       urllib.parse.urlencode({'groupId': groupId,
                                          'artifactId': artifactId,
                                          'file': fileName}))
 
@@ -127,7 +127,7 @@ class MvnRepositoryProxyController(AbstractRunActor):
             # Hang back for a bit while the proxy starts up
             for _pWait in range(10):
                 try:
-                    urllib.urlopen(self.proxyURL)
+                    urllib.request.urlopen(self.proxyURL)
                     # Not reached until urlopen succeeds
                     log.info('mvn Repository proxy started')
                     break
@@ -143,7 +143,7 @@ class MvnRepositoryProxyController(AbstractRunActor):
 
         log.info('Storing proxyLog to xdocs-work ...')
         try:
-            proxyLogRequest = urllib.urlopen(self.proxyURL + proxyLogFileName)
+            proxyLogRequest = urllib.request.urlopen(self.proxyURL + proxyLogFileName)
             proxyLogContent = proxyLogRequest.read()
             proxyLogRequest.close()
             # TODO xdocs-Documenter is hard-coded here
@@ -158,7 +158,7 @@ class MvnRepositoryProxyController(AbstractRunActor):
 
         log.info('Stopping mvn repository proxy')
         try:
-            urllib.urlopen(self.proxyURL + 'stop', urllib.urlencode({}))
+            urllib.request.urlopen(self.proxyURL + 'stop', urllib.parse.urlencode({}))
             # allow Java process to stop before the Python process terminates
             time.sleep(5)
         except:
