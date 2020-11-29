@@ -289,7 +289,7 @@ if __name__ == '__main__':
     stats.putProjectStats(ps)
     if len(sys.argv) > 1:
         stats.delProjectStats(ps)
-    print "Project"
+    print ("Project")
     ps.dump()
 
     sys.exit()
@@ -300,7 +300,7 @@ if __name__ == '__main__':
     stats.putWorkspaceStats(ws)
     if len(sys.argv) > 1:
         stats.delWorkspaceStats(ws)
-    print "Workspace"
+    print ("Workspace")
     ws.dump()
 
     # Module
@@ -309,7 +309,7 @@ if __name__ == '__main__':
     stats.putModuleStats(ms)
     if len(sys.argv) > 1:
         stats.delModuleStats(ms)
-    print "Module"
+    print ("Module")
     ms.dump()
 
     # Repository
@@ -318,6 +318,6 @@ if __name__ == '__main__':
     stats.putRepositoryStats(rs)
     if len(sys.argv) > 1:
         stats.delRepositoryStats(rs)
-    print "Repository"
+    print ("Repository")
     rs.dump()
 
