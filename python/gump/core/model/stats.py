@@ -48,6 +48,14 @@ class Statistics:
         self.startOfState=None
         self.sequenceInState=0
                 
+    def __del__(self):
+        self.name=None
+        self.first=None
+        self.last=None
+        self.currentState=None
+        self.previousState=None
+        self.startOfState=None
+        
       
     # FOG is (at present) effectively the
     # 'odds of success' (based off historical results).
@@ -142,6 +150,9 @@ class Statistics:
 class Statable:
     def __init__(self): pass
     
+    def __del__(self):
+        self.stats=None
+
     # Stats are loaded separately and cached on here,
     # hence they may exist on an object at all times.
     def hasStats(self):
@@ -152,8 +163,8 @@ class Statable:
         
     def getStats(self):
         if not self.hasStats():
-            raise RuntimeError, "Statistics not calculated/updated/available [yet]: " \
-                    + self.getName()
+            raise RuntimeError("Statistics not calculated/updated/available [yet]: " \
+                    + self.getName())
         return self.stats
         
     

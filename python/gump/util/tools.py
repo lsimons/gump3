@@ -20,7 +20,7 @@
 """
 
 import logging
-import types, StringIO
+import types, io
 import shutil
 
 from gump import log
@@ -40,7 +40,7 @@ def listDirectoryAsWork(workable,directory,name=None):
         ok=result.state==gump.util.process.command.CMD_STATE_SUCCESS 
         if not ok:
             log.error('Failed to list [' + directory + ']')     
-    except Exception, details:
+    except Exception as details:
         ok=0
         log.error('Failed to list [' + directory + '] : ' + str(details))
        
@@ -82,7 +82,7 @@ def catFileAsWork(workable,file,name=None):
         ok=result.isOk() 
         if not ok:
             log.error('Failed to cat [' + str(file) + ']')     
-    except Exception, details:
+    except Exception as details:
         ok=0
         log.error('Failed to cat [' + str(file) + '] : ' + str(details))
        
@@ -179,7 +179,7 @@ def syncDirectories(sourcedir,destdir,annotatable=None,output=None):
     return changes
             
 def wipeDirectoryTree(dir, recreateDir = True):
-    log.info('Wipe Directory [' + `dir` + ']') 
+    log.info('Wipe Directory [' + repr(dir) + ']') 
     if os.path.exists(dir):
         try:
             shutil.rmtree(dir)            
@@ -221,7 +221,7 @@ def tailFile(file,lines,wrapLen=0,eol=None,marker=None):
                 
         finally:
             if o: o.close()
-    except Exception, details:
+    except Exception as details:
         log.error('Failed to tail :' + file + ' : ' + str(details), exc_info=1)    
                             
     return taillines
@@ -257,4 +257,4 @@ if __name__=='__main__':
   # dump(log)
   
   if len(sys.argv) > 0:
-    print tailFileToString(sys.argv[1], 5  )
+    print((tailFileToString(sys.argv[1], 5  )))

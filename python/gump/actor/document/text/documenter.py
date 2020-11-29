@@ -173,10 +173,10 @@ class TextDocumenter(Documenter):
                 if work.command.cwd:
                     output.write(indent+"Work Cwd  : " + work.command.cwd + "\n")
                 if work.command.env:
-                    for envKey in work.command.env.keys():
+                    for envKey in list(work.command.env.keys()):
                         output.write(indent+"Work Env  : " + envKey + ' : '+work.command.env[envKey])        
                 if work.result.signal:
-                    output.write(indent+"Work Signal  : " + `work.result.signal` + "\n")
+                    output.write(indent+"Work Signal  : " + repr(work.result.signal) + "\n")
                 output.write(indent+"Work Exit : " + str(work.result.exit_code) + "\n")
                 
                 if realtime and work.result.hasOutput():

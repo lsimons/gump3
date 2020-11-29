@@ -28,7 +28,6 @@ import sys
 import logging
 import types
 
-from types import NoneType, TupleType
 from xml.sax.saxutils import escape
 
 from gump import log
@@ -44,14 +43,14 @@ while i<=255:
     # Allow TAB, LF, CR and 32 .. 128.
     if i == 9 or i == 10 or i==13 or (i >= 32 and i < 128):
         MAP.append(chr(i))
-        UMAP.append(unicode(chr(i)))
+        UMAP.append(str(chr(i)))
     else:
         # Map others to underscore
         MAP.append(chr(95))
-        UMAP.append(unicode(chr(95)))
+        UMAP.append(str(chr(95)))
     i+=1
 STRING_MAP_TABLE=''.join(MAP)
-UNICODE_MAP_TABLE=unicode('').join(UMAP)
+UNICODE_MAP_TABLE=str('').join(UMAP)
 
 class XDocContext:
     def __init__(self,stream=None,pretty=False,depth=0):  
@@ -61,8 +60,8 @@ class XDocContext:
         if stream:
             self.stream=stream
         else:
-            log.debug('Create transient stream ['+`self.depth`+']...')
-            self.stream=StringIO.StringIO()
+            log.debug('Create transient stream ['+repr(self.depth)+']...')
+            self.stream=io.StringIO()
                 
     def createSubContext(self,transient=False):
         if not transient:
@@ -74,8 +73,8 @@ class XDocContext:
     def performIO(self,stuff):
         try:
             self.stream.write(stuff)
-        except Exception, details:
-            log.error('Failed to write [' + stuff + '] @ ['+`self.depth`+'] : ' + str(details))
+        except Exception as details:
+            log.error('Failed to write [' + stuff + '] @ ['+repr(self.depth)+'] : ' + str(details))
             raise
             
     def writeIndented(self,xdoc):
@@ -115,7 +114,7 @@ class XDocContext:
         self.performIO(self.map(raw))
     
     def isTransient(self):
-        return isinstance(self.stream,StringIO.StringIO)
+        return isinstance(self.stream,io.StringIO)
         
     def writeContext(self,otherContext):
         
@@ -131,7 +130,7 @@ class XDocContext:
                 stream.close()
                     
     def close(self):
-        #if isinstance(self.stream,StringIO.StringIO): 
+        #if isinstance(self.stream,io.StringIO): 
         #    self.stream.seek(0)
         #    print(self.stream.read())
         #else:
@@ -139,7 +138,7 @@ class XDocContext:
             self.stream.close()
             
     def map(self,raw):
-        if isinstance(raw,types.UnicodeType):
+        if isinstance(raw,str):
             return escape(raw.translate(UNICODE_MAP_TABLE))
         return escape(raw.translate(STRING_MAP_TABLE))
         
@@ -189,7 +188,7 @@ class XDocPiece:
             
     def middle(self):
         if not self.subpieces:
-            log.warn('Empty [' + `self` + '] probably isn\'t good...')
+            log.warn('Empty [' + repr(self) + '] probably isn\'t good...')
         else:
             for sub in self.subpieces:
                 sub.serialize()
@@ -379,7 +378,7 @@ class XDocList(XDocPiece):
     def createEntry(self,title,text=None):
         item=self.createItem()
         item.createStrong(title)
-        if not isinstance(text,NoneType):
+        if text is not None:
             item.createText(str(text))
         return item
                        
@@ -422,7 +421,7 @@ class XDocTable(XDocPiece):
         if headings:
             headerRow=self.createRow()
             for heading in headings:
-                if isinstance(heading,TupleType):
+                if isinstance(heading,tuple):
                     (title,style)=heading
                     headerRow.createHeader(title).setStyle(style)
                 else:
@@ -441,7 +440,7 @@ class XDocTable(XDocPiece):
             row=self.createRow()
             if isinstance(datum,list):
                 for data in datum:
-                    if isinstance(data,TupleType):
+                    if isinstance(data,tuple):
                         (value,style)=data
                         row.createData(value).setStyle(style)
                     else:
@@ -454,7 +453,7 @@ class XDocTable(XDocPiece):
     def createEntry(self,title,data=None):
         row=self.createRow()
         titleData=row.createData().createStrong(title)
-        if not isinstance(data,NoneType):
+        if data is not None:
             dataData=row.createData(str(data))
         return row
         
@@ -500,7 +499,7 @@ class XDocTableHeader(XDocPiece):
 class XDocTableData(XDocPiece):
     def __init__(self,context,config,text):
         XDocPiece.__init__(self,context,config)
-        if not isinstance(text,NoneType):
+        if text is not None:
             self.createText(str(text))
             
     def start(self):
@@ -653,7 +652,7 @@ class XDocLink(XDocPiece):
 class XDocFork(XDocPiece):
     def __init__(self,context,config,href,text=None):
         XDocPiece.__init__(self,context,config)
-        if not href: raise RuntimeError, 'Can not fork with nowhere to go.'
+        if not href: raise RuntimeError('Can not fork with nowhere to go.')
         self.href=href
         if text:
             self.createText(text) 
@@ -721,7 +720,7 @@ class XDocRaw(XDocPiece):
 class XDocDocument(XDocPiece):
     
     def __init__(self,title,output=None,config=None,rootpath='.'):
-        if isinstance(output,types.StringTypes):    
+        if isinstance(output,str):    
             self.xfile=output
             #log.debug('Documenting to file : [' + self.xfile + ']')                    
             # Open for writing with a decent sized buffer.

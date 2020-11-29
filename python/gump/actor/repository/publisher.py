@@ -59,7 +59,7 @@ class RepositoryPublisher(gump.core.run.actor.AbstractRunActor):
                 try:
                     # Publish licenses
                     self.repository.publish( groupName, licensePath )            
-                except Exception, details:
+                except Exception as details:
                     message='Failed to publish license [' + licensePath + '] to repository : ' + str(details)
                     project.addError(message)
                     log.error(message)                     
@@ -71,7 +71,7 @@ class RepositoryPublisher(gump.core.run.actor.AbstractRunActor):
                 try:
                     # Publish under artifact identifier...
                     self.repository.publish( groupName, outputPath, output.getId())
-                except Exception, details:
+                except Exception as details:
                     message='Failed to publish [' + outputPath + '] to repository : ' + str(details)
                     project.addError(message)
                     log.error(message)

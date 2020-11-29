@@ -51,7 +51,7 @@ class Task(Ownable):
         s=''
         
         if self.id:
-            s+=`self.id`
+            s+=repr(self.id)
             
         if s:
             s+=':'
@@ -61,7 +61,7 @@ class Task(Ownable):
             parent=self.getParentTask()
             if parent.hasId():
                 s+=':'
-                s+=`parent.getId()`
+                s+=repr(parent.getId())
          
         if self.timeRange:
             s+=':'
@@ -171,7 +171,7 @@ class TaskList(Ownable):
         self.performed.append(task)
         
     def __str__(self):
-        return self.name+'['+`len(self.todo)`+':'+`len(self.working)`+':'+`len(self.performed)`+']'
+        return self.name+'['+repr(len(self.todo))+':'+repr(len(self.working))+':'+repr(len(self.performed))+']'
         
     def perform(self,worker):        
         while self.hasTasksTodo():

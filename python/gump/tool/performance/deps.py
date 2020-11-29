@@ -44,7 +44,7 @@ def deps(run,runs=1):
     documenter=XDocDocumenter(run,gtest,'http://someplace')
         
     for r in range(runs):   
-        print 'Perform run # ' + `r`
+        print('Perform run # ' + repr(r))
         for project in run.getWorkspace().getProjects():
             project.getDirectDependencies()
             project.getDirectDependees()

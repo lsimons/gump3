@@ -22,7 +22,7 @@ import datetime
 import os
 import sys
 import logging
-import anydbm
+#TEMPORARY import anydbm
 
 from gump import log
 from gump.core.config import *
@@ -33,7 +33,18 @@ from gump.core.model.workspace import Workspace, WorkspaceStatistics
 from gump.core.model.state import *
 
 from gump.tool.shared.comparator import *
-  
+
+class MockDB(dict):
+    """
+        Mock Database
+    """
+
+    def __init(self):
+        pass 
+
+    def has_key(self,key):
+        return key in self
+ 
 class StatisticsDB:
     """
     	Statistics Database Interface
@@ -49,10 +60,10 @@ class StatisticsDB:
             
         # Unfortuantely Python on M$ does not have an implementation (yet)
         log.debug('Open Statistic Database:' + self.dbpath)
-        if not os.name == 'dos' and not os.name == 'nt':
-            self.db		=	anydbm.open(self.dbpath,'c')
-        else:
-            self.db={}
+        #TEMPORARY if not os.name == 'dos' and not os.name == 'nt':
+        #    self.db		=	anydbm.open(self.dbpath,'c')
+        #else:
+        self.db=MockDB()
  
                 
     # Workspace

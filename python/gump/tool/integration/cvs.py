@@ -78,7 +78,7 @@ def loginToRepositoryOnDemand(repository,root,logins):
     # log into the cvs repository
     if str(repository.getMethod())=='pserver':
         newpass=mangle(repository.getPassword())
-        if not root in logins or logins[root]<>newpass:
+        if not root in logins or logins[root]!=newpass:
             log.info('Provide login for CVS repository: ' + repository.getName() + ' @ ' + root)            
             # Open with append...
         

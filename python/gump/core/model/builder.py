@@ -60,7 +60,7 @@ class Builder(ModelObject, PropertyContainer):
         if not self.project:
             return self.__class__.__name__
         else:
-            return self.__class__.__name__ + ' on ' + `self.project`
+            return self.__class__.__name__ + ' on ' + repr(self.project)
 
     #
     # expand properties - in other words, do everything to complete the
@@ -440,7 +440,7 @@ class MvnInstall(Maven):
                     prop = Property(MvnInstall.VERSION, dom, self.project)
                     prop.complete(self.project, self.project.getWorkspace())
                     props.append(prop)
-            except Exception, details:
+            except Exception as details:
                 self.project.addError('failed to parse POM because of '
                                       + str(details))
         return props

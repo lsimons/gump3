@@ -99,8 +99,8 @@ class ArtifactRepository:
         
             for file in os.listdir(gdir):
                 match=ArtifactRepository.ARTIFACT_RE.match(file)
-                if match and not match.group(1) in recent.keys():
-                    print 'remove : ' + file
+                if match and not match.group(1) in list(recent.keys()):
+                    print('remove : ' + file)
                     
     def publish(self,group,artifact,id=None):
         """
@@ -155,7 +155,7 @@ class ArtifactRepository:
                 extn=match.group(3)
                 
                 # Group by date 
-                if not dates.has_key(date):
+                if date not in dates:
                     dates[date]={}
                 dates[date][id]=(id,date,extn,match.group(0))
                 

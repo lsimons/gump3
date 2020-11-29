@@ -28,11 +28,11 @@ class TestWork:
         self.stuff=stuff
         
     def __str__(self):
-        return 'Work:'+`self.stuff`
+        return 'Work:'+repr(self.stuff)
         
 class TestWorker(WorkerThread):
     def performWork(self,work):
-        print 'Thread ' + self.getName() + ' performs ' + str(work)
+        print('Thread ' + self.getName() + ' performs ' + str(work))
         time.sleep(2)
         
         
@@ -47,7 +47,7 @@ class ThreadingTestSuite(UnitTestSuite):
         
         work=workList.getWork()
         while work:
-            print 'Get Work : ' + str(work)
+            print('Get Work : ' + str(work))
             work=workList.getWork()
         
     def testThreadWorkers1(self):

@@ -29,7 +29,6 @@
 
 import os.path
 import sys
-from types import NoneType
 
 from gump.core.config import dir, EXIT_CODE_BAD_ENVIRONMENT, \
     EXIT_CODE_MISSING_UTILITY, time
@@ -126,19 +125,19 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         self.gumpHome = os.environ['GUMP_HOME']
 
         # JAVA_CMD can be set (perhaps for JRE verse JDK)
-        if os.environ.has_key('JAVA_CMD'):
+        if 'JAVA_CMD' in os.environ:
             self.javaCommand  = os.environ['JAVA_CMD']
             self.addInfo('JAVA_CMD environmental variable setting java' + \
                              ' command to ' + self.javaCommand )
 
         # JAVAC_CMD can be set (perhaps for JRE verse JDK)
-        if os.environ.has_key('JAVAC_CMD'):
+        if 'JAVAC_CMD' in os.environ:
             self.javacCommand  = os.environ['JAVAC_CMD']
             self.addInfo('javaCommand environmental variable setting javac' + \
                              ' command to ' + self.javacCommand )
         else:
             # Default to $JAVA_HOME/bin/java, can be overridden with $JAVA_CMD.
-            if os.environ.has_key('JAVA_HOME'):
+            if 'JAVA_HOME' in os.environ:
                 self.javaCommand  = os.path.join(os.environ['JAVA_HOME'],
                                                  'bin', self.javaCommand)
                 self.addInfo('javaCommand set to $JAVA_HOME/bin/java = ' + \
@@ -146,7 +145,7 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
 
         self._checkEnvVariable('JAVA_HOME')
 
-        if os.environ.has_key('JAVA_HOME'):
+        if 'JAVA_HOME' in os.environ:
             self.javaHome  = os.environ['JAVA_HOME']
             self.addInfo('JAVA_HOME environmental variable setting java' + \
                              ' home to ' + self.javaHome )
@@ -277,7 +276,7 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         primarily so we can log/display them (for user review).
         """
 
-        if not isinstance(self.javaProperties, NoneType):
+        if self.javaProperties is not None:
             return self.javaProperties
 
         # Ensure we've determined the Java Compiler to use
@@ -288,7 +287,7 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
                                "Environment was not found")
             return {}
 
-        import commands, re
+        import subprocess, re
 
         JAVA_SOURCE = dir.tmp + '/sysprop.java'
 
@@ -312,13 +311,13 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         os.unlink(JAVA_SOURCE)
 
         cmd = self.javaCommand + ' -cp ' + dir.tmp + ' sysprop'
-        result = commands.getoutput(cmd)
+        result = subprocess.getoutput(cmd)
         self.javaProperties = dict(re.findall('(.*?): (.*)', result))
         JAVA_CLASS = JAVA_SOURCE.replace('.java', '.class')
         if os.path.exists(JAVA_CLASS):
             os.unlink(JAVA_CLASS)
 
-        for (name, value) in self.javaProperties.items():
+        for (name, value) in list(self.javaProperties.items()):
             self.log.debug("Java Property: " + name + " = > " + value)
 
         return self.javaProperties
@@ -350,7 +349,7 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
                                                                  options,
                                                              name)
             if cmd_env:
-                for env_key in cmd_env.keys():
+                for env_key in list(cmd_env.keys()):
                     cmd.addEnvironment(env_key, cmd_env[env_key])
 
             result = execute(cmd)
@@ -360,7 +359,7 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
             else:
                 self.log.warning('Failed to detect [' + exe + ' ' + \
                                      options + ']')
-        except Exception, details:
+        except Exception as details:
             ok = False
             self.log.error('Failed to detect [' + exe + ' ' + options + \
                                '] : ' + str(details))
@@ -370,10 +369,10 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         self.performedWork(CommandWorkItem(WORK_TYPE_CHECK, cmd, result))
 
         if not ok and mandatory:
-            print
-            print "Unable to detect/test mandatory [" + exe + "] in path:"
+            print()
+            print("Unable to detect/test mandatory [" + exe + "] in path:")
             for p in sys.path:
-                print "  " + str(os.path.abspath(p))
+                print("  " + str(os.path.abspath(p)))
             sys.exit(EXIT_CODE_MISSING_UTILITY)
 
         # Store the output
@@ -389,25 +388,25 @@ class GumpEnvironment(Annotatable, Workable, Propogatable):
         """
         ok = False
         try:
-            ok = os.environ.has_key(envvar)
+            ok = envvar in os.environ
             if not ok:
                 self.log.info('Failed to find environment variable [' + \
                                   envvar + ']')
 
-        except Exception, details:
+        except Exception as details:
             ok = False
             self.log.error('Failed to find environment variable [' + envvar + \
                                '] : ' + str(details))
 
         if not ok and mandatory:
-            print
-            print "Unable to find mandatory [" + envvar + "] in environment:"
-            for e in os.environ.keys():
+            print()
+            print("Unable to find mandatory [" + envvar + "] in environment:")
+            for e in list(os.environ.keys()):
                 try:
                     v = os.environ[e]
-                    print "  " + e + " = " + v
+                    print("  " + e + " = " + v)
                 except:
-                    print "  " + e
+                    print("  " + e)
             sys.exit(EXIT_CODE_BAD_ENVIRONMENT)
 
         return ok

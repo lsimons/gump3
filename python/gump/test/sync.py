@@ -42,19 +42,19 @@ class SyncTestSuite(UnitTestSuite):
         """
         self.tearDown()
         os.makedirs(self.source_subdir1)
-        myfile = file(self.source_alphatxt, 'w+')
+        myfile = open(self.source_alphatxt, 'w+')
         myfile.write('Hello World')
         myfile.close()
         # Sat, 20 May 2000 12:07:40 +0000
-        sometime=[2000,5,20,12,7,40,5,141,-1]
+        sometime=(2000,5,20,12,7,40,5,141,-1)
         epoch_sometime = time.mktime(sometime)
         os.utime(self.source_alphatxt, (epoch_sometime, epoch_sometime))
     def tearDown(self):
         if os.path.exists(self.source):
-            log.debug('attempting to remove directory [%s]' % (`self.source`))
+            log.debug('attempting to remove directory [%s]' % (repr(self.source)))
             shutil.rmtree(self.source)
         if os.path.exists(self.destination):
-            log.debug('attempting to remove directory [%s]' % (`self.destination`))
+            log.debug('attempting to remove directory [%s]' % (repr(self.destination)))
             shutil.rmtree(self.destination)    
             
     def testSimpleSync(self):
@@ -72,32 +72,32 @@ class SyncTestSuite(UnitTestSuite):
         mySync.execute()
         try:
             result = os.stat(self.destination)
-        except Exception, details:
+        except Exception as details:
             self.raiseIssue(['destination directory was not created', self.destination])
         try:
             result = os.stat(self.destination_subdir1)
-        except Exception, details:
+        except Exception as details:
             self.raiseIssue(['destination_subdir1 directory was not created', self.destination_subdir1])
         result_source = None
         result_destination = None    
         try:
             result_source = os.stat(self.source_alphatxt)    
-        except Exception, details:
+        except Exception as details:
             self.raiseIssue(['file was not created', self.source_alphatxt])
         try:
             result_destination = os.stat(self.destination_alphatxt)
-        except Exception, details:
+        except Exception as details:
             self.raiseIssue(['file was not created', self.destination_alphatxt])
-        log.debug("size of file [%s] is %i" % (`self.destination_alphatxt`,
+        log.debug("size of file [%s] is %i" % (repr(self.destination_alphatxt),
         result_destination[stat.ST_SIZE]))    
         log.debug("modification date of file [%s] is %s" % 
-        (`self.destination_alphatxt`,
+        (repr(self.destination_alphatxt),
         time.ctime(result_destination[stat.ST_MTIME])))    
         self.assertTrue("modtime is equal for [%s] compared to [%s]"
-        %(`self.source_alphatxt`,`self.destination_alphatxt`),
+        %(repr(self.source_alphatxt),repr(self.destination_alphatxt)),
         result_source[stat.ST_MTIME]==result_destination[stat.ST_MTIME])
         self.assertTrue("size is equal for [%s] compared to [%s]"
-        %(`self.source_alphatxt`,`self.destination_alphatxt`),
+        %(repr(self.source_alphatxt),repr(self.destination_alphatxt)),
         result_source[stat.ST_SIZE]==result_destination[stat.ST_SIZE])    
     def testRemoveJunkDestinationFile(self):
         """
@@ -118,7 +118,7 @@ class SyncTestSuite(UnitTestSuite):
         destination_junktxt = os.path.join(self.destination_subdir1, 
         'junk.txt')
         shutil.copy2(self.destination_alphatxt, destination_junktxt)
-        sometime=[2000,5,20,12,7,45,5,141,-1]
+        sometime=(2000,5,20,12,7,45,5,141,-1)
         epoch_sometime = time.mktime(sometime)
         os.utime(self.destination_alphatxt, (epoch_sometime, epoch_sometime))
         mySync.execute()
@@ -128,19 +128,19 @@ class SyncTestSuite(UnitTestSuite):
         result_destination = None    
         try:
             result_source = os.stat(self.source_alphatxt)    
-        except Exception, details:
+        except Exception as details:
             self.raiseIssue(['file was not created', self.source_alphatxt])
         try:
             result_destination = os.stat(self.destination_alphatxt)
-        except Exception, details:
+        except Exception as details:
             self.raiseIssue(['file was not created', self.destination_alphatxt])
-        log.debug("size of file [%s] is %i" % (`self.destination_alphatxt`,
+        log.debug("size of file [%s] is %i" % (repr(self.destination_alphatxt),
         result_destination[stat.ST_SIZE]))    
         log.debug("modification date of file [%s] is %s" % 
-        (`self.destination_alphatxt`,
+        (repr(self.destination_alphatxt),
         time.ctime(result_destination[stat.ST_MTIME])))    
         self.assertTrue("modtime is equal for [%s] compared to [%s]"
-        %(`self.source_alphatxt`,`self.destination_alphatxt`),
+        %(repr(self.source_alphatxt),repr(self.destination_alphatxt)),
         result_source[stat.ST_MTIME]==result_destination[stat.ST_MTIME])
     def testDestinationFileBecomesDirectory(self):
         """
@@ -171,19 +171,19 @@ class SyncTestSuite(UnitTestSuite):
         result_destination = None    
         try:
             result_source = os.stat(self.source_alphatxt)    
-        except Exception, details:
+        except Exception as details:
             self.raiseIssue(['file was not created', self.source_alphatxt])
         try:
             result_destination = os.stat(self.destination_alphatxt)
-        except Exception, details:
+        except Exception as details:
             self.raiseIssue(['file was not created', self.destination_alphatxt])
-        log.debug("size of file [%s] is %i" % (`self.destination_alphatxt`,
+        log.debug("size of file [%s] is %i" % (repr(self.destination_alphatxt),
         result_destination[stat.ST_SIZE]))    
         log.debug("modification date of file [%s] is %s" % 
-        (`self.destination_alphatxt`,
+        (repr(self.destination_alphatxt),
         time.ctime(result_destination[stat.ST_MTIME])))    
         self.assertTrue("modtime is equal for [%s] compared to [%s]"
-        %(`self.source_alphatxt`,`self.destination_alphatxt`),
+        %(repr(self.source_alphatxt),repr(self.destination_alphatxt)),
         result_source[stat.ST_MTIME]==result_destination[stat.ST_MTIME])
     def testOriginFileBecomesDirectory(self):
         """
@@ -203,7 +203,7 @@ class SyncTestSuite(UnitTestSuite):
         junk_subdir = os.path.join(self.source_alphatxt, "junk.dir")
         os.makedirs(junk_subdir)
         junk_source_file1 = os.path.join(self.source_alphatxt, "junk.txt")
-        myfile = file(junk_source_file1, 'w+')
+        myfile = open(junk_source_file1, 'w+')
         myfile.write('Hello World')
         myfile.close()
         junk_source_file2 = os.path.join(junk_subdir, "junk.txt")
@@ -248,11 +248,11 @@ class SyncTestSuite(UnitTestSuite):
         betatxt = "beta.txt"
         source_betatxt = os.path.join(self.source_subdir1, betatxt)
         destination_betatxt = os.path.join(self.destination_subdir1, betatxt)
-        myfile = file(source_betatxt, 'w+')
+        myfile = open(source_betatxt, 'w+')
         myfile.write('Hello World')
         myfile.close()
         # Sat, 20 May 2000 12:07:40 +0000
-        sometime=[2000,5,20,12,7,40,5,141,-1]
+        sometime=(2000,5,20,12,7,40,5,141,-1)
         epoch_sometime = time.mktime(sometime)
         os.utime(source_betatxt, (epoch_sometime, epoch_sometime))
         myCopy = Copy(self.source, self.destination)
@@ -296,15 +296,15 @@ class SyncTestSuite(UnitTestSuite):
         result_dest = None
         try:
             result_source = os.stat(inode_source)
-        except Exception, details:
+        except Exception as details:
             self.raiseIssue(['could not stat ', inode_source])
         try:
             result_dest = os.stat(inode_dest)
-        except Exception, details:
+        except Exception as details:
             self.raiseIssue(['could not stat ', inode_dest])
         self.assertTrue("modtime is equal for [%s] compared to [%s]"
-        %(`inode_source`,`inode_dest`),
+        %(repr(inode_source),repr(inode_dest)),
         result_source[stat.ST_MTIME]==result_dest[stat.ST_MTIME])
         self.assertTrue("size is equal for [%s] compared to [%s]"
-        %(`inode_source`,`inode_dest`),
+        %(repr(inode_source),repr(inode_dest)),
         result_source[stat.ST_SIZE]==result_dest[stat.ST_SIZE])

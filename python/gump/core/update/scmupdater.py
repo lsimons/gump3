@@ -17,7 +17,7 @@
 # limitations under the License.
 
 import os.path
-import StringIO
+import io
 
 from gump import log
 
@@ -72,7 +72,7 @@ def extract_URL(result, regex, command):
     """
     Extracs the URL from result
     """
-    stream = StringIO.StringIO()
+    stream = io.StringIO()
     catFile(stream, result.getOutput())
     output = stream.getvalue()
     stream.close()
@@ -116,7 +116,7 @@ class ScmUpdater(RunSpecific):
         """
 
         log.info('Perform ' + module.getScm().getScmType().displayName + \
-                     ' Checkout/Update on #[' + `module.getPosition()` + \
+                     ' Checkout/Update on #[' + repr(module.getPosition()) + \
                      '] : ' + module.getName())
 
         (cmd, isUpdate) = self.getCommandAndType(module)

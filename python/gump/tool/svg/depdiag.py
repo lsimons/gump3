@@ -91,13 +91,13 @@ class DependencyMatrix:
             self.insertProject(project)
             
         # Now re-order the rows, sorting by FOG
-        for rowNo in self.depths.keys():
+        for rowNo in list(self.depths.keys()):
             row=self.depths[rowNo] 
             newRow=createOrderedList(row,compareNodesByProjectFOGFactor)
             self.depths[rowNo]=newRow
             
         # Now fix the (x,y) for all nodes (based of this sort)
-        for rowNo in self.depths.keys():
+        for rowNo in list(self.depths.keys()):
             colNo=0
             for node in self.depths[rowNo]:
                 node.setRowCol(rowNo,colNo)
@@ -106,7 +106,7 @@ class DependencyMatrix:
     # Insert into lists 
     def insertProject(self,project):
         depth=project.getDependencyDepth()
-        if not self.depths.has_key(depth):
+        if depth not in self.depths:
             self.depths[depth]=[]    
         
         # Context
@@ -139,10 +139,10 @@ class DependencyMatrix:
         return row in self.getRows()
         
     def getRows(self):
-        return self.depths.keys()
+        return list(self.depths.keys())
         
     def getNodes(self):
-        return self.nodes.values()
+        return list(self.nodes.values())
         
     def getNodeForProject(self,project):
         return self.nodes[project]        
@@ -150,14 +150,14 @@ class DependencyMatrix:
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         
-        output.write(getIndent(indent)+'Extent : ' + `self.getExtent()` +  '\n')
+        output.write(getIndent(indent)+'Extent : ' + repr(self.getExtent()) +  '\n')
         
         # Now re-order the rows, sorting by FOG
-        for rowNo in self.depths.keys():
+        for rowNo in list(self.depths.keys()):
             row=self.depths[rowNo]             
-            output.write(getIndent(indent)+'Row [Depth]: ' + `rowNo` +  '\n')
+            output.write(getIndent(indent)+'Row [Depth]: ' + repr(rowNo) +  '\n')
             for value in row:
-                output.write(getIndent(indent+1)+'Row : ' + `value` +  '\n')
+                output.write(getIndent(indent+1)+'Row : ' + repr(value) +  '\n')
 
 class DependencyDiagram:
     """ The interface to a chainable context """
@@ -213,10 +213,10 @@ class DependencyDiagram:
             #print 'NODE (ROW,COL) : ' + `(row, col)`
             (x,y) = context.realPoint(row,centeredCol)
             (x1,y1) = context.realPoint(row,col)
-            if y1 <> y:	
-                print 'Cols:',cols,'Row Cols',rowColumns,' COLS:', col,' -> ',centeredCol            
-                print '(X,Y) : ' + `(x, y)`
-                print '(X1,Y1) : ' + `(x1, y1)`
+            if y1 != y:	
+                print('Cols:',cols,'Row Cols',rowColumns,' COLS:', col,' -> ',centeredCol)            
+                print('(X,Y) : ' + repr((x, y)))
+                print('(X1,Y1) : ' + repr((x1, y1)))
             node.setPoint(Point(x,y))            
             node.setRowCol(row,centeredCol)
                 
@@ -287,7 +287,7 @@ class DependencyDiagram:
             (x,y) = context.realPoint(row+0.27,col-0.27)
             #print 'TEXT %s,%s' % (x,y)
             
-            svg.addText(x,y,project.getName() + ' (' + `project.getFOGFactor()` + ')',  \
+            svg.addText(x,y,project.getName() + ' (' + repr(project.getFOGFactor()) + ')',  \
                     { 	'fill':'red', \
                         'comment':project.getName() } )
                         
@@ -329,7 +329,7 @@ if __name__=='__main__':
         svg=diagram.generateDiagram()
         svgName=project.getName()+'.svg'
         svg.serializeToFile(svgName)        
-        print "Generated : " + svgName
+        print("Generated : " + svgName)
     
     #
     log.info('Dependency Generation complete.')

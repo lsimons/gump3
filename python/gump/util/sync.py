@@ -65,7 +65,7 @@ class PathWalker(Annotatable):
         # In later case control open/close.
         doClose = 0
         if self.output:
-            if isinstance(self.output, types.StringTypes):
+            if isinstance(self.output, str):
                 doClose = 1
                 #log.debug('       changes to  [' + self.output + ']')
                 self.outputStream = open(self.output, 'w')
@@ -77,22 +77,22 @@ class PathWalker(Annotatable):
             if not os.path.exists(self.sourcedir):
                 log.error('Exiting sync, source directory does not exist ['
                           + self.sourcedir + ']')
-                raise IOError, 'source directory does not exist [' \
-                    + self.sourcedir + ']'
+                raise IOError('source directory does not exist [' \
+                    + self.sourcedir + ']')
 
             if not os.path.isdir(self.sourcedir):
                 log.error('Exiting sync, source is not a directory ['
                           + self.sourcedir + ']')
-                raise IOError, 'source is not a directory [' \
-                    + self.sourcedir + ']'
+                raise IOError('source is not a directory [' \
+                    + self.sourcedir + ']')
 
             if not os.path.exists(self.targetdir):
                 try:
                     os.makedirs(self.targetdir)
-                except Exception, details:
+                except Exception as details:
                     log.exception('failed on ' + str(details))
-                    raise IOError, 'could not create directory [' \
-                        + self.targetdir + ']'
+                    raise IOError('could not create directory [' \
+                        + self.targetdir + ']')
 
             self.copytree(self.sourcedir, self.targetdir, 1)
 
@@ -149,7 +149,7 @@ class PathWalker(Annotatable):
     def copytree(self, src, dst, symlinks = 0):
 
         # Only supported on some platforms.
-        if 'posix' <> os.name:
+        if 'posix' != os.name:
             symlinks = 0
 
         #
@@ -197,11 +197,11 @@ class PathWalker(Annotatable):
                 srcname = os.path.join(src, name)
                 dstname = os.path.join(dst, name)
 
-            except UnicodeDecodeError, why:
+            except UnicodeDecodeError as why:
                 message = 'Unicode Error. Can\'t copy [%s] in [%s] to [%s]: [%s]'\
-                    % (`name`, `src`, `dst`, str(why))
+                    % (repr(name), repr(src), repr(dst), str(why))
                 log.exception(message)
-                raise RuntimeError, message
+                raise RuntimeError(message)
 
             try:
                 if symlinks and os.path.islink(srcname):
@@ -221,12 +221,12 @@ class PathWalker(Annotatable):
                     # Selectively copy file
                     self.maybecopy(srcname, dstname)
 
-            except (IOError, os.error), why:
-                message = "Can't copy [%s] to [%s]: [%s]" % (`srcname`,
-                                                             `dstname`,
+            except (IOError, os.error) as why:
+                message = "Can't copy [%s] to [%s]: [%s]" % (repr(srcname),
+                                                             repr(dstname),
                                                              str(why))
                 log.exception(message)
-                raise IOError, message
+                raise IOError(message)
 
     def epurate(self, sourcedir, destdir, acceptablefiles, existingfiles):
         """
@@ -251,18 +251,18 @@ class PathWalker(Annotatable):
                     if S_ISDIR(destinationStat[ST_MODE]):
                         if self.isDebug():
                             log.debug('Attempting to remove directory [%s]'
-                                      % (`tobedeleted`))
+                                      % (repr(tobedeleted)))
                         self.displayAction(False, ' -D ', tobedeleted)
                         shutil.rmtree(tobedeleted)
                     else:
                         if self.isDebug():
                             log.debug('Attempting to remove file [%s]'
-                                      % (`tobedeleted`))
+                                      % (repr(tobedeleted)))
                         self.displayAction(False, ' -F ', tobedeleted)
                         os.remove(tobedeleted)
-                except (IOError, os.error), why:
+                except (IOError, os.error) as why:
                     log.warning('Error removing [%s] - %s. Try again.'
-                                % (`tobedeleted`, why))
+                                % (repr(tobedeleted), why))
                     self.displayAction(False, ' -X ', tobedeleted)
                     shutil.rmtree(tobedeleted, True)
 
@@ -292,7 +292,7 @@ class PathWalker(Annotatable):
                         os.path.isdir(fulldestfile):
                     if self.isDebug(): 
                         log.debug('Removing file [%s] to be replaced by directory' 
-                                %(`fulldestfile`))
+                                %(repr(fulldestfile)))
                     os.remove(fulldestfile)
                     self.displayAction(True, ' -F ', fulldestfile,
                                        'Need a directory.')
@@ -301,7 +301,7 @@ class PathWalker(Annotatable):
                         os.path.isdir(fulldestfile):
                     if self.isDebug(): 
                         log.debug('Removing directory [%s] to be replaced by file' 
-                                %(`fulldestfile`))
+                                %(repr(fulldestfile)))
                     self.displayAction(True, ' -D ', fulldestfile,
                                        'Need a file.')
                     shutil.rmtree(fulldestfile)
@@ -344,7 +344,7 @@ class PathWalker(Annotatable):
         if performCopy:
             if self.isDebug():
                 log.debug("Attempting copy from [%s] to [%s]"
-                          %(`srcname`, `dstname`))
+                          %(repr(srcname), repr(dstname)))
             self.displayAction(True, ' U> ', dstname, reason)
             if os.path.lexists(dstname):
                 os.remove(dstname)

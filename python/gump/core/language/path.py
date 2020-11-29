@@ -22,7 +22,6 @@
 """
 
 import os
-from string import split
 from gump.util.note import transferAnnotations, Annotatable
 
 #
@@ -104,7 +103,7 @@ class ArtifactPath(Annotatable):
         
     def addPathPart(self,part):
         if part in self.parts:
-            self.addDebug('Duplicate Path Part [' + `part` + ']')
+            self.addDebug('Duplicate Path Part [' + repr(part) + ']')
         else:
             self.parts.append(part)
         

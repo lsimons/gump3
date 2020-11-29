@@ -74,11 +74,11 @@ def syncModule(module):
             #
             module.setModified(True)                                  
             log.info('Update(s) received via on #[' \
-                            + `module.getPosition()` + \
+                            + repr(module.getPosition()) + \
                             '] : ' + module.getName())
                             
                     
-    except Exception, details:
+    except Exception as details:
         module.changeState(STATE_FAILED, REASON_SYNC_FAILED)
         message = 'Synchronize Failed: ' + str(details)
         module.addError(message)
@@ -163,7 +163,7 @@ class GumpUpdater(RunSpecific):
     #        
     #        if not module.isUpdatable(): continue
             
-        log.info('Perform Update on #[' + `module.getPosition()` + \
+        log.info('Perform Update on #[' + repr(module.getPosition()) + \
                         '] : ' + module.getName())
 
         # Do the appropriate...
@@ -202,4 +202,4 @@ class GumpUpdater(RunSpecific):
         if scmUpdater:
             scmUpdater.preview(module)
         else:
-            print 'No updater for module: ' + module.getName()            
+            print('No updater for module: ' + module.getName())            

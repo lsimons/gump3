@@ -133,7 +133,7 @@ class AbstractRunActor(RunActor):
         """
         if not hasattr(self,'processRun'): return        
         if not callable(self.processRun):  return        
-        self.log.debug('Process Run using [' + `self` + ']')        
+        self.log.debug('Process Run using [' + repr(self) + ']')        
         self.processRun()
         
             
@@ -144,7 +144,7 @@ class AbstractRunActor(RunActor):
         """
         if not hasattr(self,'processWorkspace'): return        
         if not callable(self.processWorkspace):  return        
-        self.log.debug('Process Workspace [' + `workspace` + '] using [' + `self` + ']')        
+        self.log.debug('Process Workspace [' + repr(workspace) + '] using [' + repr(self) + ']')        
         self.processWorkspace()
         
     def _processModule(self,module):
@@ -154,7 +154,7 @@ class AbstractRunActor(RunActor):
         """
         if not hasattr(self,'processModule'): return        
         if not callable(self.processModule):  return        
-        self.log.debug('Process Module [' + `module` + '] using [' + `self` + ']')        
+        self.log.debug('Process Module [' + repr(module) + '] using [' + repr(self) + ']')        
         self.processModule(module)
         
             
@@ -168,10 +168,10 @@ class AbstractRunActor(RunActor):
         
         # Hack for bad data.
         if project.inModule():   
-            self.log.debug('Process Project [' + `project` + '] using [' + `self` + ']')        
+            self.log.debug('Process Project [' + repr(project) + '] using [' + repr(self) + ']')        
             self.processProject(project)
         else:
-            self.log.debug('Skip Project (not in module) [' + `project` + '] for [' + `self` + ']')        
+            self.log.debug('Skip Project (not in module) [' + repr(project) + '] for [' + repr(self) + ']')        
                
     def _processOtherEvent(self,event):
         """
@@ -180,5 +180,5 @@ class AbstractRunActor(RunActor):
         """
         if not hasattr(self,'processOtherEvent'): return        
         if not callable(self.processOtherEvent):  return        
-        self.log.debug('Process (Other) Event [' + `event` + '] using [' + `self` + ']')        
+        self.log.debug('Process (Other) Event [' + repr(event) + '] using [' + repr(self) + ']')        
         self.processOtherEvent(event)

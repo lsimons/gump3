@@ -23,7 +23,6 @@
 """
 
 from time import localtime, strftime, tzname
-from string import lower, capitalize
 from xml.dom import getDOMImplementation
         
 from gump.util.note import *
@@ -183,10 +182,10 @@ class ResultsSet(dict):
         if self.calculated: return self.differences
         
         lastPair=None
-        for result in self.values():
+        for result in list(self.values()):
             statePair=result.getStatePair()            
             if lastPair:
-                if lastPair <> statePair:
+                if lastPair != statePair:
                     self.differences=1
             lastPair=statePair
             
@@ -197,7 +196,7 @@ class ResultsSet(dict):
         return self.containsState(STATE_FAILED)
         
     def containsState(self,state):
-        for result in self.values():
+        for result in list(self.values()):
             if state == result.getState():
                 return 1
         return 0
@@ -225,18 +224,18 @@ class WorkspaceResult(ResultModelObject):
     # Lists...
     #
     def hasModuleResults(self):
-        if self.moduleResults.values(): return True
+        if list(self.moduleResults.values()): return True
         return False
         
     def getModuleResults(self):
-        return self.moduleResults.values()
+        return list(self.moduleResults.values())
         
     def hasProjectResults(self):
-        if self.projectResults.values(): return True
+        if list(self.projectResults.values()): return True
         return False
         
     def getProjectResults(self):
-        return self.projectResults.values()  
+        return list(self.projectResults.values())  
         
     #
     # Named...
@@ -284,7 +283,7 @@ class WorkspaceResult(ResultModelObject):
         topElement.setAttribute('tzone',self.getTimezone())
         topElement.setAttribute('tzoneOffset',self.getTimezoneOffset())
             
-        for moduleResult in self.moduleResults.values():
+        for moduleResult in list(self.moduleResults.values()):
             moduleResult.createDom(self.dom,topElement)        
                     
     def complete(self): 
@@ -318,7 +317,7 @@ class WorkspaceResult(ResultModelObject):
         """ Display the contents of this object """
         ResultModelObject.dump(self,indent,output)
         
-        for moduleResult in self.moduleResults.values():
+        for moduleResult in list(self.moduleResults.values()):
             moduleResult.dump(indent+1, output)
         
 # represents a <moduleResult/> element
@@ -337,11 +336,11 @@ class ModuleResult(ResultModelObject):
         projectResult.setOwner(self)
                 
     def hasProjectResults(self):
-        if self.projectResults.values(): return 1
+        if list(self.projectResults.values()): return 1
         return 0    
         
     def getProjectResults(self):
-        return self.projectResults.values()
+        return list(self.projectResults.values())
         
     def createDom(self, document, element):
         if self.hasDom(): return
@@ -373,7 +372,7 @@ class ModuleResult(ResultModelObject):
         """ Display the contents of this object """
         ResultModelObject.dump(self,indent,output)
         
-        for projectResult in self.projectResults.values():
+        for projectResult in list(self.projectResults.values()):
             projectResult.dump(indent+1, output)
             
 # represents a <projectResult/> element

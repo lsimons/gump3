@@ -24,24 +24,26 @@
 import logging
 import os
 import sys
-import types, StringIO
+import types, io
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
+
+from functools import cmp_to_key
 
 from gump import log
 from gump.core.config import default, setting
 
 def banner():
-    print "      _____"
-    print "     |   __|_ Apache_ ___"
-    print "     |  |  | | |     | . |"
-    print "     |_____|___|_|_|_|  _|"
-    print "                     |_|     ~ v. " + setting.VERSION + " ~"
-    print
+    print("      _____")
+    print("     |   __|_ Apache_ ___")
+    print("     |  |  | | |     | . |")
+    print("     |_____|___|_|_|_|  _|")
+    print(("                     |_|     ~ v. " + setting.VERSION + " ~"))
+    print()
 
 def gumpSafeName(name):
   """returns a file system safe name"""  
-  return urllib.quote_plus(name)
+  return urllib.parse.quote_plus(name)
 
 def getModule(modulePath):
     try:
@@ -56,7 +58,7 @@ def getModule(modulePath):
     
 def dump(obj,indent="",visited=None):
     
-    print indent+"Object: ["+str(obj.__class__)+"] "+str(obj)
+    print((indent+"Object: ["+str(obj.__class__)+"] "+str(obj)))
     
     if not visited:
         visited=[]
@@ -64,7 +66,7 @@ def dump(obj,indent="",visited=None):
     visited.append(obj)
     
     if not obj: return
-    if isinstance(obj,types.TypeType): return
+    if isinstance(obj,type): return
     if isinstance(obj,types.MethodType): return
     
       
@@ -75,36 +77,36 @@ def dump(obj,indent="",visited=None):
         var=obj.__dict__[name]
 
         # avoid nulls, metadata, and methods
-        if type(var) == types.NoneType: continue
-        if isinstance(var,types.TypeType): continue
+        if type(var) == type(None): continue
+        if isinstance(var,type): continue
         if isinstance(var,types.MethodType): continue
 
         if isinstance(var,list): 
-          print indent+"  List Name:" + str(name) + ' len:' + str(len(var))
+          print((indent+"  List Name:" + str(name) + ' len:' + str(len(var))))
           i=0
           for v in var:
              i+=1
-             print indent+"  (" + str(i) + ") " + str(name)
+             print((indent+"  (" + str(i) + ") " + str(name)))
              dump(v, indent+"  ", visited)
         elif isinstance(var,dict): 
-          print "  Dictionary Name:" + str(name) + " " + str(var.__class__)
-          for (k,v) in var.iteritems():
-             print indent+"    Key:" + str(k) + " " + str(v.__class__)
+          print(("  Dictionary Name:" + str(name) + " " + str(var.__class__)))
+          for (k,v) in list(var.items()):
+             print((indent+"    Key:" + str(k) + " " + str(v.__class__)))
              dump(v,indent+"  ", visited)
         elif isinstance(var,object) and not isinstance(var,str): 
-          print indent+"  Object Name:" + str(name) + " " + str(var.__class__)
+          print((indent+"  Object Name:" + str(name) + " " + str(var.__class__)))
           if not 'owner' == str(name):
               dump(var,indent+"  ", visited)
         else:
           try:
-            print indent+"  " + str(name) + " :-> " + str(var)
+            print((indent+"  " + str(name) + " :-> " + str(var)))
           except:
-            print indent+"  " + str(name) + " :-> Unprintable (non-ASCII) Characters"
+            print((indent+"  " + str(name) + " :-> Unprintable (non-ASCII) Characters"))
     except:
         pass
    
 def display(obj):
-    print str(obj.__class__)
+    print((str(obj.__class__)))
     # iterate over the own properties
     for name in obj.__dict__:
       if name.startswith('__') and name.endswith('__'): continue
@@ -112,48 +114,45 @@ def display(obj):
 
       # avoid nulls, metadata, and methods
       if not var: continue
-      if isinstance(var,types.TypeType): continue
+      if isinstance(var,type): continue
       if isinstance(var,types.MethodType): continue
 
       if isinstance(var,list): 
-        print "  List Name:" + str(name) + " " + str(var.__class__)
+        print(("  List Name:" + str(name) + " " + str(var.__class__)))
         for v in var:
             display(v)
       elif isinstance(var,dict): 
-        print "  Dictionary Name:" + str(name) + " " + str(var.__class__)
-        for (k,v) in var.iteritems():
+        print(("  Dictionary Name:" + str(name) + " " + str(var.__class__)))
+        for (k,v) in list(var.items()):
             display(v)
       else:
         try:
-          print "  " + str(name) + " :-> " + str(var)
+          print(("  " + str(name) + " :-> " + str(var)))
         except:
-          print "  " + str(name) + " :-> Unprintable (non-ASCII) Characters"
+          print(("  " + str(name) + " :-> Unprintable (non-ASCII) Characters"))
                 
 class AlphabeticDictionaryIterator:
     """ Iterate over a dictionary in alphabetic key order """
     def __init__(self,dict):
         self.dict=dict
-        self.keys=dict.keys()
+        self.keys=list(dict.keys())
         self.keys.sort()
         self.iter=iter(self.keys)
         
     def __iter__(self):
         return self
         
-    def next(self):
-        key=self.iter.next()
+    def __next__(self):
+        key=next(self.iter)
         return self.dict[key]      
         
 def createOrderedList(disorderedList,sortfunc=None):
     # Is there a better way to clone a list?    
-    sorted=list(disorderedList)    
+    cloned=list(disorderedList)    
     # Sort it
     if sortfunc:
-        sorted.sort(sortfunc)
-    else:
-        sorted.sort()        
-    # Return it sorted
-    return sorted   
+        return sorted(cloned,key=cmp_to_key(sortfunc))
+    return sorted(cloned)       
     
 def printSeparator(indent=''):
     printSeparatorToFile(None,indent)
@@ -219,7 +218,7 @@ def wrapLine(line,wrapLen=100, eol='\n', marker='[WRAPPED]'):
 def getIndent(depth=0):
     indent=''
     if depth < 0:
-        raise ValueError, 'Can\'t have a negative indent : ' + `depth`
+        raise ValueError('Can\'t have a negative indent : ' + repr(depth))
     if depth > 0:
         while depth:
             indent = indent + '  '
@@ -228,7 +227,7 @@ def getIndent(depth=0):
                   
 def formatException(ei):
     import traceback
-    sio = StringIO.StringIO()
+    sio = io.StringIO()
     traceback.print_exception(ei[0], ei[1], ei[2], None, sio)
     s = sio.getvalue()
     sio.close()
@@ -242,7 +241,7 @@ def getBeanAttributes(bean):
         if name.startswith('__') and name.endswith('__'): continue
         accessor=getattr(bean,name)            
         # avoid metadata, non-methods, methods other than (is|get)*
-        if isinstance(accessor,types.TypeType): continue
+        if isinstance(accessor,type): continue
         # Ignore non-methods
         if not isinstance(accessor,types.MethodType): continue        
         # Ignore non-callable methods (????)
@@ -315,7 +314,7 @@ def initializeGarbageCollection():
         tracked = len(gc.get_objects())        
     
         log.debug('GC: Enabled %s : Tracked %s : Threshold %s' \
-                % (`enabled`, `tracked`,`threshold`))
+                % (repr(enabled), repr(tracked),repr(threshold)))
                 
         gc.enable()
         gc.set_threshold(10,10,10)
@@ -351,7 +350,7 @@ def invokeGarbageCollection(marker=''):
         
         # Curiousity..
         if unreachable:
-            message='Objects Unreachable by GC : ' + `unreachable`
+            message='Objects Unreachable by GC : ' + repr(unreachable)
             if marker:
                 message+=' @ '
                 message+=marker

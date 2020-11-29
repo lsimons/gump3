@@ -24,7 +24,7 @@ from gump.tool.svg.drawing import *
 from gump.tool.svg.svg import *
 from gump.test.pyunit import UnitTestSuite
 
-import StringIO
+import io
 
 class SvgTestSuite(UnitTestSuite):
     def __init__(self):
@@ -33,7 +33,7 @@ class SvgTestSuite(UnitTestSuite):
     def testSvgConstruction(self):
         svg=SimpleSvg()
         
-        stream=StringIO.StringIO() 
+        stream=io.StringIO() 
         svg.serialize(stream)
         stream.close()
         

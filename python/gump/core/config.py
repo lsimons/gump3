@@ -72,7 +72,7 @@ class setting:
     UTC_TIME_PRESENTATION_FORMAT='%H:%M:%S (UTC)'
     
     TIMEOUT=60*60 # 60 minutes (in seconds)
-    if os.environ.has_key('GUMP_TIMEOUT'):
+    if 'GUMP_TIMEOUT' in os.environ:
             TIMEOUT = string.atoi(os.environ['GUMP_TIMEOUT'])
     
 class default:
@@ -133,11 +133,11 @@ def basicConfig():
 
 if __name__ == '__main__':
   def dump(section):
-    print
-    print "---", str(section).split('.')[-1], "---"
+    print()
+    print(("---", str(section).split('.')[-1], "---"))
     for attr in __builtins__.dir(section):
       if attr == '__module__': continue
-      print " ", attr + ":\t" + getattr(section, attr).__repr__()
+      print((" ", attr + ":\t" + getattr(section, attr).__repr__()))
 
   for section in sys.argv[1:] or ('dir','default','setting','switch'):
     dump(locals()[section])

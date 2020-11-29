@@ -252,7 +252,7 @@ class SimpleSvg:
                     
             writeSvgFooter(stream)
             writeFooter(stream)
-        except Exception, details:
+        except Exception as details:
             log.error("Failed to serialize SVG: " + str(details), exc_info=1)
             raise
             

@@ -20,7 +20,7 @@
 
 import os
 import logging
-import types, StringIO
+import types, io
 
 from gump import log
 import gump.core.config

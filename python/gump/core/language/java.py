@@ -56,11 +56,11 @@ class JavaHelper(gump.core.run.gumprun.RunSpecific):
 
         """
         args = project.jvmargs
-        if os.environ.has_key('GUMP_JAVA_ARGS'):
+        if 'GUMP_JAVA_ARGS' in os.environ:
             args = gump.util.process.command.Parameters()
             for p in os.environ['GUMP_JAVA_ARGS'].split(' '):
                 args.addParameter(p)
-            for p in project.jvmargs.items() :
+            for p in list(project.jvmargs.items()) :
                 args.addParameterObject(p)
         return args
 
@@ -102,10 +102,10 @@ class JavaHelper(gump.core.run.gumprun.RunSpecific):
         # Do this once only... storing it on the context. Not as nice as 
         # doing it OO (each project context stores its own, but a step..)
         #
-        if self.classpaths.has_key(project) and \
-                self.bootclasspaths.has_key(project) :
+        if project in self.classpaths and \
+                project in self.bootclasspaths :
             if debug:
-                print "Classpath/Bootclasspath previously resolved..."
+                print("Classpath/Bootclasspath previously resolved...")
             return (self.classpaths[project], self.bootclasspaths[project])
 
         # Start with the system classpath (later remove this)
@@ -162,20 +162,20 @@ class JavaHelper(gump.core.run.gumprun.RunSpecific):
         if (dependency in visited):
             # beneficiary.addInfo("Duplicated dependency [" + str(depend) + "]")
             if debug:
-                print str(depth) + ") Already Visited : " + str(dependency)
-                print str(depth) + ") Previously Visits  : "
+                print(str(depth) + ") Already Visited : " + str(dependency))
+                print(str(depth) + ") Previously Visits  : ")
                 for v in visited:
-                    print str(depth) + ")  - " + str(v)
+                    print(str(depth) + ")  - " + str(v))
             return (None, None)
 
         visited.append(dependency)
 
         if debug:
-            print str(depth) + ") Perform : " + `dependency`
+            print(str(depth) + ") Perform : " + repr(dependency))
 
         # 
-        classpath = Classpath('Classpath for ' + `dependency`)
-        bootclasspath = Classpath('Bootclasspath for ' + `dependency`)
+        classpath = Classpath('Classpath for ' + repr(dependency))
+        bootclasspath = Classpath('Bootclasspath for ' + repr(dependency))
 
         # Context for this dependecy project...
         project = dependency.getProject()
@@ -226,13 +226,13 @@ class JavaHelper(gump.core.run.gumprun.RunSpecific):
                 # Add to CLASSPATH
                 if not jar.getType() == OUTPUT_BOOTCLASSPATH_JAR:
                     if debug:
-                        print str(depth) + ') Append JAR : ' + str(path)
+                        print(str(depth) + ') Append JAR : ' + str(path))
                     classpath.addPathPart(path)
                 else:
                     # Add to BOOTCLASSPATH
                     if debug:
-                        print str(depth) + ') Append *BOOTCLASSPATH* JAR : ' \
-                            + str(path)
+                        print(str(depth) + ') Append *BOOTCLASSPATH* JAR : ' \
+                            + str(path))
                     bootclasspath.addPathPart(path)
 
         # Double check IDs (to reduce stale ids in metadata)
@@ -277,8 +277,8 @@ class JavaHelper(gump.core.run.gumprun.RunSpecific):
                                                             debug)
                 _importClasspaths(classpath, bootclasspath, subcp, subbcp)
             elif debug:
-                print str(depth) + ') Skip : ' + str(subdependency) \
-                    + ' in ' + project.name
+                print(str(depth) + ') Skip : ' + str(subdependency) \
+                    + ' in ' + project.name)
 
         return (classpath, bootclasspath)
 

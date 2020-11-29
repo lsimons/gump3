@@ -20,7 +20,7 @@
 
 import os
 import logging
-import types, StringIO
+import types, io
 
 from gump.core.gumpinit import gumpinit
 from gump.actor.document.xdocs.xdoc import *
@@ -41,7 +41,7 @@ class XDocsTestSuite(UnitTestSuite):
         #print data
         
     def createXDoc(self,title,xhtml):        
-        stream=StringIO.StringIO() 
+        stream=io.StringIO() 
       
         doc1=XDocDocument('Test 1', stream, XDocConfig(xhtml))
         

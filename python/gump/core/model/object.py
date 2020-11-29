@@ -22,7 +22,6 @@
 """
 
 from time import localtime, strftime, tzname
-from string import lower, capitalize
 
 from gump.util.note import *
 from gump.util.work import *
@@ -148,8 +147,8 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         """ Display the contents of this object """
         # output.write(getIndent(indent)+'Class: ' + self.__class__.__name__ + '\n')
         if self.hasOwner():
-            output.write(getIndent(indent)+'Owner: ' + `self.getOwner()` + '\n')
-        output.write(getIndent(indent)+'Id: ' + `id(self)` + '\n')
+            output.write(getIndent(indent)+'Owner: ' + repr(self.getOwner()) + '\n')
+        output.write(getIndent(indent)+'Id: ' + repr(id(self)) + '\n')
         #output.write(getIndent(indent)+'Id DOM: ' + `id(self.dom)` + '\n')
         #output.write(getIndent(indent)+'Id Element: ' + `id(self.element)` + '\n')
         if self.isSpliced():
@@ -268,7 +267,7 @@ class ModelObject(Annotatable,Workable,FileHolder,Propogatable,Ownable):
         
     def splice(self,dom): 
         if self.isComplete():
-            raise RuntimeError, "Can't splice a completed entity: " + `self`
+            raise RuntimeError("Can't splice a completed entity: " + repr(self))
         # log.debug("Splice: " + `dom`) 
         spliceDom(self.element,dom)
         self.setSpliced(True) 
@@ -293,7 +292,7 @@ class NamedModelObject(ModelObject):
         # Named
         self.name=name
         if not name:
-            raise RuntimeError, self.__class__.__name__ + ' needs a name.'
+            raise RuntimeError(self.__class__.__name__ + ' needs a name.')
             
         self.hash=0
         

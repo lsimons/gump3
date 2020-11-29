@@ -33,6 +33,9 @@ class Server(NamedModelObject):
         NamedModelObject.__init__(self,name,dom,workspace)
         
         self.resolver=None
+
+    def __lt__(self, other):
+        return self.name < other.name # TEMPORARY
             
     def complete(self,workspace):      
     

@@ -230,7 +230,7 @@ class GradleBuilder(BaseBuilder):
         cmd = get_gradle_command(project)
         if cmd:
             jvmargs = language.getJVMArgs(project)
-            if jvmargs and len(jvmargs.items()) > 0:
+            if jvmargs and len(list(jvmargs.items())) > 0:
                 cmd.addEnvironment('GRADLE_OPTS', jvmargs.formatCommandLine())
         return cmd
 
@@ -251,7 +251,7 @@ class GradleBuilder(BaseBuilder):
                 log.error('Display Init Script [ ' + init_script + \
                               '] Failed', exc_info=1)
 
-        except Exception, details:
+        except Exception as details:
             message = 'Generate Gradle Init Script Failed:' + str(details)
             log.error(message, exc_info=1)
             project.addError(message)

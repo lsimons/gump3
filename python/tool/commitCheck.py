@@ -28,7 +28,7 @@ import socket
 import time
 import signal
 import smtplib
-import StringIO
+import io
 from xml.dom import minidom
 
 LINE=' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GUMP'
@@ -48,7 +48,7 @@ def runCommand(command,args='',dir=None,outputFile=None):
             log.write('Executing with CWD: [' + dir + ']\n')    
             if not os.path.exists(cwdpath): os.makedirs(dir)
             os.chdir(cwdpath)
-        except Exception, details :
+        except Exception as details :
             # Log the problem and re-raise
             log.write('Failed to create/change CWD [' + cwdpath + ']. Details: ' + str(details) + '\n')
             return 0
@@ -87,7 +87,7 @@ def runCommand(command,args='',dir=None,outputFile=None):
                 catFile(log,outputFile)            
             os.remove(outputFile)
         
-        log.write('Exit Code : ' + `exit_code` + '\n')
+        log.write('Exit Code : ' + repr(exit_code) + '\n')
     
     finally:
         if originalCWD: os.chdir(originalCWD)
@@ -113,10 +113,10 @@ if os.path.exists(lockFile):
     # :TODO: Ought we look at the contents, get the PID of the
     # supposed other Gump, and determine if it is still alive
     # or not?
-    print """The lock file [%s] exists. 
+    print("""The lock file [%s] exists. 
 Either Gump is still running, or it terminated very abnormally.    
 Please resolve this (waiting or removing the lock file) before retrying.
-    """ % lockFile
+    """ % lockFile)
     sys.exit(1)
     
 # Set the signal handler to ignore hangups
@@ -130,7 +130,7 @@ except:
     
 # Write this PID into a lock file
 lock=open(lockFile,'w')
-lock.write(`os.getpid()`)
+lock.write(repr(os.getpid()))
 lock.close()
 
 # Enable a log
@@ -149,15 +149,15 @@ try:
 
         log.write('- GUMP run on host   : ' + hostname + '\n')
         log.write('- GUMP run @         : ' + time.strftime('%d %b %Y %H:%M:%S', time.gmtime()) + '\n')
-        log.write('- GUMP run by Python : ' + `sys.version` + '\n')
-        log.write('- GUMP run on OS     : ' + `os.name` + '\n')
+        log.write('- GUMP run by Python : ' + repr(sys.version) + '\n')
+        log.write('- GUMP run on OS     : ' + repr(os.name) + '\n')
         log.write('- GUMP run in env    : \n')
         
         #
         # Add Gump to Python Path...
         #
         pythonPath=''
-        if os.environ.has_key('PYTHONPATH'):
+        if 'PYTHONPATH' in os.environ:
             pythonPath=os.environ['PYTHONPATH']
             pythonPath+=os.pathsep
         absGumpPython=os.path.abspath(os.path.join(os.getcwd(),'python'))
@@ -242,7 +242,7 @@ finally:
     if result:
         logTitle='The Apache Gump log...'
         catFile(sys.stdout, logFile, logTitle)
-        print "Something failed..."
+        print("Something failed...")
         
 # bye!
 sys.exit(result)

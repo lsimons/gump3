@@ -41,11 +41,11 @@ class Point:
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Point : ' \
-                    + `self.x` + ',' 	\
-                    + `self.y` + '\n')
+                    + repr(self.x) + ',' 	\
+                    + repr(self.y) + '\n')
                 	             	                
     def __str__(self):
-        return '(' 	+ `self.x` + ',' + `self.y` + ')'
+        return '(' 	+ repr(self.x) + ',' + repr(self.y) + ')'
     
 class Rect:
     """ A rectangle """
@@ -70,14 +70,14 @@ class Rect:
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         output.write(getIndent(indent)+'Rect : ' \
-                    + `self.x` + ',' 	\
-                    + `self.y` + ' '	\
-	                + `self.w` + ','	\
-	                + `self.h` + '\n')
+                    + repr(self.x) + ',' 	\
+                    + repr(self.y) + ' '	\
+	                + repr(self.w) + ','	\
+	                + repr(self.h) + '\n')
                 	             	                
     def __str__(self):
-        return '(' 	+ `self.x` + ',' + `self.y` + ' '	\
-	                + `self.w` + ',' + `self.h` + ')'
+        return '(' 	+ repr(self.x) + ',' + repr(self.y) + ' '	\
+	                + repr(self.w) + ',' + repr(self.h) + ')'
 	               
 # Scale a rectangle
 def getScaledRect(scalarW,scalarH,rect):    
@@ -127,18 +127,18 @@ class DrawingContext:
         self.next=next
         
     def hasNextContext(self):
-        return self.next
+        return self.next # __next__
         
     def getNextContext(self):
-        return self.next
+        return self.next # __next__
         
     def getRootContext(self):
-        if self.next: return self.next.getRootContext()
+        if self.next: return self.next.getRootContext() # was __next__
         return self
         
     def enforceHasNextContext(self,operation):
         if not self.hasNextContext():
-            raise RuntimeError, "Missing 'next' context in " + str(operation)
+            raise RuntimeError("Missing 'next' context in " + str(operation))
 
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
@@ -153,7 +153,7 @@ class StandardDrawingContext(DrawingContext):
         
     def getPoint(x,y):
         if not self.rect.inRect(x,y): 
-            raise RuntimeError, "Point not in context rectangle."
+            raise RuntimeError("Point not in context rectangle.")
         return (x,y)
     
     def hasRect(self):    return hasattr(self,'rect') and self.rect
@@ -167,15 +167,15 @@ class StandardDrawingContext(DrawingContext):
         """ Display the contents of this object """
         DrawingContext.dump(self)
         if self.hasRect(): self.rect.dump(indent,output)
-        output.write(getIndent(indent)+'Width   : ' + `self.getWidth()` + '\n')
-        output.write(getIndent(indent)+'Height  : ' + `self.getHeight()` + '\n')
+        output.write(getIndent(indent)+'Width   : ' + repr(self.getWidth()) + '\n')
+        output.write(getIndent(indent)+'Height  : ' + repr(self.getHeight()) + '\n')
                  
 class ScaledDrawingContext(StandardDrawingContext):
     def __init__(self,name,context=None,rect=None,scaledWidth=1,scaledHeight=1):
         StandardDrawingContext.__init__(self,name,context,rect)
         
-        if not scaledWidth: raise RuntimeError, 'Can\'t scale with 0 width.'
-        if not scaledHeight: raise RuntimeError, 'Can\'t scale with 0 height.'
+        if not scaledWidth: raise RuntimeError('Can\'t scale with 0 width.')
+        if not scaledHeight: raise RuntimeError('Can\'t scale with 0 height.')
             
         self.scaledWidth=scaledWidth
         self.scaledHeight=scaledHeight
@@ -193,17 +193,17 @@ class ScaledDrawingContext(StandardDrawingContext):
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         StandardDrawingContext.dump(self)
-        output.write(getIndent(indent)+'wScaled : ' + `self.scaledWidth` + '\n')
-        output.write(getIndent(indent)+'hScaled : ' + `self.scaledHeight` + '\n')
-        output.write(getIndent(indent)+'wRatio  : ' + `self.wRatio` + '\n')
-        output.write(getIndent(indent)+'hRatio  : ' + `self.hRatio` + '\n')                        
+        output.write(getIndent(indent)+'wScaled : ' + repr(self.scaledWidth) + '\n')
+        output.write(getIndent(indent)+'hScaled : ' + repr(self.scaledHeight) + '\n')
+        output.write(getIndent(indent)+'wRatio  : ' + repr(self.wRatio) + '\n')
+        output.write(getIndent(indent)+'hRatio  : ' + repr(self.hRatio) + '\n')                        
         
 class ShiftedDrawingContext(StandardDrawingContext):
     def __init__(self,name,context=None,shiftedX=0,shiftedY=0):
         StandardDrawingContext.__init__(self,name,context)    
         
         if not (shiftedX or shiftedY):
-            raise RuntimeError, 'A ShiftedDrawingContext with no shift'
+            raise RuntimeError('A ShiftedDrawingContext with no shift')
             
         self.shiftedX=shiftedX
         self.shiftedY=shiftedY
@@ -214,8 +214,8 @@ class ShiftedDrawingContext(StandardDrawingContext):
     def dump(self, indent=0, output=sys.stdout):
         """ Display the contents of this object """
         StandardDrawingContext.dump(self)
-        output.write(getIndent(indent)+'xShift  : ' + `self.shiftedX` + '\n')
-        output.write(getIndent(indent)+'yShift  : ' + `self.shiftedY` + '\n')
+        output.write(getIndent(indent)+'xShift  : ' + repr(self.shiftedX) + '\n')
+        output.write(getIndent(indent)+'yShift  : ' + repr(self.shiftedY) + '\n')
         
 class GridDrawingContext(DrawingContext):
     """ 
@@ -252,13 +252,13 @@ class GridDrawingContext(DrawingContext):
         
         return (x,y)
         
-        xrange=range(0,self.rows)
+        xrange=list(range(0,self.rows))
         if not x in xrange:
-            raise RuntimeError, 'X isn\'t in range [' + `x` + '] [' + `xrange` + ']'
+            raise RuntimeError('X isn\'t in range [' + repr(x) + '] [' + repr(xrange) + ']')
             
-        yrange=range(0,self.cols)
+        yrange=list(range(0,self.cols))
         if not y in yrange:
-            raise RuntimeError, 'Y isn\'t in range [' + `y` + '] [' + `yrange` + ']'
+            raise RuntimeError('Y isn\'t in range [' + repr(y) + '] [' + repr(yrange) + ']')
             
         return (x,y)
                         

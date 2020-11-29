@@ -100,7 +100,7 @@ def deltaToSecs(delta):
     	Convert a delta into it's total seconds
     """
     if delta < ZERO_DELTA:
-        raise RuntimeError, "Can not cope with backwards deltas"
+        raise RuntimeError("Can not cope with backwards deltas")
         
     # Convert days to seconds, and add extra seconds.
     return int(round(((delta.days * 24 * 3600) + delta.seconds),0))
@@ -256,7 +256,7 @@ class TimeStamp:
     def getTimestamp(self):
         return self.timestamp
      
-    def __nonzero__(self):
+    def __bool__(self):
         if self.timestamp: return True
         return False
         
@@ -264,6 +264,9 @@ class TimeStamp:
         return 'TimeStamp: '+self.name+' : ' + toDateTime(self.timestamp) 
                 
     def __cmp__(self,other):
+        return (self.timestamp < other.timestamp)
+
+    def __lt__(self,other):
         return (self.timestamp < other.timestamp)
         
 class TimeStampRange(TimeStamp):       
@@ -284,7 +287,7 @@ class TimeStampRange(TimeStamp):
         self.endTimeStamp=TimeStamp(end)
         self.external=external
     
-    def __nonzero__(self):
+    def __bool__(self):
         return self.getElapsedSecs() > 0
         
     def __str__(self):
@@ -300,7 +303,7 @@ class TimeStampRange(TimeStamp):
         return self.hasTimestamp()
         
     def getStart(self):
-        return self
+        return TimeStamp(self.name,self.timestamp)
          
     def getEnd(self):
         return self.endTimeStamp
@@ -449,7 +452,7 @@ class TimeStampSet(list):
             elif isinstance(entry,TimeStamp):    
                 self.registerStamp(entry)
             else:
-                raise RuntimeError, 'Unknown timestamp: ' + `entry` 
+                raise RuntimeError('Unknown timestamp: ' + repr(entry)) 
                 
     def dump(self, indent=0, output=sys.stdout):
         spacing=getIndent(indent)

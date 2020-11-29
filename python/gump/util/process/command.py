@@ -24,11 +24,8 @@ import sys
 import logging
 import signal
 
-from types import NoneType
 from threading import Timer
     
-from string import split
-
 from gump import log
 from gump.core.config import *
 from gump.util import *
@@ -72,7 +69,7 @@ class Parameter:
     
 def getParameterFromString(strp):
     """Extract a Parameter Object from a String"""
-    parts=split(strp,'=')
+    parts=strp.split('=')
     partCount=len(parts)
     if partCount==1:
         pname=parts[0]
@@ -100,12 +97,12 @@ class Parameters:
       self.addNamedParameter(name,value,separator,prefix)
       
     def addNamedParameter(self,name,value=None,separator=' ',prefix=None):
-      if self.dict.has_key(name):
+      if name in self.dict:
         self.removeParameter(name)
       self.addParameter(name,value,separator,prefix)
  
     def addNamedParameterObject(self,param):
-      if self.dict.has_key(param.name):
+      if param.name in self.dict:
         self.removeParameter(param.name)
       self.addParameterObject(param)
  
@@ -138,7 +135,7 @@ class Parameters:
         line += self.getEscapedEntry(param.name)
         val = param.value
         
-        if not isinstance(val,NoneType):
+        if val is not None:
             line += param.separator
             line += self.getEscapedEntry(val)        
             
@@ -160,7 +157,7 @@ class Parameters:
       
     def dump(self,indent=''):
       for param in self.list:
-        print indent + '  ' + param.name + ' ' + str(param.value) + ' (' + str(param.prefix) + ')'
+        print(indent + '  ' + param.name + ' ' + str(param.value) + ' (' + str(param.prefix) + ')')
       
 class Cmd:
     """Command Line (executable plus parameters)"""
@@ -182,22 +179,22 @@ class Cmd:
         self.params.addPrefixedParameter(prefix,name,val,separator)
         
     def addPrefixedParameters(self,prefix,params):
-        for p in params.items():
+        for p in list(params.items()):
           self.params.addPrefixedParameter(prefix,p.name,p.value,p.separator)
           
     def addPrefixedNamedParameters(self,prefix,params):
-        for p in params.items():
+        for p in list(params.items()):
           self.params.addPrefixedNamedParameter(prefix,p.name,p.value,p.separator)
 
     def addParameterObject(self,param):
         self.params.addParameterObject(param)
         
     def addParameters(self,params):
-        for p in params.items():
+        for p in list(params.items()):
           self.params.addParameter(p.name,p.value,p.separator,p.prefix)
         
     def addNamedParameters(self,params):
-        for p in params.items():
+        for p in list(params.items()):
           self.params.addNamedParameter(p.name,p.value,p.separator,p.prefix)
         
     def addEnvironment(self,name,val=None):
@@ -214,16 +211,16 @@ class Cmd:
         if self.cwd:
             overview += indent + '[Working Directory: ' + self.cwd + ']\n'
         if self.env:
-            for envKey in self.env.keys():
+            for envKey in list(self.env.keys()):
                 overview += indent + envKey + ': ' + self.env[envKey] + '\n'
         return overview
         
     def dump(self,indent=''):
-        print self.overview(indent)
+        print(self.overview(indent))
         
 def getCmdFromString(strcmd, name = None, cwd = None):
     """Extract a Cmd Object from a String"""
-    parts = split(strcmd,' ')
+    parts = strcmd.split(' ')
     cmdcmd = parts[0]
     if not name: name = cmdcmd
     cmd = Cmd(cmdcmd, name, cwd)
@@ -292,6 +289,6 @@ class CmdResult:
         return deltaToSecs(self.end-self.start)        
         
     def dump(self,indent):
-        print self.overview(indent)
+        print(self.overview(indent))
 
   

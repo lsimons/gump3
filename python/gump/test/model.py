@@ -23,7 +23,7 @@
 
 import os
 import logging
-import types, StringIO
+import types, io
 
 from gump import log
 import gump.core.config
@@ -116,7 +116,7 @@ class ModelTestSuite(UnitTestSuite):
         properties=project2.getProperties()
         self.assertNotNone('Project2 has properties', project2.hasProperties())
         self.assertNotNone('Project2 has properties', properties)
-        self.assertNotEmpty('Project2 has some properties', properties)
+        self.assertNotEmptyDictionary('Project2 has some properties', properties)
         self.assertEqual('Explicit blank is ok', properties.getProperty('blank-ok'), "")
         self.assertNotNone('Explicit blank is NOT ok', properties.getProperty('blank-bogus'))
         
@@ -157,8 +157,8 @@ class ModelTestSuite(UnitTestSuite):
         projects.append(project1)
    
         
-        self.assertIn('Project in list',project1,projects)
-        self.assertNotIn('Project NOT in list',project2,projects)
+        self.assertInSequence('Project in list',project1,projects)
+        self.assertNotInSequence('Project should NOT be in list',project2,projects)
         
         ordered=createOrderedList([ project2, project1, project2, project1])
         
@@ -236,8 +236,8 @@ class ModelTestSuite(UnitTestSuite):
         module1=self.module1
         project1=self.project1
         
-        self.assertNotEmpty('Ought have a location', module1.getMetadataLocation() )
-        self.assertNotEmpty('Ought have a location', project1.getMetadataLocation() )
+        self.assertNotNone('Ought have a location', module1.getMetadataLocation() )
+        self.assertNotNone('Ought have a location', project1.getMetadataLocation() )
     
     def testMaven(self):                
         self.assertTrue('Maven project has a Maven object', self.maven1.hasMaven())
@@ -279,10 +279,10 @@ class ModelTestSuite(UnitTestSuite):
         #print commandLine  
         
     def testServers(self):
-        self.assertNotEmpty('Some servers ought be found', self.workspace.getServers())
+        self.assertNotEmptySequence('Some servers ought be found', self.workspace.getServers())
         
     def testTrackers(self):
-        self.assertNotEmpty('Some trackers ought be found', self.workspace.getTrackers())
+        self.assertNotEmptySequence('Some trackers ought be found', self.workspace.getTrackers())
                         
     def testNotification(self):
         self.assertTrue('Ought allow notify', self.workspace.isNotify())

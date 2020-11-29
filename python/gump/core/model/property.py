@@ -27,7 +27,6 @@ from gump.util import getIndent
 from gump.util.domutils import getDomChildIterator, getDomAttributeValue, \
     hasDomAttribute
 from gump.util.owner import Ownable
-from types import NoneType
 
 # represents a <property/> element
 class Property(NamedModelObject):
@@ -181,7 +180,7 @@ class Property(NamedModelObject):
         #
         # Do we have a value yet?
         #
-        if not blankOk and isinstance(self.value, NoneType):
+        if not blankOk and  self.value is not None:
             responsibleParty.addError('Unhandled Property: ' \
                                           + self.getName() + ' on: ' \
                                           + str(parent))
@@ -251,7 +250,7 @@ class PropertySet(Ownable):
         """
         Get a list of all the property objects
         """
-        return self.properties.values()
+        return list(self.properties.values())
 
     def importProperty(self, pdom):
         """

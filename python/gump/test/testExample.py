@@ -41,8 +41,8 @@ class ExampleTestCase(TestCase):
         # you can do anything inside a test
         # use the assertXXX methods on TestCase
         # to check conditions
-        self.assert_( True )
-        self.assertEquals( type({}), type({}) )
+        self.assertTrue( True )
+        self.assertEqual( type({}), type({}) )
 
 # this is used by testrunner.py to determine what tests to run
 def test_suite():

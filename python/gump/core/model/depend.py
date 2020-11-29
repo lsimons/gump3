@@ -146,7 +146,7 @@ class ProjectDependency(Annotatable):
         return self.project
         
     def hasInheritence(self):
-        return self.inherit <> INHERIT_NONE
+        return self.inherit != INHERIT_NONE
         
     def getInheritence(self):
         return self.inherit
@@ -245,7 +245,7 @@ class DependSet:
             dependProject = depend.getOwnerProject()
         else:
             dependProject = depend.getProject()        
-        if not self.projectMap.has_key(dependProject):
+        if dependProject not in self.projectMap:
             self.projectMap[dependProject] = []            
         self.projectMap[dependProject] = depend
         
@@ -253,13 +253,13 @@ class DependSet:
         return (depend in self.depends)
         
     def containsProject(self, project):
-        return self.projectMap.has_key(project)
+        return project in self.projectMap
         
     def getDepends(self):
         return self.depends
         
     def getUniqueProjectDependList(self):
-        return self.projectMap.keys()
+        return list(self.projectMap.keys())
         
     def getUniqueProjectDependCount(self):
         return len(self.projectMap)

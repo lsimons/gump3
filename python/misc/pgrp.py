@@ -9,19 +9,19 @@ def shutdownProcessAndProcessGroup(pid):
     """
     Kill this group (i.e. instigator and all child processes).
     """
-    print 'Kill process group (anything launched by PID' + str(pid) + ')'  
+    print(('Kill process group (anything launched by PID' + str(pid) + ')'))
     try:
         pgrpID=os.getpgid(pid)
         if -1 != pgrpID:
-            print 'Kill process group : (' + str(pgrpID) + ')'  
+            print(('Kill process group : (' + str(pgrpID) + ')'))
             os.killpg(pgrpID,signal.SIGHUP)
         else:
-            print 'No such PID' + str(pid) + '.'
-    except Exception, details:
-        print 'Failed to dispatch signal ' + str(details)
+            print(('No such PID' + str(pid) + '.'))
+    except Exception as details:
+        print(('Failed to dispatch signal ' + str(details)))
        
 def hup(sig,stack):
-    print "HUP : %s:%s" % ( os.getpgrp(), os.getpid() )
+    print(("HUP : %s:%s" % ( os.getpgrp(), os.getpid() )))
     sys.exit(1)
     
 if __name__=='__main__':
@@ -46,7 +46,7 @@ if __name__=='__main__':
         else:
             os.waitpid(forkPID,0)            
                         
-        print 'Child Exit : %s' % os.getpid()
+        print(('Child Exit : %s' % os.getpid()))
     
     # Parent gets real PID
     else:
@@ -61,9 +61,9 @@ if __name__=='__main__':
         # Run the command
         waitcode = os.waitpid(forkPID,0)
                 
-        print 'Wait Code : %s : %s ' % ( waitcode, timer )
+        print(('Wait Code : %s : %s ' % ( waitcode, timer )))
         
         # Stop timer (if still running)
         if timer and timer.isAlive(): timer.cancel()  
                         
-    print 'Exit : %s:%s' % ( os.getpgrp(), os.getpid() )
+    print(('Exit : %s:%s' % ( os.getpgrp(), os.getpid() )))

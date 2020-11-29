@@ -56,7 +56,7 @@ class WorkerThread(Thread):
         self.workList=workList
       
     def run(self):
-        log.debug('Thread ' + `self` + ' started.')    
+        log.debug('Thread ' + repr(self) + ' started.')    
         
         try:
             work = self.getWork()
@@ -72,7 +72,7 @@ class WorkerThread(Thread):
         finally:
             self.done.release()
             
-        log.debug('Thread ' + `self` + ' completed.')
+        log.debug('Thread ' + repr(self) + ' completed.')
             
     def getWork(self):
         return self.workList.getWork()
@@ -90,7 +90,7 @@ class WorkerThreadGroup:
         
     def start(self):
         for i in range(self.count):
-            name = self.name + ':' + `(1+i)`
+            name = self.name + ':' + repr((1+i))
             
             # Create a new Thread
             thread = self.cls(name,self.done,self.workList)
@@ -105,6 +105,6 @@ class WorkerThreadGroup:
         # Try to acquire every count
         for i in range(self.count):    
             self.done.acquire() 
-            log.debug('Completed. Thread #' + `i` + '.')    
+            log.debug('Completed. Thread #' + repr(i) + '.')    
             
         log.debug('All threads completed.')    
