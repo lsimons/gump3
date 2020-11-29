@@ -144,7 +144,7 @@ class StatisticsDB:
                                       moduleName, stats)
 
             # Extract that extra
-            if settings.has_key('last_modified') and settings['last_modified']:
+            if 'last_modified' in settings and settings['last_modified']:
                 value = settings['last_modified']
                 if isinstance(value, datetime.datetime):
                     stats.lastModified = value
@@ -212,7 +212,7 @@ class StatisticsDB:
         Extract values by name from the DB row
         """
         for (attr, column) in StatisticsDB.ATTR_COLUMN_MAP.items():
-            if settings.has_key(column) and settings[column]:
+            if column in settings and settings[column]:
                 if hasattr(stats, attr):
                     value = settings[column]
 

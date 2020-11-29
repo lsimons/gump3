@@ -108,7 +108,7 @@ class ArtifactPath(Annotatable):
             self.parts.append(part)
         
     def importFlattenedParts(self,parts):
-        for part in split(parts,os.pathsep):
+        for part in parts.split(os.pathsep):
             self.addPathPart(part)
             
     def importPath(self,p):
