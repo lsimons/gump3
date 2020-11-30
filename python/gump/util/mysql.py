@@ -143,7 +143,7 @@ class DbHelper:
         """
         escaped_encoded = ''
 
-        if isinstance(value, types.StringTypes):
+        if isinstance(value, str):
             escaped_encoded = "'" 
             escaped_encoded += MySQLdb.escape_string(value)\
                 .replace("\\","\\\\").replace("'","\\'")
@@ -173,18 +173,18 @@ class DbHelper:
                 cursor = self.conn.cursor()
                 log.debug('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.debug('SQL affected: ' + `affected`)
+                log.debug('SQL affected: ' + repr(affected))
 
                 if affected > 0: # might be nothing in db yet
                     row = cursor.fetchall()[0] # Ought be only one...
 
                     # Extract values
                     for column in columns:
-                        if row.has_key(column) and row[column]:
+                        if column in row and row[column]:
                             settings[column] = row[column]
                             #print 'Extracted %s -> %s' % ( column, row[column])
 
-            except Exception, details:
+            except Exception as details:
                 if cursor:
                     self.logWarnings(cursor)
                 log.error('SQL Error on [%s] : %s' % (statement, details),
@@ -219,7 +219,7 @@ class DbHelper:
         Perform an SQL INSERT 
         """
         statement = "INSERT INTO %s.%s (" % (self.database, table_name)
-        keys = settings.keys()
+        keys = list(settings.keys())
         statement += ", ".join(keys)
         statement += ") VALUES ("
         statement += ", ".join([str(settings[key]) for key in keys])
@@ -242,8 +242,8 @@ class DbHelper:
                 cursor = self.conn.cursor()
                 log.debug('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.debug('SQL Affected: ' + `affected`)
-            except Exception, details:
+                log.debug('SQL Affected: ' + repr(affected))
+            except Exception as details:
                 if cursor:
                     self.logWarnings(cursor)
                 log.error('SQL Error on [%s] : %s' % (statement, details),
@@ -260,7 +260,7 @@ class DbHelper:
         generate an update statement. Note: The index is a single name.
         """
         statement = "UPDATE %s.%s SET " % (self.database, table_name)
-        keys = settings.keys()
+        keys = list(settings.keys())
         keys.remove(column_name)
         statement += ", ".join([key + '=' + str(settings[key]) for key in keys])
         statement += " WHERE %s='%s'" % (column_name, entity_name)
@@ -283,8 +283,8 @@ class DbHelper:
                 cursor = self.conn.cursor()
                 log.debug('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.debug('SQL Affected: ' + `affected`)
-            except Exception, details:
+                log.debug('SQL Affected: ' + repr(affected))
+            except Exception as details:
                 if cursor:
                     self.logWarnings(cursor)
                 log.error('SQL Error on [%s] : %s' % (statement, details),
@@ -320,8 +320,8 @@ class DbHelper:
                 cursor = self.conn.cursor()
                 log.debug('SQL: ' + statement)
                 affected = cursor.execute(statement)
-                log.debug('SQL Affected: ' + `affected`)
-            except Exception, details:
+                log.debug('SQL Affected: ' + repr(affected))
+            except Exception as details:
                 if cursor:
                     self.logWarnings(cursor)
                 log.error('SQL Error on [%s] : %s' % (statement, details),

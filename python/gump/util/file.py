@@ -23,7 +23,6 @@
 import os
 import os.path
 from time import localtime, strftime, tzname
-from string import lower, capitalize
 
 from gump.util.note import *
 from gump.util.owner import *
@@ -132,12 +131,12 @@ class FileList(list,Ownable):
         
         if reference.hasOwner():
             # :TODO: Clone ...... ????????
-            raise RuntimeError, 'FileReference already owned, can\'t add to list'
+            raise RuntimeError('FileReference already owned, can\'t add to list')
         
         # Keep unique within the scope of this list
         name=reference.getName()
         uniquifier=1
-        while self.nameIndex.has_key(name):
+        while name in self.nameIndex:
             name=reference.getName()+str(uniquifier)
             uniquifier+=1
         reference.setName(name)

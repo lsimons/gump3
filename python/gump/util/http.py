@@ -24,8 +24,8 @@ import shutil
 import string
 import sys
 import time
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 
 # python-2.3 or http://www.red-dove.com/python_logging.html
 import logging
@@ -40,12 +40,12 @@ from gump.core.config import dir, switch, setting
 #
 # Set the User Agent to be Gump...
 #
-class GumpUrlOpener(urllib.FancyURLopener):
+class GumpUrlOpener(urllib.request.FancyURLopener):
     def __init__(self, *args):
         self.version = "Apache-Gump/"+setting.VERSION
-        urllib.FancyURLopener.__init__(self, *args)
+        urllib.request.FancyURLopener.__init__(self, *args)
 
-urllib._urlopener = GumpUrlOpener()
+urllib.request._urlopener = GumpUrlOpener()
 
 ###############################################################################
 # Functions
@@ -61,7 +61,7 @@ def cacheHTTP(href,cacheDir=dir.cache,optimize=False):
     if not os.path.exists(cacheDir):  os.mkdir(cacheDir)
 
     #the name of the cached descriptor
-    quotedHref = urllib.quote_plus(href)
+    quotedHref = urllib.parse.quote_plus(href)
     #the path of the cached descriptor
     cachedHrefFile = cacheDir+'/'+quotedHref
 
@@ -80,8 +80,8 @@ def cacheHTTP(href,cacheDir=dir.cache,optimize=False):
         #
         # urllib ought do some (timestamp oriented) caching also...
         #
-        urllib.urlretrieve(href, cachedHrefFile)
-      except IOError, detail:
+        urllib.request.urlretrieve(href, cachedHrefFile)
+      except IOError as detail:
         log.error('Failed to download ['+href+']. Details: ' + str(detail))
         try:
           os.remove(cachedHrefFile)

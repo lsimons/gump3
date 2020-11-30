@@ -54,7 +54,7 @@ class Documenter(gump.core.run.actor.AbstractRunActor):
     def prepare(self):
         if not hasattr(self,'prepareRun'): return        
         if not callable(self.prepareRun):  return        
-        log.debug('Prepare to document run using [' + `self` + ']')        
+        log.debug('Prepare to document run using [' + repr(self) + ']')        
         self.prepareRun()       
 
     #
@@ -62,14 +62,12 @@ class Documenter(gump.core.run.actor.AbstractRunActor):
     #
     def document(self):
         if not hasattr(self,'documentRun'):
-            raise RuntimeError, \
-                    'Class [' + `self.__class__` + '] needs a documentRun(self,run)'
+            raise RuntimeError('Class [' + repr(self.__class__) + '] needs a documentRun(self,run)')
         
         if not callable(self.documentRun):
-            raise RuntimeError, \
-                    'Class [' + `self.__class__` + '] needs a callable documentRun(self,run)'
+            raise RuntimeError('Class [' + repr(self.__class__) + '] needs a callable documentRun(self,run)')
         
-        log.info('Document run using [' + `self` + ']')
+        log.info('Document run using [' + repr(self) + ']')
         
         self.documentRun()
         

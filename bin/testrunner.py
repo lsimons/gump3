@@ -40,6 +40,7 @@ import sys
 import time
 import traceback
 import unittest
+from functools import reduce
 
 VERBOSE = 2
 
@@ -124,7 +125,7 @@ class TestRunner:
 
     def getSuiteFromFile(self, filepath):
         if not os.path.isfile(filepath):
-            raise ValueError, '%s is not a file' % filepath
+            raise ValueError('%s is not a file' % filepath)
         path, filename = os.path.split(filepath)
         name, ext = os.path.splitext(filename)
         file, pathname, desc = imp.find_module(name, [path])
@@ -187,7 +188,7 @@ class TestRunner:
                                verbose_on_error=self.verbose_on_error)
 
     def report(self, message):
-        print >>sys.stderr, message
+        print(message, file=sys.stderr)
 
     def runAllTests(self):
         """Run all tests found in the current working directory and
@@ -202,9 +203,9 @@ class TestRunner:
                 names.remove(ignore)
         if '.testinfo' in names:  # allow local control
             f = open(os.path.join(pathname, '.testinfo'))
-            lines = filter(None, f.readlines())
-            lines = map(lambda x: x[-1]=='\n' and x[:-1] or x, lines)
-            names = filter(lambda x: x and x[0] != '#', lines)
+            lines = [_f for _f in f.readlines() if _f]
+            lines = [x[-1]=='\n' and x[:-1] or x for x in lines]
+            names = [x for x in lines if x and x[0] != '#']
             f.close()
         return names
 
@@ -291,7 +292,7 @@ class FancyTestResult(unittest._TextTestResult):
     verbose_on_error = 0
 
     def __init__(self, *args, **kw):
-        if "verbose_on_error" in kw.keys():
+        if "verbose_on_error" in list(kw.keys()):
             self.verbose_on_error = kw["verbose_on_error"]
             del kw["verbose_on_error"]
         unittest._TextTestResult.__init__(self, *args, **kw)
@@ -347,7 +348,7 @@ def excname(cls):
 
 class FancyTestRunner(unittest.TextTestRunner):
     def __init__(self, *args, **kw):
-        if "verbose_on_error" in kw.keys():
+        if "verbose_on_error" in list(kw.keys()):
             self.verbose_on_error = kw["verbose_on_error"]
             del kw["verbose_on_error"]
         else:
@@ -434,7 +435,7 @@ def setconfig(**kw):
         pass
     else:
         config = App.config.getConfiguration()
-        for key, value in kw.items():
+        for key, value in list(kw.items()):
             setattr(config, key, value)
         App.config.setConfiguration(config)
 
@@ -472,19 +473,19 @@ def walk_with_symlinks(path, visit, arg):
 
 
 def remove_stale_bytecode(arg, dirname, names):
-    names = map(os.path.normcase, names)
+    names = list(map(os.path.normcase, names))
     for name in names:
         if name.endswith(".pyc") or name.endswith(".pyo"):
             srcname = name[:-1]
             if srcname not in names:
                 fullname = os.path.join(dirname, name)
-                print >>sys.stderr, "Removing stale bytecode file", fullname,
+                print("Removing stale bytecode file", fullname, end=' ', file=sys.stderr)
                 try:
                     os.unlink(fullname)
-                except (OSError, IOError), e:
-                    print >>sys.stderr, ' -->  %s (errno %d)' % (e.strerror, e.errno)
+                except (OSError, IOError) as e:
+                    print(' -->  %s (errno %d)' % (e.strerror, e.errno), file=sys.stderr)
                 else:
-                    print >>sys.stderr
+                    print(file=sys.stderr)
 
 
 def main(args):
@@ -595,7 +596,7 @@ def main(args):
 
     try:
         options, arg = getopt.getopt(args, 'aempPhd:f:v:qMo:t:iI:kKC:')
-    except getopt.GetoptError, e:
+    except getopt.GetoptError as e:
         err_exit(e.msg)
     
     if not options:
@@ -683,7 +684,7 @@ def main(args):
     if zope_config:
         zope_config = realpath(zope_config)
         if verbosity > 0:
-            print >>sys.stderr, 'Parsing', zope_config 
+            print('Parsing', zope_config, file=sys.stderr) 
         import Zope
         Zope.configure(zope_config)
         # Ignore softwarehome from config

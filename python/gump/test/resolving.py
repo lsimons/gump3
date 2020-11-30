@@ -21,7 +21,7 @@
 
 import os
 import logging
-import types, StringIO
+import types, io
 
 from gump import log
 import gump.core.config
@@ -90,7 +90,7 @@ class ResolvingTestSuite(UnitTestSuite):
 
         path=Path()
         
-        print path.getPathUp()
+        print(path.getPathUp())
         self.assertNotNone('Ought be period.', path.getPathUp())
         
         path1=path.getPostfixed('ABC')
@@ -142,7 +142,7 @@ class ResolvingTestSuite(UnitTestSuite):
             self.assertNotNone(message + "::getDirectoryUrl", resolver.getDirectoryUrl(self.module1))
             self.assertNotNone(message + "::getUrl", resolver.getUrl(self.module1))
     
-            self.assertNotEmpty('Need work on workspace', self.workspace.getWorkList())        
+            self.assertNotEmptySequence('Need work on workspace', self.workspace.getWorkList())        
             for work in self.workspace.getWorkList():
                 #printSeparator()    
                 self.assertNotNone(message + "::work", work)

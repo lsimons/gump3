@@ -60,29 +60,29 @@ class CommandLine:
             if argv[1] in ['-V','--version']:
                 sys.exit(0)      
             elif argv[1] in ['-h','--help']:
-                print "command: " , __name__    
-                print "Usage: python "+__name__+".py -w {workspaceFile} [OPTION] [PROJECT]"
-                print 
-                print "Mandatory arguments to long options are mandatory for short options too."
-                print 
-                print "Startup:"
-                print "  -V,  --version           display the version of Apache Gump(TM) and exit."
-                print "  -h,  --help              print this help."
-                print "  -w,  --workspace         use this workspace for Gump."
-                print 
-                print "General:"
-                print "  -v,  --verbose           verbose logging."
-                print "  -d,  --debug             debug logging."
-                print
-                print " Not relevent to all scripts:"
-                print "  -O,  --official          Full run, publishing notifications, etc."
-                print "  -D,  --dated             Dated log files."
-                print "  -c,  --cache             Use local cache (do not download over HTTP)."
-                print "  -t,  --text              Use text not xdocs."
-                print "  -X,  --xdocs             Output xdocs, not XHTML."
-                print
-                print "For bug reports use JIRA: http://issues.apache.org/."
-                print "For suggestions: <general@gump.apache.org/>."
+                print("command: " , __name__)    
+                print("Usage: python "+__name__+".py -w {workspaceFile} [OPTION] [PROJECT]")
+                print() 
+                print("Mandatory arguments to long options are mandatory for short options too.")
+                print() 
+                print("Startup:")
+                print("  -V,  --version           display the version of Apache Gump(TM) and exit.")
+                print("  -h,  --help              print this help.")
+                print("  -w,  --workspace         use this workspace for Gump.")
+                print() 
+                print("General:")
+                print("  -v,  --verbose           verbose logging.")
+                print("  -d,  --debug             debug logging.")
+                print()
+                print(" Not relevent to all scripts:")
+                print("  -O,  --official          Full run, publishing notifications, etc.")
+                print("  -D,  --dated             Dated log files.")
+                print("  -c,  --cache             Use local cache (do not download over HTTP).")
+                print("  -t,  --text              Use text not xdocs.")
+                print("  -X,  --xdocs             Output xdocs, not XHTML.")
+                print()
+                print("For bug reports use JIRA: http://issues.apache.org/.")
+                print("For suggestions: <general@gump.apache.org/>.")
                 sys.exit(0)
       
         # 
@@ -161,9 +161,9 @@ class CommandLine:
                         self.args.append(arg)
                     removers.append(arg)        
             else:
-                print
-                print " No project specified, please supply a comma separated list of project expressions or 'all'."
-                print " Project wildcards are accepted, e.g. \"jakarta-*\"."
+                print()
+                print(" No project specified, please supply a comma separated list of project expressions or 'all'.")
+                print(" Project wildcards are accepted, e.g. \"jakarta-*\".")
                 sys.exit(1)
              
         # Remove those used

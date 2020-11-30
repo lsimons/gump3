@@ -105,7 +105,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
         
         workspace=self.run.getWorkspace()
                  
-        log.info('Build Project: #[' + `project.getPosition()` + '] : ' + project.getName() + ' :  [state:' \
+        log.info('Build Project: #[' + repr(project.getPosition()) + '] : ' + project.getName() + ' :  [state:' \
                         + project.getStateDescription() + ']')
                   
         languageHelper=self.run.getLanguageHelper(project.getLanguageType())
@@ -123,7 +123,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
             self.performPreBuild(project, languageHelper, stats)
 
             if project.okToPerformWork():        
-                log.debug('Performing Build Upon: [' + `project.getPosition()` + '] ' + project.getName())
+                log.debug('Performing Build Upon: [' + repr(project.getPosition()) + '] ' + project.getName())
 
                 #if project.isPrereqFailed():
                 #    project.addWarning('Building despite certain prerequisite failures [repository build].')
@@ -170,7 +170,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                 self.extractFromRepository(project, languageHelper)
     
             if project.isFailed():
-                log.warn('Failed to build project #[' + `project.getPosition()` + '] : [' + project.getName() + '], state:' \
+                log.warn('Failed to build project #[' + repr(project.getPosition()) + '] : [' + project.getName() + '], state:' \
                         + project.getStateDescription())                                              
 
     def performDelete(self,project,delete,index=0):
@@ -244,8 +244,8 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                     self.performDelete(project,delete,dels)
                     dels+=1
                     project.changeState(STATE_SUCCESS)
-                except Exception, details:
-                    message='Failed to perform delete ' + `delete` + ':' + str(details)
+                except Exception as details:
+                    message='Failed to perform delete ' + repr(delete) + ':' + str(details)
                     log.error(message, exc_info=1)
                     project.addError(message)
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
@@ -258,8 +258,8 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                     self.performMkDir(project,mkdir,mkdirs)
                     mkdirs+=1
                     project.changeState(STATE_SUCCESS)
-                except Exception, details:
-                    message='Failed to perform mkdir ' + `mkdir` + ':' + str(details)
+                except Exception as details:
+                    message='Failed to perform mkdir ' + repr(mkdir) + ':' + str(details)
                     log.error(message, exc_info=1)
                     project.addError(message)
                     project.changeState(STATE_FAILED,REASON_PREBUILD_FAILED)
@@ -459,7 +459,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                 id = output.getId()
                 
                 # Use the repository one...
-                if artifacts.has_key(id):
+                if id in artifacts:
                     (aid,date,extn,path)=artifacts[id]                
                     
                     log.info('Utilize %s from Gump artifact repository for id: %s' % (path, id))
@@ -468,7 +468,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
                     output.setPath(path)
                 else:
                     log.info('Failed to find artifact for id %s (Gump Repo has %s in %s)' % \
-                            (id, artifacts.keys(), group))
+                            (id, list(artifacts.keys()), group))
                             
                     artifactsOk=False
                     break
@@ -491,7 +491,7 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
             stats=project.getStats()
         
         if project.isPackaged():             
-            print 'Packaged project: ' + project.getName()
+            print('Packaged project: ' + project.getName())
         
         # Pick your poison..
         if project.hasScript():
@@ -511,4 +511,4 @@ class GumpBuilder(gump.core.run.gumprun.RunSpecific):
         elif project.hasGradle():
             self.gradle.preview(project, languageHelper, stats);
         else:
-            print 'No builder for project: ' + project.getName()
+            print('No builder for project: ' + project.getName())

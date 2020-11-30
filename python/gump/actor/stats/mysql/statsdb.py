@@ -144,7 +144,7 @@ class StatisticsDB:
                                       moduleName, stats)
 
             # Extract that extra
-            if settings.has_key('last_modified') and settings['last_modified']:
+            if 'last_modified' in settings and settings['last_modified']:
                 value = settings['last_modified']
                 if isinstance(value, datetime.datetime):
                     stats.lastModified = value
@@ -212,7 +212,7 @@ class StatisticsDB:
         Extract values by name from the DB row
         """
         for (attr, column) in StatisticsDB.ATTR_COLUMN_MAP.items():
-            if settings.has_key(column) and settings[column]:
+            if column in settings and settings[column]:
                 if hasattr(stats, attr):
                     value = settings[column]
 
@@ -249,7 +249,7 @@ class StatisticsDB:
                         #print "SET ATTR : " + `value` 
                         settings[column] = "'" +\
                             value.strftime('%Y-%m-%d %H:%M:%S') + "'"
-                    elif isinstance(value, types.StringTypes):
+                    elif isinstance(value, basestring):
                         settings[column] = "'" + str(value) + "'"
                     else:
                         settings[column] = str(value)
@@ -289,7 +289,7 @@ if __name__ == '__main__':
     stats.putProjectStats(ps)
     if len(sys.argv) > 1:
         stats.delProjectStats(ps)
-    print "Project"
+    print ("Project")
     ps.dump()
 
     sys.exit()
@@ -300,7 +300,7 @@ if __name__ == '__main__':
     stats.putWorkspaceStats(ws)
     if len(sys.argv) > 1:
         stats.delWorkspaceStats(ws)
-    print "Workspace"
+    print ("Workspace")
     ws.dump()
 
     # Module
@@ -309,7 +309,7 @@ if __name__ == '__main__':
     stats.putModuleStats(ms)
     if len(sys.argv) > 1:
         stats.delModuleStats(ms)
-    print "Module"
+    print ("Module")
     ms.dump()
 
     # Repository
@@ -318,6 +318,6 @@ if __name__ == '__main__':
     stats.putRepositoryStats(rs)
     if len(sys.argv) > 1:
         stats.delRepositoryStats(rs)
-    print "Repository"
+    print ("Repository")
     rs.dump()
 

@@ -105,11 +105,11 @@ class TimingTestSuite(UnitTestSuite):
         #set.dump()
         set.getTotalTimes()
         
-        self.assertGreater('Time passes', range1.getStart(), range1.getEnd())        
-        self.assertGreater('Time passes', range2.getStart(), range2.getEnd())        
-        self.assertGreater('Time passes', range1.getEnd(), range2.getEnd())
+        self.assertLesser('Time passes', range1.getStart(), range1.getEnd())        
+        self.assertLesser('Time passes', range2.getStart(), range2.getEnd())        
+        self.assertLesser('Time passes', range1.getEnd(), range2.getEnd())
         
-        self.assertGreater('Time passes', set.getStart(), set.getEnd())
+        self.assertLesser('Time passes', set.getStart(), set.getEnd())
         
     def testUTCTimes(self):
         stamp1=TimeStamp('S1')
@@ -118,5 +118,5 @@ class TimingTestSuite(UnitTestSuite):
         t1=stamp1.getUtc()
         t2=stamp2.getUtc()
         
-        self.assertIn('UTC', 'UTC', t1)
-        self.assertIn('UTC', 'UTC', t2)
+        self.assertInSequence('UTC', 'UTC', t1)
+        self.assertInSequence('UTC', 'UTC', t2)

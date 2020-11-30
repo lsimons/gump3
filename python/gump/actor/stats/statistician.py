@@ -42,7 +42,7 @@ class Statistician(AbstractRunActor):
                     # Figure out what DB this workspace uses 
                     dbInfo=self.run.getWorkspace().getDatabaseInformation()
                     self.db=gump.actor.stats.mysql.statsdb.StatisticsDB(dbInfo)   
-                except Exception, details:
+                except Exception as details:
                     log.error('Failed to load MySQL database driver : %s' % (details), exc_info=1)
             
             if not self.db:
@@ -167,7 +167,7 @@ class Statistician(AbstractRunActor):
         Show all that is there
         """
         for key in self.db.getProjects():
-            print "Project " + pname + " Key " + key
+            print("Project " + pname + " Key " + key)
             s=self.getProjectStats(pname)
             dump(s)
                 

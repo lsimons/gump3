@@ -19,7 +19,6 @@
 """
 
 from time import localtime, strftime, tzname
-from string import lower, capitalize
 
 from gump.core.model.state import *
 from gump.util.work import *
@@ -61,11 +60,11 @@ class Propogatable(Stateful):
                                    
                 # Describe the problem
                 if not message:
-                    message = lower(stateDescription(state))
+                    message = stateDescription(state).lower()
                     if not REASON_UNSET == reason:
-                        message += " with reason " + lower(reasonDescription(reason))   
+                        message += " with reason " + reasonDescription(reason).lower()   
                 if isinstance(self,Workable):
-                    self.addInfo(capitalize(message))
+                    self.addInfo(message.capitalize())
         
                 # Send on the changes...
                 self.propagateErrorStateChange(state,reason,cause,message)

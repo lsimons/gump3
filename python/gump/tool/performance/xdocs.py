@@ -44,7 +44,7 @@ def document(run,runs=1):
     documenter=XDocDocumenter(run,gtest,'http://someplace')
         
     for r in range(runs):   
-        print 'Perform run # ' + `r`
+        print('Perform run # ' + repr(r))
         documenter.document()
         
 def xrun():

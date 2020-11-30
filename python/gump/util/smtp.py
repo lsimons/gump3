@@ -23,7 +23,7 @@
 from gump import log
 from gump.core.config import *
 from gump.util import *
-from email.Header import Header
+from email.header import Header
 
 import smtplib, string
         
@@ -111,9 +111,9 @@ def mail(toaddrs,fromaddr,message,server='localhost',port=25):
             sent=True
         else:
             for failure in failures:
-                log.error('Failed to send e-mail to : ' + `failure`)
+                log.error('Failed to send e-mail to : ' + repr(failure))
         
-    except Exception, details:
+    except Exception as details:
         sent=False
         
         log.error('Failed to send e-mail: ' + str(details))
@@ -149,6 +149,6 @@ if __name__=='__main__':
   
     mail(['ajack@trysybase.com'],default.email,email,default.mailserver)
   
-    print sanitizeAddress('Adam Jack <ajack@trysybase.com>') 
+    print((sanitizeAddress('Adam Jack <ajack@trysybase.com>'))) 
   
   

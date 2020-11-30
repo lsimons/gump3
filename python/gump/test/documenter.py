@@ -19,7 +19,7 @@
 
 import os
 import logging
-import types, StringIO
+import types, io
 
 from gump import log
 import gump.core.config
@@ -44,7 +44,7 @@ class DocumenterTestSuite(UnitTestSuite):
         self.assertNotNone('Needed a workspace', self.workspace)
    
     def testText(self):
-        out=StringIO.StringIO()
+        out=io.StringIO()
         documenter=TextDocumenter(self.run,out)
         documenter.document()
         out.close()

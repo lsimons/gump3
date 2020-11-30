@@ -26,9 +26,7 @@ import os
 import sys
 import logging
 import types
-import StringIO
-
-from string import lower, upper, capitalize
+import io
 
 from gump import log
 from gump.core.config import *
@@ -95,7 +93,7 @@ class Notification(RunSpecific):
         
         # If not passed, create temporary
         if not stream:
-            stream=StringIO.StringIO()
+            stream=io.StringIO()
    
         if self.isSuccess():
             stream.write('To whom it may satisfy...')
@@ -133,7 +131,7 @@ and/or contact the folk at general@gump.apache.org.
         stream.write('.\n')
         
         # Add State (and reason)
-        stream.write('The current state of this %s is \'%s\'' % (lower(type), self.entity.getStateDescription()))   
+        stream.write('The current state of this %s is \'%s\'' % (type.lower(), self.entity.getStateDescription()))   
         if self.entity.hasReason():
             stream.write(', with reason \'' + self.entity.getReasonDescription() + '\'')        
         stream.write('.\n')
@@ -188,7 +186,7 @@ and/or contact the folk at general@gump.apache.org.
     
         # If passed (or created) a StringIO, return String
         # containing contents.
-        if isinstance(stream,StringIO.StringIO):
+        if isinstance(stream,io.StringIO):
             stream.seek(0)
             return stream.read()      
       
@@ -208,7 +206,7 @@ and/or contact the folk at general@gump.apache.org.
             stream.write("The following annotations (debug/informational/warning/error messages) were provided:")
             stream.write("\n")
             for note in self.entity.annotations:      
-                stream.write(' -%s- %s\n' % (upper(levelName(note.level)), note.text))
+                stream.write(' -%s- %s\n' % (levelName(note.level).upper(), note.text))
             stream.write("\n")
         
     def resolveWork(self, resolver, stream):

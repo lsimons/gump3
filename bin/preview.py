@@ -91,37 +91,37 @@ def prun():
         languageHelper=runner.getJavaHelper()
             
         for module in run.getGumpSet().getModules():
-            print SEPARATOR
-            print `module`
+            print(SEPARATOR)
+            print(repr(module))
             if debug:
-                print module.getXml()
+                print(module.getXml())
             module.dump()
             if module.isUpdatable():
                 updater.preview(module)
                        
         for project in run.getGumpSet().getProjects():
-            print SEPARATOR
-            print `project`
+            print(SEPARATOR)
+            print(repr(project))
             if debug:
-                print project.getXml()
+                print(project.getXml())
             project.dump()
             if project.hasBuilder():
                 builder.preview(project, languageHelper)
     
     # Show any nasties...
     if workspace.containsNasties():
-        print SEPARATOR    
-        print `workspace`    
+        print(SEPARATOR)    
+        print(repr(workspace))    
         Annotatable.dump(workspace)
     for module in run.getGumpSet().getModules():
         if module.containsNasties():
-            print SEPARATOR    
-            print `module`    
+            print(SEPARATOR)    
+            print(repr(module))    
             Annotatable.dump(module)
     for project in run.getGumpSet().getProjects():
         if project.containsNasties():
-            print SEPARATOR    
-            print `project`    
+            print(SEPARATOR)    
+            print(repr(project))    
             Annotatable.dump(project)
             
     # bye!

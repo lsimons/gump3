@@ -19,9 +19,10 @@
 """
 import os
 import sys
-from types import NoneType
 import types
 import logging
+import collections
+import collections.abc
 
 from gump import log
 from gump.core.gumpinit import gumpinit
@@ -45,14 +46,14 @@ class Testable:
             message += str(s)
             message += '] '
 
-        raise RuntimeError, message
+        raise RuntimeError(message)
 
     def assertNotNone(self, message, o):
-        if isinstance(o, NoneType):
+        if o is None:
             self.raiseIssue(['Ought NOT be None', message, o])
 
     def assertNone(self, message, o):
-        if not isinstance(o, NoneType):
+        if o is not None:
             self.raiseIssue(['Ought be None', message, o])
 
     def assertNonZero(self, message, o):
@@ -63,6 +64,10 @@ class Testable:
     def assertEqual(self, message, o1, o2):
         if not (o1 == o2):
             self.raiseIssue(['Ought evaluate as equal', message, o1, o2])
+
+    def assertLesser(self, message, o1, o2):
+        if not (o1 < o2):
+            self.raiseIssue(['Ought evaluate as lesser', message, o1, o2])
 
     def assertGreater(self, message, o1, o2):
         if not (o1 > o2):
@@ -78,14 +83,14 @@ class Testable:
 
     def assertFalse(self, message, o):
         if o:
-            self.raiseIssue(['Ought evaluate as false', message, o])
+            self.raiseIssue(['Ought evaluate as False', message, o])
 
     def assertInString(self, message, substr, superstring):
         if -1 == superstring.find(substr):
             self.raiseIssue(['Ought evaluate as in', message, substr,
                              superstring])
 
-    def assertIn(self, message, o, sequence):
+    def assertInSequence(self, message, o, sequence):
         if not o in sequence:
             self.raiseIssue(['Ought evaluate as in', message, o, sequence])
 
@@ -95,13 +100,25 @@ class Testable:
                              message, subString, mainString,
                              mainString.find(subString)])
 
-    def assertNotEmpty(self, message, sequence):
-        if not sequence or not len(sequence) > 0:
-            self.raiseIssue(['Ought NOT evaluate as empty', message, sequence])
+    def assertNotEmptyDictionary(self, message, dictionary):
+        if not dictionary:
+            self.raiseIssue(['Ought NOT evaluate as None dictionary', message, dictionary])
+        if not isinstance(dictionary,dict):
+            self.raiseIssue(['Ought NOT evaluate as NOT a dictionary', message, dictionary])
+        if not len(dictionary.keys()) > 0:
+            self.raiseIssue(['Ought NOT evaluate as an empty dictionary', message, dictionary])
 
-    def assertNotIn(self, message, o, sequence):
+    def assertNotEmptySequence(self, message, sequence):
+        if not sequence:
+            self.raiseIssue(['Ought NOT evaluate as a None sequence', message, sequence])
+        if not isinstance(sequence,collections.abc.Sequence):
+            self.raiseIssue(['Ought NOT evaluate as NOT a sequence', message, sequence])
+        if not len(sequence) > 0:
+            self.raiseIssue(['Ought NOT evaluate as an empty sequence', message, sequence])
+
+    def assertNotInSequence(self, message, o, sequence):
         if o in sequence:
-            self.raiseIssue(['Ought NOT evaluate as in', message, o, sequence])
+            self.raiseIssue(['Ought NOT evaluate as in sequence', message, o, sequence])
 
     def assertNotSubstring(self, message, subString, mainString):
         if not -1 == mainString.find(subString):
@@ -118,7 +135,7 @@ class Testable:
         self.assertEqual(message, o, sequence[posn])
 
     def assertString(self, message, o):
-        if not isinstance(o, types.StringTypes):
+        if not isinstance(o, str):
             self.raiseIssue(['Ought be a String type', message, o,
                              type(o)])
 
@@ -201,7 +218,7 @@ class UnitTestSuite(Testable):
             # avoid nulls, metadata, and methods other than test*
             if not test:
                 continue
-            if isinstance(test, types.TypeType):
+            if isinstance(test, type):
                 continue
             if not isinstance(test, types.MethodType):
                 continue
@@ -213,12 +230,13 @@ class UnitTestSuite(Testable):
             # If arguments, they are patterns to match
             if ptrns:
                 for pattern in ptrns:
+                    #print("Pattern : " + name + " - " + pattern)
                     try:
                         if pattern == "all":
                             pattern = '*'
                         if fnmatch(name, pattern):
                             break
-                    except Exception, detail:
+                    except Exception as detail:
                         log.error('Failed to regexp: ' + pattern + \
                                       '. Details: ' + str(detail))
                         continue
@@ -247,7 +265,7 @@ class UnitTestSuite(Testable):
                     if hasattr(self, 'tearDown'):
                         self.tearDown()
 
-                except Exception, _details:
+                except Exception as _details:
                     log.error('Test [' + self.__class__.__name__ \
                                   + ':' + test.__name__ + '] Failed',
                               exc_info = 1)
@@ -284,7 +302,7 @@ class TestRunner:
         initializeGarbageCollection()
 
         # Sort to resolve dependency order
-        runOrder = createOrderedList(self.suites)
+        runOrder = self.suites # TEMPORARY createOrderedList(self.suites)
 
         testsRun = 0
         problems = []
@@ -295,7 +313,7 @@ class TestRunner:
                 (runs, results) = suite.performTests(args)
                 testsRun += runs
                 problems += results
-            except Exception, _details:
+            except Exception as _details:
                 log.error('Failed')
                 ei = sys.exc_info()
                 message = formatException(ei)
@@ -304,8 +322,8 @@ class TestRunner:
 
         printSeparator()
 
-        log.info('Performed [' + `testsRun` + '] tests with [' + \
-                     `len(problems)` + '] issues.')
+        log.info('Performed [' + repr(testsRun) + '] tests with [' + \
+                     repr(len(problems)) + '] issues.')
 
         for problem in problems:
             log.error('------------------------------------------------------------------------')

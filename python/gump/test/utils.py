@@ -62,7 +62,7 @@ class UtilsTestSuite(UnitTestSuite):
         
     def testBeanAttributes(self):
         attrs=getBeanAttributes(TestBean())
-        self.assertNotEmpty('Ought be some', attrs)
+        self.assertNotEmptyDictionary('Ought be some', attrs)
         self.assertNotNone('Ought be one called X', attrs['X'])
         
     def testRandomStuff(self):

@@ -34,7 +34,7 @@ from gump.core.loader.loader import WorkspaceLoader
 def gurus(run,runs=1):
     
     for r in range(runs):   
-        print 'Perform run # ' + `r`
+        print('Perform run # ' + repr(r))
         log.info('Generate Statistic Guru')
         stats=StatisticsGuru(run.getWorkspace())
         log.info('Generate XRef Guru')

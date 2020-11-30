@@ -43,6 +43,7 @@ from gump.util import getIndent, getStringFromUnicode
 from gump.util.domutils import transferDomInfo, hasDomAttribute, \
     getDomAttributeValue, getDomTextValue, getDomChildIterator
 from gump.util.note import transferAnnotations
+from functools import reduce
 
 class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
     """ A Single project """
@@ -130,6 +131,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
         Resultable.__del__(self)
         Dependable.__del__(self)
         Positioned.__del__(self)
+
+    def __lt__(self, other):
+        return self.name < other.name
+
+    def __gt__(self, other):
+        return self.name > other.name
 
     def hasNotifys(self):
         """
@@ -311,12 +318,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
     def getOutputs(self):
         self.expand_outputs()
-        return reduce(lambda l1, l2: l1 + l2, self.outputs.itervalues(), [])
+        return reduce(lambda l1, l2: l1 + l2, iter(self.outputs.values()), [])
 
     def expand_outputs(self):
         """ expands glob patterns in output names """
         if (self.built or not self.hasBuilder()) and not self.outputs_expanded:
-            for l in self.outputs.itervalues():
+            for l in self.outputs.values():
                 for output in l:
                     path = output.getPath()
                     log.debug("glob expanding " + path)
@@ -841,13 +848,12 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
 
     def setModule(self, module):
         if self.module:
-            raise RuntimeError, \
-                'Project [' + self.name + '] already has a module set'
+            raise RuntimeError('Project [' + self.name + '] already has a module set')
         self.module = module
 
     def getModule(self):
         if not self.inModule():
-            raise RuntimeError, 'Project [' + self.name + '] not in a module.]'
+            raise RuntimeError('Project [' + self.name + '] not in a module.]')
         return self.module 
 
     def getWorkspace(self):
@@ -896,7 +902,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             self.languageType = Project.LANGUAGE_MAP[lang]
         except:
             message = 'Language %s not in supported %s.' \
-                % (lang, Project.LANGUAGE_MAP.keys())
+                % (lang, list(Project.LANGUAGE_MAP.keys()))
             self.addWarning(message)
             log.warning(message)
 
@@ -971,7 +977,7 @@ class Project(NamedModelObject, Statable, Resultable, Dependable, Positioned):
             self.addOutput(output)
 
         # ensure id is unique per output type
-        for output_type in self.outputs.keys():
+        for output_type in list(self.outputs.keys()):
             d = {}
             remove = []
             for o in self.outputs[output_type]:

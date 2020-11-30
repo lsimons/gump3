@@ -43,15 +43,15 @@ class NamedChildElementNodeIterator(AbstractChildNodeIterator):
         self.name=name
         self.iter=iter(element.childNodes)
         
-    def next(self):
-        nextNode=self.iter.next()
+    def __next__(self):
+        nextNode=next(self.iter)
         while nextNode:
             # Skip all but elements
             if nextNode.nodeType == xml.dom.Node.ELEMENT_NODE:
                 # Skip if not names as we want
                 if self.name==nextNode.tagName:
                     return nextNode
-            nextNode=self.iter.next()
+            nextNode=next(self.iter)
             
         # Ought never get here, either return the node
         # or StopIterator ought be thrown
@@ -88,7 +88,7 @@ def transferDomNameValue(target,name,value,mapping=None):
     
     # See what attribute we'd like to set with this
     attrName=name
-    if mapping and mapping.has_key(name): attrName=mapping[name]
+    if mapping and name in mapping: attrName=mapping[name]
         
     # We have somewhere to put this value... 
     if hasattr(target,attrName):
@@ -103,7 +103,7 @@ def transferDomNameValue(target,name,value,mapping=None):
                     value=False
             elif attrType is int:
                 value=int(value)            
-            elif attrType is str or attrType is unicode:
+            elif attrType is str or attrType is str:
                 pass
             else:
                 log.warn('Unknown Type %s for Attribute %s [on %s]' % (attrType, attrName, target))
@@ -160,7 +160,7 @@ def getDomChildIterator(element,name):
     return NamedChildElementNodeIterator(element,name)
     
 def dumpDom(dom):
-    print dom.toprettyxml()
+    print((dom.toprettyxml()))
     
 def hasDomAttribute(element,name):
     if element.hasAttributes():

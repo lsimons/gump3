@@ -20,7 +20,6 @@
 """
 
 from time import localtime, strftime, tzname
-from string import lower, capitalize
 
 from gump.core.model.state import *
 from gump.util.owner import *
@@ -189,12 +188,12 @@ class WorkList(list,Ownable):
     def add(self,item):
         
         if item.hasOwner():
-            raise RuntimeError, 'WorkItem already owned, can\'t add to list.'
+            raise RuntimeError('WorkItem already owned, can\'t add to list.')
         
         # Keep unique within the scope of this list
         name=item.getName()
         uniquifier=1
-        while self.nameIndex.has_key(name):
+        while name in self.nameIndex:
             name=item.getName()+str(uniquifier)
             uniquifier+=1
         item.setName(name)

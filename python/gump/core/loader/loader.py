@@ -40,7 +40,7 @@ class XmlLoader:
         """ Builds a GOM in memory from the xml file. Return the generated GOM. """
         
         if not os.path.exists(file):
-            raise IOError, 'Metadata file [%s] not found.' % file 
+            raise IOError('Metadata file [%s] not found.' % file) 
     
         return self.load(file,tag)
     
@@ -70,7 +70,7 @@ class XmlLoader:
 
         if not os.path.exists(file):
             log.error('Metadata file [' + file + '] not found')
-            raise IOError, 'Metadata File %s not found.' % file 
+            raise IOError('Metadata File %s not found.' % file) 
             
         dom=xml.dom.minidom.parse(file)
         
@@ -87,7 +87,7 @@ class XmlLoader:
         if tag:
             if not tag == xtag:
                 dom.unlink()
-                raise IOError, 'Incorrect XML Element, expected %s found %s.' % (tag,xtag)        
+                raise IOError('Incorrect XML Element, expected %s found %s.' % (tag,xtag))        
                 
         return dom
     
@@ -165,7 +165,7 @@ class XmlWorker:
             self.postProcess(task,dom)        
             
             task.setResult(XmlResult(dom))
-        except Exception, details:
+        except Exception as details:
             
             log.warning('Failed to parse XML %s : %s' % (task.getDescription(),details))
             
@@ -193,7 +193,7 @@ class XmlWorker:
             elif child.nodeType == xml.dom.Node.TEXT_NODE:
                 pass # log.debug("Skip Text: " + `child.nodeType`)          
             else:
-                log.debug("Skip Node: " + `child.nodeType` + ' ' + `child`)                       
+                log.debug("Skip Node: " + repr(child.nodeType) + ' ' + repr(child))                       
     
 class ModelLoader:
     """
@@ -246,8 +246,8 @@ class ModelLoader:
                 if parentObject:
                     object=parentObject.getObjectForTag(element.tagName,dom,name)
                     
-                    log.debug("Used parent: %s to get %s for <%s %s" %(`parentObject`,`object`,
-                                `element.tagName`,`name`))  
+                    log.debug("Used parent: %s to get %s for <%s %s" %(repr(parentObject),repr(object),
+                                repr(element.tagName),repr(name)))  
                 else:
                     # Just construct
                     if name: object=cls(name,dom)
@@ -273,7 +273,7 @@ class ModelLoader:
         #    transferAnnotations(parser, object)
         
         if not rootObject:
-            raise RuntimeError, 'Failed to extract %s from XML.' % cls.__name__
+            raise RuntimeError('Failed to extract %s from XML.' % cls.__name__)
         
         return rootObject
         

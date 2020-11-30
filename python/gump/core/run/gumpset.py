@@ -77,7 +77,7 @@ class GumpSet:
                         repositories=None ):
         self.workspace=workspace
         if not self.workspace:
-            raise RuntimeError, 'A non-None workspace is require'
+            raise RuntimeError('A non-None workspace is require')
             
         self.projectexpression=pexpr
         if not pexpr:
@@ -121,7 +121,7 @@ class GumpSet:
     # Validate a decent run
     def validate(self):
         if self.isEmpty():
-            raise RuntimeError, 'No projects match [' + self.projectexpression + ']'
+            raise RuntimeError('No projects match [' + self.projectexpression + ']')
         
     # No Projects
     def isEmpty(self):
@@ -250,7 +250,7 @@ class GumpSet:
         moduleTotal=len(sequence)
         for module in sequence:
             module.setTotal(moduleTotal)               
-            log.debug('Identify ' + module.getName() + ' at position #' + `module.getPosition()`)     
+            log.debug('Identify ' + module.getName() + ' at position #' + repr(module.getPosition()))     
           
         return sequence
   
@@ -274,7 +274,7 @@ class GumpSet:
         
         if not expr:expr='*'
         
-        log.debug('Extract projects for expression ['+`expr`+']')
+        log.debug('Extract projects for expression ['+repr(expr)+']')
         for project in self.workspace.getProjects():
             #log.debug('Evaluate ['+project.getName()+']')
             try:
@@ -283,7 +283,7 @@ class GumpSet:
                     try:
                         if pattern=="all": pattern='*'
                         if fnmatch.fnmatch(project.getName(),pattern): break                    
-                    except Exception, detail:
+                    except Exception as detail:
                         log.error('Failed to regexp: ' + pattern + '. Details: ' + str(detail))
                         continue
                 else:
@@ -291,7 +291,7 @@ class GumpSet:
                     continue
                 log.debug('Matched ['+project.getName()+'] using ['+pattern+']')
                 projects.append(project)
-            except Exception, detail:
+            except Exception as detail:
                 log.error('Failed to regexp: ' + expr + '. Details: ' + str(detail))
                 pass
         projects.sort()
@@ -341,14 +341,14 @@ class GumpSet:
                             break
                     else:
                         loop=", ".join([project.getName() for todoProject in todo])
-                        raise RuntimeError, "Circular Dependency Loop: " + str(loop) 
+                        raise RuntimeError("Circular Dependency Loop: " + str(loop)) 
                         
                         
         # Identify the size of overall sequence
         projectTotal=len(sequence)
         for project in sequence:
             project.setTotal(projectTotal)               
-            log.debug('Identify ' + project.getName() + ' at position #' + `project.getPosition()`)     
+            log.debug('Identify ' + project.getName() + ' at position #' + repr(project.getPosition()))     
                        
         return sequence
 

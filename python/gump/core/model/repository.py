@@ -69,7 +69,7 @@ class Repository(NamedModelObject, Statable):
         typeAttribute = self.getDomAttributeValue('type')
         self.scmType = scm_type_for_name(typeAttribute)
         if not self.scmType:
-            raise RuntimeError, 'Invalid Repository Type:' + str(typeAttribute)
+            raise RuntimeError('Invalid Repository Type:' + str(typeAttribute))
 
         if SCM_TYPE_CVS == self.scmType:
             self.web = self.getDomChildValue('web') or \
@@ -82,28 +82,32 @@ class Repository(NamedModelObject, Statable):
                 self.path = getDomChildValue(root, 'path')
                 self.hostname = getDomChildValue(root, 'hostname')
             else:
-                raise RuntimeError, 'No XML <root on repository: ' \
-                    + self.getName()
+                raise RuntimeError('No XML <root on repository: ' \
+                    + self.getName())
         elif SCM_TYPE_P4 == self.scmType:
             if self.hasDomChild('root'):
                 root = self.getDomChild('root')
                 self.p4port = getDomChildValue(root, 'hostname')
             else:
-                raise RuntimeError, 'No Perforce server on P4 repository: ' \
-                    + self.getName()
+                raise RuntimeError('No Perforce server on P4 repository: ' \
+                    + self.getName())
             self.web = self.getDomChildValue('web')
         else:
             if self.hasDomChild('url'):
                 self.url = self.getDomChildValue('url')
             else:
-                raise RuntimeError, 'No URL on ' + self.scmType.displayName + \
-                    ' repository: ' + self.getName()
+                raise RuntimeError('No URL on ' + self.scmType.displayName + \
+                    ' repository: ' + self.getName())
             self.web = self.getDomChildValue('web')
             self.user = self.getDomChildValue('user')
             self.password = self.getDomChildValue('password')
 
         # Modules referencing this repository
         self.modules = []
+
+    def __lt__(self, other):
+        return self.name < other.name
+
 
     def complete(self, workspace):
         pass

@@ -98,13 +98,13 @@ class GumpRun(gump.util.timing.Timeable,gump.util.work.Workable,gump.util.note.A
         self.outputsRepository=ArtifactRepository(workspace.repodir)
                   
         # Generate a GUID (or close)
-        import md5
+        import hashlib
         import socket        
-        m=md5.new()
+        m=hashlib.md5()
         self.guid = socket.getfqdn()  + ':' + workspace.getName() + ':' + default.datetime_s
-        m.update(self.guid)
+        m.update(self.guid.encode('utf-8'))
         self.hexguid=m.hexdigest().upper()     
-        self.log.info('Run GUID [' + `self.guid` + '] using [' + `self.hexguid` + ']')    
+        self.log.info('Run GUID [' + repr(self.guid) + '] using [' + repr(self.hexguid) + ']')    
         
         # Actor Queue
         self.actors=list()
@@ -167,34 +167,34 @@ class GumpRun(gump.util.timing.Timeable,gump.util.work.Workable,gump.util.note.A
         self.gumpSet.dump(indent+1,output)
        
     def registerActor(self,actor):
-        self.log.debug('Register Actor : ' + `actor`)
+        self.log.debug('Register Actor : ' + repr(actor))
         self.actors.append(actor)
         
     def logActors(self):
         self.log.debug('There are %s registered actors : ' % len(self.actors))       
         for actor in self.actors:
-            self.log.debug('Registered Actor : ' + `actor`)    
+            self.log.debug('Registered Actor : ' + repr(actor))    
             
         
     def _dispatchEvent(self,event):        
         """
             Perform the dispatch
         """
-        self.log.debug('Dispatch Event : ' + `event`)        
+        self.log.debug('Dispatch Event : ' + repr(event))        
         for actor in self.actors:
             #self.log.debug('Dispatch Event : ' + `event` + ' to ' + `actor`)     
             actor._processEvent(event)
-        gump.util.inspectGarbageCollection(`event`)
+        gump.util.inspectGarbageCollection(repr(event))
             
     def _dispatchRequest(self,request):
         """
             Perform the dispatch
         """
-        self.log.debug('Dispatch Request : ' + `request`)    
+        self.log.debug('Dispatch Request : ' + repr(request))    
         for actor in self.actors:
             #self.log.debug('Dispatch Request : ' + `request` + ' to ' + `actor`)       
             actor._processRequest(request)
-        gump.util.inspectGarbageCollection(`request`)
+        gump.util.inspectGarbageCollection(repr(request))
             
     def generateEvent(self,entity):
         """
@@ -271,7 +271,7 @@ class EntityRunEvent(RunEvent):
         self.realtime=realtime
             
     def __repr__(self):
-        return self.__class__.__name__ + ':' + `self.entity`
+        return self.__class__.__name__ + ':' + repr(self.entity)
         
     def getEntity(self):
         return self.entity 
@@ -306,7 +306,7 @@ class EntityRunRequest(RunEvent):
         self.entity=entity
         
     def __repr__(self):
-        return self.__class__.__name__ + ':' + `self.entity`
+        return self.__class__.__name__ + ':' + repr(self.entity)
         
     def getEntity(self):
         return self.entity 

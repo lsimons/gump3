@@ -20,7 +20,6 @@
 """
 
 from time import localtime, strftime, tzname
-from string import lower, capitalize
 
 from gump.util.work import *
 from gump.util.tools import *

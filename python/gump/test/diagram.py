@@ -26,7 +26,7 @@ from gump.tool.svg.depdiag import DependencyDiagram
 from gump.test import getWorkedTestRun
 from gump.test.pyunit import UnitTestSuite
 
-import StringIO
+import io
 
 class DiagramTestSuite(UnitTestSuite):
     def __init__(self):
@@ -53,7 +53,7 @@ class DiagramTestSuite(UnitTestSuite):
     def testScaleDiagramGeneration(self):
         diagram=ScaleDiagram([10,20])                
         svg=diagram.generateDiagram()
-        stream=StringIO.StringIO() 
+        stream=io.StringIO() 
         svg.serialize(stream)
         stream.close()
         

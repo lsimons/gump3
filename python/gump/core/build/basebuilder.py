@@ -90,7 +90,7 @@ class BaseBuilder(RunSpecific):
         """
         Build the project using the configured command.
         """
-        log.info('Run ' + self.name + ' on Project: #[' + `project.getPosition()` + \
+        log.info('Run ' + self.name + ' on Project: #[' + repr(project.getPosition()) + \
                      '] : ' + project.getName())
 
         self.pre_build(project, language, stats)

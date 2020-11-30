@@ -25,7 +25,6 @@ import time
 import os
 import sys
 from xml.sax.saxutils import escape
-from string import lower,replace
 
 from gump import log
 from gump.core.config import *
@@ -91,9 +90,9 @@ def getPathForObject(object,visited=None):
             path=getPathForObject(object.getOwner())
         else:
             dump(visited)
-            raise RuntimeError, "Circular visits acquiring path for :" + `object`
+            raise RuntimeError("Circular visits acquiring path for :" + repr(object))
     else:
-        raise RuntimeError, "Can't acquire path for :" + `object`
+        raise RuntimeError("Can't acquire path for :" + repr(object))
     
     return path
         
@@ -155,7 +154,7 @@ def getDocumentForObject(object, extn, visited=None):
     elif isinstance(object, Ownable) :
         document=getDocumentForObject(object.getOwner(),extn,visited)
     else:
-        raise RuntimeError, "Unable to determine document for:" + `object`
+        raise RuntimeError("Unable to determine document for:" + repr(object))
             
     return document
 
@@ -302,7 +301,7 @@ class XDocResolver(Resolver):
             description+=' with reason '+rdesc
         
         # Build the URL to the icon
-        iconName=gumpSafeName(lower(replace(sname,' ','_')))
+        iconName=gumpSafeName(sname.replace(' ','_').lower())
         url = self.getIconUrl(iconName+'.png',depth)
         
         return (url, description)

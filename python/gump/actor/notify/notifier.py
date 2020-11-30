@@ -26,8 +26,6 @@ import os
 import sys
 import logging
 
-from string import lower, capitalize
-
 from gump import log
 from gump.core.config import *
 from gump.core.run.gumprun import *
@@ -139,7 +137,7 @@ class Notifier(AbstractRunActor):
                          
                 self.notifyModule(module,notification)   
                     
-            except Exception, details:
+            except Exception as details:
                 log.error("Failed to send notify e-mails for module " + module.getName()\
                                     + " : " + str(details), exc_info=1)
                                      
@@ -154,7 +152,7 @@ class Notifier(AbstractRunActor):
                 log.info('Notify for project: ' + project.getName()) 
                 self.notifyProject(project,notification)   
                     
-            except Exception, details:
+            except Exception as details:
                 log.error("Failed to send notify e-mails for project " + project.getName()\
                                     + " : " + str(details), exc_info=1)
  
@@ -226,7 +224,7 @@ class Notifier(AbstractRunActor):
             
 The following %s notify%s should have been sent
 
-""" % (`count`, plural)
+""" % (repr(count), plural)
             
             content += SEPARATOR
             content += '\n'
@@ -274,7 +272,7 @@ The following %s notify%s should have been sent
         # Form the subject
         subject=self.workspace.prefix+	\
                 ': Module '+module.getName()+' '+	\
-                lower(stateDescription(module.getState()))
+                stateDescription(module.getState()).lower()
                     
         if notification.isWarning():
             subject += ', but with warnings.'
@@ -294,7 +292,7 @@ The following %s notify%s should have been sent
         # Form the subject
         subject=self.workspace.prefix+': Project '+ project.getName()	\
             + ' (in module ' + module.getName() + ') ' \
-            + lower(stateDescription(project.getState()))
+            + stateDescription(project.getState()).lower()
             
         if notification.isWarning():
             subject += ', but with warnings.'
@@ -371,7 +369,7 @@ The following %s notify%s should have been sent
                         self.workspace.mailserver,
                         self.workspace.mailport)  
                    
-        except Exception, details:
+        except Exception as details:
             sent=False
             log.error('Failed to send notify e-mail: ' + str(details), exc_info=1)
                         

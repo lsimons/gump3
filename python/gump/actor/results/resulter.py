@@ -28,8 +28,6 @@ import os
 import sys
 import logging
 
-from string import lower, capitalize
-
 from gump import log
 
 from gump.core.run.actor import *
@@ -71,7 +69,7 @@ class Resulter(AbstractRunActor):
             
     def getServerResultFor(self, server, object):
         results=self.getResultsForAllServers(object)
-        if results.has_key(server):
+        if server in results:
             return results[server]
         
     def getResultsForAllServers(self, object):
@@ -84,7 +82,7 @@ class Resulter(AbstractRunActor):
         # For all servers, extract any result
         for server in self.workspace.getServers():
             result=None
-            if self.serverResults.has_key(server):
+            if server in self.serverResults:
                 serverResults=self.serverResults[server]
                 if isinstance(object,NamedModelObject):
                     name=object.getName()
@@ -114,7 +112,7 @@ class Resulter(AbstractRunActor):
                 try:
                     if server.isPython():
                         results=self.loadResultsForServer(server)            
-                except Exception, details:
+                except Exception as details:
                     log.debug('Failed to load results for [' + str(server) + '] : ' \
                             + str(details), exc_info=1)
                             
@@ -191,7 +189,7 @@ class Resulter(AbstractRunActor):
         
         # Take just one string for each.
         (workspaceResults.timezone, dst)=self.run.getEnvironment().getTimezone()
-        workspaceResults.timezoneOffset=`self.run.getEnvironment().getTimezoneOffset()`
+        workspaceResults.timezoneOffset=repr(self.run.getEnvironment().getTimezoneOffset())
     
         # For all modules...
         for module in self.workspace.getModules():        

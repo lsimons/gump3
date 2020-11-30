@@ -27,8 +27,8 @@ import pstats
 SEP='--------------------------------------------------------------------'
 
 def title(t):
-    print SEP
-    print t
+    print(SEP)
+    print(t)
 
 def printStats(sort,percentage,t):    
     title(t)

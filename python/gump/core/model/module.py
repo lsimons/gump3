@@ -286,6 +286,12 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
 
         self.groupId = None
 
+    def __lt__(self, other):
+        return self.name < other.name
+
+    def __gt__(self, other):
+        return self.name > other.name
+
     def getObjectForTag(self, tag, dom, name = None):
         """
                 Get a new (or spliced) object for this tag
@@ -402,13 +408,13 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         if not packageCount:
             allPackaged = False
 
-        log.debug('Packaged? ' + `self` + ':' + `packageCount`)
+        log.debug('Packaged? ' + repr(self) + ':' + repr(packageCount))
 
         # Give this module a second try,  if some are packaged, and
         # check if the others have no outputs, then call them good.
         if packageCount and not allPackaged:
 
-            log.debug('Packaged? ' + `self` + ':' + `packageCount`)
+            log.debug('Packaged? ' + repr(self) + ':' + repr(packageCount))
 
             allPackaged = True
             for project in self.getProjects():
@@ -437,7 +443,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             self.setPackaged(True)
             self.changeState(STATE_COMPLETE, REASON_PACKAGE)
             self.addInfo("\'Packaged\' Module. (Packaged projects: " + \
-                                    `packageCount` + '.)')
+                                    repr(packageCount) + '.)')
 
         # Determine source directory
         self.absWorkingDir = \
@@ -540,7 +546,7 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
         name = project.getName()
 
         if self.hasProject(name):
-            raise RuntimeError, 'Attempt to add duplicate project: ' + name
+            raise RuntimeError('Attempt to add duplicate project: ' + name)
 
         # Reference this module as owner
         project.setModule(self)
@@ -555,17 +561,16 @@ class Module(NamedModelObject, Statable, Resultable, Positioned):
             otherProject = self.getOwner().getProject(name)
 
             if not project is otherProject:
-                raise RuntimeError, \
-                    'Attempt to add duplicate project (in module): ' + name
+                raise RuntimeError('Attempt to add duplicate project (in module): ' + name)
 
     def hasProject(self, name):
-        return self.projects.has_key(name)
+        return name in self.projects
 
     def getProject(self, name):
         return self.projects[name]
 
     def getProjects(self):
-        return self.projects.values()
+        return list(self.projects.values())
 
     def getSortedProjects(self):
         return self.sortedProjects

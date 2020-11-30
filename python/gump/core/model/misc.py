@@ -30,6 +30,9 @@ class Positioned:
         self.posn = -1
         self.total = -1
 
+    def __del__(self):
+        pass
+
     def setPosition(self, posn):
         """ Set this object's position (within some sequence) """
         self.posn = posn
@@ -54,6 +57,10 @@ class Resultable:
     def __init__(self): 
         pass
 
+    def __del__(self):
+        self.results=None
+        self.serverResults=None
+
     # Stats are loaded separately and cached on here, 
     # hence they may exist on an object at all times.
     def hasServerResults(self):
@@ -64,8 +71,8 @@ class Resultable:
 
     def getServerResults(self):
         if not self.hasServerResults():
-            raise RuntimeError, "ServerResults not available [yet]: " \
-                    + self.getName()
+            raise RuntimeError("ServerResults not available [yet]: " \
+                    + self.getName())
         return self.serverResults
 
 
@@ -79,8 +86,8 @@ class Resultable:
 
     def getResults(self):
         if not self.hasResults():
-            raise RuntimeError, "Results not available [yet]: " \
-                    + self.getName()
+            raise RuntimeError("Results not available [yet]: " \
+                    + self.getName())
         return self.results
 
 class Resolvable(ModelObject):

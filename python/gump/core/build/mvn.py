@@ -133,7 +133,7 @@ class MavenBuilder(BaseBuilder):
         if cmd:
             # Get/set JVM properties
             jvmargs = language.getJVMArgs(project)
-            if jvmargs and len(jvmargs.items()) > 0:
+            if jvmargs and len(list(jvmargs.items())) > 0:
                 cmd.addEnvironment('MAVEN_OPTS', jvmargs.formatCommandLine())
         return cmd
 
@@ -150,7 +150,7 @@ class MavenBuilder(BaseBuilder):
                 log.error('Display Settings [ ' + settings + \
                           '] Failed', exc_info=1)
 
-        except Exception, details:
+        except Exception as details:
             message = 'Generate Maven Settings Failed:' + str(details)
             log.error(message, exc_info=1)
             project.addError(message)

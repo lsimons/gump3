@@ -25,7 +25,6 @@ import os
 import sys
 import logging
 from xml.sax.saxutils import escape
-from string import lower,replace
 
 from gump import log
 from gump.core.config import *
@@ -190,7 +189,7 @@ class FileSpecification:
         return self.__str__()
         
     def __str__(self):
-        return `self.root`+':'+`self.path`+':'+`self.document`
+        return repr(self.root)+':'+repr(self.path)+':'+repr(self.document)
         
     def setRoot(self,root):
         self.root=root
@@ -241,7 +240,7 @@ class Location(FileSpecification):
         return self.__str__()
         
     def __str__(self):
-        return FileSpecification.__str__(self)+':'+`self.index`
+        return FileSpecification.__str__(self)+':'+repr(self.index)
         
     def setIndex(self,index):
         self.index=index
@@ -291,7 +290,7 @@ class Resolver:
     # Skeleton
     
     def getDirectoryRelativePath(self,object):
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getDirectoryRelativePath.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getDirectoryRelativePath.')
         
     def getDirectoryPath(self,object):
         path=self.getDirectoryRelativePath(object)
@@ -303,16 +302,16 @@ class Resolver:
         return os.path.join(self.xdocsDir,path.serialize())
         
     def getFileSpec(self,object,documentName=None,extn=None,rawContent=False):  
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getFileSpec.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getFileSpec.')
         
     def getFile(self,object,documentName=None,extn=None,rawContent=False):  
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getFile.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getFile.')
         
     def getDirectoryUrl(self,object): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getDirectoryUrl.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getDirectoryUrl.')
            
     def getUrl(self,object,documentName=None,extn=None): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getUrl.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getUrl.')
         
     def getAbsoluteUrlForRelative(self,relativeToRoot):
         """
@@ -321,16 +320,16 @@ class Resolver:
         return concatenateUrl(self.rootUrl,relativeToRoot)    
         
     def getStateIconInformation(self,statePair): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getStateIconInformation.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getStateIconInformation.')
          
     def getAbsoluteImageUrl(self,name):
         return self.getAbsoluteFromRelative(self.getImageUrl(name))
         
     def getImageUrl(self,name,depth=0): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getImageUrl.'    
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getImageUrl.')    
            
     def getAbsoluteIconUrl(self,name):
         return self.getAbsoluteFromRelative(self.getIconUrl(name))
         
     def getIconUrl(self,name,depth=0): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getIconUrl.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getIconUrl.')

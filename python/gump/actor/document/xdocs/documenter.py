@@ -21,7 +21,7 @@
 """
 
 import os
-import StringIO
+import io
 import sys
 import time
 
@@ -193,7 +193,7 @@ class XDocDocumenter(Documenter):
                 # Sync over public pages...
                 copyDirectories(workContents, logContents)
         except:
-            log.error('--- Failed to sync [' + `objDir` + '] (work->log)',
+            log.error('--- Failed to sync [' + repr(objDir) + '] (work->log)',
                       exc_info = 1)
             success = False
 
@@ -211,7 +211,7 @@ class XDocDocumenter(Documenter):
                     # Sync over public pages...
                     copyDirectories(workContents, logContents)
             except:
-                log.error('--- Failed to sync xdocs [' + `objDir` + \
+                log.error('--- Failed to sync xdocs [' + repr(objDir) + \
                               '] (work->log)', exc_info = 1)
                 success = False
 
@@ -348,9 +348,9 @@ class XDocDocumenter(Documenter):
                   'Results':'Generate Results' }
 
         # iterate over this suites properties
-        for (name, value) in getBeanAttributes(options).items():
+        for (name, value) in list(getBeanAttributes(options).items()):
             desc = name
-            if descs.has_key(name):
+            if name in descs:
                 desc = descs[name] + ' (' + name + ')'
             optTable.createEntry(desc, value)
             opts += 1
@@ -371,7 +371,7 @@ class XDocDocumenter(Documenter):
         envTable = propertiesSection.createTable(['Name/Description', 'Value'])
         envs = 0
         # iterate over this suites properties
-        for (name, value) in getBeanAttributes(environment).items():
+        for (name, value) in list(getBeanAttributes(environment).items()):
             envTable.createEntry(name, str(value))
             envs += 1
         if not envs:
@@ -486,7 +486,7 @@ class XDocDocumenter(Documenter):
                                 spec.getFile(),
                                 self.config,
                                 spec.getRootPath())
-        stream = StringIO.StringIO()
+        stream = io.StringIO()
         texter = TextDocumenter(self.run, stream)
         texter.document()
         stream.seek(0)
@@ -501,10 +501,10 @@ class XDocDocumenter(Documenter):
                                     spec.getFile(),
                                     self.config,
                                     spec.getRootPath())
-            stream = StringIO.StringIO()
+            stream = io.StringIO()
             try:
                 self.workspace.dom.writexml(stream, indent = '   ', newl = '\n')
-            except Exception, details:
+            except Exception as details:
                 stream.write('Failed to XML serialize the data. ' \
                                  + str(details))
             stream.seek(0)
@@ -615,15 +615,15 @@ class XDocDocumenter(Documenter):
 
         # Does this self.workspace send notification (nag) mails?
         detailsTable.createEntry("Send Notification E-mails: ",
-                                 `self.workspace.isNotify()`)
+                                 repr(self.workspace.isNotify()))
 
         detailsTable.createEntry("Multi-threading: ",
-                                 `self.workspace.isMultithreading()`)
+                                 repr(self.workspace.isMultithreading()))
         if self.workspace.isMultithreading():
             detailsTable.createEntry("Updater Threads: ",
-                                     `self.workspace.getUpdaters()`)
+                                     repr(self.workspace.getUpdaters()))
             detailsTable.createEntry("Builder Threads: ",
-                                     `self.workspace.getBuilders()`)
+                                     repr(self.workspace.getBuilders()))
 
         #document.createRaw('<p><strong>Context Tree:</strong> ' + \
         #                       '<link href=\'workspace.html\'>workspace' + \
@@ -1504,7 +1504,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         if repo.hasHostname():
             detailList.createEntry('Hostname: ', repo.getHostname())
 
-        detailList.createEntry('Redistributable: ', `repo.isRedistributable()`)
+        detailList.createEntry('Redistributable: ', repr(repo.isRedistributable()))
 
         self.documentXML(document, repo)
 
@@ -1930,7 +1930,7 @@ This page helps Gumpmeisters (and others) observe community progress.
 
         if project.isSpliced():
             detailsList.createEntry('Metadata formed from multiple XML ' + \
-                                        'pieces: ', `project.isSpliced()`)
+                                        'pieces: ', repr(project.isSpliced()))
 
         if project.hasHomeDirectory():
             detailsList.createEntry('Home Directory: ',
@@ -1949,7 +1949,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             detailsList.createEntry("Elapsed: ", e)
 
         detailsList.createEntry('Redistributable: ',
-                                `project.isRedistributable()`)
+                                repr(project.isRedistributable()))
 
         # Display nag information
         if project.hasNotifys():
@@ -2410,7 +2410,7 @@ This page helps Gumpmeisters (and others) observe community progress.
             # If we know state on the other server.
             statePair = None
             utcTime = None
-            if serverResults and serverResults.has_key(server):
+            if serverResults and server in serverResults:
                 results = serverResults[server]
                 if results:
                     statePair = results.getStatePair()
@@ -2480,10 +2480,10 @@ This page helps Gumpmeisters (and others) observe community progress.
             return
 
         xmlSection = xdocNode.createSection('Definition')
-        stream = StringIO.StringIO()
+        stream = io.StringIO()
         try:
             dom.writexml(stream, indent = '   ', newl = '\n')
-        except Exception, details:
+        except Exception as details:
             stream.write('Failed to XML serialize the data. ' + str(details))
         stream.seek(0)
         xmldata = stream.read()
@@ -2660,13 +2660,13 @@ This page helps Gumpmeisters (and others) observe community progress.
             #
             if work.command.params:
                 title = 'Parameter'
-                if len(work.command.params.items()) > 1:
+                if len(list(work.command.params.items())) > 1:
                     title += 's'
                 parameterSection = wdocument.createSection(title)
                 parameterTable = parameterSection.createTable(['Prefix',
                                                                'Name', 'Value'])
 
-                for param in work.command.params.items():
+                for param in list(work.command.params.items()):
                     paramRow = parameterTable.createRow()
                     paramRow.createData(param.prefix or '')
 
@@ -2686,7 +2686,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                 envSection = wdocument.createSection('Environment Overrides')
                 envTable = envSection.createTable(['Name', 'Value'])
 
-                for (name, value) in work.command.env.iteritems():
+                for (name, value) in list(work.command.env.items()):
                     envRow = envTable.createRow()
                     envRow.createData(name)
                     if value:
@@ -2776,7 +2776,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                             if o:
                                 o.close()
 
-                except Exception, details:
+                except Exception as details:
                     outputSection.createParagraph('Failed to copy contents ' + \
                                                       'from :' + output + \
                                                       ' : ' + str(details))
@@ -2909,7 +2909,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 finally:
                                     if o:
                                         o.close()
-                        except Exception, details:
+                        except Exception as details:
                             outputSection.createParagraph('Failed to copy ' + \
                                                               'contents from :'\
                                                               + output + ' : ' \
@@ -2917,7 +2917,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                     else:
                         outputSection\
                             .createParagraph('No contents in this file.')
-            except Exception, details:
+            except Exception as details:
                 fdocument.createWarning('Failed documeting file or ' + \
                                             'directory. %s' % details)
         else:
@@ -3657,7 +3657,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                 spec.getRootPath())
 
         repoMap = xref.getRepositoryToModuleMap()
-        repoList = createOrderedList(repoMap.keys())
+        repoList = createOrderedList(list(repoMap.keys()))
         rcount = 0
         if repoList:
             for repo in repoList:
@@ -3696,7 +3696,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         packageTable = document.createTable(['Modules By Package'])
 
         packageMap = xref.getPackageToModuleMap()
-        for package in createOrderedList(packageMap.keys()):
+        for package in createOrderedList(list(packageMap.keys())):
 
             moduleList = createOrderedList(packageMap.get(package))
 
@@ -3733,7 +3733,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         descriptionTable = document.createTable(['Modules By Description'])
 
         descriptionMap = xref.getDescriptionToModuleMap()
-        for description in createOrderedList(descriptionMap.keys()):
+        for description in createOrderedList(list(descriptionMap.keys())):
 
             moduleList = createOrderedList(descriptionMap.get(description))
 
@@ -3769,7 +3769,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         packageTable = document.createTable(['Projects By Package'])
 
         packageMap = xref.getPackageToProjectMap()
-        for package in createOrderedList(packageMap.keys()):
+        for package in createOrderedList(list(packageMap.keys())):
 
             projectList = createOrderedList(packageMap.get(package))
 
@@ -3805,7 +3805,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         descriptionTable = document.createTable(['Projects By Description'])
 
         descriptionMap = xref.getDescriptionToProjectMap()
-        for description in createOrderedList(descriptionMap.keys()):
+        for description in createOrderedList(list(descriptionMap.keys())):
 
             projectList = createOrderedList(descriptionMap.get(description))
 
@@ -3843,7 +3843,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                                 '(e.g. Outputs)'])
 
         outputMap = xref.getOutputToProjectMap()
-        for output in createOrderedList(outputMap.keys()):
+        for output in createOrderedList(list(outputMap.keys())):
 
             projectList = createOrderedList(outputMap.get(output))
 
@@ -3879,7 +3879,7 @@ This page helps Gumpmeisters (and others) observe community progress.
         outputTable = document.createTable(['Projects By Output Identifiers'])
 
         outputMap = xref.getOutputIdToProjectMap()
-        for outputId in createOrderedList(outputMap.keys()):
+        for outputId in createOrderedList(list(outputMap.keys())):
 
             projectList = createOrderedList(outputMap.get(outputId))
 
@@ -3916,7 +3916,7 @@ This page helps Gumpmeisters (and others) observe community progress.
                                                   'Location'])
 
         descLocnMap = xref.getDescriptorLocationToProjectMap()
-        for descLocn in createOrderedList(descLocnMap.keys()):
+        for descLocn in createOrderedList(list(descLocnMap.keys())):
 
             projectList = createOrderedList(descLocnMap.get(descLocn))
 

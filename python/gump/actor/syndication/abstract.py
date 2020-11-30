@@ -39,24 +39,24 @@ class AbstractSyndicator(RunSpecific):
     # Call a method called 'prepareRun(run)'
     def prepare(self):
         if not hasattr(self,'prepareRun'):
-            raise RuntimeError, 'Complete [' + `self.__class__` + '] with prepareRun(self)'
+            raise RuntimeError('Complete [' + repr(self.__class__) + '] with prepareRun(self)')
         
         if not callable(self.prepareRun):
-            raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable prepareRun()'
+            raise RuntimeException('Complete [' + repr(self.__class__) + '] with a callable prepareRun()')
         
-        log.info('Syndicate run using [' + `self` + ']')
+        log.info('Syndicate run using [' + repr(self) + ']')
         
         self.prepareRun()
 
     # Call a method called 'completeRun(run)'
     def complete(self):
         if not hasattr(self,'completeRun'):
-            raise RuntimeError, 'Complete [' + `self.__class__` + '] with completeRun(self)'
+            raise RuntimeError('Complete [' + repr(self.__class__) + '] with completeRun(self)')
         
         if not callable(self.completeRun):
-            raise RuntimeException, 'Complete [' + `self.__class__` + '] with a callable completeRun()'
+            raise RuntimeException('Complete [' + repr(self.__class__) + '] with a callable completeRun()')
         
-        log.info('Syndicate run using [' + `self` + ']')
+        log.info('Syndicate run using [' + repr(self) + ']')
         
         self.completeRun()
 
@@ -74,7 +74,7 @@ class AbstractSyndicator(RunSpecific):
                                 
         content += self.getStateContent(project.getStatePair(), getDepthForObject(project))
                         
-        content += 'Duration in state: <b>' + `stats.sequenceInState` + '</b> (runs) '
+        content += 'Duration in state: <b>' + repr(stats.sequenceInState) + '</b> (runs) '
         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:
@@ -108,7 +108,7 @@ class AbstractSyndicator(RunSpecific):
                                     
         content += self.getStateContent(module.getStatePair(), getDepthForObject(module))
         
-        content += 'Duration in state: <b>' + `stats.sequenceInState`  + '</b> (runs)'
+        content += 'Duration in state: <b>' + repr(stats.sequenceInState)  + '</b> (runs)'
                         
         if not stats.previousState == STATE_NONE \
             and not stats.previousState == STATE_UNSET:

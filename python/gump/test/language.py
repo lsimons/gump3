@@ -23,7 +23,7 @@
 
 import os
 import logging
-import types, StringIO
+import types, io
 
 from gump import log
 
@@ -115,9 +115,9 @@ class LanguageTestSuite(UnitTestSuite):
         
     def testClasspathOnDepend(self):
         for depend in self.project3.getDirectDependencies():
-            print "Depend:" + `depend`        
+            print("Depend:" + repr(depend))        
         else:
-            print 'No p3 deps:'
+            print('No p3 deps:')
             
         self.assertTrue('<ant <depend gives full dependency (classpath)', \
                 self.project3.hasFullDependencyOnNamedProject('project1'))

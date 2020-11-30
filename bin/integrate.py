@@ -77,7 +77,7 @@ def irun():
     options.setQuick(False)
     options.setCache(False)
     
-    if not os.environ.has_key('GUMP_WORK_OFFLINE'):
+    if 'GUMP_WORK_OFFLINE' not in os.environ:
       options.setObjectives(gump.core.run.options.OBJECTIVE_INTEGRATE)
     else:
       options.setCache(True)

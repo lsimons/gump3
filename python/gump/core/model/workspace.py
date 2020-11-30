@@ -19,7 +19,6 @@
 """
 
 from time import localtime, strftime, tzname
-from string import lower, capitalize
 
 from gump.util.work import *
 from gump.util.tools import *
@@ -140,26 +139,26 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     
     # Repository Interface    
     def hasRepository(self,rname):
-        return self.repositories.has_key(rname)
+        return rname in self.repositories
         
     def getRepository(self,rname):
         return self.repositories[rname]
         
     def getRepositories(self):
-        return self.repositories.values()
+        return list(self.repositories.values())
         
     def getSortedRepositories(self):
         return self.sortedRepositories
 
     # Server Interface    
     def hasServer(self,rname):
-        return self.servers.has_key(rname)
+        return rname in self.servers
         
     def getServer(self,rname):
         return self.servers[rname]
         
     def getServers(self):
-        return self.servers.values()
+        return list(self.servers.values())
         
     def getPythonServers(self):
         """
@@ -179,44 +178,44 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
 
     # Tracker Interface    
     def hasTracker(self,rname):
-        return self.trackers.has_key(rname)
+        return rname in self.trackers
         
     def getTracker(self,rname):
         return self.trackers[rname]
         
     def getTrackers(self):
-        return self.trackers.values()
+        return list(self.trackers.values())
         
     def getSortedTrackers(self):
         return self.sortedTrackers
 
     # Profile Interface        
     def hasProfile(self,mname):
-        return self.profiles.has_key(mname)
+        return mname in self.profiles
         
     def getProfile(self,mname):
         return self.profiles.get(mname,None)
 
     def getProfiles(self):
-        return self.profiles.values()              
+        return list(self.profiles.values())              
                 
     def getSortedProfiles(self):
         return self.sortedProfiles   
                 
     # Module Interface        
     def hasModule(self,mname):
-        return self.modules.has_key(mname)
+        return mname in self.modules
         
     def addModule(self,module):
         if self.hasModule(name):
-            raise RuntimeError, 'Attempt to add duplicate module: ' + name    
+            raise RuntimeError('Attempt to add duplicate module: ' + name)    
         self.modules[module.getName()]=module
         
     def getModule(self,mname):
         return self.modules.get(mname,None)
 
     def getModules(self):
-        return self.modules.values()              
+        return list(self.modules.values())              
                 
     def getSortedModules(self):
         return self.sortedModules   
@@ -225,19 +224,19 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
     # through the owning modules)
                 
     def hasProject(self,pname):
-        return self.projects.has_key(pname)
+        return pname in self.projects
         
     def addProject(self,project):
         name=project.getName()
         if self.hasProject(name):
-            raise RuntimeError, 'Attempt to add duplicate project: ' + name    
+            raise RuntimeError('Attempt to add duplicate project: ' + name)    
         self.projects[name]=project
         
     def getProject(self,pname):
         return self.projects[pname]
                 
     def getProjects(self):
-        return self.projects.values() 
+        return list(self.projects.values()) 
                 
     def getSortedProjects(self):
         return self.sortedProjects       
@@ -306,7 +305,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
                             'banner-link' :'bannerLink'})
     
         if not self.basedir:
-            raise RuntimeError, "A workspace cannot operate without a 'basedir'."
+            raise RuntimeError("A workspace cannot operate without a 'basedir'.")
             
         if not self.tmpdir: self.tmpdir=os.path.join(self.getBaseDirectory(),"tmp")
         if not self.logdir: self.logdir=os.path.join(self.getBaseDirectory(),"log")
@@ -324,19 +323,19 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         PropertyContainer.importProperties(self,self.element)        
         
         # Complete all profiles
-        for profile in self.profiles.values(): 
+        for profile in list(self.profiles.values()): 
             profile.complete(self)
             
         # Complete all repositories
-        for repository in self.repositories.values(): 
+        for repository in list(self.repositories.values()): 
             repository.complete(self)
 
         # Complete all servers
-        for server in self.servers.values(): 
+        for server in list(self.servers.values()): 
             server.complete(self)
 
         # Complete all trackers
-        for tracker in self.trackers.values(): 
+        for tracker in list(self.trackers.values()): 
             tracker.complete(self)
 
         # Complete the modules
@@ -444,7 +443,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         output.write('Workspace : \n')
         NamedModelObject.dump(self, indent+1, output)
         
-        for profile in self.profiles.values():
+        for profile in list(self.profiles.values()):
             profile.dump(indent+2,output)            
         
         for module in self.getModules():
@@ -453,7 +452,7 @@ class Workspace(NamedModelObject, PropertyContainer, Statable, Resultable):
         for project in self.getProjects():
             project.dump(indent+2,output)
         
-        for repo in self.repositories.values():
+        for repo in list(self.repositories.values()):
             repo.dump(indent+2,output)
             
         for server in self.getServers():

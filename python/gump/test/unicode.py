@@ -20,7 +20,7 @@
 
 import os
 import logging
-import types, StringIO
+import types, io
 from xml.sax.saxutils import escape
 
 from gump import log

@@ -51,7 +51,7 @@ class WorkspaceResultLoader:
 
       if not os.path.exists(file):
         log.error('WorkspaceResult metadata file ['+file+'] not found')
-        raise IOError, """WorkspaceResult %s not found!""" % file 
+        raise IOError("""WorkspaceResult %s not found!""" % file) 
     
       log.debug("Launch DOM Parser onto : " + file);
               

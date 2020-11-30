@@ -25,8 +25,6 @@ import logging
 import signal
 import re
 
-from string import split
-
 from gump import log
 from gump.core.config import dir
 from gump.util import *
@@ -76,7 +74,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
                 if cmd.timeout: f.write( 'TIMEOUT: %s\n' % (cmd.timeout))    
                 
             # Write ENV over-writes...
-            for envKey in cmd.env.iterkeys(): f.write('%s: %s\n' % (envKey, cmd.env[envKey]))    
+            for envKey in cmd.env.keys(): f.write('%s: %s\n' % (envKey, cmd.env[envKey]))    
         finally:
             # Since we may exit via an exception, close explicitly.
             if f: f.close()    
@@ -175,7 +173,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
             else:
                 result.state = command.CMD_STATE_SUCCESS                
      
-      except Exception, details :
+      except Exception as details :
           log.error('Failed to launch command. Details: ' + str(details), exc_info=1) 
           result.exit_code = -1
           result.state = command.CMD_STATE_FAILED
@@ -211,7 +209,7 @@ def shutdownProcessAndProcessGroup(pid):
             os.killpg(pgrpID,signal.SIGKILL)
         else:
             log.warn('No such PID' + str(pid) + '.')    
-    except Exception, details:
+    except Exception as details:
         log.error('Failed to dispatch signal ' + str(details), exc_info=1)
         
         
@@ -223,7 +221,7 @@ def shutdownProcesses():
     log.warn('Kill all child processed (anything launched by PID %s)' % (pid))    
     try:
         os.kill(pid,signal.SIGKILL)
-    except Exception, details:
+    except Exception as details:
         log.error('Failed to dispatch signal ' + str(details), exc_info=1)
          
 def runProcess(execFilename,standaloneProcess=1):
@@ -233,7 +231,7 @@ def runProcess(execFilename,standaloneProcess=1):
     """
     execFile = None
     try:
-        execFile = file(execFilename,'r')
+        execFile = open(execFilename,'r')
     
         # Split into a dict of NAME: VALUE (from file)
         execInfo = dict(re.findall('(.*?): (.*)', execFile.read()))
@@ -245,10 +243,10 @@ def runProcess(execFilename,standaloneProcess=1):
         cmd = execInfo['CMD']
         outputFile = execInfo['OUTPUT']
         cwd = None
-        if execInfo.has_key('CWD'): cwd = execInfo['CWD']
+        if 'CWD' in execInfo: cwd = execInfo['CWD']
         tmp = execInfo['TMP']
         timeout = 0
-        if execInfo.has_key('TIMEOUT'): timeout = int(execInfo['TIMEOUT'])
+        if 'TIMEOUT' in execInfo: timeout = int(execInfo['TIMEOUT'])
        
         # Make the TMP if needed
         if not os.path.exists(tmp): os.makedirs(tmp)
@@ -260,7 +258,7 @@ def runProcess(execFilename,standaloneProcess=1):
           os.chdir(cwdpath)
        
         # Write ENV over-writes...
-        for envKey in execInfo.iterkeys():
+        for envKey in execInfo.keys():
             if not envKey in ['CMD','TMP','CWD']:
                 os.environ[envKey] = execInfo[envKey]
                

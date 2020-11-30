@@ -42,11 +42,11 @@ export HOST_LOCAL_PRE_RUN=local-pre-run-${GUMP_HOST}.sh
 export HOST_LOCAL_POST_RUN=local-post-run-${GUMP_HOST}.sh
 
 if [ "" == "$GUMP_PYTHON" ] ; then
-  export GUMP_PYTHON="`which python2`"
+  export GUMP_PYTHON="`which python3`"
   if [ "" == "$GUMP_PYTHON" ] ; then
     export GUMP_PYTHON="`which python`"
 	if [ "" == "$GUMP_PYTHON" ] ; then
-	    echo "No Python (python2 nor python) found in path."
+	    echo "No Python (python3 nor python) found in path."
 	 	exit 1
     fi
   fi

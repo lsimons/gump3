@@ -26,7 +26,7 @@ class Ownable:
     """Contains ownership """
     def __init__(self,owner=None):
         if self == owner:
-            raise RuntimeError, "Can set owner to self on " + `self`
+            raise RuntimeError("Can set owner to self on " + repr(self))
         self.owner=owner
     
     def __del__(self):
@@ -37,7 +37,7 @@ class Ownable:
         
     def setOwner(self,owner):
         if self == owner:
-            raise RuntimeError, "Can set owner to self on " + `self`
+            raise RuntimeError("Can set owner to self on " + repr(self))
         self.owner=owner
         
     def getOwner(self):
@@ -46,10 +46,10 @@ class Ownable:
     def displayOwnership(self,visited=None):
         if not visited: visited=[]
         if self in visited: 
-            log.error('Circular path @ ' + `self`)
+            log.error('Circular path @ ' + repr(self))
             return
         visited.append(self)
-        log.info(getIndent(len(visited))+`self`)
+        log.info(getIndent(len(visited))+repr(self))
         if self.hasOwner():
             self.getOwner().displayOwnership(visited)
         return         

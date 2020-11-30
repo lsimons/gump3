@@ -31,7 +31,6 @@ import os
 import sys
 import logging
 from xml.sax.saxutils import escape
-from string import lower,replace
 
 from gump import log
 from gump.core.config import *
@@ -62,22 +61,22 @@ class TextResolver(Resolver):
         return self.getRootDir()
         
     def getFile(self,object,documentName=None,extn=None,rawContent=False):  
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getFile.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getFile.')
         
     def getDirectoryUrl(self,object): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getDirectoryUrl.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getDirectoryUrl.')
            
     def getUrl(self,object,documentName=None,extn=None): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getUrl.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getUrl.')
         
     def getDirectoryUrl(self,object): 
         return self.rootUrl
    
     def getStateIconInformation(self,statePair): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getStateIconInformation.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getStateIconInformation.')
         
     def getImageUrl(self,name,depth=0): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getIconUrl.'   
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getIconUrl.')   
              
     def getIconUrl(self,name,depth=0): 
-        raise RuntimeError, 'Not Implemented on ' + self.__class__.__name__ + ': getImageUrl.'
+        raise RuntimeError('Not Implemented on ' + self.__class__.__name__ + ': getImageUrl.')

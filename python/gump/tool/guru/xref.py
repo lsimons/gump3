@@ -57,7 +57,7 @@ class XRefGuru:
         for module in self.workspace.getModules():
             repository=module.getRepository()
             if repository:
-                if not self.repositoryToModule.has_key(repository):
+                if not repository in self.repositoryToModule:
                     self.repositoryToModule[repository]=[]
                 
                 # Store
@@ -68,10 +68,10 @@ class XRefGuru:
             for project in module.getProjects():
                 if project.hasPackageNames():
                     for packageName in project.getPackageNames():
-                        if not self.packageToModule.has_key(packageName):
+                        if not packageName in self.packageToModule:
                                 self.packageToModule[packageName]=[]
             
-                        if not self.packageToProject.has_key(packageName):
+                        if not packageName in self.packageToProject:
                                 self.packageToProject[packageName]=[]
                 
                         # Store
@@ -86,7 +86,7 @@ class XRefGuru:
             
             moduleDescription=module.getDescription()
             if moduleDescription:
-                if not self.descriptionToModule.has_key(moduleDescription):
+                if not moduleDescription in self.descriptionToModule:
                     self.descriptionToModule[moduleDescription]=[]
             
                 if not module in self.descriptionToModule[moduleDescription]:
@@ -96,7 +96,7 @@ class XRefGuru:
                 
                 projectDescription=project.getDescription()
                 if projectDescription:
-                    if not self.descriptionToProject.has_key(projectDescription):
+                    if not projectDescription in self.descriptionToProject:
                         self.descriptionToProject[projectDescription]=[]
                     
                     if not project in self.descriptionToProject[projectDescription]:
@@ -112,11 +112,11 @@ class XRefGuru:
                         outputId=output.getId() or 'No Identifier'
                         
                         # Create a list to hold multiple (if needed)          
-                        if not self.outputToProject.has_key(outputName):
+                        if not outputName in self.outputToProject:
                             self.outputToProject[outputName]=[]
                         
                         # Create a list to hold multiple (if needed)          
-                        if not self.outputIdToProject.has_key(outputId):
+                        if not outputId in self.outputIdToProject:
                             self.outputIdToProject[outputId]=[]
                     
                         # Store the Project
@@ -133,7 +133,7 @@ class XRefGuru:
                 # print project.getName() + ' : Metadata Location = ' + metadataLocation + "\n";
                 
                 if metadataLocation:          
-                    if not self.descriptorLocationToProject.has_key(metadataLocation):
+                    if not metadataLocation in self.descriptorLocationToProject:
                         self.descriptorLocationToProject[metadataLocation]=[]
                     
                     if not project in self.descriptorLocationToProject[metadataLocation]:

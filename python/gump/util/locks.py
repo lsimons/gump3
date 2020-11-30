@@ -40,11 +40,10 @@ def acquireLock(lockFile):
         lock=open(lockFile,'w')
             
     if failed:
-        raise RuntimeError, \
-            """The lock file [%s] could not be established.""" % lockFile
+        raise RuntimeError("""The lock file [%s] could not be established.""" % lockFile)
     
     # Write this PID into a lock file
-    lock.write(`os.getpid()`)
+    lock.write(repr(os.getpid()))
     lock.flush()
         
     return lock
