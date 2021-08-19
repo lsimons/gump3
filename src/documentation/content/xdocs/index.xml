@@ -160,7 +160,7 @@ Gump project maintains its own dedicated server.
       <tr>
         <td><fork href="http://vmgump.apache.org/">Apache
             (vmgump - Ubuntu Linux 18.04)</fork> </td>
-        <td>Oracle Java 8</td>
+        <td>OpenJDK 11</td>
         <td>up to 4 times daily</td>
       </tr>
       <!--tr>

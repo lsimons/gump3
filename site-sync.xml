@@ -41,7 +41,7 @@
         <include name="**/.svn/**"/>
         <include name="doap_Gump.rdf"/>
         <include name="images/gump-logo.png"/>
-        <include name="repoproxy-0.5.zip"/>
+        <include name="repoproxy-*.zip"/>
       </preserveInTarget>
 
     </sync>
