@@ -56,6 +56,9 @@
                       label="Reporting Security Issues"/>
             <whoweare href="whoweare.html" label="Who We Are"/>
             <bylaws href="bylaws.html" label="Project Bylaws"/>
+            <privacy
+                href="https://privacy.apache.org/policies/privacy-policy-public.html"
+                label="Privacy Policy"/>
 	</getinvolved>
 
         <sponsorship label="Sponsorship">
