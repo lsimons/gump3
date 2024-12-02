@@ -27,7 +27,7 @@ def maybe_make_quiet(module, cmd):
     if should_be_quiet(module):    
         cmd.addParameter('--quiet')
 
-BRANCH_REGEX = re.compile('^\* (.*)$', re.MULTILINE | re.UNICODE)
+BRANCH_REGEX = re.compile(r'^\* (.*)$', re.MULTILINE | re.UNICODE)
 
 ###############################################################################
 # Classes

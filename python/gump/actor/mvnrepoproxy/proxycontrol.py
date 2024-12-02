@@ -36,11 +36,11 @@ from gump.core.run.actor import AbstractRunActor, FinalizeRunEvent, \
 #  prefix and URL (i.e. each prefix must uniquely map to a real URL)
 SNAPSHOT_PROXIES = [
     ('apache.snapshots', '/repo/m2-snapshot-repository',
-     'http\://people.apache.org'),
+     'http\\://people.apache.org'),
     ('apache.snapshots.https', '/snapshots',
-     'https\://repository.apache.org'),
+     'https\\://repository.apache.org'),
     ('sonatype-nexus-snapshots', '/content/repositories/snapshots',
-     'https\://oss.sonatype.org')
+     'https\\://oss.sonatype.org')
     ]
 
 # list of tuples listing all repositories we want to mirror
@@ -52,10 +52,10 @@ SNAPSHOT_PROXIES = [
 #  repo.  Each name has to be unique as has to be the combination of
 #  prefix and URL (i.e. each prefix must uniquely map to a real URL)
 PROXY_CONFIG = [
-    ('central', '/maven2', 'https\://repo1.maven.org'),
+    ('central', '/maven2', 'https\\://repo1.maven.org'),
     SNAPSHOT_PROXIES[0],
-    ('maven2-repository.dev.java.net', '/maven/2', 'http\://download.java.net'),
-    ('m2.dev.java.net', '/maven/2', 'http\://download.java.net'),
+    ('maven2-repository.dev.java.net', '/maven/2', 'http\\://download.java.net'),
+    ('m2.dev.java.net', '/maven/2', 'http\\://download.java.net'),
     SNAPSHOT_PROXIES[1],
     SNAPSHOT_PROXIES[2]
     ]
@@ -100,7 +100,7 @@ class MvnRepositoryProxyController(AbstractRunActor):
         urllib.request.urlopen(self.proxyURL + 'addartifact',
                        urllib.parse.urlencode({'groupId': groupId,
                                          'artifactId': artifactId,
-                                         'file': fileName}))
+                                         'file': fileName}).encode("utf-8"))
 
     def spawnProxy(self):
         log.info('Starting mvn repository proxy')
@@ -150,7 +150,7 @@ class MvnRepositoryProxyController(AbstractRunActor):
             proxyLogFile = open(os.path.join(
                     os.path.join(self.workspace.getBaseDirectory(),
                                  'xdocs-work'),
-                    proxyLogFileName), 'w')
+                    proxyLogFileName), 'wb')
             proxyLogFile.write(proxyLogContent)
             proxyLogFile.close()
         except:
@@ -158,7 +158,7 @@ class MvnRepositoryProxyController(AbstractRunActor):
 
         log.info('Stopping mvn repository proxy')
         try:
-            urllib.request.urlopen(self.proxyURL + 'stop', urllib.parse.urlencode({}))
+            urllib.request.urlopen(self.proxyURL + 'stop', urllib.parse.urlencode({}).encode("utf-8"))
             # allow Java process to stop before the Python process terminates
             time.sleep(5)
         except:

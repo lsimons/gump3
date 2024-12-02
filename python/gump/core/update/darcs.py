@@ -27,7 +27,7 @@ def setup_common_parameters(module, cmd):
     elif module.isDebug():
         cmd.addParameter('-v')
 
-URL_REGEX = re.compile('^Default Remote:\s+(.*)\s*$', re.MULTILINE | re.UNICODE)
+URL_REGEX = re.compile(r'^Default Remote:\s+(.*)\s*$', re.MULTILINE | re.UNICODE)
 
 ###############################################################################
 # Classes

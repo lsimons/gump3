@@ -249,7 +249,7 @@ class StatisticsDB:
                         #print "SET ATTR : " + `value` 
                         settings[column] = "'" +\
                             value.strftime('%Y-%m-%d %H:%M:%S') + "'"
-                    elif isinstance(value, basestring):
+                    elif isinstance(value, str):
                         settings[column] = "'" + str(value) + "'"
                     else:
                         settings[column] = str(value)

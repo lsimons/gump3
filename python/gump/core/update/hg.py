@@ -28,7 +28,7 @@ def setup_common_parameters(module, cmd):
     elif module.isDebug():
         cmd.addParameter('-v')
 
-URL_REGEX = re.compile('^paths.default=(.*)\s*$', re.MULTILINE | re.UNICODE)
+URL_REGEX = re.compile(r'^paths.default=(.*)\s*$', re.MULTILINE | re.UNICODE)
 
 ###############################################################################
 # Classes

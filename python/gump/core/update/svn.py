@@ -71,7 +71,7 @@ def getCommand(module, forUpdate):
         
     return cmd
 
-URL_REGEX = re.compile('^URL:\s+(.*)\s*$', re.MULTILINE | re.UNICODE)
+URL_REGEX = re.compile(r'^URL:\s+(.*)\s*$', re.MULTILINE | re.UNICODE)
 
 ###############################################################################
 # Classes

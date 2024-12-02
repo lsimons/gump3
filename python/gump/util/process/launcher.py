@@ -110,7 +110,7 @@ def executeIntoResult(cmd,result,tmp=dir.tmp):
                 (childPID, waitcode) = os.waitpid(forkPID,0)
                 
                 # Stop timer (if still running)
-                if timer and timer.isAlive(): 
+                if timer and timer.is_alive(): 
                     timer.cancel()      
                 
                 # The return code (from system = from wait) is (on Unix):
