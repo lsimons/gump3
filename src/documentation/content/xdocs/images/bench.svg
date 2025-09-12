@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
  Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -15,94 +15,346 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 
-<svg id="body" width="200" height="100" viewBox="0 0 300 250"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-
-  <title>Bench, Forest Gump</title>
-
-  <defs>
-    <g id="post">
-      <rect width="20" height="150" style="fill:rgb(208,196,192)"/>
-      <path d="M0,0 l3-3 h20 l-3,3 Z" style="fill:rgb(156,147,144)" />
-      <path d="M20,0 l3-3 v150 l-3,3 Z" style="fill:rgb(104,98,96)" />
+<svg
+   id="body"
+   width="200"
+   height="100"
+   viewBox="0 0 300 250"
+   version="1.1"
+   sodipodi:docname="bench.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview8590"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="8.8617345"
+     inkscape:cx="87.059706"
+     inkscape:cy="49.369567"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="body" />
+  <title
+     id="title8487">Bench, Forest Gump</title>
+  <defs
+     id="defs8536">
+    <g
+       id="post">
+      <rect
+         width="20"
+         height="150"
+         style="fill:rgb(208,196,192)"
+         id="rect8489" />
+      <path
+         d="M0,0 l3-3 h20 l-3,3 Z"
+         style="fill:rgb(156,147,144)"
+         id="path8491" />
+      <path
+         d="M20,0 l3-3 v150 l-3,3 Z"
+         style="fill:rgb(104,98,96)"
+         id="path8493" />
     </g>
-
-    <g id="foot">
-      <rect width="20" height="10" style="fill:rgb(208,196,192)"/>
-      <path d="M0,0 l30-30 h20 l-30,30 Z" style="fill:rgb(156,147,144)" />
-      <path d="M20,0 l30-30 v10 l-30,30 Z" style="fill:rgb(104,98,96)" />
+    <g
+       id="foot">
+      <rect
+         width="20"
+         height="10"
+         style="fill:rgb(208,196,192)"
+         id="rect8496" />
+      <path
+         d="M0,0 l30-30 h20 l-30,30 Z"
+         style="fill:rgb(156,147,144)"
+         id="path8498" />
+      <path
+         d="M20,0 l30-30 v10 l-30,30 Z"
+         style="fill:rgb(104,98,96)"
+         id="path8500" />
     </g>
-
-    <g id="back">
-      <rect width="300" height="10" style="fill:rgb(120,60,30)" />
-      <path d="M0,0 l3-3 h300 l-3,3 Z" style="fill:rgb(90,45,20)" />
-      <path d="M300,0 l3-3 v10 l-3,3 Z" style="fill:rgb(60,30,10)" />
+    <g
+       id="back">
+      <rect
+         width="300"
+         height="10"
+         style="fill:rgb(120,60,30)"
+         id="rect8503" />
+      <path
+         d="M0,0 l3-3 h300 l-3,3 Z"
+         style="fill:rgb(90,45,20)"
+         id="path8505" />
+      <path
+         d="M300,0 l3-3 v10 l-3,3 Z"
+         style="fill:rgb(60,30,10)"
+         id="path8507" />
     </g>
-
-    <g id="seat">
-      <rect width="300" height="5" style="fill:rgb(120,60,30)" />
-      <path d="M0,0 l5-5 h300 l-5,5 Z" style="fill:rgb(90,45,20)" />
-      <path d="M300,0 l5-5 v5 l-5,5 Z" style="fill:rgb(60,30,10)" />
+    <g
+       id="seat">
+      <rect
+         width="300"
+         height="5"
+         style="fill:rgb(120,60,30)"
+         id="rect8510" />
+      <path
+         d="M0,0 l5-5 h300 l-5,5 Z"
+         style="fill:rgb(90,45,20)"
+         id="path8512" />
+      <path
+         d="M300,0 l5-5 v5 l-5,5 Z"
+         style="fill:rgb(60,30,10)"
+         id="path8514" />
     </g>
-
-    <g id="box">
-      <title>Box of Chocolates</title>
-
-      <rect width="45" height="15" style="fill:rgb(240,240,255)"/>
-      <path d="M0,0 l25-25 h45 l-25,25 Z" style="fill:rgb(220,220,240)" />
-      <path d="M45,0 l25-25 v15 l-25,25 Z" style="fill:rgb(200,200,220)" />
-
-      <rect x="20" width="5" height="15" style="fill:rgb(255,0,0)"/>
-      <path d="M20,0 l25-25 h5 l-25,25 Z" style="fill:rgb(255,32,32)" />
-      <path d="M10,-10 l5-5 h45 l-5,5 Z" style="fill:rgb(255,32,32)" />
-      <path d="M55,-10 l5-5 v15 l-5,5 Z" style="fill:rgb(255,64,64)" />
-
-      <path d="M35,-10 s-40,-30 0,-6 M35,-10 s60,-30 0,-6"
-            style="fill:none; stroke:red; stroke-width:2" />
+    <g
+       id="box">
+      <title
+         id="title8517">Box of Chocolates</title>
+      <rect
+         width="45"
+         height="15"
+         style="fill:rgb(240,240,255)"
+         id="rect8519" />
+      <path
+         d="M0,0 l25-25 h45 l-25,25 Z"
+         style="fill:rgb(220,220,240)"
+         id="path8521" />
+      <path
+         d="M45,0 l25-25 v15 l-25,25 Z"
+         style="fill:rgb(200,200,220)"
+         id="path8523" />
+      <rect
+         x="20"
+         width="5"
+         height="15"
+         style="fill:rgb(255,0,0)"
+         id="rect8525" />
+      <path
+         d="M20,0 l25-25 h5 l-25,25 Z"
+         style="fill:rgb(255,32,32)"
+         id="path8527" />
+      <path
+         d="M10,-10 l5-5 h45 l-5,5 Z"
+         style="fill:rgb(255,32,32)"
+         id="path8529" />
+      <path
+         d="M55,-10 l5-5 v15 l-5,5 Z"
+         style="fill:rgb(255,64,64)"
+         id="path8531" />
+      <path
+         d="M35,-10 s-40,-30 0,-6 M35,-10 s60,-30 0,-6"
+         style="fill:none; stroke:red; stroke-width:2"
+         id="path8533" />
     </g>
-
   </defs>
-
-  <filter id="MyFilter">
-    <desc>Produces a 3D lighting effect.</desc>
-    <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
-    <feOffset in="blur" dx="4" dy="4" result="offsetBlur"/>
-    <feComposite in="blur" in2="SourceAlpha" operator="in" result="blur"/>
-    <feComposite in="SourceGraphic" in2="blur" operator="arithmetic"
-                 k1="0" k2="1" k3="1" k4="0" result="litPaint"/>
-    <feMerge>
-      <feMergeNode in="offsetBlur"/>
-      <feMergeNode in="litPaint"/>
+  <filter
+     id="MyFilter"
+     x="-0.029538462"
+     y="-0.054390935"
+     width="1.0713846"
+     height="1.1314448">
+    <desc
+       id="desc8538">Produces a 3D lighting effect.</desc>
+    <feGaussianBlur
+       in="SourceAlpha"
+       stdDeviation="4"
+       result="blur"
+       id="feGaussianBlur8540" />
+    <feOffset
+       in="blur"
+       dx="4"
+       dy="4"
+       result="offsetBlur"
+       id="feOffset8542" />
+    <feComposite
+       in="blur"
+       in2="SourceAlpha"
+       operator="in"
+       result="blur"
+       id="feComposite8544" />
+    <feComposite
+       in="SourceGraphic"
+       in2="blur"
+       operator="arithmetic"
+       k1="0"
+       k2="1"
+       k3="1"
+       k4="0"
+       result="litPaint"
+       id="feComposite8546" />
+    <feMerge
+       id="feMerge8552">
+      <feMergeNode
+         in="offsetBlur"
+         id="feMergeNode8548" />
+      <feMergeNode
+         in="litPaint"
+         id="feMergeNode8550" />
     </feMerge>
   </filter>
-
-  <g style="filter:url(#MyFilter)">
-    <title>Bench</title>
-    <use xlink:href="#foot" x="56.5" y="213.5"/>
-    <use xlink:href="#foot" x="276.5" y="213.5"/>
-
-    <use xlink:href="#post" x="70" y="50"/>
-    <use xlink:href="#post" x="290" y="50"/>
-
-    <use xlink:href="#foot" x="40" y="160"/>
-    <use xlink:href="#foot" x="260" y="160"/>
-
-    <use xlink:href="#back" x="40" y="60"/>
-    <use xlink:href="#back" x="40" y="80"/>
-    <use xlink:href="#back" x="40" y="100"/>
-
-    <use xlink:href="#seat" x="40" y="140"/>
-    <use xlink:href="#seat" x="30" y="148"/>
-    <use xlink:href="#seat" x="20" y="156"/>
+  <g
+     style="filter:url(#MyFilter)"
+     id="g8581">
+    <title
+       id="title8555">Bench</title>
+    <use
+       xlink:href="#foot"
+       x="56.5"
+       y="213.5"
+       id="use8557" />
+    <use
+       xlink:href="#foot"
+       x="276.5"
+       y="213.5"
+       id="use8559" />
+    <use
+       xlink:href="#post"
+       x="70"
+       y="50"
+       id="use8561" />
+    <use
+       xlink:href="#post"
+       x="290"
+       y="50"
+       id="use8563" />
+    <use
+       xlink:href="#foot"
+       x="40"
+       y="160"
+       id="use8565" />
+    <use
+       xlink:href="#foot"
+       x="260"
+       y="160"
+       id="use8567" />
+    <use
+       xlink:href="#back"
+       x="40"
+       y="60"
+       id="use8569" />
+    <use
+       xlink:href="#back"
+       x="40"
+       y="80"
+       id="use8571" />
+    <use
+       xlink:href="#back"
+       x="40"
+       y="100"
+       id="use8573" />
+    <use
+       xlink:href="#seat"
+       x="40"
+       y="140"
+       id="use8575" />
+    <use
+       xlink:href="#seat"
+       x="30"
+       y="148"
+       id="use8577" />
+    <use
+       xlink:href="#seat"
+       x="20"
+       y="156"
+       id="use8579" />
   </g>
-
-  <g>
-    <use xlink:href="#box"  x="225" y="140"/>
+  <g
+     id="g8585">
+    <use
+       xlink:href="#box"
+       x="225"
+       y="140"
+       id="use8583" />
   </g>
-
-  <image xlink:href="asf-logo.svg" width="170" height="52"
-         transform="scale(.5) translate(320,20)"/>
+  <image
+     xlink:href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIg
+eG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNjUwIDEwMDAi
+PgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6ICM3YzI5
+N2Q7CiAgICAgIH0KCiAgICAgIC5jbHMtMiB7CiAgICAgICAgZmlsbDogI2Y3OWEyMzsKICAgICAg
+fQoKICAgICAgLmNscy0zIHsKICAgICAgICBmaWxsOiAjZGQ1NTJjOwogICAgICB9CgogICAgICAu
+Y2xzLTQgewogICAgICAgIGZpbGw6ICNkMjIxMjg7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9k
+ZWZzPgogIDxwYXRoIGNsYXNzPSJjbHMtMyIgZD0iTTI3Ni43MDkyOTE1LDM5OC4xNTE1Nzk1YzI1
+LjUyNzk0NzktNjMuMTI0MjQ1Myw1NC4wMTEwNzc1LTEyNi4xMjQ2NzkzLDg0LjU3MjkzNDctMTgx
+Ljk2MzYwMzUtNDUuNjIxMjI4Ni0zMy44ODUyMTQ4LTg5LjQyNzY0MzMtMTA2Ljk1MzQ2NzQtMTA3
+LjQyNTkwNTUtMTM5LjMyNjg4MDMtNi40NjQyNTY0LDcuMzQzOTY4Ny0xMC42NjA4MDk5LDE1Ljgw
+MjIzOTYtMTIuNTYzNTk1LDIyLjY4MzU0NDgtMTYuOTU1NjQwMiw2MS4yMjE0NjAyLDQzLjQwMjM5
+ODcsMTM1LjE0OTg3NTktNS4yMTMxMSwxMDguMTM5NDQ5OS00MC41MDU4NjQ1LTIyLjUwNzYwMjMt
+MTMxLjcxNTczOTctNzEuNzk3NTU3LTE2Ni41MDY3MzI0LTIyLjgwNzM1NjEsMzguOTY0NzM4OCw1
+MC4wNjU0MDQ5LDE0MC44Nzc3ODA1LDE3Ni4wMjcxNzQ1LDIwNy4xMzY0MDgyLDIxMy4yNzQ4NDUy
+WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTM2MS4yODIyMjYxLDIxNi4xODc5NzZjMjku
+NjEzNzIyOC01NC4xMDU1NjUxLDYxLjE3MjU4NzMtMTAxLjQ5MjczNDcsOTMuODkxMzY4Ny0xMzUu
+NjMyMDg4NiwwLDAtMzIuNjM0MDY4NCw0Ny4yMzcyOTI3LTc5LjI0NTc4NzksMTQxLjY2NjI2MzQs
+MjguMjI4OTkwNSw3Ljc3NDA1MDIsMTA4LjYyNDkyMDgsMjMuNzI2MTY2NywyMjAuNjA5MDM5My01
+LjIwMDA3NzIsMi43NTMxNzM3LTIwLjM1MDY3OC0xMC45Mjc5ODE4LTQyLjczNDQ2OS03OS4xMDU2
+ODU2LTUwLjIyODMxNDUtNDQuNTEwMTg0NS00Ljg4NzI5MDYsNTMuNDI0NjAyNi0xMDYuMjgyMjc5
+NS0xNy41MjI1NjU5LTE1NC4yMzYzNzQ4LTIuMjkwNTEwMi0xLjU1MDkwMDItNC41NDE5MjIxLTIu
+OTE5MzQxNi02Ljc0NzcxOTItNC4xNDQ0MjI0LTIuMzc4NDgxNC0uODUzNjQ2OC00Ljg5MDU0ODgt
+MS42MzU2MTMzLTcuNTcyMDQyMi0yLjMzMjg2NjctODIuODU5MTI0OC0yMS42MjEzNzM2LTk0LjM0
+NDI1NzcsMTE4Ljg3ODQ1NjQtMTI3LjQwODQwNzYsODguNjc1MDAwNi01My40MzExMTktNDguODA3
+NzQyMS04Ny4xNTY2ODIzLTM3LjQwNDA2NC0xMDQuMzI0MTA1MS0xNy44OTQsMTcuOTk4MjYyMiwz
+Mi4zNzM0MTI5LDYxLjgwNDY3NjksMTA1LjQ0MTY2NTUsMTA3LjQyNTkwNTUsMTM5LjMyNjg4MDNa
+Ii8+CiAgPHBhdGggY2xhc3M9ImNscy00IiBkPSJNMjEwLjA2NjE5NjksNTgwLjAyMzk1MzVjMTgu
+NzA1MjkwMi01Ni4wMzQ0MTU4LDQxLjIwNjM3NjEtMTE4Ljk4OTIzNSw2Ni42NDMwOTQ2LTE4MS44
+NzIzNzQtNjYuMjU4NjI3Ny0zNy4yNDc2NzA3LTE2OC4xNzE2Njk0LTE2My4yMDk0NDAzLTIwNy4x
+MzY0MDgyLTIxMy4yNzQ4NDUyLTYuOTU2MjQzNiw5Ljc4NzYxNC0xMS43MDk5NDgzLDIzLjQzOTQ0
+NTctMTMuMjkzNDMwNCw0Mi4xMDg4OTU4LTguNDk3MzY5MiwxMDAuMjgwNjg2Niw5NC45NTY3OTgx
+LDE3NC41MjE4ODksNzQuMzMyNDMxOCwxODguMDgyNDkxMy0yNy4yODA4NTYxLDE3LjkzOTYxNDct
+ODEuNTc4NjU0Ni00My4wOTI4NzAzLTEwMi45Nzg0NzEtNC4zMTM4NDg1LDMxLjAxODAwNDMsMzku
+ODQ3NzA5Myw5NC4yMDA4OTcxLDExMS44NDcyNzQ0LDE4Mi40MzI3ODMzLDE2OS4yNjk2ODA3WiIv
+PgogIDxwYXRoIGNsYXNzPSJjbHMtMyIgZD0iTTQ5Ni43MTU1NjQ5LDM2My43NTE1NzAxYy01Mi4z
+ODE5ODA2LTE4LjY4MjQ4MjgsNTQuNzM3NjU0Ny02OC43ODY5ODYsODkuNTIyMTMwOS0xMjEuOTQx
+MTU4Niw0LjQ1MDY5MjYtNi43OTY1OTIxLDkuMDUxMjYyMi0xNS41ODA2ODI0LDEwLjI5OTE1MDQt
+MjQuNzg4MzM3OS0xMTEuOTg0MTE4NSwyOC45MjYyNDM5LTE5Mi4zODAwNDg4LDEyLjk3NDEyNzQt
+MjIwLjYwOTAzOTMsNS4yMDAwNzcyLTI0LjEzMDE4MjgsNDguODkyNDU1MS01MS45OTQyNTU1LDEx
+MC41MDQ4OTg2LTgxLjA1NDA4NTQsMTg0Ljc5MTcxNTYsMzAuMjY1MzYxNiwxMi45NDE1NDU1LDE1
+My44NDIxMzM0LDYwLjc0NTc2MzksMzI4LjM5MDA4NzksNjAuOTkzMzg2NiwyOS4zNDY1NTA5LTc2
+LjQzNzIyNDktNzYuODM0NzI0NS04Ni41MzExMDkxLTEyNi41NDgyNDQ1LTEwNC4yNTU2ODNaIi8+
+CiAgPHBhdGggY2xhc3M9ImNscy00IiBkPSJNMjMwLjMwNjA5NjQsNTkwLjExMTMyMTNjMzAuNzgw
+MTU2Miw5LjU5MjEyMjMsMTMyLjc2ODEzNjMsMzguMjQ0Njc4LDI0MS4wODM1Mjg3LDMzLjkzMDgy
+OTUsMTQuNTUxMDkzMi0zOS4zOTgwNzg2LTM5Ljg1MDk2NzUtNDMuMjQyNzQ3Mi00NC4yODIxMTEt
+NzQuODQwNzEtMy40MzA4NzgtMjQuNDQ5NDg1OCwxNDMuMTY4MjkwNywyMC41NDYxNjk3LDE5MC4z
+MzcxNjEzLTY4LjM1NjkwNDUsMi4zODQ5OTc4LTQuNDk2MzA3Myw0LjI0NTQyNjQtOC43Mzg0NzU2
+LDUuODE5MTM0LTEyLjgzNzI4MzMtMTc0LjU0Nzk1NDUtLjI0NzYyMjctMjk4LjEyNDcyNjMtNDgu
+MDUxODQxMS0zMjguMzkwMDg3OS02MC45OTMzODY2LTIxLjIzNjkwNjcsNTQuMjg4MDIzOS00My4w
+ODMwOTU3LDExNS4yMTYyNDY3LTY0LjU2NzYyNTIsMTgzLjA5NzQ1NDlaIi8+CiAgPHBhdGggY2xh
+c3M9ImNscy0xIiBkPSJNMjMwLjMwNjA5NjQsNTkwLjExMTMyMTNjLTEzLjgzMTAzMjQsNDMuNjky
+Mzc3OS0yNy40NzYzNDc3LDkwLjM2OTI2MTMtNDAuNzIwOTA1MiwxMzkuNjk4MzE0NC00LjY5ODMx
+NTQsMTcuNDg5OTgzOS05LjM0MTI0MTQsMzUuMzA1Nzg3My0xMy45MTkwMDM2LDUzLjUxMjU3Mzgs
+MTAyLjgwNTc4NjgsMzMuOTM3MzQ1OSwxOTcuNDcyNjA1Ni4wNzgxOTY2LDIwMC42ODE5MjY0LTQx
+Ljg4NzMzODYuMDI2MDY1NS0uMzMyMzM1OC0uMDM1ODQwMS0uNTc5OTU4NS0uMDE2MjkxLS44OTky
+NjE1LDIuNDQ2OTAzNS00NC40NDgyNzg5LTY0LjE3MzM4MzctMTkuODA5ODE3OS02Mi41OTY0MTc5
+LTQ2LjUzMzUyMjksMS41ODM0ODIyLTI2LjkxOTE5NjYsMTE2LjMwNzc0MTYtLjE1NjM5MzMsMTUx
+Ljc4NjIxMzEtNTcuODcyMDM3LDIuNzIwNTkxOC00LjQyNDYyNzEsNC40OTMwNDkyLTguMzU0MDA4
+Nyw1Ljg2ODAwNjktMTIuMDg3ODk4Ny0xMDguMzE1MzkyNCw0LjMxMzg0ODUtMjEwLjMwMzM3MjUt
+MjQuMzM4NzA3Mi0yNDEuMDgzNTI4Ny0zMy45MzA4Mjk1WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMt
+MSIgZD0iTTI3LjYzMzQxMzYsNDEwLjc1NDI3MjhjLTEuNDk4NzY5MSwyLjcxNzMzMzYtMi44NTA5
+MTk1LDUuODU4MjMyMy00LjAwNDMyMDEsOS42MTE2NzE1LTE5LjkyMzg1NDcsNjQuNzUzMzQyMiwx
+MjAuOTYwNDQyMiwxNTEuNzQwNTk4NCwxMDEuNzkyNDg4NSwxNzAuNzAzMjg1OS0xNy4yNzgyMDE0
+LDE3LjA4NTk2NzktMzkuNzk1NTc4Mi0yMS45NjAyMjU3LTY3LjU2MTkwNTItNS44MzIxNjY4LTMu
+MDQzMTUyOSwxLjc3MjQ1NzQtNi4xMzE5MjA2LDQuMDA3NTc4My05LjMwMjE0MzEsNy4yNTkyNTU2
+LTMxLjQwMjQ3MTIsMzIuMTcxNDA0OS0uNDkxOTg3MywxMjQuODUzOTgzNyw4OC42MDMzMjAzLDE3
+NC4zMjYzOTczLTIwLjc5MDUzNDIsNjkuODEwMDU4OS00MS40ODk4MzksMTQ3LjgwNDcwMDQtNjEu
+NzUyNTQ1OCwyMjkuMzcwMzIyMiw3LjM1MDQ4NTEtMi41NzM5NzMsMTYuMTQ3NjA4MS01LjE1NDQ2
+MjUsMTguMzM3MTE0My0xMi4wODc4OTg3LDMuMjg3NTE3NS0xMy41MTQ5ODc2LDIzLjYwNTYxMzYt
+OTUuNzUxNzk3Myw1Ni41OTQ4MjUxLTIwNy4zMTg4NjcxLDAsMCw2LjAyMTE0Mi0yMi44NTI5NzA4
+LDE3LjA0MzYxMTQtNjAuNTA0NjU3NiwxMC4xOTE2My0zNC44MTcwNTgyLDI0LjY3NDMwMTEtODIu
+MzAxOTczNiw0Mi42ODIzMzc5LTEzNi4yNTc2NjE4LTg4LjIzMTg4NjItNTcuNDIyNDA2My0xNTEu
+NDE0Nzc5LTEyOS40MjE5NzE0LTE4Mi40MzI3ODMzLTE2OS4yNjk2ODA3WiIvPgo8L3N2Zz4=
+"
+     width="85"
+     height="52.829273"
+     id="image8587"
+     style="display:inline"
+     x="160"
+     y="10" />
 </svg>

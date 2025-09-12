@@ -784,7 +784,7 @@ class XDocDocument(XDocPiece):
             self.context.writeLine('</document>')            
         else:
             from gump.core.config import default
-            self.context.writeLine('<p align="left" style="font-size:smaller">Apache Gump, Gump, Apache, the Apache feather logo, and the Apache Gump project logos are trademarks of The Apache Software Foundation.')
+            self.context.writeLine('<p align="left" style="font-size:smaller">Apache Gump, Gump, Apache, the Apache oak leaf logo, and the Apache Gump project logos are trademarks of The Apache Software Foundation.')
             self.context.writeLine('<p align="right">Last Updated: %s.<A TARGET="_new" HREF="http://python.org"><img border ="0" align="right" src="%s/images/PythonPowered.gif" alt="Python Logo"/></A></p>' \
                                     % (default.datetime_sp, self.rootpath)) 
             self.context.writeLine('</html>')            
