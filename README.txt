@@ -1,3 +1,27 @@
+This is a git archive of the Apache Gump project source code. Find
+out more about Apache Gump from Apache:
+
+  https://gump.apache.org/
+
+This 'main' branch forks off from the Gump3 branch. By comparison
+
+  https://github.com/lsimons/gump
+
+has a fork of 'live' as its main branch. The Apache Gump project abandoned the
+Gump3 version many many years ago.
+
+The gump project is using Subversion for version control.
+
+This archive was created on October 5th, 2025 from the lsimons/gump archive.
+Specifically, the approach used was:
+
+ * git clone https://github.com/lsimons/gump
+ * git checkout Gump3
+ * git branch -D main
+ * git checkout -b main Gump3
+
+Below follows the rest of the README.txt file:
+
 Welcome to               _____
                         |   __|_ Apache_ ___ 
                         |  |  | | |     | . |
